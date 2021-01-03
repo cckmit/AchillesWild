@@ -17,15 +17,15 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.version>5.2.3.RELEASE</spring.version>
-		<httpclient.version>4.5.13</httpclient.version>
-		<commons-httpclient.version>3.1</commons-httpclient.version>
+		<spring.version>5.3.2</spring.version>
+<!--		<httpclient.version>4.5.13</httpclient.version>-->
+<!--		<commons-httpclient.version>3.1</commons-httpclient.version>-->
 		<mysql.version>8.0.18</mysql.version>
 		<druid.version>1.1.4</druid.version>
 		<mybatis.version>3.5.6</mybatis.version>
-		<logback.version>1.2.3</logback.version>
-		<junit.version>4.13.1</junit.version>
-		<basedir>./</basedir>
+<!--		<logback.version>1.2.3</logback.version>-->
+<!--		<junit.version>4.13.1</junit.version>-->
+<!--		<basedir>./</basedir>-->
 		<maven.test.skip>true</maven.test.skip><!-- 打包跳过测试用例编译和运行 -->
 	</properties>
 
@@ -99,36 +99,6 @@
 		</pluginManagement>
 	</build>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<!--为true使用此配置 -->
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<env>dev</env>
-				<publish.version>1.0.0</publish.version>
-				<mysql.url><![CDATA[jdbc:mysql://localhost:3306/info?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false]]></mysql.url>
-				<mysql.username><![CDATA[root]]></mysql.username>
-				<mysql.password><![CDATA[root]]></mysql.password>
-			</properties>
-		</profile>
-		<profile>
-			<id>test</id>
-			<!-- 			<activation> -->
-			<!-- 				<activeByDefault>true</activeByDefault> -->
-			<!-- 			</activation> -->
-			<properties>
-				<env>test</env>
-				<publish.version>2.0.0</publish.version>
-				<mysql.url><![CDATA[jdbc:mysql://localhost:3306/info?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false]]></mysql.url>
-				<mysql.username><![CDATA[root]]></mysql.username>
-				<mysql.password><![CDATA[root]]></mysql.password>
-			</properties>
-		</profile>
-	</profiles>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -155,7 +125,41 @@
 			<version>1.18.16</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.2.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
