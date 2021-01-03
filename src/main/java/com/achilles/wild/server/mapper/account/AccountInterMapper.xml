@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.dao.account.AccountInterDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountInter">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="account_type" jdbcType="INTEGER" property="accountType" />
+    <result column="balance" jdbcType="BIGINT" property="balance" />
+    <result column="freeze_balance" jdbcType="BIGINT" property="freezeBalance" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountInter">
+    insert into account_inter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountCode != null">
+        account_code,
+      </if>
+      <if test="accountType != null">
+        account_type,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="freezeBalance != null">
+      freeze_balance,
+    </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null">
+        #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="freezeBalance != null">
+        #{freezeBalance,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateBalanceById" parameterType="java.util.Map">
+    update account_inter
+    <set>
+      <if test="amount != null">
+        balance = balance+#{amount,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateInterBalanceById" parameterType="java.util.Map">
+    update account_inter
+    <set>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+    limit 1
+  </update>
+
+  <select id="selectAccountByType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+        id,account_code,balance
+    from
+        account_inter
+    <where>
+      <if test="accountType != null">
+        AND account_type = #{accountType,jdbcType=VARCHAR}
+      </if>
+      AND status=1
+    </where>
+  </select>
+
+  <select id="selectBalance" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+        SUM(balance) balance
+    from
+        account_inter
+    where
+        user_id = #{userId,jdbcType=VARCHAR}
+        AND account_type in (3,4)
+        AND status=1 limit 1
+  </select>
+
+  <select id="selectBalanceByLimit" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT
+          id, account_code, balance,version
+      FROM
+          account_inter
+      <where>
+        <if test="userId != null and userId!=''">
+          AND user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="accountType != null">
+          AND account_type = #{accountType,jdbcType=INTEGER}
+        </if>
+        <if test="amount != null">
+          AND balance >= #{amount,jdbcType=BIGINT}
+        </if>
+      </where>
+          AND status = 1
+          LIMIT 1
+          FOR UPDATE
+          <if test="skipLocked == 1">
+            skip locked
+          </if>
+  </select>
+
+  <select id="selectHasBalance" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+        a.id, a.user_id,a.account_code,a.balance,a.version
+    FROM
+        account_inter a
+    JOIN
+        (SELECT
+              user_id, SUM(balance) balance
+        FROM
+              account_inter
+        WHERE
+              user_id = #{userId,jdbcType=VARCHAR}
+              AND account_type = #{accountType,jdbcType=INTEGER}
+              AND status = 1
+              AND balance > 0
+              LIMIT 1
+        ) AS aa
+    ON a.user_id = aa.user_id
+    AND a.user_id = #{userId,jdbcType=VARCHAR}
+    AND a.account_type = #{accountType,jdbcType=INTEGER}
+    AND a.balance > 0
+    AND a.status = 1
+    AND aa.balance > 0
+    FOR UPDATE
+  </select>
+
+  <update id="reduceInterBalance"  parameterType="java.util.Map">
+    UPDATE
+        account_inter
+    SET
+        balance = balance-#{amount,jdbcType=BIGINT},
+        version=version+1
+    WHERE
+      id = #{id,jdbcType=BIGINT}
+      <if test="amount != null">
+        AND balance >= #{amount,jdbcType=BIGINT}
+      </if>
+      LIMIT 1
+  </update>
+
+  <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+          id, account_code, balance,version
+    FROM
+          account_inter
+    where
+        id = #{id,jdbcType=BIGINT} limit 1
+  </select>
+
+  <select id="selectVersionById" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+        IFNULL(version,0)
+    from
+        account_inter
+    where
+        id = #{id,jdbcType=BIGINT} limit 1
+  </select>
+</mapper>

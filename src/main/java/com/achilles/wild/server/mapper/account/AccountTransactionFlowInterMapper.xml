@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.dao.account.AccountTransactionFlowInterDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountTransactionFlowInter">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="flow_no" jdbcType="VARCHAR" property="flowNo" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="idempotent" jdbcType="VARCHAR" property="idempotent" />
+    <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="amount" jdbcType="BIGINT" property="amount" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate" />
+    <result column="trade_day" jdbcType="INTEGER" property="tradeDay" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountTransactionFlowInter">
+    insert into account_transaction_flow_inter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flowNo != null">
+        flow_no,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="idempotent != null">
+        idempotent,
+      </if>
+      <if test="accountCode != null">
+        account_code,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="tradeDate != null">
+        trade_date,
+      </if>
+      <if test="tradeDay != null">
+        trade_day,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flowNo != null">
+        #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="idempotent != null">
+        #{idempotent,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeDay != null">
+        #{tradeDay,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectVersionByAccountCode" parameterType="java.util.Map" resultType="Integer">
+    select
+        IFNULL(MAX(version),0)
+    from
+        account_transaction_flow_inter
+    <where>
+      <if test="accountCode != null and accountCode!=''">
+        AND account_code = #{accountCode,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId!=''">
+        AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeDay != null">
+        AND trade_day = #{tradeDay,jdbcType=INTEGER}
+      </if>
+      AND status=1
+    </where>
+    limit 1
+  </select>
+
+  <select id="selectFlowNoByKey" parameterType="java.util.Map" resultType="java.lang.String">
+    select
+    flow_no
+    from
+    account_transaction_flow_inter
+    <where>
+      <if test="idempotent != null and idempotent!=''">
+        AND idempotent = #{idempotent,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId!=''">
+        AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      AND status=1
+    </where>
+    limit 1
+  </select>
+
+</mapper>

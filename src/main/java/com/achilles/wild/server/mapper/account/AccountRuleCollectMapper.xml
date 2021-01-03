@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.dao.account.AccountRuleCollectDao">
+
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountRuleCollect">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, account_code, weight, user_id, status, create_date, update_date
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountRuleCollect">
+    insert into account_rule_collect
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountCode != null">
+        account_code,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectRuleByUser" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+        account_code, weight
+    from
+        account_rule_collect
+    <where>
+      <if test="userId != null and userId!=''">
+        AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      AND status=1
+      order by weight ASC
+    </where>
+    limit 2000
+  </select>
+</mapper>

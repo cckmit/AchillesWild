@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.dao.info.CrmOrderDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.info.CrmOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="memberId" jdbcType="VARCHAR" property="memberid" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="sourceOrderNo" jdbcType="VARCHAR" property="sourceorderno" />
+    <result column="payStatusEnum" jdbcType="VARCHAR" property="paystatusenum" />
+    <result column="spendTime" jdbcType="VARCHAR" property="spendtime" />
+    <result column="interestTime" jdbcType="VARCHAR" property="interesttime" />
+    <result column="redemptionTime" jdbcType="VARCHAR" property="redemptiontime" />
+    <result column="period" jdbcType="VARCHAR" property="period" />
+    <result column="payAmount" jdbcType="VARCHAR" property="payamount" />
+    <result column="spendAmount" jdbcType="VARCHAR" property="spendamount" />
+    <result column="productId" jdbcType="VARCHAR" property="productid" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="orderStatusEnum" jdbcType="VARCHAR" property="orderstatusenum" />
+    <result column="parentOrderNo" jdbcType="VARCHAR" property="parentorderno" />
+    <result column="createTime" jdbcType="VARCHAR" property="createtime" />
+    <result column="continueProductId" jdbcType="VARCHAR" property="continueproductid" />
+    <result column="countProfit" jdbcType="VARCHAR" property="countprofit" />
+    <result column="expandProfit" jdbcType="VARCHAR" property="expandprofit" />
+    <result column="expctedEarning" jdbcType="VARCHAR" property="expctedearning" />
+    <result column="exprieProcessMode" jdbcType="VARCHAR" property="exprieprocessmode" />
+    <result column="exprieProcessModeEnum" jdbcType="VARCHAR" property="exprieprocessmodeenum" />
+    <result column="haveparent" jdbcType="VARCHAR" property="haveparent" />
+    <result column="makertProfit" jdbcType="VARCHAR" property="makertprofit" />
+    <result column="newProduct" jdbcType="VARCHAR" property="newproduct" />
+    <result column="orderChannelEnum" jdbcType="VARCHAR" property="orderchannelenum" />
+    <result column="oredrProfit" jdbcType="VARCHAR" property="oredrprofit" />
+    <result column="payModeEnum" jdbcType="VARCHAR" property="paymodeenum" />
+    <result column="productCat" jdbcType="VARCHAR" property="productcat" />
+    <result column="productCatCodeEnum" jdbcType="VARCHAR" property="productcatcodeenum" />
+    <result column="profit" jdbcType="VARCHAR" property="profit" />
+    <result column="tradeNo" jdbcType="VARCHAR" property="tradeno" />
+    <result column="userCoupon" jdbcType="VARCHAR" property="usercoupon" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uuid, memberId, orderNo, sourceOrderNo, payStatusEnum, spendTime, interestTime, 
+    redemptionTime, period, payAmount, spendAmount, productId, productName, orderStatusEnum, 
+    parentOrderNo, createTime, continueProductId, countProfit, expandProfit, expctedEarning, 
+    exprieProcessMode, exprieProcessModeEnum, haveparent, makertProfit, newProduct, orderChannelEnum, 
+    oredrProfit, payModeEnum, productCat, productCatCodeEnum, profit, tradeNo, userCoupon, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from crm_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from crm_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.achilles.wild.server.entity.info.CrmOrder">
+    insert into crm_order (id, uuid, memberId, 
+      orderNo, sourceOrderNo, payStatusEnum, 
+      spendTime, interestTime, redemptionTime, 
+      period, payAmount, spendAmount, 
+      productId, productName, orderStatusEnum, 
+      parentOrderNo, createTime, continueProductId, 
+      countProfit, expandProfit, expctedEarning, 
+      exprieProcessMode, exprieProcessModeEnum, 
+      haveparent, makertProfit, newProduct, 
+      orderChannelEnum, oredrProfit, payModeEnum, 
+      productCat, productCatCodeEnum, profit, 
+      tradeNo, userCoupon, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=VARCHAR}, #{sourceorderno,jdbcType=VARCHAR}, #{paystatusenum,jdbcType=VARCHAR}, 
+      #{spendtime,jdbcType=VARCHAR}, #{interesttime,jdbcType=VARCHAR}, #{redemptiontime,jdbcType=VARCHAR}, 
+      #{period,jdbcType=VARCHAR}, #{payamount,jdbcType=VARCHAR}, #{spendamount,jdbcType=VARCHAR}, 
+      #{productid,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, #{orderstatusenum,jdbcType=VARCHAR}, 
+      #{parentorderno,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{continueproductid,jdbcType=VARCHAR}, 
+      #{countprofit,jdbcType=VARCHAR}, #{expandprofit,jdbcType=VARCHAR}, #{expctedearning,jdbcType=VARCHAR}, 
+      #{exprieprocessmode,jdbcType=VARCHAR}, #{exprieprocessmodeenum,jdbcType=VARCHAR}, 
+      #{haveparent,jdbcType=VARCHAR}, #{makertprofit,jdbcType=VARCHAR}, #{newproduct,jdbcType=VARCHAR}, 
+      #{orderchannelenum,jdbcType=VARCHAR}, #{oredrprofit,jdbcType=VARCHAR}, #{paymodeenum,jdbcType=VARCHAR}, 
+      #{productcat,jdbcType=VARCHAR}, #{productcatcodeenum,jdbcType=VARCHAR}, #{profit,jdbcType=VARCHAR}, 
+      #{tradeno,jdbcType=VARCHAR}, #{usercoupon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.info.CrmOrder">
+    insert into crm_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="sourceorderno != null">
+        sourceOrderNo,
+      </if>
+      <if test="paystatusenum != null">
+        payStatusEnum,
+      </if>
+      <if test="spendtime != null">
+        spendTime,
+      </if>
+      <if test="interesttime != null">
+        interestTime,
+      </if>
+      <if test="redemptiontime != null">
+        redemptionTime,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="payamount != null">
+        payAmount,
+      </if>
+      <if test="spendamount != null">
+        spendAmount,
+      </if>
+      <if test="productid != null">
+        productId,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="orderstatusenum != null">
+        orderStatusEnum,
+      </if>
+      <if test="parentorderno != null">
+        parentOrderNo,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="continueproductid != null">
+        continueProductId,
+      </if>
+      <if test="countprofit != null">
+        countProfit,
+      </if>
+      <if test="expandprofit != null">
+        expandProfit,
+      </if>
+      <if test="expctedearning != null">
+        expctedEarning,
+      </if>
+      <if test="exprieprocessmode != null">
+        exprieProcessMode,
+      </if>
+      <if test="exprieprocessmodeenum != null">
+        exprieProcessModeEnum,
+      </if>
+      <if test="haveparent != null">
+        haveparent,
+      </if>
+      <if test="makertprofit != null">
+        makertProfit,
+      </if>
+      <if test="newproduct != null">
+        newProduct,
+      </if>
+      <if test="orderchannelenum != null">
+        orderChannelEnum,
+      </if>
+      <if test="oredrprofit != null">
+        oredrProfit,
+      </if>
+      <if test="paymodeenum != null">
+        payModeEnum,
+      </if>
+      <if test="productcat != null">
+        productCat,
+      </if>
+      <if test="productcatcodeenum != null">
+        productCatCodeEnum,
+      </if>
+      <if test="profit != null">
+        profit,
+      </if>
+      <if test="tradeno != null">
+        tradeNo,
+      </if>
+      <if test="usercoupon != null">
+        userCoupon,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceorderno != null">
+        #{sourceorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatusenum != null">
+        #{paystatusenum,jdbcType=VARCHAR},
+      </if>
+      <if test="spendtime != null">
+        #{spendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="interesttime != null">
+        #{interesttime,jdbcType=VARCHAR},
+      </if>
+      <if test="redemptiontime != null">
+        #{redemptiontime,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="payamount != null">
+        #{payamount,jdbcType=VARCHAR},
+      </if>
+      <if test="spendamount != null">
+        #{spendamount,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatusenum != null">
+        #{orderstatusenum,jdbcType=VARCHAR},
+      </if>
+      <if test="parentorderno != null">
+        #{parentorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="continueproductid != null">
+        #{continueproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="countprofit != null">
+        #{countprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="expandprofit != null">
+        #{expandprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="expctedearning != null">
+        #{expctedearning,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieprocessmode != null">
+        #{exprieprocessmode,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieprocessmodeenum != null">
+        #{exprieprocessmodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="haveparent != null">
+        #{haveparent,jdbcType=VARCHAR},
+      </if>
+      <if test="makertprofit != null">
+        #{makertprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="newproduct != null">
+        #{newproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="orderchannelenum != null">
+        #{orderchannelenum,jdbcType=VARCHAR},
+      </if>
+      <if test="oredrprofit != null">
+        #{oredrprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="paymodeenum != null">
+        #{paymodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="productcat != null">
+        #{productcat,jdbcType=VARCHAR},
+      </if>
+      <if test="productcatcodeenum != null">
+        #{productcatcodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeno != null">
+        #{tradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="usercoupon != null">
+        #{usercoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.info.CrmOrder">
+    update crm_order
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceorderno != null">
+        sourceOrderNo = #{sourceorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatusenum != null">
+        payStatusEnum = #{paystatusenum,jdbcType=VARCHAR},
+      </if>
+      <if test="spendtime != null">
+        spendTime = #{spendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="interesttime != null">
+        interestTime = #{interesttime,jdbcType=VARCHAR},
+      </if>
+      <if test="redemptiontime != null">
+        redemptionTime = #{redemptiontime,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="payamount != null">
+        payAmount = #{payamount,jdbcType=VARCHAR},
+      </if>
+      <if test="spendamount != null">
+        spendAmount = #{spendamount,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null">
+        productId = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatusenum != null">
+        orderStatusEnum = #{orderstatusenum,jdbcType=VARCHAR},
+      </if>
+      <if test="parentorderno != null">
+        parentOrderNo = #{parentorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="continueproductid != null">
+        continueProductId = #{continueproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="countprofit != null">
+        countProfit = #{countprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="expandprofit != null">
+        expandProfit = #{expandprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="expctedearning != null">
+        expctedEarning = #{expctedearning,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieprocessmode != null">
+        exprieProcessMode = #{exprieprocessmode,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieprocessmodeenum != null">
+        exprieProcessModeEnum = #{exprieprocessmodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="haveparent != null">
+        haveparent = #{haveparent,jdbcType=VARCHAR},
+      </if>
+      <if test="makertprofit != null">
+        makertProfit = #{makertprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="newproduct != null">
+        newProduct = #{newproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="orderchannelenum != null">
+        orderChannelEnum = #{orderchannelenum,jdbcType=VARCHAR},
+      </if>
+      <if test="oredrprofit != null">
+        oredrProfit = #{oredrprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="paymodeenum != null">
+        payModeEnum = #{paymodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="productcat != null">
+        productCat = #{productcat,jdbcType=VARCHAR},
+      </if>
+      <if test="productcatcodeenum != null">
+        productCatCodeEnum = #{productcatcodeenum,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        profit = #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeno != null">
+        tradeNo = #{tradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="usercoupon != null">
+        userCoupon = #{usercoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.entity.info.CrmOrder">
+    update crm_order
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      memberId = #{memberid,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      sourceOrderNo = #{sourceorderno,jdbcType=VARCHAR},
+      payStatusEnum = #{paystatusenum,jdbcType=VARCHAR},
+      spendTime = #{spendtime,jdbcType=VARCHAR},
+      interestTime = #{interesttime,jdbcType=VARCHAR},
+      redemptionTime = #{redemptiontime,jdbcType=VARCHAR},
+      period = #{period,jdbcType=VARCHAR},
+      payAmount = #{payamount,jdbcType=VARCHAR},
+      spendAmount = #{spendamount,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      orderStatusEnum = #{orderstatusenum,jdbcType=VARCHAR},
+      parentOrderNo = #{parentorderno,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      continueProductId = #{continueproductid,jdbcType=VARCHAR},
+      countProfit = #{countprofit,jdbcType=VARCHAR},
+      expandProfit = #{expandprofit,jdbcType=VARCHAR},
+      expctedEarning = #{expctedearning,jdbcType=VARCHAR},
+      exprieProcessMode = #{exprieprocessmode,jdbcType=VARCHAR},
+      exprieProcessModeEnum = #{exprieprocessmodeenum,jdbcType=VARCHAR},
+      haveparent = #{haveparent,jdbcType=VARCHAR},
+      makertProfit = #{makertprofit,jdbcType=VARCHAR},
+      newProduct = #{newproduct,jdbcType=VARCHAR},
+      orderChannelEnum = #{orderchannelenum,jdbcType=VARCHAR},
+      oredrProfit = #{oredrprofit,jdbcType=VARCHAR},
+      payModeEnum = #{paymodeenum,jdbcType=VARCHAR},
+      productCat = #{productcat,jdbcType=VARCHAR},
+      productCatCodeEnum = #{productcatcodeenum,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=VARCHAR},
+      tradeNo = #{tradeno,jdbcType=VARCHAR},
+      userCoupon = #{usercoupon,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    <select id="selectIdByMemIdAndNo" parameterType="com.achilles.wild.server.entity.info.CrmClient" resultType="long">
+		SELECT
+			id
+		FROM crm_order
+		WHERE 1=1
+	    <if test="memberid != null and memberid!=''">
+	        AND memberId = #{memberid,jdbcType=VARCHAR}
+	    </if>		
+	    <if test="orderno != null and orderno!=''">
+	        AND orderNo = #{orderno,jdbcType=VARCHAR}
+	    </if>	
+	</select>
+</mapper>

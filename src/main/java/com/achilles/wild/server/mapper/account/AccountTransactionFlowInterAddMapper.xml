@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.dao.account.AccountTransactionFlowInterAddDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountTransactionFlowInterAdd">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="flow_no" jdbcType="VARCHAR" property="flowNo" />
+    <result column="idempotent" jdbcType="VARCHAR" property="idempotent" />
+    <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="amount" jdbcType="BIGINT" property="amount" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate" />
+    <result column="trade_day" jdbcType="INTEGER" property="tradeDay" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, flow_no, account_code, amount, user_id,trade_date,trade_day,status, create_date, update_date
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountTransactionFlowInterAdd">
+    insert into account_transaction_flow_inter_add
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flowNo != null">
+        flow_no,
+      </if>
+      <if test="idempotent != null">
+        idempotent,
+      </if>
+      <if test="accountCode != null">
+        account_code,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="tradeDate != null">
+        trade_date,
+      </if>
+      <if test="tradeDay != null">
+        trade_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flowNo != null">
+        #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idempotent != null">
+        #{idempotent,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeDay != null">
+        #{tradeDay,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
