@@ -1,4 +1,4 @@
-//package com.tool.http;
+//package com.achilles.wild.server.tool.http;
 //
 //import java.io.IOException;
 //import java.util.ArrayList;
@@ -22,7 +22,7 @@
 //import org.apache.log4j.Logger;
 //
 //import com.model.response.BaseResult;
-//import com.tool.json.FastJsonTools;
+//import com.achilles.wild.server.tool.json.FastJsonTools;
 //
 //
 //public class HttpClientAppUtil {

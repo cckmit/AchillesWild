@@ -1,5 +1,5 @@
 /*
-package com.manager.account;
+package com.achilles.wild.server.manager.account;
 
 import com.entity.account.AccountTransactionFlowAdd;
 
