@@ -1,7 +1,5 @@
 package com.achilles.wild.server.controller;
 
-import javax.annotation.Resource;
-
 import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
@@ -10,15 +8,17 @@ import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/balance")
+import javax.annotation.Resource;
+
+@RestController
+@RequestMapping(path = "/balance",produces = {"application/json;charset=UTF-8"})
 public class BalanceController {
 
     private final static Logger LOG = LoggerFactory.getLogger(BalanceController.class);
-
 
     @Resource
     private BalanceBiz balanceBiz;
@@ -26,6 +26,18 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
+
+    @RequestMapping("/get/{userId}")
+    public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
+
+        System.out.println("------------------userId:"+userId);
+
+        BalanceResponse response = new BalanceResponse();
+        Long balance = balanceService.getBalance(userId);
+        response.setBalance(balance);
+
+        return DataResult.success(response);
+    }
 
     @RequestMapping("/reduce")
     public DataResult<BalanceResponse> reduce(BalanceRequest request){

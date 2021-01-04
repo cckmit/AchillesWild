@@ -1,10 +1,12 @@
 package com.achilles.wild.server.dao.info;
 
-import java.util.List;
-
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.model.query.CitizenQuery;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface CitizenDao {
     int deleteByPrimaryKey(Long id);
 

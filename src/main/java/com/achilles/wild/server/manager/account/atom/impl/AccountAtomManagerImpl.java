@@ -1,10 +1,5 @@
 package com.achilles.wild.server.manager.account.atom.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import com.achilles.wild.server.dao.account.AccountDao;
 import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
@@ -15,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AccountAtomManagerImpl implements AccountAtomManager {
 
@@ -22,7 +21,6 @@ public class AccountAtomManagerImpl implements AccountAtomManager {
 
     @Resource
     private AccountDao accountDao;
-
 
     @Override
     public Account getPayAccount(String userId,Long amount) {

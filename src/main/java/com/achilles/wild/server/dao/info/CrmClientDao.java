@@ -1,9 +1,11 @@
 package com.achilles.wild.server.dao.info;
 
+import com.achilles.wild.server.entity.info.CrmClient;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 
-import com.achilles.wild.server.entity.info.CrmClient;
-
+@Mapper
 public interface CrmClientDao {
     int deleteByPrimaryKey(Long idd);
 

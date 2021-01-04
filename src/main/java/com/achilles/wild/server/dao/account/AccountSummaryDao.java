@@ -1,7 +1,9 @@
 package com.achilles.wild.server.dao.account;
 
 import com.achilles.wild.server.entity.account.AccountSummary;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface AccountSummaryDao {
 
     int deleteByPrimaryKey(Long id);

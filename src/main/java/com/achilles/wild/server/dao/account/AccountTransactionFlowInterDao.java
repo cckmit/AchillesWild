@@ -1,8 +1,10 @@
 package com.achilles.wild.server.dao.account;
 
 import com.achilles.wild.server.entity.account.AccountTransactionFlowInter;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface AccountTransactionFlowInterDao {
 
     Integer selectVersionByAccountCode(@Param("accountCode") String accountCode, @Param("userId") String userId,

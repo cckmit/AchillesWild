@@ -1,11 +1,13 @@
 package com.achilles.wild.server.dao.account;
 
-import java.util.List;
-
 import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.model.query.account.AccountQuery;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+@Mapper
 public interface AccountDao {
 
     int insertSelective(Account record);

@@ -1,10 +1,12 @@
 package com.achilles.wild.server.dao.account;
 
-import java.util.List;
-
 import com.achilles.wild.server.entity.account.AccountRuleCollect;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+@Mapper
 public interface AccountRuleCollectDao {
 
     int insertSelective(AccountRuleCollect record);

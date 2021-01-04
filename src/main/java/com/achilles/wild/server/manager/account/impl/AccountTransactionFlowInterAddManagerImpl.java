@@ -1,19 +1,18 @@
 package com.achilles.wild.server.manager.account.impl;
 
-import javax.annotation.Resource;
-
 import com.achilles.wild.server.constans.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountTransactionFlowInterAddDao;
-import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.entity.account.AccountTransactionFlowInterAdd;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowInterAddManager;
 import com.achilles.wild.server.tool.date.DateUtil;
+import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountTransactionFlowInterAddManagerImpl implements AccountTransactionFlowInterAddManager {
 
-    @Resource
+    @Autowired
     private AccountTransactionFlowInterAddDao accountTransactionFlowInterDao;
 
     @Override

@@ -1,8 +1,10 @@
 package com.achilles.wild.server.dao.account;
 
 import com.achilles.wild.server.entity.account.AccountTransactionFlow;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface AccountTransactionFlowDao {
 
 

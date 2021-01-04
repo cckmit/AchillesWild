@@ -1,7 +1,9 @@
 package com.achilles.wild.server.dao.info;
 
 import com.achilles.wild.server.entity.info.CitizenDetail;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface CitizenDetailDao {
     int deleteByPrimaryKey(Long id);
 

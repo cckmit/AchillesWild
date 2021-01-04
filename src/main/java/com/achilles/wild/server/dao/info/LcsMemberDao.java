@@ -1,9 +1,11 @@
 package com.achilles.wild.server.dao.info;
 
+import com.achilles.wild.server.entity.info.LcsMember;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 
-import com.achilles.wild.server.entity.info.LcsMember;
-
+@Mapper
 public interface LcsMemberDao {
     int deleteByPrimaryKey(Long id);
 
