@@ -13,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import java.util.*;
-
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
 
