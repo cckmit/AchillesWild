@@ -1,14 +1,8 @@
 package com.taobao.cfp.test.screen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.TurbineRunData;
-
 import com.taobao.cfp.biz.repo.IItemRepo;
 import com.taobao.cfp.domain.DreamProjectDTO;
 import com.taobao.cfp.domain.DreamProjectItemDTO;
@@ -24,6 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetProjectItemListMockTest {

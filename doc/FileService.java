@@ -1,11 +1,10 @@
 package com.taobao.cfp.oss;
 
-import java.io.InputStream;
-
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
+import java.io.InputStream;
 
 /**
  * description
@@ -20,7 +19,7 @@ public class FileService {
     private OssClient ossClient;
 
     /**
-     * 上传 File
+     * 锟较达拷 File
      * @param fileName
      * @param file
      * @return
@@ -42,7 +41,7 @@ public class FileService {
     //}
 
     /**
-     * 上传 InputStream
+     * 锟较达拷 InputStream
      * @param fileName
      * @param inputStream
      * @return

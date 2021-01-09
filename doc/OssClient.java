@@ -1,23 +1,17 @@
 package com.taobao.cfp.oss;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Date;
-
-import javax.annotation.Resource;
-
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.GetObjectRequest;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.ObjectMetadata;
-import com.aliyun.oss.model.PutObjectRequest;
-import com.aliyun.oss.model.PutObjectResult;
+import com.aliyun.oss.model.*;
 import com.taobao.common.keycenter.security.Cryptograph;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Date;
 
 /**
  * 阿里云oss客户端.
