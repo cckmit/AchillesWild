@@ -1,0 +1,91 @@
+-------------------------------eclipse 快捷键--------------------------------------------------
+Ctrl-Shift-R: 打开资源（不只是用来寻找Java文件）,打开你的工作区中任何一个文件。
+ctrl+O：      可以列出当前类中的所有方法及属性，你只需输入你想要查询的方法名，点击enter就能够直接跳转至你想去的位置。
+Ctrl+Shift+T打开查找窗口，输入类名进行查找
+显示搜索对话框：Ctrl+H
+Ctrl+E 快速显示当前Editer的下拉列表
+上一个/下一个光标的位置：Alt+Left/Right 
+选中闭合元素：Alt+Shift+Up/Down/Left/Right
+在当前行上插入一行：Ctrl+Shift+Enter
+在当前行下插入一行： Shift+Enter
+上下移动选中的行：Alt+Up/Down
+选中到行末/行首：Shift+End/Home
+Ctrl+Q 定位到最后编辑的地方
+Ctrl+L 定位在某行 
+Ctrl+T 快速显示当前类的继承结构
+Ctrl+E 快速显示当前Editer的下拉列表
+Ctrl+Shift+G 查找引用
+ALT+Shift+W location
+Ctrl+Y	重做（与撤销Ctrl+Z相反）
+alt+? 或 alt+/：自动补全代码或者提示代码.
+
+------------------------idea  win---------------------------------------------
+Ctrl+F	在当前文件中查找
+Ctrl+R	替换字符串
+Ctrl+Shift+F	在全局文件中查找字符串
+Ctrl+Shift+R	在全局中替换字符串
+Ctrl+N	查找类文件
+Ctrl+Shift+N	查找文件
+Ctrl+G	定位到文件某一行
+Alt+向左箭头	返回至上次光标位置
+Alt+向右箭头	返回至后一次光标位置
+Ctrl+Shift+Backspace	返回上次编辑位置
+Ctrl+Shift+反斜杠	返回后一次编辑位置
+Ctrl+B	定位至变量定义的位置
+Ctrl+Alt+B	定位至选中类或方法的具体实现
+Ctrl+Alt+H: 哪里调用这个方法
+Ctrl+Shift+B	直接定位至光标所在变量的类型定义
+Ctrl+H	显示当前类的继承层次
+Ctrl+Shift+H	显示当前方法的继承层次
+Ctrl+Alt+H	显示当前方法的调用层次
+Ctrl+I	实现基类或接口中的方法
+Alt+Insert	产生构造方法、getter/setter等方法
+Ctrl+Alt+T	将选中的代码使用if、while、try/catch等包装
+Ctrl+/	使用//进行注释
+Ctrl+Shift+/	使用/**/进行注释
+
+------------------------idea  mac----------------------------------------------
+然后按下** “ shift + command + T ”**，变为纯文本编辑
+项目右键 open module settings 选JDK版本   或者项目结构
+evaluate expression debug获得表达式结果
+comm+shift+  +-   合并展开方法
+structure  显示方法列表
+COMM+U  接口方法定义的位置
+COMM  点击方法哪里调用  ctrol+option+h.   方法哪里调用   
+选中方法  CTRL+J  提示方法注释
+shift+comm+z  向前回退
+comm+alt+o       ⌘O根据类名打开        com+shift+O 根据文件名打开   
+comm+shift+del  最后一次编辑         
+CTRL+R/D  运行
+Shift + Cmd + V  显示黏贴历史        
+comm+shift+r 替换    COMM+R  文件内替换
+shift+shift。查找 shift+comm+f             
+shift + cmd + e   最近修改文件列表
+cmd+e    列出最近查看的文件列表
+alt+enter                   引包 快速修复
+alt + command + b   查看接口的实现类,选中接口
+alt + command + b   选中接口,查看方法的实现，这个一般到的是impl的类
+Control + I 实现方法（实现接口中的方法）
+cmd + n  各种自动生成代码，创建文件，生成set get override…
+Alt+/ 或自动补全的快捷键
+◦	System.out.println(); 快捷键sout      生成main函数psvm    for循环: fori
+◦	command+D复制一行
+◦	cmd + L 行跳转
+◦	Shift + Command + 左方向键←   选择一行
+◦	Shift + Command + 左方向键→   
+◦	Shift左箭头：将文本选择范围向左扩展一个字符。
+◦	Shift右箭头：将文本选择范围向右扩展一个字符。
+	command+shift+u   大小写
+	⌘/ 注释/取消注释与块注释      alt+comm+/
+⌘+,   打开IDEA系统设置
+在idea中添加try/catch的快捷键  comm+alt+t 
+◦	option+command+↔️进入前进方法
+◦	option+command+点击。 进入方法
+◦	
+◦	COMM+CTRL+Q. 锁屏
+command+0/9输入法更改
+COMM+SHIFT+A 截屏
+option_comm_j 调试chrome                                jsv
+生成serialvaersionUID            选中类.    alt+enter
+
+---------------------------------------------------------------------------

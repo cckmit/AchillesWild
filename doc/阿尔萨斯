@@ -1,0 +1,38 @@
+
+curl -L http://start.alibaba-inc.com/install.sh | sh
+ps -ef|grep cfp-web
+./as.sh 2997
+sudo su admin
+
+堆栈
+stack com.alipic.cfp.portal.facade.LotteryFacadeImpl getCurrentLotteryPool
+耗时
+trace com.alipic.cfp.portal.facade.LotteryFacadeImpl getCurrentLotteryPool
+
+出参入参详细值
+watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{params}" -x 3
+watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{params,returnObj}" -x 3
+
+watch com.alipic.cfp.sal.comment.CommentReadFacadeClient getDefaultHotComments "{params,returnObj}" -x 3
+watch com.alipic.zao.community.app.service.CommentReadFacadeImpl getDefaultHotComments  "{params,returnObj}" -x 3
+
+具体方法参数值
+watch com.alipic.cfp.portal.service.impl.TaskCenterCoreServiceImpl listLotteryTaskMeta "{params, target}" -x 3
+watch com.alipic.cfp.biz.impl.seller.PreSaleItemSellerFacadeImpl getPreSaleUpdateRestCount "{params[0],throwExp}" -e -x 3
+
+监控某个特殊方法的调用统计数据，包括总调用次数，平均rt，成功率等信息，每隔5秒输出一次
+monitor -c 5 com.alipic.cfp.portal.facade.LotteryFacadeImpl getBenefitRecord
+
+记录方法调用信息，支持事后查看方法调用的参数，返回值，抛出的异常等信息，仿佛穿越时空隧道回到调用现场一般。
+tt -t com.alipic.cfp.portal.facade.LotteryFacadeImpl getBenefitRecord
+
+退出当前连接 quit/exit     完全退出stop 
+
+当前系统的实时数据面板
+dashboard
+查看当前线程信息，查看线程的堆栈
+thread
+thread -b, 找出当前阻塞其他线程的线程
+thread id， 显示指定线程的运行堆栈
+thread -n 3 当前最忙的前N个线程并打印堆栈
+jad --source-only com.taobao.cfp.service.impl.DreamAdminBenefitServiceImpl 

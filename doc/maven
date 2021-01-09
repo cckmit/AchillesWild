@@ -1,0 +1,22 @@
+--------------------------下载源码两种方式------------------------------------
+mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+
+----------------setting.xml配置下载源码----------------------------
+ <profiles>
+		<profile>
+			<id>downloadSources</id>
+			<properties>
+				<downloadSources>true</downloadSources>
+				<downloadJavadocs>true</downloadJavadocs>           
+			</properties>
+		</profile>
+  </profiles>
+
+  <activeProfiles>
+	<activeProfile>downloadSources</activeProfile>
+  </activeProfiles>
+----------------idea maven 配置-----------------------
+D:/Path/Java/apache-maven-3.6.2
+D:\Java\JarMaven\settings.xml
+D:\Java\JarMaven\repository

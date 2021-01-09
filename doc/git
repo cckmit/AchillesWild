@@ -1,0 +1,49 @@
+VCS——>check out from version control———>git———>
+1:远程路径
+2:建一个项目文件夹选中(NEW WINDOW)
+右上角根据结构导入项目，如果需要，添加maven依赖
+创建分支  aone 变更-新建
+
+刷掉本地缓存   git reset --hard head
+
+合并主干到分支
+    右下角选择对应分支，选中远程master分支—》merge into current 
+
+选中项目  git  fetch  刷新远程目录
+
+git clone http://gitlab.alibaba-inc.com/taobao-trade/cfp-web.git
+git checkout -b  feature/commission2_1  origin/feature/20200224_5900278_commission2_1
+查看本地分支：git branch查看远程分支 git branch -r
+创建本地分支：$ git branch [name] ----注意新分支创建后不会自动切换为当前分支
+切换分支：$ git checkout [name]
+创建新分支并立即切换到新分支：$ git checkout -b [name]
+# 删除指定的本地分支
+$ git branch -d <分支名称>
+
+# 强制删除指定的本地分支
+$ git branch -D <分支名称>
+
+# 把指定的分支合并到当前所在的分支下
+$ git merge <分支名称>
+拉取远程分支覆盖到本地
+git fetch --all
+git reset --hard feature/20200706_6990467_unit_test_2_1        (这里master要修改为对应的分支名)本地
+git pull
+
+
+git pull --force feature/20200512_6556152_lottery2_new_1:feature/20200512_6556152_lottery2_new_1
+git pull --force feature/20200512_6556152_lottery2_new_1
+
+git checkout -b feature/20200224_5900274_commission2_1 feature/20200224_5900274_commission2_1
+关联
+git branch --set-upstream-to=feature/20200302_5956183_fix_panren_1 local2/20200302_5956183_fix_panren_1
+git branch --set-upstream-to=remotes/origin/feature/20200324_6155444_find_diff2_1 feature/20200324_6155444_find_diff2_1   
+查看本地分支对应的远程分支
+git config --list
+
+git checkout -b local/20200302_5956183_fix_panren_1 feature/20200302_5956183_fix_panren_1
+
+git fetch origin feature/20200302_5956183_fix_panren_1:local2/20200302_5956183_fix_panren_1
+
+
+先fetch  再又下角  下载

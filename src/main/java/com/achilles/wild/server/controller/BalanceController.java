@@ -30,7 +30,7 @@ public class BalanceController {
     @RequestMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 
-        System.out.println("------------------userId:"+userId);
+        LOG.info("----------------------------userId:"+userId+"--------------------------------");
 
         BalanceResponse response = new BalanceResponse();
         Long balance = balanceService.getBalance(userId);
