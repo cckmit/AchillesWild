@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -38,7 +36,7 @@ public class BalanceBizImpl implements BalanceBiz{
     private static Cache<String,Long> balanceCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.SECONDS).build();
 
     @Override
-    @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation= Propagation.REQUIRED)
+    @Transactional(rollbackForClassName ="Exception")
     public DataResult<BalanceResponse> reduce(BalanceRequest request) {
 
         if(!checkParam(request)){
@@ -90,7 +88,7 @@ public class BalanceBizImpl implements BalanceBiz{
     }
 
     @Override
-    @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation= Propagation.REQUIRED)
+    @Transactional(rollbackForClassName ="Exception")
     public DataResult<String> add(BalanceRequest request) {
 
         if(!checkParam(request)){
