@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigProperties1 {
 
-    @Value("${base.name}")
+    @Value("${spring.datasource.driver-class-name}")
     private String name;
 
     public String getName() {

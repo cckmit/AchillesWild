@@ -34,7 +34,7 @@ public class DemoController {
                              @RequestParam(name="limit",defaultValue = "10") Integer limit,
                              @RequestHeader(name = "traceId",required = false) String traceId){
 
-        System.out.println("=====configProperties ===="+configProperties.getName());
+        System.out.println("=====configProperties ===="+configProperties.getUsername());
         System.out.println("=====configProperties1 ===="+configProperties1.getName());
         System.out.println("=====configProperties2 ===="+configProperties2.getHouse());
         System.out.println("=====configComplex ===="+configComplex.mysqlConfig().getUrl());
