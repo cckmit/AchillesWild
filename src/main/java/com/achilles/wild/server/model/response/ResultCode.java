@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum ResultCode implements Serializable {
 
-    SUCCESS("1", "successful"),
+    SUCCESS("1", "success"),
     FAIL("0", "fail"),
 
     EXCEPTION("-100", "server exception, msg:%s"),
