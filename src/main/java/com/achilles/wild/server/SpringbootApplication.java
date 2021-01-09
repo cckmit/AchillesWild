@@ -2,13 +2,12 @@ package com.achilles.wild.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})
-@ImportResource("classpath:applicationContext.xml")
+//@ImportResource("classpath:applicationContext.xml")
 //@MapperScan(basePackages = {"com.achilles.wild.server.dao.account"})
 public class SpringbootApplication {
 

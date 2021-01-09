@@ -21,11 +21,8 @@
 		<httpclient.version>4.5.13</httpclient.version>
 		<commons-httpclient.version>3.1</commons-httpclient.version>
 		<mysql.version>8.0.18</mysql.version>
-		<druid.version>1.1.4</druid.version>
 		<mybatis.version>3.5.6</mybatis.version>
-<!--		<logback.version>1.2.3</logback.version>-->
 		<junit.version>4.13.1</junit.version>
-<!--		<basedir>./</basedir>-->
 		<maven.test.skip>true</maven.test.skip><!-- 打包跳过测试用例编译和运行 -->
 	</properties>
 
@@ -129,11 +126,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>${druid.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
