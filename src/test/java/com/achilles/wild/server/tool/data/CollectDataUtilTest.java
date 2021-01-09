@@ -1,26 +1,20 @@
 package com.achilles.wild.server.tool.data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.Test;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.tool.data.collect.CollectDataUtil;
 import com.achilles.wild.server.tool.file.excel.ExcelReadUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.tool.http.HttpPostUtil;
 import com.achilles.wild.server.tool.jdbc.MySqlUtil;
 import com.achilles.wild.server.tool.jdbc.SqlUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
 
-public class CollectDataUtilTest extends BaseSpringJUnitTest{
+import java.util.*;
+
+public class CollectDataUtilTest extends SpringbootApplicationTests {
 
 	String str = "#$1870141 庞庞 庞  464哈82rth is牛eo$1870匹配1514亓 官648*";
 	@Test

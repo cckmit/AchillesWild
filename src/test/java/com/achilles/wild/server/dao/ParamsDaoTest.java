@@ -1,15 +1,14 @@
 package com.achilles.wild.server.dao;
 
-import javax.annotation.Resource;
-
-import com.alibaba.fastjson.JSON;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.dao.info.ParamsDao;
 import com.achilles.wild.server.entity.info.Params;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
-public class ParamsDaoTest  extends BaseSpringJUnitTest {
+import javax.annotation.Resource;
+
+public class ParamsDaoTest  extends SpringbootApplicationTests {
 
     @Resource
     private ParamsDao paramsDao;
@@ -35,7 +34,7 @@ public class ParamsDaoTest  extends BaseSpringJUnitTest {
     public void updateByCode(){
 
 
-       int count = paramsDao.updateByCode("wer","阿基里斯");
+       int count = paramsDao.updateByCode("wer","阿基里斯1");
 
         System.out.println();
     }

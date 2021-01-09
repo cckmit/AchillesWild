@@ -1,21 +1,19 @@
 package com.achilles.wild.server.controller;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
-import com.alibaba.fastjson.JSON;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BalanceControllerTest extends BaseSpringJUnitTest {
+import javax.annotation.Resource;
+import java.util.Date;
+
+public class BalanceControllerTest extends SpringbootApplicationTests {
 
     private final static Logger LOG = LoggerFactory.getLogger(BalanceControllerTest.class);
 

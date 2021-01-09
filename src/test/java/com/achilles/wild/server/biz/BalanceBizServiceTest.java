@@ -1,5 +1,6 @@
 package com.achilles.wild.server.biz;
 
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.tool.ThreadUtil;
@@ -7,7 +8,6 @@ import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class BalanceBizServiceTest extends BaseSpringJUnitTest {
+public class BalanceBizServiceTest extends SpringbootApplicationTests {
 
     private final static Logger LOG = LoggerFactory.getLogger(BalanceBizServiceTest.class);
 

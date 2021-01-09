@@ -1,15 +1,15 @@
 package com.achilles.wild.server.service;
 
-import javax.annotation.Resource;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.model.request.account.AccountRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.service.account.AccountService;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import org.junit.Test;
 
-public class AccountServiceTest  extends BaseSpringJUnitTest {
+import javax.annotation.Resource;
+
+public class AccountServiceTest  extends SpringbootApplicationTests {
 
     @Resource
     private AccountService accountService;

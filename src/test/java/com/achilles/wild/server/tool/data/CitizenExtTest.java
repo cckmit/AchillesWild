@@ -1,9 +1,6 @@
 package com.achilles.wild.server.tool.data;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
@@ -11,10 +8,12 @@ import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.model.query.CitizenQuery;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.service.CitizenService;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import org.junit.Test;
 
-public class CitizenExtTest  extends BaseSpringJUnitTest {
+import javax.annotation.Resource;
+import java.util.List;
+
+public class CitizenExtTest  extends SpringbootApplicationTests {
 
     @Resource
     private List<CitizenService> citizenServiceList;

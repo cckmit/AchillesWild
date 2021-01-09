@@ -1,16 +1,15 @@
 package com.achilles.wild.server.service;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.service.account.BalanceService;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.junit.Test;
 
-public class BalanceServiceTest  extends BaseSpringJUnitTest {
+import javax.annotation.Resource;
+import java.util.Date;
+
+public class BalanceServiceTest  extends SpringbootApplicationTests {
 
 
     @Resource

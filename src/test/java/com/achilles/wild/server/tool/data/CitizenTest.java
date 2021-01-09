@@ -1,20 +1,12 @@
 package com.achilles.wild.server.tool.data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.entity.info.Citizen;
-import com.github.rholder.retry.Retryer;
 import com.achilles.wild.server.manager.CitizenManager;
 import com.achilles.wild.server.model.query.CitizenQuery;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.service.CitizenService;
 import com.achilles.wild.server.task.RetryAddCitizensTask;
-import com.achilles.wild.server.tool.BaseSpringJUnitTest;
 import com.achilles.wild.server.tool.date.DateConstant;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -22,12 +14,19 @@ import com.achilles.wild.server.tool.jdbc.MySqlUtil;
 import com.achilles.wild.server.tool.jdbc.SqlUtil;
 import com.achilles.wild.server.tool.json.FastJsonUtil;
 import com.achilles.wild.server.tool.retry.RetryUtil;
+import com.github.rholder.retry.Retryer;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-public class CitizenTest  extends BaseSpringJUnitTest{
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CitizenTest  extends SpringbootApplicationTests {
 
 	private final static Logger LOG = LoggerFactory.getLogger(CitizenTest.class);
 
