@@ -117,11 +117,13 @@
 	</appender>
 
 	<root level="DEBUG">
+		<!-- log just show in console-->
 		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="DEBUG_FILE" />
-		<appender-ref ref="INFO_FILE" />
-		<appender-ref ref="WARN_FILE" />
-		<appender-ref ref="ERROR_FILE" />
+		<!-- if you need to create files,open them below -->
+<!--		<appender-ref ref="DEBUG_FILE" />-->
+<!--		<appender-ref ref="INFO_FILE" />-->
+<!--		<appender-ref ref="WARN_FILE" />-->
+<!--		<appender-ref ref="ERROR_FILE" />-->
 	</root>
 
 </configuration>
