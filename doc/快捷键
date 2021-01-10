@@ -18,6 +18,7 @@ Ctrl+Shift+G 查找引用
 ALT+Shift+W location
 Ctrl+Y	重做（与撤销Ctrl+Z相反）
 alt+? 或 alt+/：自动补全代码或者提示代码.
+CTRL+y   删除行
 
 ------------------------idea  win---------------------------------------------
 Ctrl+F	在当前文件中查找
