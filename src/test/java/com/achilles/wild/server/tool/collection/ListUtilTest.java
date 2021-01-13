@@ -1,10 +1,11 @@
 package com.achilles.wild.server.tool.collection;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.entity.info.CitizenDetail;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ListUtilTest {
 
@@ -46,36 +47,22 @@ public class ListUtilTest {
         //list.add(1l);
         //list.add(2l);
         //List<Long> itemIdList = getCitizen().stream().filter(Objects::nonNull).map(var -> var.getId()).collect(Collectors.toList());
-        List<Citizen> list = getCitizen();
+        Map<Long, Citizen> map =  getCitizenMap1(getCitizen());
 
-        list.stream().forEach(var->var.setName("3333"));
-
-        System.out.println(list);
-        //getFilter2(list);
-        //System.out.println(list);
-       // System.out.println(getFilter(list));
-        //System.out.println(getDitinct(Arrays.asList(1l,1l)));
-
-        //String result="";
-        //for (int i=0;i<3 ;i++) {
-        //    if(i==0){
-        //        result += "��"+(i+1)+"�� ����У��ʧ��,Ͷ��ʱ���Ͷ�Ž���ʱ�䲻���ǹ�ȥʱ��;";
-        //        result+="\n";
-        //    }
-        //    if(i==2){
-        //        result += "��"+(i+1)+"�� ����У��ʧ��,Ͷ��ʱ���Ͷ�Ž���ʱ�䲻���ǹ�ȥʱ��;";
-        //        result+="\n";
-        //    }
-        //   // result+="<br />";
-        //}
-        //System.out.println(result);
+        System.out.println(map);
     }
 
+    private static Map<Long, Citizen> getCitizenMap(List<Citizen> list){
+        return list.stream().collect(Collectors.toMap(Citizen::getId, Function.identity(), (key1 , key2)-> key2 ));
+    }
+
+    private static Map<Long, Citizen> getCitizenMap1(List<Citizen> list){
+        return list.stream().collect(Collectors.toMap(Citizen::getId, t -> t, (key1 , key2)-> key2 ));
+    }
 
     private static Map<Long, String> getMap(List<Citizen> list){
         return list.stream().collect(Collectors.toMap(Citizen::getId, Citizen::getName, (key1 , key2)-> key2 ));
     }
-
 
     private static List<Long> getDitinct(List<Long> list){
        return list.stream().distinct().collect(Collectors.toList());
@@ -110,7 +97,6 @@ public class ListUtilTest {
          //System.out.println(list);
        //return list;
     }
-
 
     /**
      * ???????
