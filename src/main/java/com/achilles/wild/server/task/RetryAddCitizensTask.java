@@ -1,23 +1,22 @@
 package com.achilles.wild.server.task;
 
+import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.manager.info.CitizenManager;
+import com.achilles.wild.server.service.info.impl.CitizenService2Impl;
+import com.achilles.wild.server.service.info.impl.CitizenServiceImpl;
+import com.achilles.wild.server.tool.ThreadUtil;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import com.achilles.wild.server.tool.ThreadUtil;
-import com.alibaba.fastjson.JSON;
-
-import com.achilles.wild.server.entity.info.Citizen;
-import com.google.common.collect.Lists;
-import com.achilles.wild.server.manager.CitizenManager;
-import com.achilles.wild.server.service.impl.CitizenService2Impl;
-import com.achilles.wild.server.service.impl.CitizenServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 public class RetryAddCitizensTask {
 

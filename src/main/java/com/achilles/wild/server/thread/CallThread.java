@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import com.achilles.wild.server.service.CitizenService;
+import com.achilles.wild.server.service.info.CitizenService;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.tool.date.DateUtil;

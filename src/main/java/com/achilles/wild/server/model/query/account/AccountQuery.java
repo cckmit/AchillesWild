@@ -2,7 +2,7 @@ package com.achilles.wild.server.model.query.account;
 
 import java.util.List;
 
-import com.achilles.wild.server.model.query.base.BaseQuery;
+import com.achilles.wild.server.model.query.BaseQuery;
 
 public class AccountQuery extends BaseQuery {
 

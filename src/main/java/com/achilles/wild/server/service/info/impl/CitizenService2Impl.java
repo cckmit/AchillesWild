@@ -1,9 +1,7 @@
-package com.achilles.wild.server.service.impl;
-
-import java.util.List;
+package com.achilles.wild.server.service.info.impl;
 
 import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.manager.CitizenManager;
+import com.achilles.wild.server.manager.info.CitizenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

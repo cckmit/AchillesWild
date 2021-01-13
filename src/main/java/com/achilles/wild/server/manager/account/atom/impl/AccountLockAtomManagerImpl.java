@@ -1,6 +1,6 @@
 package com.achilles.wild.server.manager.account.atom.impl;
 
-import com.achilles.wild.server.constans.AccountConstant;
+import com.achilles.wild.server.constans.account.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountLockDao;
 import com.achilles.wild.server.entity.account.AccountLock;
 import com.achilles.wild.server.manager.account.atom.AccountLockAtomManager;

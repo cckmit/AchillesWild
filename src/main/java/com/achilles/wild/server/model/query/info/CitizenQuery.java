@@ -1,8 +1,8 @@
-package com.achilles.wild.server.model.query;
+package com.achilles.wild.server.model.query.info;
+
+import com.achilles.wild.server.model.query.BaseQuery;
 
 import java.util.Date;
-
-import com.achilles.wild.server.model.query.base.BaseQuery;
 
 public class CitizenQuery extends BaseQuery {
 

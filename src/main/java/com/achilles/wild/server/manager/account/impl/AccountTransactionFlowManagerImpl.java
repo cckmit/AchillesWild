@@ -2,7 +2,7 @@ package com.achilles.wild.server.manager.account.impl;
 
 import javax.annotation.Resource;
 
-import com.achilles.wild.server.constans.AccountConstant;
+import com.achilles.wild.server.constans.account.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountTransactionFlowDao;
 import com.achilles.wild.server.entity.account.AccountTransactionFlow;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;

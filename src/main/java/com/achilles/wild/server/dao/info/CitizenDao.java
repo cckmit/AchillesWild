@@ -1,7 +1,7 @@
 package com.achilles.wild.server.dao.info;
 
 import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

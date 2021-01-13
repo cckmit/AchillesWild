@@ -1,6 +1,6 @@
 package com.achilles.wild.server.manager.account.impl;
 
-import com.achilles.wild.server.constans.AccountConstant;
+import com.achilles.wild.server.constans.account.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountTransactionFlowInterAddDao;
 import com.achilles.wild.server.entity.account.AccountTransactionFlowInterAdd;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowInterAddManager;

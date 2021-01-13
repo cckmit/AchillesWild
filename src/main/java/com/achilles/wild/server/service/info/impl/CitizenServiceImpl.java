@@ -1,4 +1,4 @@
-package com.achilles.wild.server.service.impl;
+package com.achilles.wild.server.service.info.impl;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -15,10 +15,10 @@ import com.achilles.wild.server.entity.info.LcsMember;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
-import com.achilles.wild.server.manager.CitizenManager;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.manager.info.CitizenManager;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.service.CitizenService;
+import com.achilles.wild.server.service.info.CitizenService;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;

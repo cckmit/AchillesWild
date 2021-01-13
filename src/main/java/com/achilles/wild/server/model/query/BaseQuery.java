@@ -1,4 +1,4 @@
-package com.achilles.wild.server.model.query.base;
+package com.achilles.wild.server.model.query;
 
 public class BaseQuery implements java.io.Serializable{
 

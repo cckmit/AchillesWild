@@ -1,6 +1,6 @@
-package com.achilles.wild.server.model.query;
+package com.achilles.wild.server.model.query.info;
 
-import com.achilles.wild.server.model.query.base.BaseQuery;
+import com.achilles.wild.server.model.query.BaseQuery;
 
 public class ParamsQuery extends BaseQuery {
 

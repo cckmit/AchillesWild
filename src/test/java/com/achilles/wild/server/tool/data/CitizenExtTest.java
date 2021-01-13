@@ -5,9 +5,9 @@ import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
 import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.service.CitizenService;
+import com.achilles.wild.server.service.info.CitizenService;
 import org.junit.Test;
 
 import javax.annotation.Resource;

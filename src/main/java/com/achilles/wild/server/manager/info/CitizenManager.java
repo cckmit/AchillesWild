@@ -1,9 +1,9 @@
-package com.achilles.wild.server.manager;
-
-import java.util.List;
+package com.achilles.wild.server.manager.info;
 
 import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
+
+import java.util.List;
 
 public interface CitizenManager {
 

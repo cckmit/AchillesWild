@@ -1,25 +1,23 @@
 package com.achilles.wild.server.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.achilles.wild.server.listener.UploadExcelListener;
+import com.achilles.wild.server.model.response.account.vo.DreamBenefitExcelUploadVO;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
-
-import com.achilles.wild.server.listener.UploadExcelListener;
-import com.achilles.wild.server.model.DreamBenefitExcelUploadVO;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/excel")
@@ -38,7 +36,6 @@ public class ExcelController {
     @RequestMapping("/upload")
     public String upload(MultipartFile file){
 
-
         UploadExcelListener listener = null;
         InputStream inputStream = null;
         try {
@@ -51,7 +48,6 @@ public class ExcelController {
 
             listener = new UploadExcelListener();
             EasyExcel.read(inputStream,  DreamBenefitExcelUploadVO.class,listener).sheet().doRead();
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,10 +83,5 @@ public class ExcelController {
         rowList.add(vo);
         return rowList;
 
-    }
-
-    @RequestMapping("/get")
-    public String get() throws IOException {
-        return "success";
     }
 }

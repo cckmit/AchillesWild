@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 
 import com.google.common.collect.Maps;
 import com.achilles.wild.server.listener.UploadExcelListener;
-import com.achilles.wild.server.model.DreamBenefitExcelUploadVO;
+import com.achilles.wild.server.model.response.account.vo.DreamBenefitExcelUploadVO;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.junit.Test;
 

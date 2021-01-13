@@ -1,4 +1,4 @@
-package com.achilles.wild.server.controller;
+package com.achilles.wild.server.controller.account;
 
 import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.model.request.account.BalanceRequest;

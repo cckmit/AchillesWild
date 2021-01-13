@@ -2,10 +2,10 @@ package com.achilles.wild.server.tool.data;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.manager.CitizenManager;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.manager.info.CitizenManager;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.service.CitizenService;
+import com.achilles.wild.server.service.info.CitizenService;
 import com.achilles.wild.server.task.RetryAddCitizensTask;
 import com.achilles.wild.server.tool.date.DateConstant;
 import com.achilles.wild.server.tool.date.DateUtil;

@@ -1,11 +1,11 @@
-package com.achilles.wild.server.model;
-
-import java.io.Serializable;
-import java.util.Date;
+package com.achilles.wild.server.model.response.account.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * �ϴ���excel���ݽ���ʱ��Ӧ��ʵ��

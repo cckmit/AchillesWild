@@ -1,8 +1,8 @@
-package com.achilles.wild.server.model.query.base;
-
-import java.io.Serializable;
+package com.achilles.wild.server.model.query;
 
 import org.apache.commons.lang.Validate;
+
+import java.io.Serializable;
 
 public class Paginator implements Serializable {
 

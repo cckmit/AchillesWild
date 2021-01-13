@@ -1,5 +1,6 @@
-package com.achilles.wild.server.biz;
+package com.achilles.wild.server.biz.impl;
 
+import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.PageResult;
@@ -18,7 +19,7 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class BalanceBizImpl implements BalanceBiz{
+public class BalanceBizImpl implements BalanceBiz {
 
     private final static Logger LOG = LoggerFactory.getLogger(BalanceBizImpl.class);
 

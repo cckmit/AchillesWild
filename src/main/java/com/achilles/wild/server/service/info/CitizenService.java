@@ -1,14 +1,13 @@
-package com.achilles.wild.server.service;
-
-import java.util.List;
-
-import com.alibaba.fastjson.JSONObject;
+package com.achilles.wild.server.service.info;
 
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.entity.info.CrmClient;
 import com.achilles.wild.server.entity.info.LcsMember;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.List;
 
 public interface CitizenService {
 

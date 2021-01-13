@@ -163,7 +163,7 @@
 	    </if>		    	
 	</select>
 
-    <select id="selectList" parameterType="com.achilles.wild.server.model.query.CitizenQuery" resultMap="BaseResultMap">
+    <select id="selectList" parameterType="com.achilles.wild.server.model.query.info.CitizenQuery" resultMap="BaseResultMap">
         SELECT
           <include refid="Base_Column_List"/>
         FROM
@@ -178,7 +178,7 @@
         </where>
     </select>
 
-  <select id="selectByList" parameterType="com.achilles.wild.server.model.query.CitizenQuery" resultMap="BaseResultMap">
+  <select id="selectByList" parameterType="com.achilles.wild.server.model.query.info.CitizenQuery" resultMap="BaseResultMap">
     SELECT
       <include refid="Base_Column_List"/>
     FROM

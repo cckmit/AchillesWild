@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.entity.info.CrmClient;
 import com.achilles.wild.server.entity.info.LcsMember;
-import com.achilles.wild.server.service.CitizenService;
+import com.achilles.wild.server.service.info.CitizenService;
 import com.alibaba.fastjson.JSONObject;
 
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

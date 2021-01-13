@@ -1,4 +1,4 @@
-package com.achilles.wild.server.constans;
+package com.achilles.wild.server.constans.account;
 
 public class AccountConstant {
 

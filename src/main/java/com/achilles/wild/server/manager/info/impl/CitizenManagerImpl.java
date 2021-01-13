@@ -1,12 +1,12 @@
-package com.achilles.wild.server.manager.impl;
+package com.achilles.wild.server.manager.info.impl;
 
 import java.util.List;
 
 import com.achilles.wild.server.dao.info.CitizenDao;
 import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.manager.info.CitizenManager;
 import com.google.common.collect.Lists;
-import com.achilles.wild.server.manager.CitizenManager;
-import com.achilles.wild.server.model.query.CitizenQuery;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
