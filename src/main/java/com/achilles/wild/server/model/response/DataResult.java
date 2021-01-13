@@ -2,17 +2,7 @@ package com.achilles.wild.server.model.response;
 
 public class DataResult<T> extends BaseResult {
 
-    private int count;
-
     private T data;
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public T getData() {
         return data;
@@ -34,19 +24,6 @@ public class DataResult<T> extends BaseResult {
             return success(data);
         }
         result.setData(data);
-        return result;
-    }
-
-    public static <T> DataResult<T> success(T data, int count) {
-        return success(new DataResult<>(), data, count);
-    }
-
-    public static <T> DataResult<T> success(DataResult<T> result, T data, int count) {
-        if (result == null) {
-            return success(data, count);
-        }
-        result.setData(data);
-        result.setCount(count);
         return result;
     }
 
