@@ -17,7 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import com.achilles.wild.server.manager.CitizenManager;
 import com.achilles.wild.server.model.query.CitizenQuery;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.service.CitizenService;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -223,31 +223,31 @@ public class CitizenServiceImpl implements CitizenService, Callable<Integer> {
 	}
 
 	@Override
-	public DataResult<List<Citizen>> getList(CitizenQuery query) {
+	public PageResult<List<Citizen>> getList(CitizenQuery query) {
 
 		Page page= PageHelper.startPage(query.getPageNo(), query.getPageSize());
 		List<Citizen> citizens = citizenDao.selectList(query);
 		if(CollectionUtils.isEmpty(citizens)){
-			return DataResult.baseFail();
+			return PageResult.baseFail();
 		}
 		int total = Integer.parseInt(page.getTotal()+"");
-		DataResult<List<Citizen>> result = DataResult.success(citizens,total);
+		PageResult<List<Citizen>> result = PageResult.success(citizens,total);
 
 		return result;
 	}
 
 	@Override
-	public DataResult<List<Citizen>> getCitizens(CitizenQuery query) {
+	public PageResult<List<Citizen>> getCitizens(CitizenQuery query) {
 
 		query.setPaginator(CitizenQuery.getPaginator(query.getPageNo(),query.getPageSize()));
 
 		List<Citizen> citizenList = citizenManager.getCitizenPage(query);
 		if(CollectionUtils.isEmpty(citizenList)){
-			return DataResult.baseFail();
+			return PageResult.baseFail();
 		}
 
-		DataResult<List<Citizen>> dataResult = new DataResult<>();
-		dataResult.setData(citizenList);
-		return dataResult;
+		PageResult<List<Citizen>> pageResult = new PageResult<>();
+		pageResult.setData(citizenList);
+		return pageResult;
 	}
 }

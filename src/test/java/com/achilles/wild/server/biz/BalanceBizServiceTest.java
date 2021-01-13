@@ -2,7 +2,7 @@ package com.achilles.wild.server.biz;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.tool.ThreadUtil;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -39,7 +39,7 @@ public class BalanceBizServiceTest extends SpringbootApplicationTests {
             request.setKey(GenerateUniqueUtil.getUuId());
             request.setAmount(1l);
             request.setTradeDate(new Date());
-            DataResult result = balanceBiz.add(request);
+            PageResult result = balanceBiz.add(request);
             System.out.println(result);
         }
         long end = DateUtil.getCurrentDate().getTime();
@@ -59,7 +59,7 @@ public class BalanceBizServiceTest extends SpringbootApplicationTests {
                     request.setKey(GenerateUniqueUtil.getUuId());
                     request.setAmount(1L);
                     request.setTradeDate(new Date());
-                    DataResult result = balanceBiz.add(request);
+                    PageResult result = balanceBiz.add(request);
                     LOG.info("匿名内部类创建线程方式1..."+Thread.currentThread().getName());
                 }
 

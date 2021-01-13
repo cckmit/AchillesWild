@@ -11,7 +11,7 @@ import com.achilles.wild.server.service.CitizenService;
 import com.alibaba.fastjson.JSONObject;
 
 import com.achilles.wild.server.model.query.CitizenQuery;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,16 +61,16 @@ public class CitizenProxyServiceImpl implements CitizenService {
     }
 
     @Override
-    public DataResult<List<Citizen>> getList(CitizenQuery query) {
+    public PageResult<List<Citizen>> getList(CitizenQuery query) {
         return null;
     }
 
     @Override
-    public DataResult<List<Citizen>> getCitizens(CitizenQuery query) {
+    public PageResult<List<Citizen>> getCitizens(CitizenQuery query) {
 
         LOG.info("get citizen proxy  start =====================================");
 
-        DataResult<List<Citizen>> list = citizenService.getCitizens(query);
+        PageResult<List<Citizen>> list = citizenService.getCitizens(query);
 
 
         LOG.info("get citizen proxy  over =====================================");

@@ -3,7 +3,7 @@ package com.achilles.wild.server.service;
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.model.request.account.AccountRequest;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.service.account.AccountService;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class AccountServiceTest  extends SpringbootApplicationTests {
     public void addMasterAccount(){
         AccountRequest request = new AccountRequest();
         request.setUserId("ACHILLES");
-        DataResult result = accountService.addMasterAccount(request);
+        PageResult result = accountService.addMasterAccount(request);
         System.out.println(result);
     }
 
@@ -26,7 +26,7 @@ public class AccountServiceTest  extends SpringbootApplicationTests {
     public void addMasterAndSlaveAccount(){
         AccountRequest request = new AccountRequest();
         request.setUserId("ACHILLES");
-        DataResult result = accountService.addMasterAndSlaveAccount(request);
+        PageResult result = accountService.addMasterAndSlaveAccount(request);
         System.out.println(result);
     }
 
@@ -34,7 +34,7 @@ public class AccountServiceTest  extends SpringbootApplicationTests {
     public void addAllAccounts(){
         AccountRequest request = new AccountRequest();
         request.setUserId("honor");
-        DataResult result = accountService.addAllAccounts(request);
+        PageResult result = accountService.addAllAccounts(request);
         System.out.println(result);
     }
 
@@ -43,7 +43,7 @@ public class AccountServiceTest  extends SpringbootApplicationTests {
         AccountRequest request = new AccountRequest();
         request.setUserId("wild");
         request.setAccountType(AccountTypeEnum.PAY_ACCOUNT.toNumbericValue());
-        DataResult result = accountService.addAccountsByType(request,10);
+        PageResult result = accountService.addAccountsByType(request,10);
         System.out.println(result);
     }
 }

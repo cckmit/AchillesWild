@@ -4,7 +4,7 @@ import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.manager.CitizenManager;
 import com.achilles.wild.server.model.query.CitizenQuery;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.service.CitizenService;
 import com.achilles.wild.server.task.RetryAddCitizensTask;
 import com.achilles.wild.server.tool.date.DateConstant;
@@ -42,7 +42,7 @@ public class CitizenTest  extends SpringbootApplicationTests {
 	@Test
 	public void getCitizens(){
 		CitizenQuery query = getCitizenQuery();
-		DataResult<List<Citizen>> data = citizenService.getCitizens(query);
+		PageResult<List<Citizen>> data = citizenService.getCitizens(query);
 		System.out.println();
 	}
 
@@ -57,7 +57,7 @@ public class CitizenTest  extends SpringbootApplicationTests {
 	@Test
 	public void getListPage(){
 		CitizenQuery query =getCitizenQuery();
-		DataResult<List<Citizen>> data = citizenService.getList(query);
+		PageResult<List<Citizen>> data = citizenService.getList(query);
 		System.out.println();
 	}
 

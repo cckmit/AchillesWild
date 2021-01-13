@@ -8,7 +8,7 @@ import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.entity.info.CrmClient;
 import com.achilles.wild.server.entity.info.LcsMember;
 import com.achilles.wild.server.model.query.CitizenQuery;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 
 public interface CitizenService {
 
@@ -26,8 +26,8 @@ public interface CitizenService {
 
 	boolean saveCitizens(List<Citizen> list);
 
-	DataResult<List<Citizen>> getList(CitizenQuery query);
+	PageResult<List<Citizen>> getList(CitizenQuery query);
 
-	DataResult<List<Citizen>> getCitizens(CitizenQuery query);
+	PageResult<List<Citizen>> getCitizens(CitizenQuery query);
 	
 }

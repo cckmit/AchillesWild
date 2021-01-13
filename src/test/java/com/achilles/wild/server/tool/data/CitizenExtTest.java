@@ -6,7 +6,7 @@ import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.model.query.CitizenQuery;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.service.CitizenService;
 import org.junit.Test;
 
@@ -39,13 +39,13 @@ public class CitizenExtTest  extends SpringbootApplicationTests {
         JavaProxyInvocationHandler proxyInvocationHandler = new JavaProxyInvocationHandler(citizenService);
         CitizenService citizenServiceProxy = (CitizenService) proxyInvocationHandler.newProxyInstance();
 
-        DataResult<List<Citizen>> data = citizenServiceProxy.getCitizens(new CitizenQuery());
+        PageResult<List<Citizen>> data = citizenServiceProxy.getCitizens(new CitizenQuery());
         System.out.println();
     }
 
     @Test
     public void getCitizens(){
-        DataResult<List<Citizen>> data = citizenServiceList.get(0).getCitizens(new CitizenQuery());
+        PageResult<List<Citizen>> data = citizenServiceList.get(0).getCitizens(new CitizenQuery());
         System.out.println();
     }
 }

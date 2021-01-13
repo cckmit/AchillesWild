@@ -1,7 +1,7 @@
 package com.achilles.wild.server.service.account;
 
 import com.achilles.wild.server.model.request.account.AccountRequest;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 
 public interface AccountService {
 
@@ -11,7 +11,7 @@ public interface AccountService {
      * @param request
      * @return
      */
-    DataResult addMasterAccount(AccountRequest request);
+    PageResult addMasterAccount(AccountRequest request);
 
     /**
      * ?????????
@@ -19,7 +19,7 @@ public interface AccountService {
      * @param request
      * @return
      */
-    DataResult addMasterAndSlaveAccount(AccountRequest request);
+    PageResult addMasterAndSlaveAccount(AccountRequest request);
 
 
     /**
@@ -28,8 +28,8 @@ public interface AccountService {
      * @param request
      * @return
      */
-    DataResult addAllAccounts(AccountRequest request);
+    PageResult addAllAccounts(AccountRequest request);
 
 
-    DataResult addAccountsByType(AccountRequest request,int count);
+    PageResult addAccountsByType(AccountRequest request, int count);
 }

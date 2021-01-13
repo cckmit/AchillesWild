@@ -2,7 +2,7 @@ package com.achilles.wild.server.controller;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.alibaba.fastjson.JSON;
@@ -30,7 +30,7 @@ public class BalanceControllerTest extends SpringbootApplicationTests {
         long start = DateUtil.getCurrentDate().getTime();
         for(Integer i=1;i<=1;i++) {
             BalanceRequest request = getBalanceRequest();
-            DataResult result = balanceController.reduce(request);
+            PageResult result = balanceController.reduce(request);
             LOG.info("===============================================result:     "+JSON.toJSONString(result));
         }
         long end = DateUtil.getCurrentDate().getTime();
@@ -54,7 +54,7 @@ public class BalanceControllerTest extends SpringbootApplicationTests {
             new Thread() {
                 public void run() {
                     BalanceRequest request = getBalanceRequest();
-                    DataResult result = balanceController.reduce(request);
+                    PageResult result = balanceController.reduce(request);
                     LOG.info("THREAD    :   "+Thread.currentThread().getId()+" ~~~~~~~~~~~~~~~~~~~~~  "+ JSON.toJSONString(result));
                 }
             }.start();
@@ -71,7 +71,7 @@ public class BalanceControllerTest extends SpringbootApplicationTests {
             new Thread() {
                 public void run() {
                     BalanceRequest request = getBalanceRequest();
-                    DataResult result = balanceController.add(request);
+                    PageResult result = balanceController.add(request);
                     //LOG.info("线程:"+Thread.currentThread().getId()+" ~~~~~~~~~~~~~~~~~~~~~  "+ JSON.toJSONString(result));
                 //
                 }

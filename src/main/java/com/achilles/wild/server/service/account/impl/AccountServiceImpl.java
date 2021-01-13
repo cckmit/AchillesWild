@@ -10,7 +10,7 @@ import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.manager.account.AccountManager;
 import com.achilles.wild.server.model.query.account.AccountQuery;
 import com.achilles.wild.server.model.request.account.AccountRequest;
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.service.account.AccountService;
 import org.apache.commons.collections.CollectionUtils;
@@ -28,10 +28,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation=Propagation.REQUIRED)
-    public DataResult addMasterAccount(AccountRequest request) {
+    public PageResult addMasterAccount(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return DataResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -39,26 +39,26 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return DataResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
         }
 
         Account account = getAccount(request.getUserId(),AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean result = accountManager.addAccount(account);
         if(!result){
-            return DataResult.baseFail();
+            return PageResult.baseFail();
         }
 
         String accountCode = account.getAccountCode();
 
-        return DataResult.success(accountCode);
+        return PageResult.success(accountCode);
     }
 
     @Override
     @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation=Propagation.REQUIRED)
-    public DataResult addMasterAndSlaveAccount(AccountRequest request) {
+    public PageResult addMasterAndSlaveAccount(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return DataResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -66,25 +66,25 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return DataResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = getAccounts(request.getUserId(), new AccountTypeEnum[]{AccountTypeEnum.MASTER_ACCOUNT,AccountTypeEnum.SLAVE_ACCOUNT});
 
         boolean result = accountManager.addAccounts(accounts);
         if(!result){
-            return DataResult.baseFail();
+            return PageResult.baseFail();
         }
 
-        return DataResult.success(accounts);
+        return PageResult.success(accounts);
     }
 
     @Override
     @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation=Propagation.REQUIRED)
-    public DataResult addAllAccounts(AccountRequest request) {
+    public PageResult addAllAccounts(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return DataResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -92,17 +92,17 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return DataResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = getAccounts(request.getUserId(), null);
 
         boolean result = accountManager.addAccounts(accounts);
         if(!result){
-            return DataResult.baseFail();
+            return PageResult.baseFail();
         }
 
-        return DataResult.success(accounts);
+        return PageResult.success(accounts);
     }
 
     private List<Account> getAccounts(String userId,AccountTypeEnum[] accountTypeEnums){
@@ -134,10 +134,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(rollbackForClassName ="Exception",isolation= Isolation.DEFAULT,propagation=Propagation.REQUIRED)
-    public DataResult addAccountsByType(AccountRequest request,int count) {
+    public PageResult addAccountsByType(AccountRequest request, int count) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId()) || !AccountTypeEnum.contains(request.getAccountType()) || count==0){
-            return DataResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -145,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(request.getAccountType());
         query.setStatus(1);
         if(accountManager.ifExist(query)){
-            return DataResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = new ArrayList<>();
@@ -160,9 +160,9 @@ public class AccountServiceImpl implements AccountService {
 
         boolean result = accountManager.addAccounts(accounts);
         if(!result){
-            return DataResult.baseFail(ResultCode.FAIL);
+            return PageResult.baseFail(ResultCode.FAIL);
         }
 
-        return DataResult.success(accounts);
+        return PageResult.success(accounts);
     }
 }
