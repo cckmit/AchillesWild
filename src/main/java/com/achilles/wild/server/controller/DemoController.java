@@ -37,7 +37,7 @@ public class DemoController {
         System.out.println("=====configProperties ===="+configProperties.getUsername());
         System.out.println("=====configProperties1 ===="+configProperties1.getName());
         System.out.println("=====configProperties2 ===="+configProperties2.getHouse());
-        System.out.println("=====configComplex ===="+configComplex.mysqlConfig().getUrl());
+        System.out.println("=====configComplex ===="+configComplex.dbConfig().getUrl());
         System.out.println("=====environment ==house=="+environment.getProperty("house"));
         System.out.println("=====environment ==spring.datasource.url=="+environment.getProperty("spring.datasource.url"));
 

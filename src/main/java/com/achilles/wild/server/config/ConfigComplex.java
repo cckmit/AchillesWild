@@ -9,7 +9,7 @@ public class ConfigComplex {
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DBConfig mysqlConfig(){
+    public DBConfig dbConfig(){
         return new DBConfig();
     }
 }
