@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import com.achilles.wild.server.constans.account.AccountConstant;
+import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountInterDao;
 import com.achilles.wild.server.cache.AcountLock;
 import com.achilles.wild.server.entity.account.AccountInter;

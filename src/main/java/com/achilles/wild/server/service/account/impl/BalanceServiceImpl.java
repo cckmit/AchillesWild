@@ -2,7 +2,7 @@ package com.achilles.wild.server.service.account.impl;
 
 import javax.annotation.Resource;
 
-import com.achilles.wild.server.constans.account.AccountConstant;
+import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.cache.AcountLock;
 import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.entity.account.AccountInter;

@@ -1,4 +1,4 @@
-package com.achilles.wild.server.config;
+package com.achilles.wild.server.common.config;
 
 public class DBConfig {
 

@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 @RequestMapping(path = "/balance",produces = {"application/json;charset=UTF-8"})
 public class BalanceController {
 
-    private final static Logger LOG = LoggerFactory.getLogger(BalanceController.class);
+    private final static Logger log = LoggerFactory.getLogger(BalanceController.class);
 
     @Resource
     private BalanceBiz balanceBiz;
@@ -32,7 +32,7 @@ public class BalanceController {
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 
-        LOG.info("----------------------------userId:"+userId+"--------------------------------");
+        log.info("----------------------------userId:"+userId+"--------------------------------");
 
         BalanceResponse response = new BalanceResponse();
         Long balance = balanceService.getBalance(userId);
@@ -50,7 +50,7 @@ public class BalanceController {
             pageResult = balanceBiz.reduce(request);
         } catch (Exception e) {
             e.printStackTrace();
-            LOG.error("theVeryIncome error",e);
+            log.error("theVeryIncome error",e);
             return PageResult.baseFail(ResultCode.EXCEPTION);
         }
 
@@ -71,7 +71,7 @@ public class BalanceController {
             pageResult = balanceBiz.add(request);
         } catch (Exception e) {
             e.printStackTrace();
-            LOG.error("theVeryIncome error",e);
+            log.error("theVeryIncome error",e);
             return PageResult.baseFail(ResultCode.EXCEPTION);
         }
 

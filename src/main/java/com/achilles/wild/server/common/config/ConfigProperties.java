@@ -1,4 +1,4 @@
-package com.achilles.wild.server.config;
+package com.achilles.wild.server.common.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

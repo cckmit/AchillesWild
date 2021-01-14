@@ -1,4 +1,4 @@
-package com.achilles.wild.server.config;
+package com.achilles.wild.server.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

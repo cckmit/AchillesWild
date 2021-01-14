@@ -1,7 +1,7 @@
 package com.achilles.wild.server.manager;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
-import com.achilles.wild.server.constans.account.AccountConstant;
+import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.manager.account.atom.AccountLockAtomManager;
 import org.junit.Test;
 
