@@ -1,14 +1,9 @@
 package com.achilles.wild.server.service.account.impl;
 
-import javax.annotation.Resource;
-
-import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.cache.AcountLock;
-import com.achilles.wild.server.entity.account.Account;
-import com.achilles.wild.server.entity.account.AccountInter;
-import com.achilles.wild.server.entity.account.AccountTransactionFlow;
-import com.achilles.wild.server.entity.account.AccountTransactionFlowInter;
-import com.achilles.wild.server.entity.account.AccountTransactionFlowInterAdd;
+import com.achilles.wild.server.common.annotations.CommonLog;
+import com.achilles.wild.server.common.constans.AccountConstant;
+import com.achilles.wild.server.entity.account.*;
 import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.manager.account.AccountInterManager;
 import com.achilles.wild.server.manager.account.AccountManager;
@@ -21,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
 public class BalanceServiceImpl implements BalanceService {
@@ -175,6 +172,7 @@ public class BalanceServiceImpl implements BalanceService {
         return PageResult.success(null);
     }
 
+    @CommonLog
     @Override
     public Long getBalance(String userId) {
 
