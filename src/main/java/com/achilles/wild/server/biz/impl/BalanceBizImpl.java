@@ -1,6 +1,7 @@
 package com.achilles.wild.server.biz.impl;
 
 import com.achilles.wild.server.biz.BalanceBiz;
+import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.PageResult;
@@ -89,6 +90,7 @@ public class BalanceBizImpl implements BalanceBiz {
     }
 
     @Override
+    @CommonLog
     @Transactional(rollbackForClassName ="Exception")
     public PageResult<String> add(BalanceRequest request) {
 

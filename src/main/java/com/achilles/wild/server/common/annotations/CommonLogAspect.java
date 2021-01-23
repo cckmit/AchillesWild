@@ -4,9 +4,13 @@ import com.google.gson.Gson;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Aspect
 @Component
@@ -26,10 +30,32 @@ public class CommonLogAspect {
      */
     @Before("commonLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
+
         log.info("==========================================LOG Start ==========================================");
-        log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-        // 打印请求入参
-        log.info("Request Args   : {}", new Gson().toJson(joinPoint.getArgs()));
+
+        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
+
+        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
+
+        log.info("method:"+method+"|params:"+paramsMap);
+    }
+
+    private Map<String,Object> getParamsMap(JoinPoint joinPoint){
+
+        String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
+        if(paramNames.length==0){
+            return new HashMap<>();
+        }
+        Object[] paramValues = joinPoint.getArgs();
+        Map<String,Object> paramsMap = new HashMap<>();
+        Gson gson =new Gson();
+        for(int i=0;i<paramNames.length;i++){
+            String key = paramNames[i];
+            Object value = paramValues[i];
+            paramsMap.put(key,gson.toJson(value));
+        }
+
+        return paramsMap;
     }
 
     /**
@@ -51,12 +77,13 @@ public class CommonLogAspect {
      */
     @Around("commonLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
-        // 打印出参
-        log.info("Response Args  : {}", new Gson().toJson(result));
-        // 执行耗时
-        log.info("Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
+        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
+        log.info("method:"+method+"|result:"+new Gson().toJson(result));
+
+        log.info("method:"+method+"|Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
         return result;
     }
 

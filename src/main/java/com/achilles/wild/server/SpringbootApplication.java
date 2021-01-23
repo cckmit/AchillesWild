@@ -18,17 +18,19 @@ import java.sql.SQLException;
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
+
 		ApplicationContext applicationContext = SpringApplication.run(SpringbootApplication.class, args);
 		DataSource dataSource = applicationContext.getBean(DataSource.class);
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~datasource is : " + dataSource+"~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~datasource is : " + dataSource+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 		try {
 			Connection connection = dataSource.getConnection();
 			ResultSet rs = connection.createStatement().executeQuery("SELECT 1");
 			if (rs.first()) {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Connect database SUCCESS ! ~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Connect database SUCCESS ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			} else {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Connect database FAIL ! ~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Connect database FAIL ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
