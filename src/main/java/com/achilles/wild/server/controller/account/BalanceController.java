@@ -59,27 +59,27 @@ public class BalanceController {
     }
 
     @PostMapping(path = "/add")
-    public PageResult<BalanceResponse> add(@RequestBody(required = true) BalanceRequest request){
+    public DataResult<BalanceResponse> add(@RequestBody(required = true) BalanceRequest request){
 
-        PageResult<String> pageResult;
+        DataResult<String> dataResult;
 
-        try {
-            pageResult = balanceBiz.add(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("theVeryIncome error",e);
-            return PageResult.baseFail(ResultCode.EXCEPTION);
-        }
-
-        if(pageResult ==null || !pageResult.isSuccess()){
-            return PageResult.baseFail();
-        }
+//        try {
+//            dataResult = balanceBiz.add(request);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            log.error("theVeryIncome error",e);
+//            return DataResult.baseFail(ResultCode.EXCEPTION);
+//        }
+//
+//        if(dataResult ==null || !dataResult.isSuccess()){
+//            return DataResult.baseFail();
+//        }
 
         BalanceResponse response = new BalanceResponse();
-        response.setFlowNo(pageResult.getData());
+//        response.setFlowNo(dataResult.getData());
         Long balance = balanceService.getBalance(request.getUserId());
         response.setBalance(balance);
 
-        return PageResult.success(response);
+        return DataResult.success(response);
     }
 }

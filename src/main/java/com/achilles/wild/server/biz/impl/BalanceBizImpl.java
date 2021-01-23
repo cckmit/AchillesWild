@@ -4,6 +4,7 @@ import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
+import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -72,14 +74,14 @@ public class BalanceBizImpl implements BalanceBiz {
         //
         //balance = balanceService.getInterBalance();
 
-        PageResult<String> pageResult = balanceService.consumeUserBalance(request);
-        if(pageResult ==null || !pageResult.isSuccess()){
+        DataResult<String> dataResult = balanceService.consumeUserBalance(request);
+        if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" consumeUserBalance  fail");
         }
-        response.setFlowNo(pageResult.getData());
+        response.setFlowNo(dataResult.getData());
 
-        pageResult = balanceService.consumeInterBalance(request);
-        if(pageResult ==null || !pageResult.isSuccess()){
+        dataResult = balanceService.consumeInterBalance(request);
+        if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" consumeInterBalance  fail");
         }
 
@@ -92,37 +94,40 @@ public class BalanceBizImpl implements BalanceBiz {
     @Override
     @CommonLog
     @Transactional(rollbackForClassName ="Exception")
-    public PageResult<String> add(BalanceRequest request) {
+    public DataResult<String> add(BalanceRequest request) {
 
         if(!checkParam(request)){
-            return PageResult.baseFail(ResultCode.ILLEGAL_PARAM);
+            return DataResult.baseFail(ResultCode.ILLEGAL_PARAM);
+        }
+
+        if(request.getTradeDate()==null){
+            request.setTradeDate(new Date());
         }
 
         //idempotent
         String flowNo =  keyCache.getIfPresent(request.getKey());
         if(flowNo!=null){
-            return PageResult.success(flowNo);
+            return DataResult.success(flowNo);
         }else{
             //flowNo = accountTransactionFlowAddManager.getFlowNoByKey(request.getKey(),request.getUserId());
             if(flowNo!=null){
                 keyCache.put(request.getKey(),flowNo);
-                return PageResult.success(flowNo);
+                return DataResult.success(flowNo);
             }
         }
 
-        PageResult<String> pageResult = null;
-            //balanceService.addUserBalance(request);
-        if(pageResult ==null || !pageResult.isSuccess()){
+        DataResult<String> dataResult = balanceService.consumeUserBalance(request);
+        if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" addUserBalance  fail");
         }
 
-        pageResult = balanceService.addInterBalance(request);
-        if(pageResult ==null || !pageResult.isSuccess()){
+        dataResult = balanceService.addInterBalance(request);
+        if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" addInterBalance  fail");
         }
 
-        keyCache.put(request.getKey(), pageResult.getData());
-        return PageResult.success(pageResult.getData());
+        keyCache.put(request.getKey(), dataResult.getData());
+        return DataResult.success(dataResult.getData());
     }
 
 

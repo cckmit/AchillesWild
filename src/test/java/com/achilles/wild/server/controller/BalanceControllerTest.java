@@ -3,6 +3,7 @@ package com.achilles.wild.server.controller;
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.controller.account.BalanceController;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
+import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -72,7 +73,7 @@ public class BalanceControllerTest extends SpringbootApplicationTests {
             new Thread() {
                 public void run() {
                     BalanceRequest request = getBalanceRequest();
-                    PageResult result = balanceController.add(request);
+                    DataResult result = balanceController.add(request);
                     //LOG.info("线程:"+Thread.currentThread().getId()+" ~~~~~~~~~~~~~~~~~~~~~  "+ JSON.toJSONString(result));
                 //
                 }

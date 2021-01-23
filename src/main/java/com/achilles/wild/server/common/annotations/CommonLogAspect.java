@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.annotations;
 
-import com.google.gson.Gson;
+import com.achilles.wild.server.tool.json.JsonUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -19,6 +19,8 @@ public class CommonLogAspect {
 
     private final static Logger log = LoggerFactory.getLogger(CommonLogAspect.class);
 
+    private final static String LOG_PREFIX = "commonLog";
+
     /** 以 @CommonLog注解为切入点 */
     @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
     public void commonLog() {}
@@ -31,13 +33,11 @@ public class CommonLogAspect {
     @Before("commonLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
-        log.info("==========================================LOG Start ==========================================");
-
         String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
 
         Map<String,Object> paramsMap =  getParamsMap(joinPoint);
 
-        log.info("method:"+method+"|params:"+paramsMap);
+        log.info(LOG_PREFIX+"#params : "+method+"("+paramsMap+")");
     }
 
     private Map<String,Object> getParamsMap(JoinPoint joinPoint){
@@ -46,13 +46,13 @@ public class CommonLogAspect {
         if(paramNames.length==0){
             return new HashMap<>();
         }
+
         Object[] paramValues = joinPoint.getArgs();
         Map<String,Object> paramsMap = new HashMap<>();
-        Gson gson =new Gson();
         for(int i=0;i<paramNames.length;i++){
             String key = paramNames[i];
             Object value = paramValues[i];
-            paramsMap.put(key,gson.toJson(value));
+            paramsMap.put(key,JsonUtil.toJsonString(value));
         }
 
         return paramsMap;
@@ -64,9 +64,7 @@ public class CommonLogAspect {
      */
     @After("commonLog()")
     public void doAfter() throws Throwable {
-        log.info("===========================================LOG End ===========================================");
-        // 每个请求之间空一行
-        log.info("");
+
     }
 
     /**
@@ -79,11 +77,13 @@ public class CommonLogAspect {
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         long startTime = System.currentTimeMillis();
+
         Object result = proceedingJoinPoint.proceed();
         String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
-        log.info("method:"+method+"|result:"+new Gson().toJson(result));
 
-        log.info("method:"+method+"|Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
+        log.info(LOG_PREFIX+"#result : "+method+"("+ JsonUtil.toJsonString(result)+")");
+        long duration = System.currentTimeMillis() - startTime;
+        log.info(LOG_PREFIX+"#Time-Consuming : "+method+"("+duration+"ms)");
         return result;
     }
 

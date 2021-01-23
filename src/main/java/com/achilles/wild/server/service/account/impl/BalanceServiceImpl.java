@@ -10,6 +10,7 @@ import com.achilles.wild.server.manager.account.AccountManager;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowInterManager;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
+import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.service.account.BalanceService;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +39,7 @@ public class BalanceServiceImpl implements BalanceService {
 
 
     @Override
-    public PageResult<String> consumeUserBalance(BalanceRequest request) {
+    public DataResult<String> consumeUserBalance(BalanceRequest request) {
 
         if(!checkParam(request)){
             throw new IllegalArgumentException("consumeUserBalance check params ");
@@ -64,11 +65,11 @@ public class BalanceServiceImpl implements BalanceService {
             throw new RuntimeException("consumeUserBalance insert user account reduce flow fail");
         }
 
-        return PageResult.success(accountTransactionFlow.getFlowNo());
+        return DataResult.success(accountTransactionFlow.getFlowNo());
     }
 
     @Override
-    public PageResult<String> consumeInterBalance(BalanceRequest request) {
+    public DataResult<String> consumeInterBalance(BalanceRequest request) {
 
         if(!checkParam(request)){
             throw new IllegalArgumentException(" reduceInterBalance check params ");
@@ -93,11 +94,11 @@ public class BalanceServiceImpl implements BalanceService {
             throw new RuntimeException("insert inter account flow fail");
         }
 
-        return PageResult.success(accountTransactionFlowInter.getFlowNo());
+        return DataResult.success(accountTransactionFlowInter.getFlowNo());
     }
 
     @Override
-    public PageResult<String> addInterBalance(BalanceRequest request) {
+    public DataResult<String> addInterBalance(BalanceRequest request) {
 
         if(!checkParam(request)){
             throw new IllegalArgumentException("check params ");
@@ -130,7 +131,7 @@ public class BalanceServiceImpl implements BalanceService {
         }
 
         AcountLock.unLock(accountInter.getAccountCode());
-        return PageResult.success(accountTransactionFlowInter.getFlowNo());
+        return DataResult.success(accountTransactionFlowInter.getFlowNo());
     }
 
 
