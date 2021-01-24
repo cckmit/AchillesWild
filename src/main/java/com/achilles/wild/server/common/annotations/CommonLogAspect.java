@@ -53,7 +53,8 @@ public class CommonLogAspect {
         for(int i=0;i<paramNames.length;i++){
             String key = paramNames[i];
             Object value = paramValues[i];
-            paramsMap.put(key,JsonUtil.toJsonString(value));
+            String val = JsonUtil.toJsonString(value);
+            paramsMap.put(key,val);
         }
 
         return paramsMap;
