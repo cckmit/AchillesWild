@@ -1,7 +1,6 @@
 package com.achilles.wild.server.service.account.impl;
 
 import com.achilles.wild.server.cache.AcountLock;
-import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.entity.account.*;
 import com.achilles.wild.server.enums.account.AmountFlowEnum;
@@ -173,7 +172,6 @@ public class BalanceServiceImpl implements BalanceService {
         return PageResult.success(null);
     }
 
-    @CommonLog
     @Override
     public Long getBalance(String userId) {
 
