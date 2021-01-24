@@ -50,7 +50,9 @@ public class RequestLimitAspect {
          */
         @Before("requestLimit()")
         public void doBefore(JoinPoint joinPoint) throws Throwable {
-
+            if(!openRequestLimit){
+                return;
+            }
         }
 
         /**
@@ -62,13 +64,12 @@ public class RequestLimitAspect {
         @Around("requestLimit()")
         public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 
+            if(!openRequestLimit){
+                return proceedingJoinPoint.proceed();
+            }
+
             String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
             log.info(LOG_PREFIX+"#method : "+method);
-
-            Object result = proceedingJoinPoint.proceed();
-            if(!openRequestLimit){
-                return result;
-            }
 
             if(!rateLimiter.tryAcquire()){
                 return DataResult.baseFail(ResultCode.REQUESTS_TOO_FREQUENT);
@@ -84,7 +85,7 @@ public class RequestLimitAspect {
             atomicInteger.incrementAndGet();
             cache.put(method,atomicInteger);
 
-            return result;
+            return proceedingJoinPoint.proceed();
         }
 
 

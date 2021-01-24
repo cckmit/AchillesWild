@@ -57,6 +57,10 @@ public class CommonLogAspect {
     @Before("commonLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
+        if(!openLog){
+            return;
+        }
+
         String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
 
         Map<String,Object> paramsMap =  getParamsMap(joinPoint);
@@ -73,16 +77,13 @@ public class CommonLogAspect {
     @Around("commonLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
-        log.info(LOG_PREFIX+"#method : "+method);
-
-        long startTime = System.currentTimeMillis();
-
-        Object result = proceedingJoinPoint.proceed();
         if(!openLog){
-            return result;
+            return proceedingJoinPoint.proceed();
         }
 
+        long startTime = System.currentTimeMillis();
+        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
+        Object result = proceedingJoinPoint.proceed();
         log.info(LOG_PREFIX+"#result : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
 
         long duration = System.currentTimeMillis() - startTime;
