@@ -48,6 +48,7 @@ public class CommonLogAspect {
         }
 
         Object[] paramValues = joinPoint.getArgs();
+
         Map<String,Object> paramsMap = new HashMap<>();
         for(int i=0;i<paramNames.length;i++){
             String key = paramNames[i];
@@ -81,9 +82,14 @@ public class CommonLogAspect {
         Object result = proceedingJoinPoint.proceed();
         String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
 
-        log.info(LOG_PREFIX+"#result : "+method+"("+ JsonUtil.toJsonString(result)+")");
+//        Map<String,Object> paramsMap =  getParamsMap(proceedingJoinPoint);
+//        log.info(LOG_PREFIX+"#params bb : "+method+"("+paramsMap+")");
+
+        log.info(LOG_PREFIX+"#result : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
+
         long duration = System.currentTimeMillis() - startTime;
-        log.info(LOG_PREFIX+"#Time-Consuming : "+method+"("+duration+"ms)");
+        log.info(LOG_PREFIX+"#Time-Consuming : "+method+"-->("+duration+"ms)");
+
         return result;
     }
 

@@ -1,6 +1,7 @@
 package com.achilles.wild.server.controller.account;
 
 import com.achilles.wild.server.biz.BalanceBiz;
+import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.PageResult;
@@ -58,6 +59,7 @@ public class BalanceController {
         return pageResult;
     }
 
+    @CommonLog
     @PostMapping(path = "/add")
     public DataResult<BalanceResponse> add(@RequestBody(required = true) BalanceRequest request){
 
