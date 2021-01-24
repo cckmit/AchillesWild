@@ -1,11 +1,9 @@
 package com.achilles.wild.server.biz.impl;
 
 import com.achilles.wild.server.biz.BalanceBiz;
-import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
@@ -41,10 +39,14 @@ public class BalanceBizImpl implements BalanceBiz {
 
     @Override
     @Transactional(rollbackForClassName ="Exception")
-    public PageResult<BalanceResponse> reduce(BalanceRequest request) {
+    public DataResult<BalanceResponse> reduce(BalanceRequest request) {
 
         if(!checkParam(request)){
-            return PageResult.baseFail(ResultCode.ILLEGAL_PARAM);
+            return DataResult.baseFail(ResultCode.ILLEGAL_PARAM);
+        }
+
+        if(request.getTradeDate()==null){
+            request.setTradeDate(new Date());
         }
 
         //idempotent
@@ -60,7 +62,7 @@ public class BalanceBizImpl implements BalanceBiz {
             balance = balanceService.getBalance(request.getUserId());
             response.setBalance(balance);
             response.setFlowNo(flowNo);
-            return PageResult.success(response);
+            return DataResult.success(response);
         }
         //
         //Long balance =  balanceCache.getIfPresent(request.getKey());
@@ -88,11 +90,10 @@ public class BalanceBizImpl implements BalanceBiz {
         balance = balanceService.getBalance(request.getUserId());
         response.setBalance(balance);
 
-        return PageResult.success(response);
+        return DataResult.success(response);
     }
 
     @Override
-    @CommonLog
     @Transactional(rollbackForClassName ="Exception")
     public DataResult<String> add(BalanceRequest request) {
 
@@ -116,7 +117,7 @@ public class BalanceBizImpl implements BalanceBiz {
             }
         }
 
-        DataResult<String> dataResult = balanceService.consumeUserBalance(request);
+        DataResult<String> dataResult = balanceService.addInterBalance(request);
         if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" addUserBalance  fail");
         }

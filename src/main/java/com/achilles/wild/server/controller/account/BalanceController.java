@@ -5,7 +5,6 @@ import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.common.annotations.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
@@ -47,43 +46,46 @@ public class BalanceController {
         return DataResult.success(response);
     }
 
-    @RequestMapping("/reduce")
-    public PageResult<BalanceResponse> reduce(BalanceRequest request){
+    @RequestLimit
+    @CommonLog
+    @PostMapping("/reduce")
+    public DataResult<BalanceResponse> reduce(@RequestBody(required = true)BalanceRequest request){
 
-        PageResult<BalanceResponse> pageResult;
+        DataResult<BalanceResponse> pageResult;
 
         try {
             pageResult = balanceBiz.reduce(request);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("theVeryIncome error",e);
-            return PageResult.baseFail(ResultCode.EXCEPTION);
+            return DataResult.baseFail(ResultCode.EXCEPTION);
         }
 
         if(pageResult ==null || !pageResult.isSuccess()){
-            return PageResult.baseFail();
+            return DataResult.baseFail();
         }
 
         return pageResult;
     }
 
+    @RequestLimit
     @CommonLog
     @PostMapping(path = "/add")
     public DataResult<BalanceResponse> add(@RequestBody(required = true) BalanceRequest request){
 
         DataResult<String> dataResult;
 
-//        try {
-//            dataResult = balanceBiz.add(request);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("theVeryIncome error",e);
-//            return DataResult.baseFail(ResultCode.EXCEPTION);
-//        }
-//
-//        if(dataResult ==null || !dataResult.isSuccess()){
-//            return DataResult.baseFail();
-//        }
+        try {
+            dataResult = balanceBiz.add(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("theVeryIncome error",e);
+            return DataResult.baseFail(ResultCode.EXCEPTION);
+        }
+
+        if(dataResult ==null || !dataResult.isSuccess()){
+            return DataResult.baseFail();
+        }
 
         BalanceResponse response = new BalanceResponse();
 //        response.setFlowNo(dataResult.getData());

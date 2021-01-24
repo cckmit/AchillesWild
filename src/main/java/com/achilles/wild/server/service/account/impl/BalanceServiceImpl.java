@@ -122,12 +122,11 @@ public class BalanceServiceImpl implements BalanceService {
        // accountTransactionFlowInter.setFlowNo(accountTransactionFlowInterAddManager.getFlowNo());
         accountTransactionFlowInter.setTradeDate(request.getTradeDate());
 
-        boolean updateFlow = false;
-            //accountTransactionFlowInterAddManager.addFlow(accountTransactionFlowInter);
-        if(!updateFlow){
-            AcountLock.unLock(accountInter.getAccountCode());
-            throw new RuntimeException("insert inter account flow fail");
-        }
+//        boolean updateFlow = accountInterManager.addFlow(accountTransactionFlowInter);
+//        if(!updateFlow){
+//            AcountLock.unLock(accountInter.getAccountCode());
+//            throw new RuntimeException("insert inter account flow fail");
+//        }
 
         AcountLock.unLock(accountInter.getAccountCode());
         return DataResult.success(accountTransactionFlowInter.getFlowNo());

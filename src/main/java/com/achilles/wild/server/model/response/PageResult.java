@@ -1,5 +1,6 @@
 package com.achilles.wild.server.model.response;
 
+@Deprecated
 public class PageResult<T> extends BaseResult {
 
     private int count;
