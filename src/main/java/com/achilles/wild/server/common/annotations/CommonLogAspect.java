@@ -11,6 +11,7 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,8 +19,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 @Aspect
 @Component
+@Order(1)
 public class CommonLogAspect {
 
     private final static Logger log = LoggerFactory.getLogger(CommonLogAspect.class);
@@ -27,10 +30,6 @@ public class CommonLogAspect {
     private final static String LOG_PREFIX = "commonLog";
 
     private Cache<String,AtomicInteger> cache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
-
-
-//    private AtomicInteger atomicInteger = new AtomicInteger();
-
 
     private final RateLimiter rateLimiter = RateLimiter.create(1);
 
@@ -43,7 +42,7 @@ public class CommonLogAspect {
     @Value("${common.log.method.time.consuming.limit}")
     private Integer time;
 
-    @Value("${common.log.method.count.limit}")
+    @Value("${common.log.method.count.limit.per.second}")
     private Integer countLimit;
 
     /** 以 @CommonLog注解为切入点 */
@@ -57,10 +56,6 @@ public class CommonLogAspect {
      */
     @Before("commonLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-
-        if(!openLog){
-            return;
-        }
 
         String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
 
@@ -78,17 +73,15 @@ public class CommonLogAspect {
     @Around("commonLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
+        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
+        log.info(LOG_PREFIX+"#method : "+method);
+
         long startTime = System.currentTimeMillis();
 
         Object result = proceedingJoinPoint.proceed();
         if(!openLog){
             return result;
         }
-
-        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
-
-//        Map<String,Object> paramsMap =  getParamsMap(proceedingJoinPoint);
-//        log.info(LOG_PREFIX+"#params bb : "+method+"("+paramsMap+")");
 
         log.info(LOG_PREFIX+"#result : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
 
@@ -98,10 +91,8 @@ public class CommonLogAspect {
         if(!ifInsertDb || duration<=time){
             return result;
         }
-        if(!rateLimiter.tryAcquire()){
-            return result;
-        }
 
+        method+="#commonLog";
         AtomicInteger atomicInteger = cache.getIfPresent(method)==null?new AtomicInteger():cache.getIfPresent(method);
         int count = atomicInteger.get();
         if(count<countLimit){
@@ -111,7 +102,7 @@ public class CommonLogAspect {
             }
             cache.put(method,atomicInteger);
             if(count<=countLimit){
-                log.info("insert log into db");
+                log.info(LOG_PREFIX+"#insert slow log into db, method : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
             }
         }
 

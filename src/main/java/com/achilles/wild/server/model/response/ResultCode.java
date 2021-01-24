@@ -16,7 +16,11 @@ public enum ResultCode implements Serializable {
     DATA_HAS_EXISTS("-107", "data has exists: %s"),
 
 
-    BALANCE_NOT_ENOUGH("-600", "balance not enough: %s");
+    BALANCE_NOT_ENOUGH("-600", "balance not enough: %s"),
+
+    TOO_MANY_REQUESTS("-700", "too many requests ~ : %s"),
+
+    REQUESTS_TOO_FREQUENT("-700", "requests are too frequent ~ : %s");
 
     public final String code;
     public final String message;

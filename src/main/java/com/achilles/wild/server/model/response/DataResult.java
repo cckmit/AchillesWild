@@ -50,4 +50,12 @@ public class DataResult<T> extends BaseResult {
         return dataResult;
     }
 
+    public static <T> DataResult<T> baseFail(String code,String msg) {
+        DataResult dataResult = new DataResult<>();
+        dataResult.setSuccess(false);
+        dataResult.setCode(code);
+        dataResult.setMessage(msg);
+        return dataResult;
+    }
+
 }

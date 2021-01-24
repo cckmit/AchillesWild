@@ -2,6 +2,7 @@ package com.achilles.wild.server.controller.account;
 
 import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.common.annotations.CommonLog;
+import com.achilles.wild.server.common.annotations.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.PageResult;
@@ -26,6 +27,7 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
+    @RequestLimit
     @CommonLog
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
@@ -33,7 +35,13 @@ public class BalanceController {
 //        log.info("----------------------------userId:"+userId+"--------------------------------");
 
         BalanceResponse response = new BalanceResponse();
-        Long balance = balanceService.getBalance(userId);
+        Long balance = null;
+        try {
+            balance = balanceService.getBalance(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
+        }
         response.setBalance(balance);
 
         return DataResult.success(response);
