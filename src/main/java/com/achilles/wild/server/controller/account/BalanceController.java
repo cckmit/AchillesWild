@@ -26,11 +26,11 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-
+    @CommonLog
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 
-        log.info("----------------------------userId:"+userId+"--------------------------------");
+//        log.info("----------------------------userId:"+userId+"--------------------------------");
 
         BalanceResponse response = new BalanceResponse();
         Long balance = balanceService.getBalance(userId);
