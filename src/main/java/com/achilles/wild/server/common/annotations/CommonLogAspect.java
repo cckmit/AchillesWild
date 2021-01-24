@@ -28,10 +28,6 @@ public class CommonLogAspect {
 
     private Cache<String,AtomicInteger> cache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
 
-
-//    private AtomicInteger atomicInteger = new AtomicInteger();
-
-
     private final RateLimiter rateLimiter = RateLimiter.create(1);
 
     @Value("${common.log.open}")
