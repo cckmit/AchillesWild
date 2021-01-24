@@ -7,6 +7,7 @@ import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
+import com.achilles.wild.server.tool.date.DateUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -45,25 +46,25 @@ public class BalanceBizImpl implements BalanceBiz {
             return DataResult.baseFail(ResultCode.ILLEGAL_PARAM);
         }
 
-        if(request.getTradeDate()==null){
-            request.setTradeDate(new Date());
+        if(StringUtils.isNotBlank(request.getTradeDateStr())){
+            request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
         }
 
         //idempotent
-        String flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
+//        String flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
         //if(flowNo==null){
         //    flowNo = accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
         //}
 
         BalanceResponse response = new BalanceResponse();
-        Long balance =null;
-        if(flowNo!=null){
-            //keyCache.put(request.getKey(),flowNo);
-            balance = balanceService.getBalance(request.getUserId());
-            response.setBalance(balance);
-            response.setFlowNo(flowNo);
-            return DataResult.success(response);
-        }
+//        Long balance =null;
+//        if(flowNo!=null){
+//            //keyCache.put(request.getKey(),flowNo);
+//            balance = balanceService.getBalance(request.getUserId());
+//            response.setBalance(balance);
+//            response.setFlowNo(flowNo);
+//            return DataResult.success(response);
+//        }
         //
         //Long balance =  balanceCache.getIfPresent(request.getKey());
         //if(balance==null){
@@ -87,7 +88,7 @@ public class BalanceBizImpl implements BalanceBiz {
             throw new RuntimeException(" consumeInterBalance  fail");
         }
 
-        balance = balanceService.getBalance(request.getUserId());
+        Long balance = balanceService.getBalance(request.getUserId());
         response.setBalance(balance);
 
         return DataResult.success(response);

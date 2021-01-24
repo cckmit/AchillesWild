@@ -15,6 +15,8 @@ public class BalanceRequest {
 
     private Date tradeDate;
 
+    private String tradeDateStr;
+
     public String getUserId() {
         return userId;
     }
@@ -53,5 +55,13 @@ public class BalanceRequest {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getTradeDateStr() {
+        return tradeDateStr;
+    }
+
+    public void setTradeDateStr(String tradeDateStr) {
+        this.tradeDateStr = tradeDateStr;
     }
 }

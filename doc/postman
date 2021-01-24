@@ -1,0 +1,6 @@
+pm.environment.set("random",Math.round(new Date().getTime()));
+console.log(pm.environment.get("random"));
+var moment = require("moment");
+var data = moment().format(" YYYY-MM-DD HH:mm:ss");
+pm.environment.set("now",data);
+console.log(pm.environment.get("now"));
