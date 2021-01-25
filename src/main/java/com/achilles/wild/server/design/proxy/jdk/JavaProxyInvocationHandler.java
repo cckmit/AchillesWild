@@ -1,11 +1,11 @@
 package com.achilles.wild.server.design.proxy.jdk;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JavaProxyInvocationHandler  implements InvocationHandler {
 
@@ -31,11 +31,8 @@ public class JavaProxyInvocationHandler  implements InvocationHandler {
      */
     public Object newProxyInstance() {
         return Proxy.newProxyInstance(
-            //ָ�����������������
             obj.getClass().getClassLoader(),
-            //���������Ҫʵ�ֵĽӿڣ�����ͬʱָ������ӿ�
             obj.getClass().getInterfaces(),
-            //�������õ�ʵ�ʴ����ߣ��������ķ������ö���ת��������
             this);
     }
 
