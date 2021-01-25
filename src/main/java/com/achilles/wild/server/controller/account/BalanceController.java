@@ -51,21 +51,21 @@ public class BalanceController {
     @PostMapping("/reduce")
     public DataResult<BalanceResponse> reduce(@RequestBody(required = true)BalanceRequest request){
 
-        DataResult<BalanceResponse> pageResult;
+        DataResult<BalanceResponse> dataResult;
 
         try {
-            pageResult = balanceBiz.reduce(request);
+            dataResult = balanceBiz.reduce(request);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("theVeryIncome error",e);
             return DataResult.baseFail(ResultCode.EXCEPTION);
         }
 
-        if(pageResult ==null || !pageResult.isSuccess()){
+        if(dataResult ==null){
             return DataResult.baseFail();
         }
 
-        return pageResult;
+        return dataResult;
     }
 
     @RequestLimit

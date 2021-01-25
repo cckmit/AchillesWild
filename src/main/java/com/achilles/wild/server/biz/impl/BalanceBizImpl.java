@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class BalanceBizImpl implements BalanceBiz {
 
-    private final static Logger LOG = LoggerFactory.getLogger(BalanceBizImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(BalanceBizImpl.class);
 
     @Resource
     private BalanceService balanceService;
@@ -50,32 +50,29 @@ public class BalanceBizImpl implements BalanceBiz {
             request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
         }
 
-        //idempotent
-//        String flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
-        //if(flowNo==null){
-        //    flowNo = accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
-        //}
-
         BalanceResponse response = new BalanceResponse();
-//        Long balance =null;
-//        if(flowNo!=null){
-//            //keyCache.put(request.getKey(),flowNo);
-//            balance = balanceService.getBalance(request.getUserId());
-//            response.setBalance(balance);
-//            response.setFlowNo(flowNo);
-//            return DataResult.success(response);
-//        }
-        //
-        //Long balance =  balanceCache.getIfPresent(request.getKey());
-        //if(balance==null){
-        //    balance = balanceService.getBalance(request.getUserId());
-        //}
-        //
-        //if(balance<request.getAmount()){
-        //    return DataResult.baseFail(ResultCode.BALANCE_NOT_ENOUGH);
-        //}
-        //
-        //balance = balanceService.getInterBalance();
+        String key = request.getKey();
+        String flowNo =  keyCache.getIfPresent(key);
+        if(flowNo!=null){
+            Long balance = balanceService.getBalance(request.getUserId());
+            response.setBalance(balance);
+            response.setFlowNo(flowNo);
+            return DataResult.success(response);
+        }
+
+        flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
+        if(flowNo!=null){
+            Long balance = balanceService.getBalance(request.getUserId());
+            response.setBalance(balance);
+            response.setFlowNo(flowNo);
+            keyCache.put(key,flowNo);
+            return DataResult.success(response);
+        }
+
+        Long balance = balanceService.getBalance(request.getUserId());
+        if(request.getAmount()>balance){
+            return DataResult.baseFail(ResultCode.BALANCE_NOT_ENOUGH);
+        }
 
         DataResult<String> dataResult = balanceService.consumeUserBalance(request);
         if(dataResult ==null || !dataResult.isSuccess()){
@@ -88,7 +85,7 @@ public class BalanceBizImpl implements BalanceBiz {
             throw new RuntimeException(" consumeInterBalance  fail");
         }
 
-        Long balance = balanceService.getBalance(request.getUserId());
+        balance = balanceService.getBalance(request.getUserId());
         response.setBalance(balance);
 
         return DataResult.success(response);
