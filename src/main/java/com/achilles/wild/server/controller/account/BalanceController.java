@@ -3,6 +3,9 @@ package com.achilles.wild.server.controller.account;
 import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.common.annotations.RequestLimit;
+import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
+import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
+import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.ResultCode;
@@ -10,6 +13,7 @@ import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,21 +30,28 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
+    @Autowired
+    private CglibInterceptor cglibInterceptor;
+
     @RequestLimit
     @CommonLog
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 
-//        log.info("----------------------------userId:"+userId+"--------------------------------");
-
         BalanceResponse response = new BalanceResponse();
-        Long balance = null;
-        try {
-            balance = balanceService.getBalance(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
-        }
+
+        BalanceService proxyInstance = (BalanceService)new JavaProxyInvocationHandler(balanceService).newProxyInstance();
+        Long balance = proxyInstance.getBalance(userId);
+
+        ServiceClient serviceClient = (ServiceClient) cglibInterceptor.newProxyInstance(ServiceClient.class);
+        serviceClient.doIt();
+//        Long balance = null;
+//        try {
+//            balance = balanceService.getBalance(userId);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
+//        }
         response.setBalance(balance);
 
         return DataResult.success(response);
