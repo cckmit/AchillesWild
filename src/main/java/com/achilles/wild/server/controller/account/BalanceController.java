@@ -13,7 +13,6 @@ import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.service.account.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,8 +29,8 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-    @Autowired
-    private CglibInterceptor cglibInterceptor;
+//    @Autowired
+//    private CglibInterceptor cglibInterceptor;
 
     @RequestLimit
     @CommonLog
@@ -43,7 +42,7 @@ public class BalanceController {
         BalanceService proxyInstance = (BalanceService)new JavaProxyInvocationHandler(balanceService).newProxyInstance();
         Long balance = proxyInstance.getBalance(userId);
 
-        ServiceClient serviceClient = (ServiceClient) cglibInterceptor.newProxyInstance(ServiceClient.class);
+        ServiceClient serviceClient = (ServiceClient) new CglibInterceptor().newProxyInstance(ServiceClient.class);
         serviceClient.doIt();
 //        Long balance = null;
 //        try {

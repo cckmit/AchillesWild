@@ -30,8 +30,8 @@ public class RequestLimitAspect {
 
         private final RateLimiter rateLimiter = RateLimiter.create(1);
 
-    @Value("${request.limit.open}")
-    private Boolean openRequestLimit;
+        @Value("${request.limit.open}")
+        private Boolean openRequestLimit;
 
         @Value("${request.limit.method.time.consuming.limit}")
         private Integer time;
@@ -88,7 +88,6 @@ public class RequestLimitAspect {
             return proceedingJoinPoint.proceed();
         }
 
-
         /**
          * 在切点之后织入
          * @throws Throwable
@@ -96,6 +95,14 @@ public class RequestLimitAspect {
         @After("requestLimit()")
         public void doAfter() throws Throwable {
 
-    }
+        }
 
+        /**
+         * 在切点之后织入
+         * @throws Throwable
+         */
+        @AfterThrowing("requestLimit()")
+        public void afterThrowing() throws Throwable {
+            log.info(LOG_PREFIX+"#-------------------------------afterThrowing---------------------------------------");
+        }
 }

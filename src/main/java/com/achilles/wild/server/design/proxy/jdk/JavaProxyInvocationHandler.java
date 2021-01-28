@@ -12,13 +12,13 @@ public class JavaProxyInvocationHandler  implements InvocationHandler {
     private final static Logger LOG = LoggerFactory.getLogger(JavaProxyInvocationHandler.class);
 
     /**
-     * �м������ί������������,����ṹ��һ�־�̬�����ϵ
+     * 中间类持有委托类对象的引用,这里会构成一种静态代理关系
      */
     private Object obj ;
 
     /**
-     * �вι�����,����ί����Ķ���
-     * @param obj ί����Ķ���
+     * 有参构造器,传入委托类的对象
+     * @param obj 委托类的对象
      */
     public JavaProxyInvocationHandler(Object obj){
         this.obj = obj;
@@ -26,22 +26,17 @@ public class JavaProxyInvocationHandler  implements InvocationHandler {
     }
 
     /**
-     * ��̬���ɴ��������,Proxy.newProxyInstance
-     * @return ���ش������ʵ��
+     * 动态生成代理类对象,Proxy.newProxyInstance
+     * @return 返回代理类的实例
      */
     public Object newProxyInstance() {
-        return Proxy.newProxyInstance(
-            obj.getClass().getClassLoader(),
-            obj.getClass().getInterfaces(),
-            this);
+        return Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), this);
     }
 
-
     /**
-     *
-     * @param proxy �������
-     * @param method ������
-     * @param args �����Ĳ���
+     * @param proxy 代理对象
+     * @param method 代理方法
+     * @param args 方法的参数
      * @return
      * @throws Throwable
      */
