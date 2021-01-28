@@ -3,9 +3,6 @@ package com.achilles.wild.server.controller.account;
 import com.achilles.wild.server.biz.BalanceBiz;
 import com.achilles.wild.server.common.annotations.CommonLog;
 import com.achilles.wild.server.common.annotations.RequestLimit;
-import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
-import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
-import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.ResultCode;
@@ -29,8 +26,6 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-//    @Autowired
-//    private CglibInterceptor cglibInterceptor;
 
     @RequestLimit
     @CommonLog
@@ -39,18 +34,13 @@ public class BalanceController {
 
         BalanceResponse response = new BalanceResponse();
 
-        BalanceService proxyInstance = (BalanceService)new JavaProxyInvocationHandler(balanceService).newProxyInstance();
-        Long balance = proxyInstance.getBalance(userId);
-
-        ServiceClient serviceClient = (ServiceClient) new CglibInterceptor().newProxyInstance(ServiceClient.class);
-        serviceClient.doIt();
-//        Long balance = null;
-//        try {
-//            balance = balanceService.getBalance(userId);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
-//        }
+        Long balance = null;
+        try {
+            balance = balanceService.getBalance(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
+        }
         response.setBalance(balance);
 
         return DataResult.success(response);
