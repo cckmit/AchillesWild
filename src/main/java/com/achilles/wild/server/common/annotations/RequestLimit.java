@@ -7,5 +7,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface RequestLimit {
 
-    String value() default "";
+
+    int countLimit() default 1;
+
+    int rateLimit() default 1;
 }

@@ -7,13 +7,16 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,18 +29,20 @@ public class RequestLimitAspect {
 
         private final static String LOG_PREFIX = "requestLimit";
 
-        private Cache<String, AtomicInteger> cache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
+        private Cache<String, AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
 
-        private final RateLimiter rateLimiter = RateLimiter.create(1);
+        private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
+
+//        private final RateLimiter rateLimiter = RateLimiter.create(1);
 
         @Value("${request.limit.open}")
         private Boolean openRequestLimit;
 
-        @Value("${request.limit.method.time.consuming.limit}")
-        private Integer time;
+//        @Value("${request.limit.of.time.consuming.limit}")
+//        private Integer time;
 
-        @Value("${request.limit.method.count.limit.per.second}")
-        private Integer countLimit;
+//        @Value("${request.limit.of.count.limit.in.time}")
+//        private Integer countLimit;
 
         /** 以 @requestLimit注解为切入点 */
         @Pointcut("@annotation(com.achilles.wild.server.common.annotations.RequestLimit)")
@@ -68,22 +73,33 @@ public class RequestLimitAspect {
                 return proceedingJoinPoint.proceed();
             }
 
-            String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
-            log.info(LOG_PREFIX+"#method : "+method);
+            Signature signature = proceedingJoinPoint.getSignature();
+            MethodSignature methodSignature = (MethodSignature)signature;
+            String methodName= methodSignature.getName();
 
+            String method = signature.getDeclaringTypeName()+"#"+methodName;
+            log.info(LOG_PREFIX+"#method : "+method);
+            Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
+            RequestLimit annotation = currentMethod.getAnnotation(RequestLimit.class);
+            int rateLimit = annotation.rateLimit();
+            String rateLimiterKey = method+"_RateLimiter";
+            RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
+                    RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
             if(!rateLimiter.tryAcquire()){
                 return DataResult.baseFail(ResultCode.REQUESTS_TOO_FREQUENT);
             }
 
-            method+="#requestLimit";
-            AtomicInteger atomicInteger = cache.getIfPresent(method)==null ? new AtomicInteger():cache.getIfPresent(method);
+            String countLimitKey = method+"_CountLimit";
+            AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null ?
+                    new AtomicInteger():integerCache.getIfPresent(countLimitKey);
             int count = atomicInteger.get();
+            int countLimit = annotation.countLimit();
             if(count>countLimit){
                 return DataResult.baseFail(ResultCode.TOO_MANY_REQUESTS);
             }
 
             atomicInteger.incrementAndGet();
-            cache.put(method,atomicInteger);
+            integerCache.put(countLimitKey,atomicInteger);
 
             return proceedingJoinPoint.proceed();
         }

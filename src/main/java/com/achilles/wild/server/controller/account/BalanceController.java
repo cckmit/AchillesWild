@@ -27,7 +27,7 @@ public class BalanceController {
     private BalanceService balanceService;
 
 
-    @RequestLimit
+    @RequestLimit(countLimit=5,rateLimit = 3)
     @CommonLog
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
