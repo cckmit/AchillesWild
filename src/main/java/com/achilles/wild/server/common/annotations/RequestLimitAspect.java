@@ -27,11 +27,11 @@ public class RequestLimitAspect {
 
         private final static Logger log = LoggerFactory.getLogger(RequestLimitAspect.class);
 
-        private final static String LOG_PREFIX = "requestLimit";
+        private final static String LOG_PREFIX = "";
 
-        private Cache<String, AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
+        private Cache<String, AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
-        private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
+        private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
 //        private final RateLimiter rateLimiter = RateLimiter.create(1);
 

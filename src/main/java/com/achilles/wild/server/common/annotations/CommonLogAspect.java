@@ -33,11 +33,11 @@ public class CommonLogAspect {
 
     private final static Logger log = LoggerFactory.getLogger(CommonLogAspect.class);
 
-    private final static String PREFIX = "CommonLog";
+    private final static String PREFIX = "";
 
-    private Cache<String,AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(5000).expireAfterWrite(5, TimeUnit.SECONDS).build();
+    private Cache<String,AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
-    private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(5000).expireAfterWrite(5, TimeUnit.SECONDS).build();
+    private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
     @Value("${common.log.open}")
     private Boolean openLog;
@@ -100,7 +100,7 @@ public class CommonLogAspect {
         Object result = proceedingJoinPoint.proceed();
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-        log.info(PREFIX +"#result : "+path+"-->("+ JsonUtil.toJsonString(result)+")");
+        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
         log.info(PREFIX +"#Time-Consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=timeLimit){
@@ -125,14 +125,14 @@ public class CommonLogAspect {
             }
             integerCache.put(countLimitKey,atomicInteger);
             if(count<=countOfInsertDBInTime){
-                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->("+ params+")"+"--->"+duration+"ms");
+                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
                 Logs logs = new Logs();
                 logs.setClz(clz);
                 logs.setMethod(method);
                 logs.setParams(params);
                 logs.setTime((int)duration);
                 logsManager.addLog(logs);
-                log.info(PREFIX +"#insert slow log into db OVER, method : "+path);
+                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }
         }
 
