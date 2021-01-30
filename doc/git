@@ -1,3 +1,6 @@
+git reset --hard commit_id   回退到哪个commit
+
+
 VCS——>check out from version control———>git———>
 1:远程路径
 2:建一个项目文件夹选中(NEW WINDOW)
