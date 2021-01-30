@@ -20,7 +20,9 @@ public enum ResultCode implements Serializable {
 
     TOO_MANY_REQUESTS("-700", "too many requests ~ : %s"),
 
-    REQUESTS_TOO_FREQUENT("-700", "requests are too frequent ~ : %s");
+    REQUESTS_TOO_FREQUENT("-700", "requests are too frequent ~ : %s"),
+
+    EXCEPTION_TO_CLIENT("-1000", "the server is too busy ~ : %s");
 
     public final String code;
     public final String message;

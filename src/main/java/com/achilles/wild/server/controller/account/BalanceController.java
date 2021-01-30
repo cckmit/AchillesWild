@@ -1,7 +1,7 @@
 package com.achilles.wild.server.controller.account;
 
 import com.achilles.wild.server.biz.BalanceBiz;
-import com.achilles.wild.server.common.annotations.RequestLimit;
+import com.achilles.wild.server.common.aop.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.ResultCode;
@@ -26,7 +26,7 @@ public class BalanceController {
     private BalanceService balanceService;
 
 
-    @RequestLimit(countLimit=10,rateLimit = 1)
+    @RequestLimit(countLimit=10,rateLimit = 5)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 

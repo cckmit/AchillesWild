@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.annotations;
+package com.achilles.wild.server.common.aop;
 
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.ResultCode;
@@ -45,7 +45,7 @@ public class RequestLimitAspect {
 //        private Integer countLimit;
 
         /** 以 @requestLimit注解为切入点 */
-        @Pointcut("@annotation(com.achilles.wild.server.common.annotations.RequestLimit)")
+        @Pointcut("@annotation(com.achilles.wild.server.common.aop.RequestLimit)")
         public void requestLimit() {}
 
         /**
@@ -120,6 +120,6 @@ public class RequestLimitAspect {
          */
         @AfterThrowing("requestLimit()")
         public void afterThrowing() throws Throwable {
-            log.info(LOG_PREFIX+"#-------------------------------afterThrowing---------------------------------------");
+//            log.info(LOG_PREFIX+"#-------------------------------afterThrowing---------------------------------------");
         }
 }

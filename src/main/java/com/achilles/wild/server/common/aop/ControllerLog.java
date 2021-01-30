@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.annotations;
+package com.achilles.wild.server.common.aop;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.annotations;
+package com.achilles.wild.server.common.aop;
 
 import com.achilles.wild.server.entity.Logs;
 import com.achilles.wild.server.manager.common.LogsManager;

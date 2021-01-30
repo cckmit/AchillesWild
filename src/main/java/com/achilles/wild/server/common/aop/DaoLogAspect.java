@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.annotations;
+package com.achilles.wild.server.common.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

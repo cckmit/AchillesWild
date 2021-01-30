@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.annotations;
+package com.achilles.wild.server.common.aop;
 
 import com.google.gson.Gson;
 import org.aspectj.lang.JoinPoint;
@@ -22,7 +22,7 @@ public class ControllerLogAspect {
     private final static Logger log = LoggerFactory.getLogger(ControllerLogAspect.class);
 
     /** 以 @ControllerLog注解为切入点 */
-    @Pointcut("@annotation(com.achilles.wild.server.common.annotations.ControllerLog)")
+    @Pointcut("@annotation(com.achilles.wild.server.common.aop.ControllerLog)")
     public void controllerLog() {}
 
     /**
