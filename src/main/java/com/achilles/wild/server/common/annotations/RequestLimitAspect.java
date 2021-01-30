@@ -77,19 +77,20 @@ public class RequestLimitAspect {
             MethodSignature methodSignature = (MethodSignature)signature;
             String methodName= methodSignature.getName();
 
-            String method = signature.getDeclaringTypeName()+"#"+methodName;
-            log.info(LOG_PREFIX+"#method : "+method);
+            String path = signature.getDeclaringTypeName()+"#"+methodName;
+            log.info(LOG_PREFIX+"#method : "+path);
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
             RequestLimit annotation = currentMethod.getAnnotation(RequestLimit.class);
             int rateLimit = annotation.rateLimit();
-            String rateLimiterKey = method+"_RateLimiter";
+            String rateLimiterKey = path+"_RateLimiter";
             RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
                     RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
+            rateLimiterCache.put(rateLimiterKey,rateLimiter);
             if(!rateLimiter.tryAcquire()){
                 return DataResult.baseFail(ResultCode.REQUESTS_TOO_FREQUENT);
             }
 
-            String countLimitKey = method+"_CountLimit";
+            String countLimitKey = path+"_CountLimit";
             AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null ?
                     new AtomicInteger():integerCache.getIfPresent(countLimitKey);
             int count = atomicInteger.get();

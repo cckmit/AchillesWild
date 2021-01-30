@@ -5,6 +5,7 @@ import com.achilles.wild.server.manager.common.LogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -32,21 +33,26 @@ public class CommonLogAspect {
 
     private final static Logger log = LoggerFactory.getLogger(CommonLogAspect.class);
 
-    private final static String LOG_PREFIX = "commonLog";
+    private final static String PREFIX = "CommonLog";
 
-    private Cache<String,AtomicInteger> cache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
+    private Cache<String,AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(5000).expireAfterWrite(5, TimeUnit.SECONDS).build();
+
+    private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(5000).expireAfterWrite(5, TimeUnit.SECONDS).build();
 
     @Value("${common.log.open}")
     private Boolean openLog;
 
-    @Value("${common.log.method.time.consuming.exceed.limit.insert.db}")
+    @Value("${common.log.insert.db}")
     private Boolean ifInsertDb;
 
-    @Value("${common.log.method.time.consuming.limit}")
-    private Integer time;
+    @Value("${common.log.of.time.consuming.limit}")
+    private Integer timeLimit;
 
-    @Value("${common.log.method.count.limit.per.second}")
-    private Integer countLimit;
+    @Value("${common.log.of.count.limit.in.time}")
+    private Integer countOfInsertDBInTime;
+
+    @Value("${common.log.of.insert.db.rate.per.second}")
+    private Double rateOfInsertDBPerSecond;
 
     @Autowired
     private LogsManager logsManager;
@@ -71,7 +77,7 @@ public class CommonLogAspect {
 
         Map<String,Object> paramsMap =  getParamsMap(joinPoint);
 
-        log.info(LOG_PREFIX+"#params : "+method+"("+paramsMap+")");
+        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
     /**
@@ -94,31 +100,39 @@ public class CommonLogAspect {
         Object result = proceedingJoinPoint.proceed();
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-        log.info(LOG_PREFIX+"#result : "+path+"-->("+ JsonUtil.toJsonString(result)+")");
-        log.info(LOG_PREFIX+"#Time-Consuming : "+path+"-->("+duration+"ms)");
+        log.info(PREFIX +"#result : "+path+"-->("+ JsonUtil.toJsonString(result)+")");
+        log.info(PREFIX +"#Time-Consuming : "+path+"-->("+duration+"ms)");
 
-        if(!ifInsertDb || duration<=time){
+        if(!ifInsertDb || duration<=timeLimit){
             return result;
         }
 
-        path+="_commonLog";
-        AtomicInteger atomicInteger = cache.getIfPresent(path)==null?new AtomicInteger():cache.getIfPresent(path);
+        String rateLimiterKey = path+"_RateLimiter";
+        RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
+                RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
+        rateLimiterCache.put(rateLimiterKey,rateLimiter);
+        if(!rateLimiter.tryAcquire()){
+            return result;
+        }
+
+        String countLimitKey = path+"_CountLimit";
+        AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
         int count = atomicInteger.get();
-        if(count<countLimit){
+        if(count<countOfInsertDBInTime){
             count = atomicInteger.incrementAndGet();
-            if(count>countLimit){
+            if(count>countOfInsertDBInTime){
                 return result;
             }
-            cache.put(path,atomicInteger);
-            if(count<=countLimit){
-                log.info(LOG_PREFIX+"#insert slow log into db start, method : "+path+"-->("+ params+")"+"--->"+duration+"ms");
+            integerCache.put(countLimitKey,atomicInteger);
+            if(count<=countOfInsertDBInTime){
+                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->("+ params+")"+"--->"+duration+"ms");
                 Logs logs = new Logs();
                 logs.setClz(clz);
                 logs.setMethod(method);
                 logs.setParams(params);
                 logs.setTime((int)duration);
                 logsManager.addLog(logs);
-                log.info(LOG_PREFIX+"#insert slow log into db, method : "+path+"----------->  SUCCESS ---------------------  ");
+                log.info(PREFIX +"#insert slow log into db OVER, method : "+path);
             }
         }
 

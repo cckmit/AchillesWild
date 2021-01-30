@@ -1,6 +1,5 @@
 package com.achilles.wild.server.controller;
 
-import com.achilles.wild.server.common.annotations.ControllerLog;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
@@ -44,7 +43,7 @@ public class DemoController {
     @Resource
     private BalanceService balanceService;
 
-    @ControllerLog
+//    @ControllerLog
     @GetMapping(path = "/{id}")
     public Long getConfig(@PathVariable("id") Long id,
                              @RequestParam(name="name",defaultValue = "Achilles") String name,

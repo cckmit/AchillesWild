@@ -3,17 +3,19 @@ package com.achilles.wild.server.common.annotations;
 import com.google.gson.Gson;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class ControllerLogAspect {
 
 
