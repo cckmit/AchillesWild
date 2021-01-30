@@ -5,10 +5,12 @@ import com.achilles.wild.server.manager.common.LogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +36,6 @@ public class CommonLogAspect {
 
     private Cache<String,AtomicInteger> cache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(500).expireAfterWrite(30, TimeUnit.SECONDS).build();
 
-    private final RateLimiter rateLimiter = RateLimiter.create(1);
-
     @Value("${common.log.open}")
     private Boolean openLog;
 
@@ -52,15 +52,15 @@ public class CommonLogAspect {
     private LogsManager logsManager;
 
     /** 以 @CommonLog注解为切入点 */
-    @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
-    public void commonLog() {}
+//    @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
+//    public void commonLog() {}
 
     /**
      * 在切点之前织入
      * @param joinPoint
      * @throws Throwable
      */
-    @Before("commonLog()")
+    @Before("execution(* com.achilles.wild.server.controller..*.*(..))")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
         if(!openLog){
@@ -80,7 +80,7 @@ public class CommonLogAspect {
      * @return
      * @throws Throwable
      */
-    @Around("commonLog()")
+    @Around("execution(* com.achilles.wild.server.controller..*.*(..))")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         if(!openLog){
@@ -90,6 +90,7 @@ public class CommonLogAspect {
         long startTime = System.currentTimeMillis();
         String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
         String method = proceedingJoinPoint.getSignature().getName();
+        String params = JsonUtil.toJsonString(getParamsMap(proceedingJoinPoint));
         Object result = proceedingJoinPoint.proceed();
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
@@ -110,7 +111,6 @@ public class CommonLogAspect {
             }
             cache.put(path,atomicInteger);
             if(count<=countLimit){
-                String params = JsonUtil.toJsonString(getParamsMap(proceedingJoinPoint));
                 log.info(LOG_PREFIX+"#insert slow log into db start, method : "+path+"-->("+ params+")"+"--->"+duration+"ms");
                 Logs logs = new Logs();
                 logs.setClz(clz);
@@ -125,18 +125,21 @@ public class CommonLogAspect {
         return result;
     }
 
-
-
-
     /**
      * 在切点之后织入
      * @throws Throwable
      */
-    @After("commonLog()")
+    @After("execution(* com.achilles.wild.server.controller..*.*(..))")
     public void doAfter() throws Throwable {
 
     }
 
+    /**
+     * get params
+     *
+     * @param joinPoint
+     * @return
+     */
     private Map<String,Object> getParamsMap(JoinPoint joinPoint){
 
         String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
@@ -150,7 +153,15 @@ public class CommonLogAspect {
         for(int i=0;i<paramNames.length;i++){
             String key = paramNames[i];
             Object value = paramValues[i];
-            String val = JsonUtil.toJsonString(value);
+            paramsMap.put(key,value);
+            if(value==null){
+                continue;
+            }
+            Object val = value;
+            boolean isSynthetic = value.getClass().isSynthetic();
+            if(isSynthetic){
+                val = JsonUtil.toJsonString(value);
+            }
             paramsMap.put(key,val);
         }
 
