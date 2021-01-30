@@ -1,5 +1,7 @@
 package com.achilles.wild.server.common.annotations;
 
+import com.achilles.wild.server.entity.Logs;
+import com.achilles.wild.server.manager.common.LogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -10,6 +12,7 @@ import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -44,6 +47,9 @@ public class CommonLogAspect {
 
     @Value("${common.log.method.count.limit.per.second}")
     private Integer countLimit;
+
+    @Autowired
+    private LogsManager logsManager;
 
     /** 以 @CommonLog注解为切入点 */
     @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
@@ -82,33 +88,45 @@ public class CommonLogAspect {
         }
 
         long startTime = System.currentTimeMillis();
-        String method = proceedingJoinPoint.getSignature().getDeclaringTypeName()+"#"+proceedingJoinPoint.getSignature().getName();
+        String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
+        String method = proceedingJoinPoint.getSignature().getName();
         Object result = proceedingJoinPoint.proceed();
-        log.info(LOG_PREFIX+"#result : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
-
         long duration = System.currentTimeMillis() - startTime;
-        log.info(LOG_PREFIX+"#Time-Consuming : "+method+"-->("+duration+"ms)");
+        String path = clz+"#"+method;
+        log.info(LOG_PREFIX+"#result : "+path+"-->("+ JsonUtil.toJsonString(result)+")");
+        log.info(LOG_PREFIX+"#Time-Consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=time){
             return result;
         }
 
-        method+="#commonLog";
-        AtomicInteger atomicInteger = cache.getIfPresent(method)==null?new AtomicInteger():cache.getIfPresent(method);
+        path+="_commonLog";
+        AtomicInteger atomicInteger = cache.getIfPresent(path)==null?new AtomicInteger():cache.getIfPresent(path);
         int count = atomicInteger.get();
         if(count<countLimit){
             count = atomicInteger.incrementAndGet();
             if(count>countLimit){
                 return result;
             }
-            cache.put(method,atomicInteger);
+            cache.put(path,atomicInteger);
             if(count<=countLimit){
-                log.info(LOG_PREFIX+"#insert slow log into db, method : "+method+"-->("+ JsonUtil.toJsonString(result)+")");
+                String params = JsonUtil.toJsonString(getParamsMap(proceedingJoinPoint));
+                log.info(LOG_PREFIX+"#insert slow log into db start, method : "+path+"-->("+ params+")"+"--->"+duration+"ms");
+                Logs logs = new Logs();
+                logs.setClz(clz);
+                logs.setMethod(method);
+                logs.setParams(params);
+                logs.setTime((int)duration);
+                logsManager.addLog(logs);
+                log.info(LOG_PREFIX+"#insert slow log into db, method : "+path+"----------->  SUCCESS ---------------------  ");
             }
         }
 
         return result;
     }
+
+
+
 
     /**
      * 在切点之后织入
