@@ -32,13 +32,8 @@ public class BalanceController {
 
         BalanceResponse response = new BalanceResponse();
 
-        Long balance = null;
-        try {
-            balance = balanceService.getBalance(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return DataResult.baseFail(ResultCode.FAIL.code,e.getMessage());
-        }
+        Long balance = balanceService.getBalance(userId);
+
         response.setBalance(balance);
 
         return DataResult.success(response);
@@ -48,15 +43,7 @@ public class BalanceController {
     @PostMapping("/reduce")
     public DataResult<BalanceResponse> reduce(@RequestBody(required = true)BalanceRequest request){
 
-        DataResult<BalanceResponse> dataResult;
-
-        try {
-            dataResult = balanceBiz.reduce(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("theVeryIncome error",e);
-            return DataResult.baseFail(ResultCode.EXCEPTION);
-        }
+        DataResult<BalanceResponse> dataResult = balanceBiz.reduce(request);
 
         if(dataResult ==null){
             return DataResult.baseFail();
