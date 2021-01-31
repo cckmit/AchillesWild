@@ -97,11 +97,13 @@ public class CommonLogAspect {
         String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
         String method = proceedingJoinPoint.getSignature().getName();
         String params = JsonUtil.toJsonString(getParamsMap(proceedingJoinPoint));
+
         Object result = proceedingJoinPoint.proceed();
+
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
         log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
-        log.info(PREFIX +"#Time-Consuming : "+path+"-->("+duration+"ms)");
+        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=timeLimit){
             return result;
@@ -109,7 +111,7 @@ public class CommonLogAspect {
 
         String rateLimiterKey = path+"_RateLimiter";
         RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
-                RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
+                                  RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
         rateLimiterCache.put(rateLimiterKey,rateLimiter);
         if(!rateLimiter.tryAcquire()){
             return result;

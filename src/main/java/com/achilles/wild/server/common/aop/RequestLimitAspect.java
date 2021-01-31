@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop;
 
-import com.achilles.wild.server.model.response.DataResult;
+import com.achilles.wild.server.common.MyException;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -81,22 +81,21 @@ public class RequestLimitAspect {
             log.info(LOG_PREFIX+"#method : "+path);
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
             RequestLimit annotation = currentMethod.getAnnotation(RequestLimit.class);
-            int rateLimit = annotation.rateLimit();
+            double rateLimit = annotation.rateLimit();
             String rateLimiterKey = path+"_RateLimiter";
             RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
-                    RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
+                                      RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
             rateLimiterCache.put(rateLimiterKey,rateLimiter);
             if(!rateLimiter.tryAcquire()){
-                return DataResult.baseFail(ResultCode.REQUESTS_TOO_FREQUENT);
+                throw new MyException(ResultCode.REQUESTS_TOO_FREQUENT);
             }
 
             String countLimitKey = path+"_CountLimit";
-            AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null ?
-                    new AtomicInteger():integerCache.getIfPresent(countLimitKey);
+            AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null ? new AtomicInteger():integerCache.getIfPresent(countLimitKey);
             int count = atomicInteger.get();
             int countLimit = annotation.countLimit();
             if(count>countLimit){
-                return DataResult.baseFail(ResultCode.TOO_MANY_REQUESTS);
+                throw new MyException(ResultCode.TOO_MANY_REQUESTS);
             }
 
             atomicInteger.incrementAndGet();

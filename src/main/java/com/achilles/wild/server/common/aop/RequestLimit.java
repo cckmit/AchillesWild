@@ -10,5 +10,5 @@ public @interface RequestLimit {
 
     int countLimit() default 100;
 
-    int rateLimit() default 10;
+    double rateLimit() default 10.0;
 }
