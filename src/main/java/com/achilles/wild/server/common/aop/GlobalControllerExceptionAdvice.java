@@ -15,12 +15,14 @@ public class GlobalControllerExceptionAdvice {
 
     @ExceptionHandler(value = Exception.class)
     public BaseResult defaultExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
+        e.printStackTrace();
         BaseResult baseResult = BaseResult.fail(ResultCode.EXCEPTION_TO_CLIENT);
         return baseResult;
     }
 
     @ExceptionHandler(value = MyException.class)
     public BaseResult myExceptionHandler(MyException e) throws Exception {
+        e.printStackTrace();
         BaseResult baseResult = BaseResult.fail(e.getResultCode());
         return baseResult;
     }
