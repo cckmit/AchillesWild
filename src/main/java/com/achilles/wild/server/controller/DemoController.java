@@ -78,6 +78,12 @@ public class DemoController {
         return account;
     }
 
+    @GetMapping(path = "/name")
+    public String getName(){
+
+        return "AchillesWild";
+    }
+
     @PostConstruct
     public void getDBUserName(){
         log.info("PostConstruct ---------test UUID:"+ UUID.randomUUID());

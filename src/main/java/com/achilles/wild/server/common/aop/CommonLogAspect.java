@@ -96,7 +96,11 @@ public class CommonLogAspect {
         long startTime = System.currentTimeMillis();
         String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
         String method = proceedingJoinPoint.getSignature().getName();
-        String params = JsonUtil.toJsonString(getParamsMap(proceedingJoinPoint));
+        Map<String,Object> paramsMap = getParamsMap(proceedingJoinPoint);
+        String params = null;
+        if(paramsMap.size()!=0){
+            params = JsonUtil.toJsonString(paramsMap);
+        }
 
         Object result = proceedingJoinPoint.proceed();
 
