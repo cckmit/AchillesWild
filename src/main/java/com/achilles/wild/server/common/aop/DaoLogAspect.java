@@ -8,10 +8,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,27 +54,26 @@ public class DaoLogAspect {
     @Autowired
     private LogsManager logsManager;
 
-    /** 以 @CommonLog注解为切入点 */
-//    @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
-//    public void commonLog() {}
+    @Pointcut("within(com.achilles.wild.server.dao.account.AccountDao+)")
+    public void daoLog() {}
 
     /**
      * 在切点之前织入
      * @param joinPoint
      * @throws Throwable
      */
-    @Before("within(com.achilles.wild.server.dao.account.AccountDao+)")
+    @Before("daoLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
-        if(!openLog){
-            return;
-        }
-
-        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
-
-        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
-
-        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
+//        if(!openLog){
+//            return;
+//        }
+//
+//        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
+//
+//        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
+//
+//        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
     /**
@@ -86,7 +82,7 @@ public class DaoLogAspect {
      * @return
      * @throws Throwable
      */
-    @Around("within(com.achilles.wild.server.dao.account.AccountDao+)")
+    @Around("daoLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         if(!openLog){
@@ -149,10 +145,10 @@ public class DaoLogAspect {
      * 在切点之后织入
      * @throws Throwable
      */
-    @After("execution(* com.achilles.wild.server.controller..*.*(..)) or within(com.achilles.wild.server.dao..*)")
-    public void doAfter() throws Throwable {
-
-    }
+//    @After("daoLog()")
+//    public void doAfter() throws Throwable {
+//
+//    }
 
     /**
      * get params
