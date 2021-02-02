@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -102,8 +101,8 @@ public class DaoLogAspect {
 
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
-        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
+//        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
+//        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=timeLimit){
             return result;
@@ -127,14 +126,14 @@ public class DaoLogAspect {
             }
             integerCache.put(countLimitKey,atomicInteger);
             if(count<=countOfInsertDBInTime){
-                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+//                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
                 Logs logs = new Logs();
                 logs.setClz(clz);
                 logs.setMethod(method);
                 logs.setParams(params);
                 logs.setTime((int)duration);
                 logsManager.addLog(logs);
-                log.info(PREFIX +"#insert slow log into db over, method : "+path);
+//                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }
         }
 
