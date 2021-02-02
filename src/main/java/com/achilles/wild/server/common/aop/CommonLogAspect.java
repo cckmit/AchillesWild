@@ -8,10 +8,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,16 +54,11 @@ public class CommonLogAspect {
     @Autowired
     private LogsManager logsManager;
 
-    /** 以 @CommonLog注解为切入点 */
-//    @Pointcut("@annotation(com.achilles.wild.server.common.annotations.CommonLog)")
-//    public void commonLog() {}
+    @Pointcut("execution(* com.achilles.wild.server.controller..*.*(..))")
+    public void commonLog() {}
 
-    /**
-     * 在切点之前织入
-     * @param joinPoint
-     * @throws Throwable
-     */
-    @Before("execution(* com.achilles.wild.server.controller..*.*(..))")
+
+    @Before("commonLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
         if(!openLog){
@@ -80,13 +72,8 @@ public class CommonLogAspect {
         log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
-    /**
-     * 环绕
-     * @param proceedingJoinPoint
-     * @return
-     * @throws Throwable
-     */
-    @Around("execution(* com.achilles.wild.server.controller..*.*(..))")
+
+    @Around("commonLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         if(!openLog){
@@ -145,11 +132,7 @@ public class CommonLogAspect {
         return result;
     }
 
-    /**
-     * 在切点之后织入
-     * @throws Throwable
-     */
-    @After("execution(* com.achilles.wild.server.controller..*.*(..))")
+    @After("commonLog()")
     public void doAfter() throws Throwable {
 
     }
