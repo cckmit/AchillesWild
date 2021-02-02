@@ -53,7 +53,8 @@ public class DaoLogAspect {
     @Autowired
     private LogsManager logsManager;
 
-    @Pointcut("within(com.achilles.wild.server.dao.account.AccountDao+)")
+//    @Pointcut("within(com.achilles.wild.server.dao.account.AccountDao+)")
+    @Pointcut("execution(* com.achilles.wild.server.dao.account..*.*(..))")
     public void daoLog() {}
 
     /**
