@@ -65,11 +65,11 @@ public class CommonLogAspect {
             return;
         }
 
-        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
-
-        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
-
-        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
+//        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
+//
+//        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
+//
+//        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
 
@@ -93,8 +93,8 @@ public class CommonLogAspect {
 
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
-        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
+//        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
+//        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=timeLimit){
             return result;
@@ -125,7 +125,7 @@ public class CommonLogAspect {
                 logs.setParams(params);
                 logs.setTime((int)duration);
                 logsManager.addLog(logs);
-                log.info(PREFIX +"#insert slow log into db over, method : "+path);
+//                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }
         }
 
