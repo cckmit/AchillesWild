@@ -1,5 +1,6 @@
 package com.achilles.wild.server.common.aop;
 
+import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.Logs;
 import com.achilles.wild.server.manager.common.LogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -8,14 +9,19 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -133,6 +139,7 @@ public class DaoLogAspect {
                 logs.setMethod(method);
                 logs.setParams(params);
                 logs.setTime((int)duration);
+                logs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
                 logsManager.addLog(logs);
 //                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }

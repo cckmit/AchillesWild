@@ -10,7 +10,12 @@ import java.util.UUID;
  *
  */
 public class GenerateUniqueUtil {
-	
+
+	public static String getRandomUUID(){
+		String uuid = UUID.randomUUID().toString();
+		return uuid;
+	}
+
 	/**
 	 * 获取UuId
 	 * @return

@@ -10,6 +10,8 @@ public class Logs extends BaseEntity {
 
     private Integer time;
 
+    private String traceId;
+
     public String getClz() {
         return clz;
     }
@@ -40,5 +42,13 @@ public class Logs extends BaseEntity {
 
     public void setTime(Integer time) {
         this.time = time;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
     }
 }
