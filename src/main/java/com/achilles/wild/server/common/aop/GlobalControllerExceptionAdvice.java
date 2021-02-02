@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop;
 
-import com.achilles.wild.server.common.MyException;
+import com.achilles.wild.server.common.exception.MyException;
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import org.springframework.core.annotation.Order;

@@ -2,6 +2,7 @@ package com.achilles.wild.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ApplicationContext;
 
 import javax.sql.DataSource;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @SpringBootApplication
+@ServletComponentScan
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})

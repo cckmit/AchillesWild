@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common;
+package com.achilles.wild.server.common.exception;
 
 import com.achilles.wild.server.model.response.ResultCode;
 
