@@ -24,10 +24,10 @@ import java.io.PrintWriter;
         @WebInitParam(name = "loginUri", value = "/login")})
 public class MyFilter implements Filter {
 
-    @Value("${filter.if.verify.login}")
-    private Boolean verifyLogin;
-
     private final static Logger log = LoggerFactory.getLogger(MyFilter.class);
+
+    @Value("${if.verify.login}")
+    private Boolean verifyLogin;
 
     private String loginUri;
 
@@ -47,7 +47,8 @@ public class MyFilter implements Filter {
         }
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
-        if(!verifyLogin){
+//        if(!verifyLogin){
+        if(true){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
