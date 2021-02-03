@@ -15,8 +15,10 @@ public enum ResultCode implements Serializable {
     DATA_NOT_EXISTS("-106", "data not exists: %s"),
     DATA_HAS_EXISTS("-107", "data has exists: %s"),
 
+    NOT_LOGIN("-300", "NOT LOGIN ~"),
 
-    BALANCE_NOT_ENOUGH("600", "balance not enough ~"),
+
+    BALANCE_NOT_ENOUGH("-600", "balance not enough ~"),
 
 
     EXCEPTION_TO_CLIENT("-1000", "the server is too busy ~ : %s"),

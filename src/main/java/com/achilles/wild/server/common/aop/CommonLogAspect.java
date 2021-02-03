@@ -3,7 +3,6 @@ package com.achilles.wild.server.common.aop;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.Logs;
 import com.achilles.wild.server.manager.common.LogsManager;
-import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -92,9 +91,6 @@ public class CommonLogAspect {
             params = JsonUtil.toJsonString(paramsMap);
         }
 
-        String uuid = GenerateUniqueUtil.getRandomUUID();
-        MDC.put(CommonConstant.TRACE_ID,uuid);
-
         Object result = proceedingJoinPoint.proceed();
 
         long duration = System.currentTimeMillis() - startTime;
@@ -130,7 +126,7 @@ public class CommonLogAspect {
                 logs.setMethod(method);
                 logs.setParams(params);
                 logs.setTime((int)duration);
-                logs.setTraceId(uuid);
+                logs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
                 logsManager.addLog(logs);
                 //log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
