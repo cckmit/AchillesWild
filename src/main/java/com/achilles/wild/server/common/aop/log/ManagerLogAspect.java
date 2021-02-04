@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop;
+package com.achilles.wild.server.common.aop.log;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

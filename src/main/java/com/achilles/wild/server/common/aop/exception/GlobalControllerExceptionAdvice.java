@@ -1,6 +1,5 @@
-package com.achilles.wild.server.common.aop;
+package com.achilles.wild.server.common.aop.exception;
 
-import com.achilles.wild.server.common.aop.exception.MyException;
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.tool.json.JsonUtil;

@@ -1,11 +1,11 @@
-package com.achilles.wild.server.common.aop;
+package com.achilles.wild.server.common.aop.log;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface CommonLog {
+public @interface ControllerLog {
 
     String value() default "";
 }

@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop;
+package com.achilles.wild.server.common.aop.limit;
 
 import com.achilles.wild.server.common.aop.exception.MyException;
 import com.achilles.wild.server.model.response.ResultCode;
@@ -45,7 +45,7 @@ public class RequestLimitAspect {
 //        private Integer countLimit;
 
         /** 以 @requestLimit注解为切入点 */
-        @Pointcut("@annotation(com.achilles.wild.server.common.aop.RequestLimit)")
+        @Pointcut("@annotation(com.achilles.wild.server.common.aop.limit.RequestLimit)")
         public void requestLimit() {}
 
         /**

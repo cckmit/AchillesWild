@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop;
+package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.Logs;
@@ -9,7 +9,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +30,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Aspect
 @Component
-@Order(1)
-public class CommonLogAspect {
+@Order(6)
+public class DaoLogAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(CommonLogAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(DaoLogAspect.class);
 
     private final static String PREFIX = "";
 
@@ -56,17 +59,22 @@ public class CommonLogAspect {
     @Autowired
     private LogsManager logsManager;
 
-    @Pointcut("execution(* com.achilles.wild.server.controller..*.*(..))")
-    public void commonLog() {}
+//    @Pointcut("within(com.achilles.wild.server.dao.account.AccountDao+)")
+    @Pointcut("execution(* com.achilles.wild.server.dao.account..*.*(..))")
+    public void daoLog() {}
 
-
-    @Before("commonLog()")
+    /**
+     * 在切点之前织入
+     * @param joinPoint
+     * @throws Throwable
+     */
+    @Before("daoLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
-        if(!openLog){
-            return;
-        }
-
+//        if(!openLog){
+//            return;
+//        }
+//
 //        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
 //
 //        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
@@ -74,8 +82,13 @@ public class CommonLogAspect {
 //        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
-
-    @Around("commonLog()")
+    /**
+     * 环绕
+     * @param proceedingJoinPoint
+     * @return
+     * @throws Throwable
+     */
+    @Around("daoLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         if(!openLog){
@@ -120,7 +133,7 @@ public class CommonLogAspect {
             }
             integerCache.put(countLimitKey,atomicInteger);
             if(count<=countOfInsertDBInTime){
-                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+//                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
                 Logs logs = new Logs();
                 logs.setClz(clz);
                 logs.setMethod(method);
@@ -128,18 +141,21 @@ public class CommonLogAspect {
                 logs.setTime((int)duration);
                 logs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
                 logsManager.addLog(logs);
-                //log.info(PREFIX +"#insert slow log into db over, method : "+path);
-
+//                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }
         }
 
         return result;
     }
 
-    @After("commonLog()")
-    public void doAfter() throws Throwable {
-
-    }
+    /**
+     * 在切点之后织入
+     * @throws Throwable
+     */
+//    @After("daoLog()")
+//    public void doAfter() throws Throwable {
+//
+//    }
 
     /**
      * get params

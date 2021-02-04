@@ -1,7 +1,7 @@
 package com.achilles.wild.server.controller.account;
 
 import com.achilles.wild.server.biz.BalanceBiz;
-import com.achilles.wild.server.common.aop.RequestLimit;
+import com.achilles.wild.server.common.aop.limit.RequestLimit;
 import com.achilles.wild.server.common.aop.interceptor.NoLogin;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
