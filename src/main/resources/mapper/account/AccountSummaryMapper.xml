@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountSummaryDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountSummary">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountSummaryDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.AccountSummary">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
     <result column="amount" jdbcType="BIGINT" property="amount" />
@@ -25,7 +25,7 @@
     delete from account_summary
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.achilles.wild.server.entity.account.AccountSummary">
+  <insert id="insert" parameterType="com.achilles.wild.server.business.entity.account.AccountSummary">
     insert into account_summary (id, account_code, amount, 
       type, user_id, day, 
       status, create_date, update_date
@@ -35,7 +35,7 @@
       #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountSummary">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.AccountSummary">
     insert into account_summary
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -96,7 +96,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.account.AccountSummary">
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.account.AccountSummary">
     update account_summary
     <set>
       <if test="accountCode != null">
@@ -126,7 +126,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.entity.account.AccountSummary">
+  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.business.entity.account.AccountSummary">
     update account_summary
     set account_code = #{accountCode,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=BIGINT},

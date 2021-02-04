@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountRuleCollectDao">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountRuleCollectDao">
 
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountRuleCollect">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.AccountRuleCollect">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
     <result column="weight" jdbcType="INTEGER" property="weight" />
@@ -16,7 +16,7 @@
     id, account_code, weight, user_id, status, create_date, update_date
   </sql>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountRuleCollect">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.AccountRuleCollect">
     insert into account_rule_collect
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="accountCode != null">

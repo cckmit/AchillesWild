@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.data;
 
-import com.achilles.wild.server.service.info.impl.CitizenServiceImpl;
+import com.achilles.wild.server.business.service.info.impl.CitizenServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

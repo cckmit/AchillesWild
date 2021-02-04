@@ -1,6 +1,6 @@
 package com.achilles.wild.server;
 
-import com.achilles.wild.server.dao.account.AccountDao;
+import com.achilles.wild.server.business.dao.account.AccountDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

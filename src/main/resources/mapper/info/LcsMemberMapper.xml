@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.info.LcsMemberDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.info.LcsMember">
+<mapper namespace="com.achilles.wild.server.business.dao.info.LcsMemberDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.info.LcsMember">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -75,7 +75,7 @@
     delete from lcs_member
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.achilles.wild.server.entity.info.LcsMember">
+  <insert id="insert" parameterType="com.achilles.wild.server.business.entity.info.LcsMember">
     insert into lcs_member (id, user_uuid, mobile, 
       sex, nick_name, header_img, 
       password, isAuth, real_name, 
@@ -113,7 +113,7 @@
       #{manageDate,jdbcType=TIMESTAMP}, #{opDimissionTime,jdbcType=TIMESTAMP}, #{bindSwitch,jdbcType=CHAR}, 
       #{belongRegion,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.info.LcsMember">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.info.LcsMember">
     insert into lcs_member
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -432,7 +432,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.info.LcsMember">
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.info.LcsMember">
     update lcs_member
     <set>
       <if test="userUuid != null">
@@ -591,7 +591,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.entity.info.LcsMember">
+  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.business.entity.info.LcsMember">
     update lcs_member
     set user_uuid = #{userUuid,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

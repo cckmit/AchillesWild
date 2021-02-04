@@ -1,7 +1,7 @@
 package com.achilles.wild.server.tool.collection;
 
-import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.entity.info.CitizenDetail;
+import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.business.entity.info.CitizenDetail;
 
 import java.util.*;
 import java.util.function.Function;

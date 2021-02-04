@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountTransactionFlowAddDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountTransactionFlowAdd">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountTransactionFlowAddDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.AccountTransactionFlowAdd">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="flow_no" jdbcType="VARCHAR" property="flowNo" />
     <result column="idempotent" jdbcType="VARCHAR" property="idempotent" />
@@ -18,7 +18,7 @@
     id, flow_no, account_code, amount, user_id,trade_date,trade_day,status, create_date, update_date
   </sql>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountTransactionFlowAdd">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.AccountTransactionFlowAdd">
     insert into account_transaction_flow_add
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="flowNo != null">

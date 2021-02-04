@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.Logs;
-import com.achilles.wild.server.manager.common.LogsManager;
+import com.achilles.wild.server.business.entity.Logs;
+import com.achilles.wild.server.business.manager.common.LogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -59,8 +59,8 @@ public class DaoLogAspect {
     @Autowired
     private LogsManager logsManager;
 
-//    @Pointcut("within(com.achilles.wild.server.dao.account.AccountDao+)")
-    @Pointcut("execution(* com.achilles.wild.server.dao.account..*.*(..))")
+//    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
+    @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
     public void daoLog() {}
 
     /**

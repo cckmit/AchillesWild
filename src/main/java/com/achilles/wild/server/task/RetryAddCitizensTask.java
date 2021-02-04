@@ -1,9 +1,9 @@
 package com.achilles.wild.server.task;
 
-import com.achilles.wild.server.entity.info.Citizen;
-import com.achilles.wild.server.manager.info.CitizenManager;
-import com.achilles.wild.server.service.info.impl.CitizenService2Impl;
-import com.achilles.wild.server.service.info.impl.CitizenServiceImpl;
+import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.business.manager.info.CitizenManager;
+import com.achilles.wild.server.business.service.info.impl.CitizenService2Impl;
+import com.achilles.wild.server.business.service.info.impl.CitizenServiceImpl;
 import com.achilles.wild.server.tool.ThreadUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;

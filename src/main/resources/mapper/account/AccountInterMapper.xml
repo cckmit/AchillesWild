@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountInterDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountInter">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountInterDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.AccountInter">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
     <result column="account_type" jdbcType="INTEGER" property="accountType" />
@@ -14,7 +14,7 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountInter">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.AccountInter">
     insert into account_inter
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="accountCode != null">

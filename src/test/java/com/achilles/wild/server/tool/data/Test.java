@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.business.entity.info.Citizen;
 
 public class Test {
 

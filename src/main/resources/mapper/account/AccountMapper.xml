@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.Account">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.Account">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
     <result column="account_type" jdbcType="INTEGER" property="accountType" />
@@ -69,7 +69,7 @@
     </where>
   </select>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.Account">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.Account">
     insert into account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="accountCode != null">
@@ -219,7 +219,7 @@
     LIMIT 1
   </update>
 
-  <update id="reducUserBalance" parameterType="com.achilles.wild.server.entity.account.Account">
+  <update id="reducUserBalance" parameterType="com.achilles.wild.server.business.entity.account.Account">
     <selectKey resultType="Long" keyProperty="id" order="BEFORE">
       select
           id

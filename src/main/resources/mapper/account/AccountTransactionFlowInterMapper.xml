@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.dao.account.AccountTransactionFlowInterDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.account.AccountTransactionFlowInter">
+<mapper namespace="com.achilles.wild.server.business.dao.account.AccountTransactionFlowInterDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.account.AccountTransactionFlowInter">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="flow_no" jdbcType="VARCHAR" property="flowNo" />
     <result column="type" jdbcType="INTEGER" property="type" />
@@ -17,7 +17,7 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountTransactionFlowInter">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.account.AccountTransactionFlowInter">
     insert into account_transaction_flow_inter
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="flowNo != null">

@@ -16,7 +16,7 @@ import java.sql.SQLException;
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})
 //@ImportResource("classpath:applicationContext.xml")
-//@MapperScan(basePackages = {"com.achilles.wild.server.dao.account"})
+//@MapperScan(basePackages = {"com.achilles.wild.server.business.dao.account"})
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
