@@ -1,4 +1,4 @@
-package com.achilles.wild.server.cache;
+package com.achilles.wild.server.common.cache;
 
 import java.util.concurrent.TimeUnit;
 

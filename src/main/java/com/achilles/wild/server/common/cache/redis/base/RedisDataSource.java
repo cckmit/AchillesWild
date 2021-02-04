@@ -1,4 +1,4 @@
-//package com.achilles.wild.server.cache.redis.base;
+//package com.achilles.wild.server.common.cache.redis.base;
 //
 //import redis.clients.jedis.ShardedJedis;
 //

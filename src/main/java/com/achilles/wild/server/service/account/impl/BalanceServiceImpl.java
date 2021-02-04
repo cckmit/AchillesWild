@@ -1,6 +1,6 @@
 package com.achilles.wild.server.service.account.impl;
 
-import com.achilles.wild.server.cache.AcountLock;
+import com.achilles.wild.server.common.cache.AcountLock;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.entity.account.*;
 import com.achilles.wild.server.enums.account.AmountFlowEnum;

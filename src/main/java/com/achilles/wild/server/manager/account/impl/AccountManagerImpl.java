@@ -1,6 +1,6 @@
 package com.achilles.wild.server.manager.account.impl;
 
-import com.achilles.wild.server.cache.AcountLock;
+import com.achilles.wild.server.common.cache.AcountLock;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.dao.account.AccountDao;
 import com.achilles.wild.server.dao.account.AccountRuleCollectDao;

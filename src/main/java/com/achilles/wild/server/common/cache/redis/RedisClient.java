@@ -1,6 +1,6 @@
-//package com.achilles.wild.server.cache.redis;
+//package com.achilles.wild.server.common.cache.redis;
 //
-//import com.achilles.wild.server.cache.redis.base.RedisDataSource;
+//import com.achilles.wild.server.common.cache.redis.base.RedisDataSource;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Repository;
 //import redis.clients.jedis.ShardedJedis;

@@ -1,4 +1,4 @@
-//package com.achilles.wild.server.cache.redis;
+//package com.achilles.wild.server.common.cache.redis;
 //
 //import org.junit.Test;
 //import org.slf4j.Logger;
@@ -6,8 +6,8 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //
 //import com.achilles.wild.server.tool.SpringbootApplicationTests;
-//import com.achilles.wild.server.cache.redis.BaseRedisTemplate;
-//import com.achilles.wild.server.cache.redis.RedisClient;
+//import com.achilles.wild.server.common.cache.redis.BaseRedisTemplate;
+//import com.achilles.wild.server.common.cache.redis.RedisClient;
 //
 //public class RedisTest extends SpringbootApplicationTests {
 //	private final static Logger LOG = LoggerFactory.getLogger(RedisTest.class);

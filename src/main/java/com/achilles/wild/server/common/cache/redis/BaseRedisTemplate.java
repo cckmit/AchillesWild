@@ -1,4 +1,4 @@
-//package com.achilles.wild.server.cache.redis;
+//package com.achilles.wild.server.common.cache.redis;
 //
 //import java.util.concurrent.TimeUnit;
 //
