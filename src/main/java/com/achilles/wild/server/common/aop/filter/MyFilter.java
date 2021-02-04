@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.filter;
+package com.achilles.wild.server.common.aop.filter;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.model.response.BaseResult;

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop;
 
-import com.achilles.wild.server.common.exception.MyException;
+import com.achilles.wild.server.common.aop.exception.MyException;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

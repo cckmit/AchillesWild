@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.interceptor;
+package com.achilles.wild.server.common.aop.interceptor;
 
 import java.lang.annotation.*;
 
