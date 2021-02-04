@@ -7,7 +7,7 @@ import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
 import com.google.common.base.Predicates;
-import com.achilles.wild.server.listener.RetryLogListener;
+import com.achilles.wild.server.common.listener.RetryLogListener;
 
 /**
  * Retry
