@@ -1,14 +1,18 @@
 package com.achilles.wild.server.business.controller;
 
+import com.achilles.wild.server.business.entity.account.Account;
+import com.achilles.wild.server.business.service.account.BalanceService;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
 import com.achilles.wild.server.common.config.ConfigProperties2;
+import com.achilles.wild.server.common.listener.event.EventListenerConfig;
+import com.achilles.wild.server.common.listener.event.MyApplicationEvent;
+import com.achilles.wild.server.common.listener.event.MyApplicationEvent2;
+import com.achilles.wild.server.common.listener.event.MyApplicationListener;
 import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
-import com.achilles.wild.server.business.entity.account.Account;
-import com.achilles.wild.server.business.service.account.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +46,12 @@ public class DemoController {
 
     @Resource
     private BalanceService balanceService;
+
+    @Autowired
+    private MyApplicationListener myApplicationListener;
+
+    @Autowired
+    private EventListenerConfig eventListenerConfig;
 
 //    @ControllerLog
     @GetMapping(path = "/{id}")
@@ -87,5 +97,15 @@ public class DemoController {
     @PostConstruct
     public void getDBUserName(){
         log.info("PostConstruct ---------test UUID:"+ UUID.randomUUID());
+    }
+
+    @GetMapping(path = "/event")
+    public String invokeEvent(){
+
+        Account account = new Account();
+        account.setId(23L);
+        myApplicationListener.onApplicationEvent(new MyApplicationEvent(account));
+        eventListenerConfig.handleEvent(new MyApplicationEvent2(account));
+        return "invokeEvent ok";
     }
 }

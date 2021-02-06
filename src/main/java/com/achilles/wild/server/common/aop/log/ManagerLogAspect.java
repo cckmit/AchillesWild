@@ -17,22 +17,11 @@ public class ManagerLogAspect {
 
     private final static String LOG_PREFIX = "ManagerLogAspect";
 
-    /**
-     * 在切点之前织入
-     * @param joinPoint
-     * @throws Throwable
-     */
     @Before("execution(* com.achilles.wild.server.business.manager.account..*.*(..))")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         log.info(LOG_PREFIX+"# ------------------------ doBefore");
     }
 
-    /**
-     * 环绕
-     * @param proceedingJoinPoint
-     * @return
-     * @throws Throwable
-     */
     @Around("execution(* com.achilles.wild.server.business.manager.account..*.*(..))")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 
@@ -41,10 +30,6 @@ public class ManagerLogAspect {
         return proceedingJoinPoint.proceed();
     }
 
-    /**
-     * 在切点之后织入
-     * @throws Throwable
-     */
     @After("execution(public * com.achilles.wild.server.business.manager.account..*.*(..))")
     public void doAfter() throws Throwable {
         log.info(LOG_PREFIX+"# ------------------------ doAfter");

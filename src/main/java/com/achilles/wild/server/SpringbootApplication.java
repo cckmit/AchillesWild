@@ -10,8 +10,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 @SpringBootApplication
 @ServletComponentScan
+//@EnableAsync
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})
