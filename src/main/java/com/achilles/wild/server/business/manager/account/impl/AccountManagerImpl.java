@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
-import com.achilles.wild.server.common.cache.AcountLock;
+import com.achilles.wild.server.common.cache.AccountLock;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountDao;
 import com.achilles.wild.server.business.dao.account.AccountRuleCollectDao;
@@ -187,7 +187,7 @@ public class AccountManagerImpl implements AccountManager {
 
         AccountRuleCollect accountRuleColl = null;
         for(AccountRuleCollect accountRuleCollect:accountRuleCollects){
-            if(AcountLock.lock(accountRuleCollect.getAccountCode())){
+            if(AccountLock.lock(accountRuleCollect.getAccountCode())){
                 accountRuleColl = accountRuleCollect;
                 break;
             }

@@ -36,9 +36,9 @@ public class AcountLockTest {
                 public void run() {
 
                     String key = "achilles";
-                    AcountLock.lock(key);
+                    AccountLock.lock(key);
                     LOG.info("线程:"+Thread.currentThread().getId()+"***************************************************** ");
-                    AcountLock.unLock(key);
+                    AccountLock.unLock(key);
 
                 }
 

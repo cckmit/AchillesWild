@@ -1,15 +1,15 @@
 package com.achilles.wild.server.common.cache;
 
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AcountLock {
+import java.util.concurrent.TimeUnit;
 
-    private final static Logger LOG = LoggerFactory.getLogger(AcountLock.class);
+public class AccountLock {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AccountLock.class);
 
 
     private static Cache<String,String> accountCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(2, TimeUnit.SECONDS).build();

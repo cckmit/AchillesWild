@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.service.account.impl;
 
-import com.achilles.wild.server.common.cache.AcountLock;
+import com.achilles.wild.server.common.cache.AccountLock;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.entity.account.*;
 import com.achilles.wild.server.enums.account.AmountFlowEnum;
@@ -110,7 +110,7 @@ public class BalanceServiceImpl implements BalanceService {
 
         boolean update =accountInterManager.updateBalanceById(accountInter.getId(),request.getAmount());
         if(!update){
-            AcountLock.unLock(accountInter.getAccountCode());
+            AccountLock.unLock(accountInter.getAccountCode());
             throw new RuntimeException("update accountInter fail");
         }
 
@@ -128,7 +128,7 @@ public class BalanceServiceImpl implements BalanceService {
 //            throw new RuntimeException("insert inter account flow fail");
 //        }
 
-        AcountLock.unLock(accountInter.getAccountCode());
+        AccountLock.unLock(accountInter.getAccountCode());
         return DataResult.success(accountTransactionFlowInter.getFlowNo());
     }
 
