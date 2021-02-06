@@ -14,9 +14,9 @@ public class EventListenerConfig {
 
     @Async
     @EventListener
-    public void handleEvent(MyApplicationEvent2 event) {
+    public void handleEvent(EventListenerConfigEvent event) {
 
-        log.info("--------EventListenerConfig--------------------"+ JsonUtil.toJsonString(event.getSource()));
+        log.info("--------EventListenerConfigEvent--------------------"+ JsonUtil.toJsonString(event.getSource()));
 
     }
 }

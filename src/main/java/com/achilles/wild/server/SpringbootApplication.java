@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,9 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+
+//@EnableCaching
 @SpringBootApplication
+@EnableAsync
 @ServletComponentScan
-//@EnableAsync
+
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})

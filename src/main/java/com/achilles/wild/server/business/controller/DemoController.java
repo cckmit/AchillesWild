@@ -7,20 +7,19 @@ import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
 import com.achilles.wild.server.common.config.ConfigProperties2;
 import com.achilles.wild.server.common.listener.event.EventListenerConfig;
+import com.achilles.wild.server.common.listener.event.EventListenerConfigEvent;
 import com.achilles.wild.server.common.listener.event.MyApplicationEvent;
-import com.achilles.wild.server.common.listener.event.MyApplicationEvent2;
-import com.achilles.wild.server.common.listener.event.MyApplicationListener;
 import com.achilles.wild.server.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.design.proxy.jdk.JavaProxyInvocationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.UUID;
 
 @RestController
@@ -44,11 +43,11 @@ public class DemoController {
     @Autowired
     Environment environment;
 
-    @Resource
+    @Autowired
     private BalanceService balanceService;
 
     @Autowired
-    private MyApplicationListener myApplicationListener;
+    private ApplicationListener myApplicationListener;
 
     @Autowired
     private EventListenerConfig eventListenerConfig;
@@ -105,7 +104,7 @@ public class DemoController {
         Account account = new Account();
         account.setId(23L);
         myApplicationListener.onApplicationEvent(new MyApplicationEvent(account));
-        eventListenerConfig.handleEvent(new MyApplicationEvent2(account));
+        eventListenerConfig.handleEvent(new EventListenerConfigEvent(account));
         return "invokeEvent ok";
     }
 }

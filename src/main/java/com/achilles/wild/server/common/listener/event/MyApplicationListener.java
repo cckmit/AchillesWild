@@ -15,6 +15,6 @@ public class MyApplicationListener implements ApplicationListener<MyApplicationE
     @Async
     @Override
     public void onApplicationEvent(MyApplicationEvent event) {
-        log.info("--------ApplicationListener--------------------"+ JsonUtil.toJsonString(event.getSource()));
+        log.info("--------MyApplicationListener--------------------"+ JsonUtil.toJsonString(event.getSource()));
     }
 }

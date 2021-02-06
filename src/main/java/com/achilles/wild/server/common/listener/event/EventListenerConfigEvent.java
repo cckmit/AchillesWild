@@ -2,9 +2,9 @@ package com.achilles.wild.server.common.listener.event;
 
 import org.springframework.context.ApplicationEvent;
 
-public class MyApplicationEvent2 extends ApplicationEvent {
+public class EventListenerConfigEvent extends ApplicationEvent {
 
-    public MyApplicationEvent2(Object source) {
+    public EventListenerConfigEvent(Object source) {
         super(source);
     }
 }
