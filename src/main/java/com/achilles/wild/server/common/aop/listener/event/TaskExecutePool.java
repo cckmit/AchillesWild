@@ -22,10 +22,10 @@ public class TaskExecutePool {
         log.info("--------------- myTaskAsyncPool   start------------");
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);//配置核心线程数
-        executor.setMaxPoolSize(10);//配置核心线程数
-        executor.setQueueCapacity(1000);//配置队列容量
-        executor.setKeepAliveSeconds(30);//设置线程活跃时间
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(10);
+        executor.setQueueCapacity(1000);
+        executor.setKeepAliveSeconds(30);
         executor.setThreadNamePrefix("AchillesWild-TaskExecutePool-");//设置线程名
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()); //拒绝策略:由调用方线程运行
         executor.initialize();
