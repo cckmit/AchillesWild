@@ -46,6 +46,7 @@ Alt+Insert	产生构造方法、getter/setter等方法
 Ctrl+Alt+T	将选中的代码使用if、while、try/catch等包装
 Ctrl+/	使用//进行注释
 Ctrl+Shift+/	使用/**/进行注释
+alt+enter Serializable
 
 ------------------------idea  mac----------------------------------------------
 然后按下** “ shift + command + T ”**，变为纯文本编辑

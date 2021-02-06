@@ -1,8 +1,10 @@
 package com.achilles.wild.server.model.request.account;
 
+import com.achilles.wild.server.model.request.BaseRequest;
+
 import java.io.Serializable;
 
-public class AccountRequest implements Serializable {
+public class AccountRequest extends BaseRequest implements Serializable {
 
     private static final long serialVersionUID = 5814282994311417228L;
 

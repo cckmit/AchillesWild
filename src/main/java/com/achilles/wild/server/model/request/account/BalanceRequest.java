@@ -1,9 +1,10 @@
 package com.achilles.wild.server.model.request.account;
 
+import com.achilles.wild.server.model.request.BaseRequest;
+
 import java.util.Date;
 
-public class BalanceRequest {
-
+public class BalanceRequest extends BaseRequest {
 
     private String userId;
 
