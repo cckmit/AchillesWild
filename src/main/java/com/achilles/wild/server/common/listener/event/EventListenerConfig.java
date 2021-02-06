@@ -16,6 +16,11 @@ public class EventListenerConfig {
     @EventListener
     public void handleEvent(EventListenerConfigEvent event) {
 
+        try {
+            Thread.sleep(3000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("--------EventListenerConfigEvent--------------------"+ JsonUtil.toJsonString(event.getSource()));
 
     }

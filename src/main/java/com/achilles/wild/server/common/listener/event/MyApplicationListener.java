@@ -15,6 +15,13 @@ public class MyApplicationListener implements ApplicationListener<MyApplicationE
     @Async
     @Override
     public void onApplicationEvent(MyApplicationEvent event) {
+
+        try {
+            Thread.sleep(3000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         log.info("--------MyApplicationListener--------------------"+ JsonUtil.toJsonString(event.getSource()));
     }
 }
