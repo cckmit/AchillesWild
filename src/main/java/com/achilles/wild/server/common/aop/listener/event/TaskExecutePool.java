@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.listener.event;
+package com.achilles.wild.server.common.aop.listener.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,8 @@ public class TaskExecutePool {
     @Bean("myTaskAsyncPool")
     public Executor myTaskAsyncPool() {
 
-        log.info("-------------start TaskExecutePool myTaskAsyncPool------------");
+        log.info("--------------- myTaskAsyncPool   start------------");
+
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);//配置核心线程数
         executor.setMaxPoolSize(10);//配置核心线程数
