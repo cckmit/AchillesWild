@@ -1,4 +1,4 @@
-package com.achilles.wild.server.task;
+package com.achilles.wild.server.other.task;
 
 import com.achilles.wild.server.business.entity.info.Citizen;
 import com.achilles.wild.server.business.manager.info.CitizenManager;

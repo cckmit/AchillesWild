@@ -1,4 +1,4 @@
-package com.achilles.wild.server.design.proxy.jdk;
+package com.achilles.wild.server.other.design.proxy.jdk;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

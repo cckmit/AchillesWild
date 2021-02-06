@@ -1,4 +1,4 @@
-package com.achilles.wild.server.thread;
+package com.achilles.wild.server.other.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

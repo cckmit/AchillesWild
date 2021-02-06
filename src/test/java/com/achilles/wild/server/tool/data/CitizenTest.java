@@ -6,7 +6,7 @@ import com.achilles.wild.server.business.manager.info.CitizenManager;
 import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.business.service.info.CitizenService;
-import com.achilles.wild.server.task.RetryAddCitizensTask;
+import com.achilles.wild.server.other.task.RetryAddCitizensTask;
 import com.achilles.wild.server.tool.date.DateConstant;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;

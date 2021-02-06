@@ -1,4 +1,4 @@
-package com.achilles.wild.server.design.proxy.cglib;
+package com.achilles.wild.server.other.design.proxy.cglib;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

@@ -3,7 +3,7 @@ package com.achilles.wild.server.tool.retry;
 import java.util.concurrent.Callable;
 
 import com.github.rholder.retry.Retryer;
-import com.achilles.wild.server.task.RetryAddCitizensTask;
+import com.achilles.wild.server.other.task.RetryAddCitizensTask;
 
 public class RetryTest {
 

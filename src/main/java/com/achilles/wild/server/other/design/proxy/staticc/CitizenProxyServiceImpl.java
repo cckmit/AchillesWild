@@ -1,4 +1,4 @@
-package com.achilles.wild.server.design.proxy.staticc;
+package com.achilles.wild.server.other.design.proxy.staticc;
 
 import java.util.List;
 

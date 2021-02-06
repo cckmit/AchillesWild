@@ -1,4 +1,4 @@
-package com.achilles.wild.server.thread;
+package com.achilles.wild.server.other.thread;
 
 import java.util.ArrayList;
 import java.util.List;
