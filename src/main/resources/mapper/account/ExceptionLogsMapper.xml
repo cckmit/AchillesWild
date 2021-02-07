@@ -15,7 +15,7 @@
   </resultMap>
 
   <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.ExceptionLogs">
-    insert into time_logs
+    insert into exception_logs
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="type != null">
         type,

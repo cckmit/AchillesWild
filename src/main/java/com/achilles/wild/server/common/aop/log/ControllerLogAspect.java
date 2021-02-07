@@ -151,7 +151,7 @@ public class ControllerLogAspect {
     @AfterThrowing(pointcut="controllerLog()", throwing= "throwable")
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
-        log.error("---------------------t  hrowable---------------------------: "+throwable);
+        log.error("---------------------throwable: "+throwable);
 
         String clz = joinPoint.getSignature().getDeclaringTypeName();
         String method = joinPoint.getSignature().getName();
