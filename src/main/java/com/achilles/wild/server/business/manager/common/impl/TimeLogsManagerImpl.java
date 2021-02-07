@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
-import com.achilles.wild.server.business.dao.LogsDao;
+import com.achilles.wild.server.business.dao.TimeLogsDao;
 import com.achilles.wild.server.business.entity.TimeLogs;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class TimeLogsManagerImpl implements TimeLogsManager {
 
     @Autowired
-    private LogsDao logsDao;
+    private TimeLogsDao timeLogsDao;
 
     @Override
     public boolean addLog(TimeLogs log) {
@@ -19,7 +19,7 @@ public class TimeLogsManagerImpl implements TimeLogsManager {
             throw new IllegalArgumentException("log can not be null !");
         }
 
-        int insert = logsDao.insertSelective(log);
+        int insert = timeLogsDao.insertSelective(log);
         if (insert==1){
             return true;
         }
