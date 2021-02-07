@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.aop.log;
 
+import com.achilles.wild.server.business.entity.TimeLogs;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.business.entity.Logs;
-import com.achilles.wild.server.business.manager.common.LogsManager;
+import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -57,7 +57,7 @@ public class DaoLogAspect {
     private Double rateOfInsertDBPerSecond;
 
     @Autowired
-    private LogsManager logsManager;
+    private TimeLogsManager timeLogsManager;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -134,13 +134,13 @@ public class DaoLogAspect {
             integerCache.put(countLimitKey,atomicInteger);
             if(count<=countOfInsertDBInTime){
 //                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-                Logs logs = new Logs();
-                logs.setClz(clz);
-                logs.setMethod(method);
-                logs.setParams(params);
-                logs.setTime((int)duration);
-                logs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-                logsManager.addLog(logs);
+                TimeLogs timeLogs = new TimeLogs();
+                timeLogs.setClz(clz);
+                timeLogs.setMethod(method);
+                timeLogs.setParams(params);
+                timeLogs.setTime((int)duration);
+                timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+                timeLogsManager.addLog(timeLogs);
 //                log.info(PREFIX +"#insert slow log into db over, method : "+path);
             }
         }

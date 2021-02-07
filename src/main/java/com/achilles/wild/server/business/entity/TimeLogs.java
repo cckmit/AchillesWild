@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.entity;
 
-public class Logs extends BaseEntity {
+public class TimeLogs extends BaseEntity {
 
     private String clz;
 

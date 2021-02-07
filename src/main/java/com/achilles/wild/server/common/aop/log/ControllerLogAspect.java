@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.business.entity.Logs;
-import com.achilles.wild.server.business.manager.common.LogsManager;
+import com.achilles.wild.server.business.entity.TimeLogs;
+import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.common.aop.exception.MyException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -55,7 +55,7 @@ public class ControllerLogAspect {
     private Double rateOfInsertDBPerSecond;
 
     @Autowired
-    private LogsManager logsManager;
+    private TimeLogsManager timeLogsManager;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -122,13 +122,13 @@ public class ControllerLogAspect {
             integerCache.put(countLimitKey,atomicInteger);
             if(count<=countOfInsertDBInTime){
                 log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-                Logs logs = new Logs();
-                logs.setClz(clz);
-                logs.setMethod(method);
-                logs.setParams(params);
-                logs.setTime((int)duration);
-                logs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-                logsManager.addLog(logs);
+                TimeLogs timeLogs = new TimeLogs();
+                timeLogs.setClz(clz);
+                timeLogs.setMethod(method);
+                timeLogs.setParams(params);
+                timeLogs.setTime((int)duration);
+                timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+                timeLogsManager.addLog(timeLogs);
                 //log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
             }
@@ -146,6 +146,8 @@ public class ControllerLogAspect {
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
         log.error("[afterThrowingAdvice] throwable: "+throwable);
+        log.error("[afterThrowingAdvice] throwable: "+throwable.toString());
+        log.error("[afterThrowingAdvice] throwable: "+throwable.getMessage());
 
         if(throwable instanceof MyException){
             log.error("[afterThrowingAdvice] MyException ");
