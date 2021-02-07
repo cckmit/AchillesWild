@@ -41,20 +41,17 @@ public class DaoLogAspect {
 
     private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
-    @Value("${controller.log.time.open}")
+    @Value("${dao.log.time.open}")
     private Boolean openLog;
 
-    @Value("${controller.log.time.insert.db}")
+    @Value("${dao.log.time.insert.db}")
     private Boolean ifInsertDb;
 
-    @Value("${controller.log.time.of.time.consuming.limit}")
+    @Value("${dao.log.time.of.time.consuming.limit}")
     private Integer timeLimit;
 
-    @Value("${controller.log.time.of.count.limit.in.time}")
+    @Value("${dao.log.time.of.count.limit.in.time}")
     private Integer countOfInsertDBInTime;
-
-    @Value("${controller.log.time.of.insert.db.rate.per.second}")
-    private Double rateOfInsertDBPerSecond;
 
     @Autowired
     private TimeLogsManager timeLogsManager;
@@ -108,42 +105,31 @@ public class DaoLogAspect {
 
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-//        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
-//        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
         if(!ifInsertDb || duration<=timeLimit){
-            return result;
-        }
-
-        String rateLimiterKey = path+"_RateLimiter";
-        RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
-                                  RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
-        rateLimiterCache.put(rateLimiterKey,rateLimiter);
-        if(!rateLimiter.tryAcquire()){
             return result;
         }
 
         String countLimitKey = path+"_CountLimit";
         AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
         int count = atomicInteger.get();
-        if(count<countOfInsertDBInTime){
-            count = atomicInteger.incrementAndGet();
-            if(count>countOfInsertDBInTime){
-                return result;
-            }
-            integerCache.put(countLimitKey,atomicInteger);
-            if(count<=countOfInsertDBInTime){
-//                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-                TimeLogs timeLogs = new TimeLogs();
-                timeLogs.setClz(clz);
-                timeLogs.setMethod(method);
-                timeLogs.setParams(params);
-                timeLogs.setTime((int)duration);
-                timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-                timeLogsManager.addLog(timeLogs);
-//                log.info(PREFIX +"#insert slow log into db over, method : "+path);
-            }
+        if(count>=countOfInsertDBInTime){
+            return result;
         }
+        count = atomicInteger.incrementAndGet();
+        if(count>countOfInsertDBInTime){
+            return result;
+        }
+        integerCache.put(countLimitKey,atomicInteger);
+//      log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+        TimeLogs timeLogs = new TimeLogs();
+        timeLogs.setClz(clz);
+        timeLogs.setMethod(method);
+        timeLogs.setParams(params);
+        timeLogs.setTime((int)duration);
+        timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        timeLogsManager.addLog(timeLogs);
+//      log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
         return result;
     }

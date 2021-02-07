@@ -74,14 +74,11 @@ public class ControllerLogAspect {
     @Before("controllerLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
-        if(!openLog){
-            return;
-        }
-
+//        if(!openLog){
+//            return;
+//        }
 //        String method = joinPoint.getSignature().getDeclaringTypeName()+"#"+joinPoint.getSignature().getName();
-//
 //        Map<String,Object> paramsMap =  getParamsMap(joinPoint);
-//
 //        log.info(PREFIX +"#params : "+method+"("+paramsMap+")");
     }
 
@@ -113,6 +110,18 @@ public class ControllerLogAspect {
             return result;
         }
 
+        String countLimitKey = path+"_CountLimit";
+        AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
+        int count = atomicInteger.get();
+        if(count>=countOfInsertDBInTime){
+            return result;
+        }
+        count = atomicInteger.incrementAndGet();
+        if(count>countOfInsertDBInTime){
+            return result;
+        }
+        integerCache.put(countLimitKey,atomicInteger);
+
         String rateLimiterKey = path+"_RateLimiter";
         RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
                                   RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
@@ -121,28 +130,14 @@ public class ControllerLogAspect {
             return result;
         }
 
-        String countLimitKey = path+"_CountLimit";
-        AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
-        int count = atomicInteger.get();
-        if(count<countOfInsertDBInTime){
-            count = atomicInteger.incrementAndGet();
-            if(count>countOfInsertDBInTime){
-                return result;
-            }
-            integerCache.put(countLimitKey,atomicInteger);
-            if(count<=countOfInsertDBInTime){
-                log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-                TimeLogs timeLogs = new TimeLogs();
-                timeLogs.setClz(clz);
-                timeLogs.setMethod(method);
-                timeLogs.setParams(params);
-                timeLogs.setTime((int)duration);
-                timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-                timeLogsManager.addLog(timeLogs);
-                //log.info(PREFIX +"#insert slow log into db over, method : "+path);
-
-            }
-        }
+        log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+        TimeLogs timeLogs = new TimeLogs();
+        timeLogs.setClz(clz);
+        timeLogs.setMethod(method);
+        timeLogs.setParams(params);
+        timeLogs.setTime((int)duration);
+        timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        timeLogsManager.addLog(timeLogs);
 
         return result;
     }
