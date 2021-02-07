@@ -1,9 +1,12 @@
 package com.achilles.wild.server.common.aop.log;
 
+import com.achilles.wild.server.business.entity.ExceptionLogs;
 import com.achilles.wild.server.business.entity.TimeLogs;
+import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.common.aop.exception.MyException;
 import com.achilles.wild.server.common.constans.CommonConstant;
+import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -56,6 +59,9 @@ public class ControllerLogAspect {
 
     @Autowired
     private TimeLogsManager timeLogsManager;
+
+    @Autowired
+    private ExceptionLogsManager exceptionLogsManager;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -145,18 +151,31 @@ public class ControllerLogAspect {
     @AfterThrowing(pointcut="controllerLog()", throwing= "throwable")
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
-        log.error("[afterThrowingAdvice] throwable: "+throwable);
-        log.error("[afterThrowingAdvice] throwable: "+throwable.toString());
-        log.error("[afterThrowingAdvice] throwable: "+throwable.getMessage());
+        log.error("---------------------t  hrowable---------------------------: "+throwable);
 
-        if(throwable instanceof MyException){
-            log.error("[afterThrowingAdvice] MyException ");
-            return;
+        String clz = joinPoint.getSignature().getDeclaringTypeName();
+        String method = joinPoint.getSignature().getName();
+        Map<String,Object> paramsMap = getParamsMap(joinPoint);
+        String params = null;
+        if(paramsMap.size()!=0){
+            params = JsonUtil.toJsonString(paramsMap);
         }
 
-        log.error("[afterThrowingAdvice] throwable:  insert into DB ");
+        ExceptionLogs exceptionLogs = new ExceptionLogs();
+        exceptionLogs.setMessage(throwable.toString());
+        exceptionLogs.setClz(clz);
+        exceptionLogs.setMethod(method);
+        exceptionLogs.setParams(params);
+        exceptionLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
-
+        if(throwable instanceof MyException){
+            log.info("----------------------insert into DB  MyException ");
+            exceptionLogs.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
+        }else {
+            log.info("----------------------insert into DB other Exception ");
+            exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
+        }
+        exceptionLogsManager.addLog(exceptionLogs);
     }
 
 //    @AfterThrowing(pointcut="commonLog()", throwing= "exception")
