@@ -41,19 +41,19 @@ public class DaoLogAspect {
 
     private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
-    @Value("${common.log.open}")
+    @Value("${controller.log.time.open}")
     private Boolean openLog;
 
-    @Value("${common.log.insert.db}")
+    @Value("${controller.log.time.insert.db}")
     private Boolean ifInsertDb;
 
-    @Value("${common.log.of.time.consuming.limit}")
+    @Value("${controller.log.time.of.time.consuming.limit}")
     private Integer timeLimit;
 
-    @Value("${common.log.of.count.limit.in.time}")
+    @Value("${controller.log.time.of.count.limit.in.time}")
     private Integer countOfInsertDBInTime;
 
-    @Value("${common.log.of.insert.db.rate.per.second}")
+    @Value("${controller.log.time.of.insert.db.rate.per.second}")
     private Double rateOfInsertDBPerSecond;
 
     @Autowired

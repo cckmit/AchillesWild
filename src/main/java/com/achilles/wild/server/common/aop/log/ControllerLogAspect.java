@@ -42,20 +42,24 @@ public class ControllerLogAspect {
 
     private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
-    @Value("${common.log.open}")
+    @Value("${controller.log.time.open}")
     private Boolean openLog;
 
-    @Value("${common.log.insert.db}")
+    @Value("${controller.log.time.insert.db}")
     private Boolean ifInsertDb;
 
-    @Value("${common.log.of.time.consuming.limit}")
+    @Value("${controller.log.time.of.time.consuming.limit}")
     private Integer timeLimit;
 
-    @Value("${common.log.of.count.limit.in.time}")
+    @Value("${controller.log.time.of.count.limit.in.time}")
     private Integer countOfInsertDBInTime;
 
-    @Value("${common.log.of.insert.db.rate.per.second}")
+    @Value("${controller.log.time.of.insert.db.rate.per.second}")
     private Double rateOfInsertDBPerSecond;
+
+    @Value("${controller.log.exception.insert.db}")
+    private Boolean ifExceptionLogInsertDb;
+
 
     @Autowired
     private TimeLogsManager timeLogsManager;
@@ -143,15 +147,12 @@ public class ControllerLogAspect {
         return result;
     }
 
-    @After("controllerLog()")
-    public void doAfter() throws Throwable {
-
-    }
-
     @AfterThrowing(pointcut="controllerLog()", throwing= "throwable")
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
-        log.error("---------------------throwable: "+throwable);
+        if(!ifExceptionLogInsertDb){
+           return;
+        }
 
         String clz = joinPoint.getSignature().getDeclaringTypeName();
         String method = joinPoint.getSignature().getName();
@@ -178,6 +179,11 @@ public class ControllerLogAspect {
             exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
         exceptionLogsManager.addLog(exceptionLogs);
+    }
+
+    @After("controllerLog()")
+    public void doAfter() throws Throwable {
+
     }
 
 //    @AfterThrowing(pointcut="commonLog()", throwing= "exception")

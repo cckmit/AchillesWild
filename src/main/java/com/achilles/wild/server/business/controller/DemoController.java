@@ -87,8 +87,10 @@ public class DemoController {
         return account;
     }
 
-    @GetMapping(path = "/name")
-    public String getName(){
+    @GetMapping(path = "/get/{name}")
+    public String getName(@PathVariable("name") String name){
+
+        Long.parseLong(name);
 
         return "AchillesWild";
     }
