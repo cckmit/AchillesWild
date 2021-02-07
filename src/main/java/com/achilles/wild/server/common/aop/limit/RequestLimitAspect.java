@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop.limit;
 
-import com.achilles.wild.server.common.aop.exception.MyException;
+import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.model.response.ResultCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -87,7 +87,7 @@ public class RequestLimitAspect {
                                       RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
             rateLimiterCache.put(rateLimiterKey,rateLimiter);
             if(!rateLimiter.tryAcquire()){
-                throw new MyException(ResultCode.REQUESTS_TOO_FREQUENT);
+                throw new BizException(ResultCode.REQUESTS_TOO_FREQUENT);
             }
 
             String countLimitKey = path+"_CountLimit";
@@ -95,7 +95,7 @@ public class RequestLimitAspect {
             int count = atomicInteger.get();
             int countLimit = annotation.countLimit();
             if(count>countLimit){
-                throw new MyException(ResultCode.TOO_MANY_REQUESTS);
+                throw new BizException(ResultCode.TOO_MANY_REQUESTS);
             }
 
             atomicInteger.incrementAndGet();

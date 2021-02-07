@@ -18,8 +18,8 @@ public class GlobalControllerExceptionAdvice {
     private final static Logger log = LoggerFactory.getLogger(GlobalControllerExceptionAdvice.class);
 
 
-    @ExceptionHandler(value = MyException.class)
-    public BaseResult myExceptionHandler(MyException e) throws Exception {
+    @ExceptionHandler(value = BizException.class)
+    public BaseResult bizExceptionHandler(BizException e) throws Exception {
         ResultCode resultCode = e.getResultCode();
         log.error(JsonUtil.toJsonString(resultCode));
         BaseResult baseResult = BaseResult.fail(resultCode);

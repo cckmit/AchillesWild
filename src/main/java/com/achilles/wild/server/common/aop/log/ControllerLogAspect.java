@@ -4,7 +4,7 @@ import com.achilles.wild.server.business.entity.ExceptionLogs;
 import com.achilles.wild.server.business.entity.TimeLogs;
 import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
-import com.achilles.wild.server.common.aop.exception.MyException;
+import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -162,17 +162,19 @@ public class ControllerLogAspect {
         }
 
         ExceptionLogs exceptionLogs = new ExceptionLogs();
-        exceptionLogs.setMessage(throwable.toString());
+
         exceptionLogs.setClz(clz);
         exceptionLogs.setMethod(method);
         exceptionLogs.setParams(params);
         exceptionLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
-        if(throwable instanceof MyException){
-            log.info("----------------------insert into DB  MyException ");
+        if(throwable instanceof BizException){
+            log.error("----------------------insert into DB  BizException ");
+            exceptionLogs.setMessage(((BizException) throwable).getResultCode().message);
             exceptionLogs.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
-            log.info("----------------------insert into DB other Exception ");
+            log.error("----------------------insert into DB other Exception ");
+            exceptionLogs.setMessage(throwable.toString());
             exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
         exceptionLogsManager.addLog(exceptionLogs);

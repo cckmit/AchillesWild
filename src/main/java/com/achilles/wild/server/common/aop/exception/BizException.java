@@ -2,12 +2,12 @@ package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.ResultCode;
 
-public class MyException extends RuntimeException{
+public class BizException extends RuntimeException{
 
 
     private ResultCode resultCode;
 
-    public MyException(ResultCode resultCode) {
+    public BizException(ResultCode resultCode) {
         this.resultCode = resultCode;
     }
 

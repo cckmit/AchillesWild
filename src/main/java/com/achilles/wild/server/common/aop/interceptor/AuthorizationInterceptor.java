@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.interceptor;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.common.aop.exception.MyException;
+import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.model.response.ResultCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         log.info("------------------------------------token:"+ token);
 
         if(StringUtils.isBlank(token)){
-            throw new MyException(ResultCode.NOT_LOGIN);
+            throw new BizException(ResultCode.NOT_LOGIN);
         }
 
         //todo
