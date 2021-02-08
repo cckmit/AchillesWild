@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.achilles.wild.server.business.dao.DictDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.Dict">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="group" jdbcType="VARCHAR" property="group" />
+      <result column="key" jdbcType="VARCHAR" property="key" />
+      <result column="val" jdbcType="VARCHAR" property="val" />
+      <result column="order" jdbcType="INTEGER" property="order" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+      <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+      id, `group`, `key`, val, `order`,description, status, create_date, update_date
+  </sql>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            dict
+        <where>
+            <if test="group != null and group!=''">
+                AND group = #{group,jdbcType=VARCHAR}
+            </if>
+            <if test="key != null and key!=''">
+                AND key = #{key,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.Dict" useGeneratedKeys="true" keyProperty="id">
+    insert into
+          dict ( `group`,`key`, val, `order`,description)
+    values
+          (#{group,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
+  </insert>
+
+
+</mapper>
