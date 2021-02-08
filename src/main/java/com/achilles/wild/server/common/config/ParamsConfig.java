@@ -5,8 +5,6 @@ import com.achilles.wild.server.business.manager.account.ParamsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +19,8 @@ public class ParamsConfig {
 
     //private Cache<String, String> integerCache = CacheBuilder.newBuilder().concurrencyLevel(100).maximumSize(1000).expireAfterWrite(24, TimeUnit.HOURS).build();
 
+    @Autowired
+    private ParamsManager paramsManager;
 
     private volatile Map<String,String> keyValMap;
 
@@ -34,22 +34,12 @@ public class ParamsConfig {
         return paramsMap;
     }
 
-
-    @Autowired
-    private ParamsManager paramsManager;
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DBConfig dbConfig(){
-        return new DBConfig();
-    }
-
     @PostConstruct
     public void initParams(){
 
         List<Params> paramsList = paramsManager.selectAll();
 
-        log.info("------------initParams  size:"+ paramsList.size());
+        log.info("------------initParams  size : "+ paramsList.size());
         if (paramsList.size()==0){
             return;
         }
