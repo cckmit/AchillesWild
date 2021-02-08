@@ -34,10 +34,19 @@
     </select>
 
   <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.Dict" useGeneratedKeys="true" keyProperty="id">
-    insert into
-          dict ( `group`,`key`, val, `order`,description)
-    values
-          (#{group,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
+    insert into dict (
+          `group`,
+          `key`,
+           val,
+          `order`,
+           description
+      ) values (
+          #{group,jdbcType=VARCHAR},
+          #{key,jdbcType=VARCHAR},
+          #{val,jdbcType=VARCHAR},
+          #{order,jdbcType=INTEGER},
+          #{description,jdbcType=VARCHAR}
+      )
   </insert>
 
 
