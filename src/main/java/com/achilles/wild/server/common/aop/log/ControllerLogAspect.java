@@ -2,9 +2,10 @@ package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.business.entity.ExceptionLogs;
 import com.achilles.wild.server.business.entity.TimeLogs;
-import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.common.aop.listener.event.EventListeners;
+import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -65,7 +66,7 @@ public class ControllerLogAspect {
     private TimeLogsManager timeLogsManager;
 
     @Autowired
-    private ExceptionLogsManager exceptionLogsManager;
+    private EventListeners eventListeners;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -130,7 +131,7 @@ public class ControllerLogAspect {
             return result;
         }
 
-        log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+        log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         TimeLogs timeLogs = new TimeLogs();
         timeLogs.setClz(clz);
         timeLogs.setMethod(method);
@@ -165,15 +166,15 @@ public class ControllerLogAspect {
         exceptionLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
         if(throwable instanceof BizException){
-            log.error("----------------------insert into DB  BizException ");
+            log.debug("----------------------insert into DB  BizException ");
             exceptionLogs.setMessage(((BizException) throwable).getResultCode().message);
             exceptionLogs.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
-            log.error("----------------------insert into DB other Exception ");
+            log.debug("----------------------insert into DB other Exception ");
             exceptionLogs.setMessage(throwable.toString());
             exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
-        exceptionLogsManager.addLog(exceptionLogs);
+        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
     }
 
     @After("controllerLog()")

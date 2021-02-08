@@ -2,13 +2,11 @@ package com.achilles.wild.server.business.controller;
 
 import com.achilles.wild.server.business.entity.account.Account;
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.aop.listener.event.MyApplicationEvent;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
 import com.achilles.wild.server.common.config.ConfigProperties2;
-import com.achilles.wild.server.common.aop.listener.event.EventListenerConfig;
-import com.achilles.wild.server.common.aop.listener.event.EventListenerConfigEvent;
-import com.achilles.wild.server.common.aop.listener.event.MyApplicationEvent;
 import com.achilles.wild.server.other.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.other.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandler;
@@ -48,9 +46,6 @@ public class DemoController {
 
     @Autowired
     private ApplicationListener myApplicationListener;
-
-    @Autowired
-    private EventListenerConfig eventListenerConfig;
 
 //    @ControllerLog
     @GetMapping(path = "/{id}")
@@ -106,7 +101,6 @@ public class DemoController {
         Account account = new Account();
         account.setId(23L);
         myApplicationListener.onApplicationEvent(new MyApplicationEvent(account));
-        eventListenerConfig.handleEvent(new EventListenerConfigEvent(account));
         return "invokeEvent ok";
     }
 }
