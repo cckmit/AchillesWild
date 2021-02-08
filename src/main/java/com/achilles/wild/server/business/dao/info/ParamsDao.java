@@ -9,7 +9,7 @@ public interface ParamsDao {
 
     int insert(Params params);
 
-    int updateByCode(@Param("code") String code, @Param("val") String val);
+    int updateByKey(@Param("key") String key, @Param("val") String val);
 
-    Params selectByCode(String code);
+    Params selectByKey(String key);
 }

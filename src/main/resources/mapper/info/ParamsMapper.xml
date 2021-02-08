@@ -4,37 +4,38 @@
 <mapper namespace="com.achilles.wild.server.business.dao.info.ParamsDao">
   <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.info.Params">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="key" jdbcType="VARCHAR" property="key" />
       <result column="val" jdbcType="VARCHAR" property="val" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
       <result column="status" jdbcType="INTEGER" property="status" />
       <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
       <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
   <sql id="Base_Column_List">
-      id, code, val, status, create_date, update_date
+      id, `key`, val,description, status, create_date, update_date
   </sql>
 
-  <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT
           <include refid="Base_Column_List"/>
     FROM
           params
     <where>
-         <if test="code != null and code!=''">
-             AND code = #{code,jdbcType=VARCHAR}
+         <if test="key != null and key!=''">
+             AND `key` = #{key,jdbcType=VARCHAR}
           </if>
     </where>
   </select>
 
   <insert id="insert" parameterType="com.achilles.wild.server.business.entity.info.Params" useGeneratedKeys="true" keyProperty="id">
     insert into
-          params ( code, val)
+          params ( `key`, val,description)
     values
-          (#{code,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR})
+          (#{key,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
   </insert>
 
-  <update id="updateByCode" parameterType="map">
+  <update id="updateByKey" parameterType="map">
     update
           params
     <set>
@@ -42,6 +43,6 @@
         val = #{val,jdbcType=VARCHAR},
       </if>
     </set>
-    where code = #{code,jdbcType=VARCHAR}
+    where `key` = #{key,jdbcType=VARCHAR}
   </update>
 </mapper>

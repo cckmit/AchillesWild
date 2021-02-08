@@ -1,38 +1,21 @@
 package com.achilles.wild.server.business.entity.info;
 
-import java.util.Date;
+import com.achilles.wild.server.business.entity.BaseEntity;
 
-/**
- * ��������
- */
-public class Params {
+public class Params extends BaseEntity {
 
-    private Integer id;
-
-    private String code;
+    private String key;
 
     private String val;
 
-    private Integer status;
+    private String description;
 
-    private Date createDate;
-
-    private Date updateDate;
-
-    public Integer getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getVal() {
@@ -43,27 +26,11 @@ public class Params {
         this.val = val;
     }
 
-    public Integer getStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

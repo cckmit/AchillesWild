@@ -17,11 +17,12 @@ public class ParamsDaoTest  extends SpringbootApplicationTests {
     public void insert(){
 
         Params params = new Params();
-        params.setCode("achilles"+System.currentTimeMillis());
-        params.setVal("wild取值");
+        params.setKey("achilles"+System.currentTimeMillis());
+        params.setVal("wild");
+        params.setDescription("desc");
         int count = paramsDao.insert(params);
 
-        Params params1 = paramsDao.selectByCode(params.getCode());
+        Params params1 = paramsDao.selectByKey(params.getKey());
 
 
 
@@ -34,7 +35,7 @@ public class ParamsDaoTest  extends SpringbootApplicationTests {
     public void updateByCode(){
 
 
-       int count = paramsDao.updateByCode("wer","阿基里斯1");
+       int count = paramsDao.updateByKey("wer","阿基里斯1");
 
         System.out.println();
     }
