@@ -6,6 +6,7 @@ import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.listener.event.EventListeners;
 import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
+import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -61,6 +62,8 @@ public class ControllerLogAspect {
     @Value("${controller.log.exception.insert.db}")
     private Boolean ifExceptionLogInsertDb;
 
+    @Autowired
+    private ControllerLogParamsConfig controllerLogParamsConfig;
 
     @Autowired
     private TimeLogsManager timeLogsManager;
@@ -87,7 +90,7 @@ public class ControllerLogAspect {
     @Around("controllerLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        if(!openLog){
+        if(!controllerLogParamsConfig.getIfOpenLog()){
             return proceedingJoinPoint.proceed();
         }
 

@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.config;
+package com.achilles.wild.server.common.config.params;
 
 import com.achilles.wild.server.business.entity.info.Params;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
@@ -18,20 +18,13 @@ public class ParamsConfig {
 
     private final static Logger log = LoggerFactory.getLogger(ParamsConfig.class);
 
-    private volatile Cache<String, String> paramsCache = CacheBuilder.newBuilder().concurrencyLevel(100).maximumSize(1000).expireAfterWrite(24, TimeUnit.HOURS).build();
+    private Cache<String, String> paramsCache = CacheBuilder.newBuilder().concurrencyLevel(100).maximumSize(1000).expireAfterWrite(24, TimeUnit.HOURS).build();
 
     @Autowired
     private ParamsManager paramsManager;
 
-    public Cache<String, String> getParamsCache() {
-        return paramsCache;
-    }
-
-//    private volatile Map<String,String> keyValMap;
-//
-//    public Map<String, String> getKeyValMap() {
-//        return keyValMap;
-//    }
+    @Autowired
+    private ControllerLogParamsConfig controllerLogParamsConfig;
 
     @PostConstruct
     public void initParams(){
@@ -40,6 +33,7 @@ public class ParamsConfig {
 
         log.info("------------initParams  size : "+ paramsList.size());
         if (paramsList.size()==0){
+            log.warn("------------initParams  size : 0");
             return;
         }
 
@@ -48,6 +42,16 @@ public class ParamsConfig {
             paramsCache.put(params.getKey(),params.getVal());
         }
 
-        //keyValMap = paramsList.stream().collect(Collectors.toMap(Params::getKey, Params::getVal, (key1 , key2)-> key2 ));
+        initControllerLogParams();
+    }
+
+
+    private void initControllerLogParams(){
+
+        String val = paramsCache.getIfPresent("controller.log.time.open");
+        if(val!=null){
+            controllerLogParamsConfig.setIfOpenLog(Boolean.valueOf(val));
+        }
+
     }
 }
