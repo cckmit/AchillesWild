@@ -41,17 +41,12 @@ public class ParamsConfig {
         for (Params params:paramsList) {
             paramsCache.put(params.getKey(),params.getVal());
         }
-
-        initControllerLogParams();
     }
 
-
-    private void initControllerLogParams(){
-
-        String val = paramsCache.getIfPresent("controller.log.time.open");
-        if(val!=null){
-            controllerLogParamsConfig.setIfOpenLog(Boolean.valueOf(val));
+    public Cache<String, String> getParamsCache() {
+        if(paramsCache.size()==0){
+            initParams();
         }
-
+        return paramsCache;
     }
 }

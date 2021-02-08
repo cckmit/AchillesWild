@@ -1,10 +1,14 @@
 package com.achilles.wild.server.common.config.params;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ControllerLogParamsConfig {
+
+    @Autowired
+    private ParamsConfig paramsConfig;
 
     @Value("${controller.log.time.open}")
     private Boolean ifOpenLog;
@@ -25,50 +29,30 @@ public class ControllerLogParamsConfig {
     private Boolean ifExceptionLogInsertDb;
 
     public Boolean getIfOpenLog() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.open");
+        if(val!=null){
+            ifOpenLog = Boolean.valueOf(val);
+        }
         return ifOpenLog;
-    }
-
-    public void setIfOpenLog(Boolean ifOpenLog) {
-        this.ifOpenLog = ifOpenLog;
     }
 
     public Boolean getIfTimeLogInsertDb() {
         return ifTimeLogInsertDb;
     }
 
-    public void setIfTimeLogInsertDb(Boolean ifTimeLogInsertDb) {
-        this.ifTimeLogInsertDb = ifTimeLogInsertDb;
-    }
-
     public Integer getTimeLimit() {
         return timeLimit;
-    }
-
-    public void setTimeLimit(Integer timeLimit) {
-        this.timeLimit = timeLimit;
     }
 
     public Integer getCountOfInsertDBInTime() {
         return countOfInsertDBInTime;
     }
 
-    public void setCountOfInsertDBInTime(Integer countOfInsertDBInTime) {
-        this.countOfInsertDBInTime = countOfInsertDBInTime;
-    }
-
     public Double getRateOfInsertDBPerSecond() {
         return rateOfInsertDBPerSecond;
     }
 
-    public void setRateOfInsertDBPerSecond(Double rateOfInsertDBPerSecond) {
-        this.rateOfInsertDBPerSecond = rateOfInsertDBPerSecond;
-    }
-
     public Boolean getIfExceptionLogInsertDb() {
         return ifExceptionLogInsertDb;
-    }
-
-    public void setIfExceptionLogInsertDb(Boolean ifExceptionLogInsertDb) {
-        this.ifExceptionLogInsertDb = ifExceptionLogInsertDb;
     }
 }
