@@ -37,22 +37,42 @@ public class ControllerLogParamsConfig {
     }
 
     public Boolean getIfTimeLogInsertDb() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.insert.db");
+        if(val!=null){
+            ifTimeLogInsertDb = Boolean.valueOf(val);
+        }
         return ifTimeLogInsertDb;
     }
 
     public Integer getTimeLimit() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.time.consuming.limit");
+        if(val!=null){
+            timeLimit = Integer.valueOf(val);
+        }
         return timeLimit;
     }
 
     public Integer getCountOfInsertDBInTime() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.count.limit.in.time");
+        if(val!=null){
+            countOfInsertDBInTime = Integer.valueOf(val);
+        }
         return countOfInsertDBInTime;
     }
 
     public Double getRateOfInsertDBPerSecond() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.insert.db.rate.per.second");
+        if(val!=null){
+            rateOfInsertDBPerSecond = Double.valueOf(val);
+        }
         return rateOfInsertDBPerSecond;
     }
 
     public Boolean getIfExceptionLogInsertDb() {
+        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.exception.insert.db");
+        if(val!=null){
+            ifExceptionLogInsertDb = Boolean.valueOf(val);
+        }
         return ifExceptionLogInsertDb;
     }
 }

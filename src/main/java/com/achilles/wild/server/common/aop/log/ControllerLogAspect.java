@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -43,24 +42,6 @@ public class ControllerLogAspect {
     private Cache<String,AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
 
     private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
-
-    @Value("${controller.log.time.open}")
-    private Boolean openLog;
-
-    @Value("${controller.log.time.insert.db}")
-    private Boolean ifInsertDb;
-
-    @Value("${controller.log.time.of.time.consuming.limit}")
-    private Integer timeLimit;
-
-    @Value("${controller.log.time.of.count.limit.in.time}")
-    private Integer countOfInsertDBInTime;
-
-    @Value("${controller.log.time.of.insert.db.rate.per.second}")
-    private Double rateOfInsertDBPerSecond;
-
-    @Value("${controller.log.exception.insert.db}")
-    private Boolean ifExceptionLogInsertDb;
 
     @Autowired
     private ControllerLogParamsConfig controllerLogParamsConfig;
@@ -110,25 +91,25 @@ public class ControllerLogAspect {
 //        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
 //        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
-        if(!ifInsertDb || duration<=timeLimit){
+        if(!controllerLogParamsConfig.getIfTimeLogInsertDb() || duration<=controllerLogParamsConfig.getTimeLimit()){
             return result;
         }
 
         String countLimitKey = path+"_CountLimit";
         AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
         int count = atomicInteger.get();
-        if(count>=countOfInsertDBInTime){
+        if(count>=controllerLogParamsConfig.getCountOfInsertDBInTime()){
             return result;
         }
         count = atomicInteger.incrementAndGet();
-        if(count>countOfInsertDBInTime){
+        if(count>controllerLogParamsConfig.getCountOfInsertDBInTime()){
             return result;
         }
         integerCache.put(countLimitKey,atomicInteger);
 
         String rateLimiterKey = path+"_RateLimiter";
         RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
-                                  RateLimiter.create(rateOfInsertDBPerSecond):rateLimiterCache.getIfPresent(rateLimiterKey);
+                                  RateLimiter.create(controllerLogParamsConfig.getRateOfInsertDBPerSecond()):rateLimiterCache.getIfPresent(rateLimiterKey);
         rateLimiterCache.put(rateLimiterKey,rateLimiter);
         if(!rateLimiter.tryAcquire()){
             return result;
@@ -149,7 +130,7 @@ public class ControllerLogAspect {
     @AfterThrowing(pointcut="controllerLog()", throwing= "throwable")
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
-        if(!ifExceptionLogInsertDb){
+        if(!controllerLogParamsConfig.getIfExceptionLogInsertDb()){
            return;
         }
 
