@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.BaseResult;
-import com.achilles.wild.server.model.response.ResultCode;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,9 @@ public class GlobalControllerExceptionAdvice {
 
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
-        ResultCode resultCode = e.getResultCode();
-        log.error(JsonUtil.toJsonString(resultCode));
-        BaseResult baseResult = BaseResult.fail(resultCode);
+        BaseResultCode baseResultCode = e.getResultCode();
+        log.error(JsonUtil.toJsonString(baseResultCode));
+        BaseResult baseResult = BaseResult.fail(baseResultCode);
         return baseResult;
     }
 
@@ -30,7 +30,7 @@ public class GlobalControllerExceptionAdvice {
     public BaseResult defaultExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         e.printStackTrace();
         log.error(e.getMessage());
-        BaseResult baseResult = BaseResult.fail(ResultCode.EXCEPTION_TO_CLIENT);
+        BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);
         return baseResult;
     }
 
@@ -38,7 +38,7 @@ public class GlobalControllerExceptionAdvice {
     public BaseResult throwableHandler(HttpServletRequest req, Throwable e) throws Exception {
         e.printStackTrace();
         log.error(e.getMessage());
-        BaseResult baseResult = BaseResult.fail(ResultCode.EXCEPTION_TO_CLIENT);
+        BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);
         return baseResult;
     }
 

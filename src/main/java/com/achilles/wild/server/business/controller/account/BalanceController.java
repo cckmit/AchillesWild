@@ -5,7 +5,7 @@ import com.achilles.wild.server.common.aop.limit.RequestLimit;
 import com.achilles.wild.server.common.aop.interceptor.NoLogin;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.ResultCode;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.business.service.account.BalanceService;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public class BalanceController {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("theVeryIncome error",e);
-            return DataResult.baseFail(ResultCode.EXCEPTION);
+            return DataResult.baseFail(BaseResultCode.EXCEPTION);
         }
 
         if(dataResult ==null || !dataResult.isSuccess()){

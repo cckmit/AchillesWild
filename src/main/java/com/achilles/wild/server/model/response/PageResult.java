@@ -1,5 +1,7 @@
 package com.achilles.wild.server.model.response;
 
+import com.achilles.wild.server.model.response.code.BaseResultCode;
+
 @Deprecated
 public class PageResult<T> extends BaseResult {
 
@@ -60,16 +62,16 @@ public class PageResult<T> extends BaseResult {
         return pageResult;
     }
 
-    public static <T> PageResult<T> baseFail(ResultCode resultCode) {
+    public static <T> PageResult<T> baseFail(BaseResultCode baseResultCode) {
         PageResult pageResult = new PageResult<>();
         pageResult.setSuccess(false);
-        pageResult.setCode(resultCode.code);
-        pageResult.setMessage(resultCode.message);
+        pageResult.setCode(baseResultCode.code);
+        pageResult.setMessage(baseResultCode.message);
         return pageResult;
     }
 
-    public static <T> PageResult<T> baseFail(ResultCode resultCode, T data) {
-        PageResult pageResult = PageResult.baseFail(resultCode);
+    public static <T> PageResult<T> baseFail(BaseResultCode baseResultCode, T data) {
+        PageResult pageResult = PageResult.baseFail(baseResultCode);
         pageResult.setData(data);
         return pageResult;
     }

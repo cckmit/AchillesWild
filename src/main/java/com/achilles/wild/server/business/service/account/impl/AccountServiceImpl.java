@@ -11,7 +11,7 @@ import com.achilles.wild.server.business.manager.account.AccountManager;
 import com.achilles.wild.server.model.query.account.AccountQuery;
 import com.achilles.wild.server.model.request.account.AccountRequest;
 import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.model.response.ResultCode;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.business.service.account.AccountService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
     public PageResult addMasterAccount(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(BaseResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(BaseResultCode.DATA_HAS_EXISTS);
         }
 
         Account account = getAccount(request.getUserId(),AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
     public PageResult addMasterAndSlaveAccount(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(BaseResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(BaseResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = getAccounts(request.getUserId(), new AccountTypeEnum[]{AccountTypeEnum.MASTER_ACCOUNT,AccountTypeEnum.SLAVE_ACCOUNT});
@@ -84,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
     public PageResult addAllAccounts(AccountRequest request) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId())){
-            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(BaseResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -92,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(AccountTypeEnum.MASTER_ACCOUNT.toNumbericValue());
         boolean exist = accountManager.ifExist(query);
         if(exist){
-            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(BaseResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = getAccounts(request.getUserId(), null);
@@ -137,7 +137,7 @@ public class AccountServiceImpl implements AccountService {
     public PageResult addAccountsByType(AccountRequest request, int count) {
 
         if(request==null || StringUtils.isEmpty(request.getUserId()) || !AccountTypeEnum.contains(request.getAccountType()) || count==0){
-            return PageResult.baseFail(ResultCode.MISSING_PARAMETER);
+            return PageResult.baseFail(BaseResultCode.MISSING_PARAMETER);
         }
 
         AccountQuery query = new AccountQuery();
@@ -145,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
         query.setAccountType(request.getAccountType());
         query.setStatus(1);
         if(accountManager.ifExist(query)){
-            return PageResult.baseFail(ResultCode.DATA_HAS_EXISTS);
+            return PageResult.baseFail(BaseResultCode.DATA_HAS_EXISTS);
         }
 
         List<Account> accounts = new ArrayList<>();
@@ -160,7 +160,7 @@ public class AccountServiceImpl implements AccountService {
 
         boolean result = accountManager.addAccounts(accounts);
         if(!result){
-            return PageResult.baseFail(ResultCode.FAIL);
+            return PageResult.baseFail(BaseResultCode.FAIL);
         }
 
         return PageResult.success(accounts);

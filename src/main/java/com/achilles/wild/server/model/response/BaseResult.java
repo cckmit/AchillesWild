@@ -1,5 +1,7 @@
 package com.achilles.wild.server.model.response;
 
+import com.achilles.wild.server.model.response.code.BaseResultCode;
+
 import java.io.Serializable;
 
 public class BaseResult implements  Serializable {
@@ -13,23 +15,23 @@ public class BaseResult implements  Serializable {
 
 	public BaseResult() {
 		this.success = true;
-		this.code = ResultCode.SUCCESS.code;
-		this.message = ResultCode.SUCCESS.message;
+		this.code = BaseResultCode.SUCCESS.code;
+		this.message = BaseResultCode.SUCCESS.message;
 	}
 
 	public static BaseResult fail() {
 		BaseResult result = new BaseResult();
 		result.setSuccess(false);
-		result.setCode(ResultCode.FAIL.code);
-		result.setMessage(ResultCode.FAIL.message);
+		result.setCode(BaseResultCode.FAIL.code);
+		result.setMessage(BaseResultCode.FAIL.message);
 		return result;
 	}
 
-	public static BaseResult fail(ResultCode resultCode) {
+	public static BaseResult fail(BaseResultCode baseResultCode) {
 		BaseResult result = new BaseResult();
 		result.setSuccess(false);
-		result.setCode(resultCode.code);
-		result.setMessage(resultCode.message);
+		result.setCode(baseResultCode.code);
+		result.setMessage(baseResultCode.message);
 		return result;
 	}
 

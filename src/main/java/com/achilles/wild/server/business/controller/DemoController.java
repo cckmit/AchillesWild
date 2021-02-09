@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -39,9 +38,6 @@ public class DemoController {
     ConfigComplex configComplex;
 
     @Autowired
-    Environment environment;
-
-    @Autowired
     private BalanceService balanceService;
 
     @Autowired
@@ -58,8 +54,6 @@ public class DemoController {
         log.info("=====configProperties1 ===="+configProperties1.getName());
         log.info("=====configProperties2 ===="+configProperties2.getHouse());
         log.info("=====configComplex ===="+configComplex.dbConfig().getUrl());
-        log.info("=====environment ==house=="+environment.getProperty("house"));
-        log.info("=====environment ==spring.datasource.url=="+environment.getProperty("spring.datasource.url"));
 
         BalanceService proxyInstance = (BalanceService)new JavaProxyInvocationHandler(balanceService).newProxyInstance();
         Long balance = proxyInstance.getBalance(id.toString());

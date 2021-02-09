@@ -2,11 +2,12 @@ package com.achilles.wild.server.business.biz.impl;
 
 import com.achilles.wild.server.business.biz.BalanceBiz;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
+import com.achilles.wild.server.business.service.account.BalanceService;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.ResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
-import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.model.response.code.AccountResultCode;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -43,7 +44,7 @@ public class BalanceBizImpl implements BalanceBiz {
     public DataResult<BalanceResponse> reduce(BalanceRequest request) {
 
         if(!checkParam(request)){
-            return DataResult.baseFail(ResultCode.ILLEGAL_PARAM);
+            return DataResult.baseFail(BaseResultCode.ILLEGAL_PARAM);
         }
 
         if(StringUtils.isNotBlank(request.getTradeDateStr())){
@@ -71,7 +72,7 @@ public class BalanceBizImpl implements BalanceBiz {
 
         Long balance = balanceService.getBalance(request.getUserId());
         if(request.getAmount()>balance){
-            return DataResult.baseFail(ResultCode.BALANCE_NOT_ENOUGH);
+            return DataResult.baseFail(AccountResultCode.BALANCE_NOT_ENOUGH.code,AccountResultCode.BALANCE_NOT_ENOUGH.message);
         }
 
         DataResult<String> dataResult = balanceService.consumeUserBalance(request);
@@ -96,7 +97,7 @@ public class BalanceBizImpl implements BalanceBiz {
     public DataResult<String> add(BalanceRequest request) {
 
         if(!checkParam(request)){
-            return DataResult.baseFail(ResultCode.ILLEGAL_PARAM);
+            return DataResult.baseFail(BaseResultCode.ILLEGAL_PARAM);
         }
 
         if(request.getTradeDate()==null){

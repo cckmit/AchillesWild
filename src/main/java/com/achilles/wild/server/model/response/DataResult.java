@@ -1,5 +1,7 @@
 package com.achilles.wild.server.model.response;
 
+import com.achilles.wild.server.model.response.code.BaseResultCode;
+
 public class DataResult<T> extends BaseResult {
 
     private T data;
@@ -36,16 +38,16 @@ public class DataResult<T> extends BaseResult {
         return dataResult;
     }
 
-    public static <T> DataResult<T> baseFail(ResultCode resultCode) {
+    public static <T> DataResult<T> baseFail(BaseResultCode baseResultCode) {
         DataResult dataResult = new DataResult<>();
         dataResult.setSuccess(false);
-        dataResult.setCode(resultCode.code);
-        dataResult.setMessage(resultCode.message);
+        dataResult.setCode(baseResultCode.code);
+        dataResult.setMessage(baseResultCode.message);
         return dataResult;
     }
 
-    public static <T> DataResult<T> baseFail(ResultCode resultCode, T data) {
-        DataResult dataResult = DataResult.baseFail(resultCode);
+    public static <T> DataResult<T> baseFail(BaseResultCode baseResultCode, T data) {
+        DataResult dataResult = DataResult.baseFail(baseResultCode);
         dataResult.setData(data);
         return dataResult;
     }

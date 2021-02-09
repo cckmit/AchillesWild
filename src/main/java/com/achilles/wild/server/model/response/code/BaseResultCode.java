@@ -1,8 +1,8 @@
-package com.achilles.wild.server.model.response;
+package com.achilles.wild.server.model.response.code;
 
 import java.io.Serializable;
 
-public enum ResultCode implements Serializable {
+public enum BaseResultCode implements Serializable {
 
     SUCCESS("1", "success"),
     FAIL("0", "fail"),
@@ -18,9 +18,6 @@ public enum ResultCode implements Serializable {
     NOT_LOGIN("-300", "NOT LOGIN ~"),
 
 
-    BALANCE_NOT_ENOUGH("-600", "balance not enough ~"),
-
-
     EXCEPTION_TO_CLIENT("-1000", "the server is too busy ~ : %s"),
     ERROR_TO_CLIENT("-1001", "the server is asleep ~ : %s"),
     TOO_MANY_REQUESTS("-2001", "too many requests ~ : %s"),
@@ -33,13 +30,13 @@ public enum ResultCode implements Serializable {
     public final String code;
     public final String message;
 
-    ResultCode(String code, String message) {
+    BaseResultCode(String code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public static ResultCode codeOf(String code, ResultCode r) {
-        for (ResultCode rc : ResultCode.values()) {
+    public static BaseResultCode codeOf(String code, BaseResultCode r) {
+        for (BaseResultCode rc : BaseResultCode.values()) {
             if (rc.code.equals(code)) {
                 return rc;
             }
