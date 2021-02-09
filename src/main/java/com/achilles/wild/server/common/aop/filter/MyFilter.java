@@ -1,11 +1,7 @@
 package com.achilles.wild.server.common.aop.filter;
 
-import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -34,11 +30,11 @@ public class MyFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String traceId = request.getHeader(CommonConstant.TRACE_ID);
-        if(StringUtils.isBlank(traceId)){
-            traceId = GenerateUniqueUtil.getRandomUUID();
-        }
-        MDC.put(CommonConstant.TRACE_ID,traceId);
+//        String traceId = request.getHeader(CommonConstant.TRACE_ID);
+//        if(StringUtils.isBlank(traceId)){
+//            traceId = GenerateUniqueUtil.getRandomUUID();
+//        }
+
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS, DELETE, PATCH");

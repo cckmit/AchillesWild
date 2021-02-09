@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.config.params;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 @Configuration
 public class ControllerLogParamsConfig {
@@ -10,68 +10,77 @@ public class ControllerLogParamsConfig {
     @Autowired
     private ParamsConfig paramsConfig;
 
-    @Value("${controller.log.time.open}")
-    private Boolean ifOpenLog;
-
-    @Value("${controller.log.time.insert.db}")
-    private Boolean ifTimeLogInsertDb;
-
-    @Value("${controller.log.time.of.time.consuming.limit}")
-    private Integer timeLimit;
-
-    @Value("${controller.log.time.of.count.limit.in.time}")
-    private Integer countOfInsertDBInTime;
-
-    @Value("${controller.log.time.of.insert.db.rate.per.second}")
-    private Double rateOfInsertDBPerSecond;
-
-    @Value("${controller.log.exception.insert.db}")
-    private Boolean ifExceptionLogInsertDb;
+    @Autowired
+    private Environment environment;
 
     public Boolean getIfOpenLog() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.open");
+        String key = "controller.log.time.open";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Boolean ifOpenLog;
         if(val!=null){
             ifOpenLog = Boolean.valueOf(val);
+        }else{
+            ifOpenLog = Boolean.valueOf(environment.getProperty(key));
         }
         return ifOpenLog;
     }
 
     public Boolean getIfTimeLogInsertDb() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.insert.db");
+        String key = "controller.log.time.insert.db";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Boolean ifTimeLogInsertDb;
         if(val!=null){
             ifTimeLogInsertDb = Boolean.valueOf(val);
+        }else {
+            ifTimeLogInsertDb = Boolean.valueOf(environment.getProperty(key));
         }
         return ifTimeLogInsertDb;
     }
 
     public Integer getTimeLimit() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.time.consuming.limit");
+        String key = "controller.log.time.of.time.consuming.limit";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Integer timeLimit;
         if(val!=null){
             timeLimit = Integer.valueOf(val);
+        }else {
+            timeLimit = Integer.valueOf(environment.getProperty(key));
         }
         return timeLimit;
     }
 
     public Integer getCountOfInsertDBInTime() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.count.limit.in.time");
+        String key = "controller.log.time.of.count.limit.in.time";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Integer countOfInsertDBInTime;
         if(val!=null){
             countOfInsertDBInTime = Integer.valueOf(val);
+        }else{
+            countOfInsertDBInTime = Integer.valueOf(environment.getProperty(key));
         }
         return countOfInsertDBInTime;
     }
 
     public Double getRateOfInsertDBPerSecond() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.time.of.insert.db.rate.per.second");
+        String key = "controller.log.time.of.insert.db.rate.per.second";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Double rateOfInsertDBPerSecond;
         if(val!=null){
             rateOfInsertDBPerSecond = Double.valueOf(val);
+        }else{
+            rateOfInsertDBPerSecond = Double.valueOf(environment.getProperty(key));
         }
         return rateOfInsertDBPerSecond;
     }
 
     public Boolean getIfExceptionLogInsertDb() {
-        String val = paramsConfig.getParamsCache().getIfPresent("controller.log.exception.insert.db");
+        String key = "controller.log.exception.insert.db";
+        String val = paramsConfig.getParamsCache().getIfPresent(key);
+        Boolean ifExceptionLogInsertDb;
         if(val!=null){
             ifExceptionLogInsertDb = Boolean.valueOf(val);
+        }else{
+            ifExceptionLogInsertDb = Boolean.valueOf(environment.getProperty(key));
         }
         return ifExceptionLogInsertDb;
     }

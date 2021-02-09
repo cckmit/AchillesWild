@@ -24,7 +24,9 @@ public enum ResultCode implements Serializable {
     EXCEPTION_TO_CLIENT("-1000", "the server is too busy ~ : %s"),
     ERROR_TO_CLIENT("-1001", "the server is asleep ~ : %s"),
     TOO_MANY_REQUESTS("-2001", "too many requests ~ : %s"),
-    REQUESTS_TOO_FREQUENT("-2002", "requests are too frequent ~ : %s");
+    REQUESTS_TOO_FREQUENT("-2002", "requests are too frequent ~ : %s"),
+    TRACE_ID_IS_NECESSARY("-2003", "traceId is necessary"),
+    TRACE_ID_IS_ILLEGAL("-2004", "traceId is illegal");
 
 
     public final String code;
