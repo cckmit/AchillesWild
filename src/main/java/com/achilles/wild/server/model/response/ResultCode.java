@@ -25,8 +25,9 @@ public enum ResultCode implements Serializable {
     ERROR_TO_CLIENT("-1001", "the server is asleep ~ : %s"),
     TOO_MANY_REQUESTS("-2001", "too many requests ~ : %s"),
     REQUESTS_TOO_FREQUENT("-2002", "requests are too frequent ~ : %s"),
-    TRACE_ID_IS_NECESSARY("-2003", "traceId is necessary"),
-    TRACE_ID_IS_ILLEGAL("-2004", "traceId is illegal");
+    TRACE_ID_NECESSARY("-2003", "traceId is necessary"),
+    TRACE_ID_LENGTH_ILLEGAL("-2004", "traceId length is 10-64"),
+    TRACE_ID_CONTENT_ILLEGAL("-2005", "traceId must contain letter and number both ~");
 
 
     public final String code;

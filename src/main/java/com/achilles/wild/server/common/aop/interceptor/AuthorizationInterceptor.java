@@ -3,6 +3,7 @@ package com.achilles.wild.server.common.aop.interceptor;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.model.response.ResultCode;
+import com.achilles.wild.server.tool.verify.CheckUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,15 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         String traceId = request.getHeader(CommonConstant.TRACE_ID);
         if(StringUtils.isBlank(traceId)){
-            throw new BizException(ResultCode.TRACE_ID_IS_NECESSARY);
+            throw new BizException(ResultCode.TRACE_ID_NECESSARY);
         }
         if (traceId.length()<10 || traceId.length()>64){
-            throw new BizException(ResultCode.TRACE_ID_IS_ILLEGAL);
+            throw new BizException(ResultCode.TRACE_ID_LENGTH_ILLEGAL);
         }
+        if (!CheckUtil.containLetter(traceId) || !CheckUtil.containNumber(traceId)){
+            throw new BizException(ResultCode.TRACE_ID_CONTENT_ILLEGAL);
+        }
+
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
         if(!verifyLogin){

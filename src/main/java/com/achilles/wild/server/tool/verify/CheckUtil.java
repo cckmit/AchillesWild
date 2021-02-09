@@ -13,10 +13,28 @@ public class CheckUtil {
 
 	
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		String orginal="Chi中国China";
-		System.out.println(isContainChinese(orginal));
+		String orginal="56i5";
+		System.out.println(containNumber(orginal));
+		System.out.println(containLetter(orginal));
 	}
-	
+
+	public static boolean containNumber(String content) {
+		boolean flag = false;
+		Pattern p = Pattern.compile(".*\\d+.*");
+		Matcher m = p.matcher(content);
+		if (m.matches()) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	public static boolean containLetter(String content) {
+		String regex=".*[a-zA-Z]+.*";
+		Matcher m=Pattern.compile(regex).matcher(content);
+		return m.matches();
+	}
+
+
 	/**
 	 * 是否0，  包含小数
 	 * @param orginal
@@ -189,5 +207,7 @@ public class CheckUtil {
         }
         return false;
 	}
+
+
 
 }
