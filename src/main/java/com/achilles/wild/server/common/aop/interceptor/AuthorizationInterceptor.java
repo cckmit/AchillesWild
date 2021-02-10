@@ -52,7 +52,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }
 
         String token = request.getHeader(CommonConstant.TOKEN);
-        log.info("------------------------------------token:"+ token);
+        log.debug("------------------------------------token:"+ token);
 
         if(StringUtils.isBlank(token)){
             throw new BizException(BaseResultCode.NOT_LOGIN);
@@ -70,6 +70,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
+        log.debug("------------------------------------remove traceId");
+        MDC.remove(CommonConstant.TRACE_ID);
     }
 
 }

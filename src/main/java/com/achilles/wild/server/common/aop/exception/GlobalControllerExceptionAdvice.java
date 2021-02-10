@@ -26,6 +26,14 @@ public class GlobalControllerExceptionAdvice {
         return baseResult;
     }
 
+//    @ExceptionHandler(value = RejectedExecutionException.class)
+//    public BaseResult rejectedExecutionExceptionHandler(RejectedExecutionException e) throws Exception {
+//        e.printStackTrace();
+//        log.error(e.getMessage());
+//        BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);
+//        return baseResult;
+//    }
+
     @ExceptionHandler(value = Exception.class)
     public BaseResult defaultExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         e.printStackTrace();

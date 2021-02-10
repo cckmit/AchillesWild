@@ -27,7 +27,8 @@ public class TaskExecutePool {
         executor.setQueueCapacity(1000);
         executor.setKeepAliveSeconds(30);
         executor.setThreadNamePrefix("AchillesWild-TaskExecutePool-");//设置线程名
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()); //拒绝策略:由调用方线程运行
+//        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy()); //用于被拒绝任务的处理程序，它将抛出 RejectedExecutionException
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy()); //直接丢弃任务
         executor.initialize();
 
         return executor;
