@@ -24,7 +24,7 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
             return false;
         }
 
-        String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYYMMDDHHMMSSSSS)+"_"+Thread.currentThread().getId();
+        String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
         accountTransactionFlow.setFlowNo(flowNo);
         Integer tradeDay = DateUtil.getIntDateFormat(DateUtil.FORMAT_YYYYMMDD,accountTransactionFlow.getTradeDate());
         accountTransactionFlow.setTradeDay(tradeDay);

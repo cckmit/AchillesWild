@@ -3,7 +3,8 @@ package com.achilles.wild.server.common.aop.interceptor;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
-import com.achilles.wild.server.tool.verify.CheckUtil;
+import com.achilles.wild.server.tool.date.DateUtil;
+import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Component
 public class AuthorizationInterceptor implements HandlerInterceptor {
@@ -25,19 +27,25 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Value("${if.verify.login}")
     private Boolean verifyLogin;
 
+    @Value("${if.verify.trace.id:false}")
+    private Boolean verifyTraceId;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String traceId = request.getHeader(CommonConstant.TRACE_ID);
-        if(StringUtils.isBlank(traceId)){
-            throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
+        if(verifyTraceId){
+            check(traceId);
+        }else{
+            traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+ GenerateUniqueUtil.getRandomUUID();
         }
-        if (traceId.length()<10 || traceId.length()>64){
-            throw new BizException(BaseResultCode.TRACE_ID_LENGTH_ILLEGAL);
-        }
-        if (!CheckUtil.containLetter(traceId) || !CheckUtil.containNumber(traceId)){
-            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_ILLEGAL);
-        }
+//        if(StringUtils.isBlank(traceId)){
+//            throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
+//        }
+
+//        if (!CheckUtil.containLetter(traceId) || !CheckUtil.containNumber(traceId)){
+//            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_ILLEGAL);
+//        }
 
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
@@ -60,6 +68,21 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         //todo
         return true;
+    }
+
+    private void check(String traceId) {
+        if(StringUtils.isBlank(traceId)){
+           throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
+       }
+        if (traceId.length()<20 || traceId.length()>64){
+            throw new BizException(BaseResultCode.TRACE_ID_LENGTH_ILLEGAL);
+        }
+        String prefix = traceId.substring(0,17);
+        Date submitDate = DateUtil.getDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS,prefix);
+        int seconds = DateUtil.getGapSeconds(submitDate);
+        if(seconds>180){
+            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED);
+        }
     }
 
     @Override

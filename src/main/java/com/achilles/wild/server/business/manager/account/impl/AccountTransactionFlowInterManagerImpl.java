@@ -37,7 +37,7 @@ public class AccountTransactionFlowInterManagerImpl implements AccountTransactio
 
         Integer tradeDay = DateUtil.getIntDateFormat(DateUtil.FORMAT_YYYYMMDD, accountTransactionFlowInter.getTradeDate());
         accountTransactionFlowInter.setTradeDay(tradeDay);
-        String flowNo = AccountConstant.FLOW_INTER_REDUCE_PREFIX+ DateUtil.getCurrentStr(DateUtil.FORMAT_YYYYMMDDHHMMSSSSS)+"_"+Thread.currentThread().getId();
+        String flowNo = AccountConstant.FLOW_INTER_REDUCE_PREFIX+ DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
         accountTransactionFlowInter.setFlowNo(flowNo);
 
         int insert = accountTransactionFlowInterDao.insertSelective(accountTransactionFlowInter);

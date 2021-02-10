@@ -86,7 +86,7 @@ public class AccountManagerImpl implements AccountManager {
         }
 
         for (int i = 0; i < accounts.size(); i++) {
-            String code = AccountConstant.ACCOUNT_PREFIX+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYYMMDDHHMMSSSSS)+"_"+Thread.currentThread().getId()+"_"+i;
+            String code = AccountConstant.ACCOUNT_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId()+"_"+i;
             accounts.get(i).setAccountCode(code);
         }
 
@@ -107,7 +107,7 @@ public class AccountManagerImpl implements AccountManager {
             return null;
         }
 
-        String code = AccountConstant.ACCOUNT_PREFIX+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYYMMDDHHMMSSSSS)+"_"+Thread.currentThread().getId()+"_";
+        String code = AccountConstant.ACCOUNT_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId()+"_";
 
         return code;
     }

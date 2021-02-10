@@ -35,7 +35,7 @@ public class AccountTransactionFlowInterAddManagerImpl implements AccountTransac
 
     @Override
     public String getFlowNo() {
-        String code = AccountConstant.FLOW_INTER_ADD_PREFIX+ GenerateUniqueUtil.getUuId()+"_"+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYYMMDDHHMMSSSSS)+"_"+Thread.currentThread().getId();
+        String code = AccountConstant.FLOW_INTER_ADD_PREFIX+ GenerateUniqueUtil.getUuId()+"_"+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
         return code;
     }
 }

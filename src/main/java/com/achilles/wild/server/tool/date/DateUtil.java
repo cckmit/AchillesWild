@@ -19,7 +19,7 @@ public class DateUtil {
 	public static final String FORMAT_YYYY_MM_DD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
 
 	public static final String FORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-	public static final String FORMAT_YYYYMMDDHHMMSSSSS = "yyyyMMddHHmmssSSS";
+	public static final String YYYY_MM_DD_HH_MM_SS_SSS = "yyyyMMddHHmmssSSS";
 	public static final String FORMAT_YYYY_MM_DD_HHMMSSSSS = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	public static String yyyyMM = "yyyyMM";
@@ -30,7 +30,10 @@ public class DateUtil {
 
     public static void main(String[] args) {
     	String dateStr = "2020-07-30 17:00:44";
-		Date date = getDateFormat(FORMAT_YYYY_MM_DD_HHMMSS, dateStr);
+		Date date = getDateFormat(YYYY_MM_DD_HH_MM_SS_SSS,"20210210213119322");
+		System.out.println(date);
+
+		System.out.println(getGapSeconds(date));
 //    	Calendar aCalendar = Calendar.getInstance(Locale.CHINA);
 //    	   int day=aCalendar.getActualMaximum(Calendar.DATE);
 //    	  System.out.println(getDateFormat(FORMAT_YYYY_MM_DD_HHMMSS, date));
@@ -48,7 +51,7 @@ public class DateUtil {
 
 		//System.out.println(compareDateIfInScope(date.getTime(),60*60*1000L));
 
-		System.out.println(getPrompt(date.getTime()));
+
     }
 
 	/**
@@ -826,17 +829,30 @@ public class DateUtil {
             }  
         }  
         return age;  
-    } 
-    
+    }
+
+	/**
+	 * getGapSeconds
+	 *
+	 * @param beginTime
+	 * @return
+	 */
+	public static int getGapSeconds(Date beginTime){
+		long begin = beginTime.getTime();
+		long end = System.currentTimeMillis();
+		long seconds = (end-begin)/(1000);
+		return (int)seconds;
+	}
+
 	/**
 	 * 计算天数
 	 * @param beginTime	开始时间 
-	 * @param endtime	结束时间
+	 * @param endTime	结束时间
 	 * @return	days	剩余天数
 	 */
-	public static long getDaysRemaining(Date beginTime,Date endtime){
+	public static long getDaysRemaining(Date beginTime,Date endTime){
 		long beginMs=beginTime.getTime();
-		long endMs=endtime.getTime();
+		long endMs=endTime.getTime();
 		long days= (endMs-beginMs)/(1000*60*60*24);
 		return days;
 	}
@@ -846,7 +862,7 @@ public class DateUtil {
 	 * @param nowtime	结束时间
 	 * @return	days	之间天数
 	 */
-	public static long getBetwenDays(Date beginTime,Date nowtime){
+	public static long getBetweenDays(Date beginTime,Date nowtime){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(beginTime);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
