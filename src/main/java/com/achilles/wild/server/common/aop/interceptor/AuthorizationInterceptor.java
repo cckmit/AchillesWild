@@ -40,7 +40,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }else{
             traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
                     + CommonConstant.SYSTEM_CODE+"_"
-                    + GenerateUniqueUtil.getRandomUUID();
+                    + GenerateUniqueUtil.getUuId();
             log.debug("---------------traceId  generate by  system---------------------:" + traceId);
         }
 

@@ -11,6 +11,10 @@ import java.util.UUID;
  */
 public class GenerateUniqueUtil {
 
+	public static void main(String[] args) {
+		System.out.println(getRandomUUID());
+	}
+
 	public static String getRandomUUID(){
 		String uuid = UUID.randomUUID().toString();
 		return uuid;
@@ -21,7 +25,7 @@ public class GenerateUniqueUtil {
 	 * @return
 	 */
 	 public static String getUuId(){
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		return uuid;
 	 }
 	
