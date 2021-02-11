@@ -27,7 +27,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Value("${if.verify.login:false}")
     private Boolean verifyLogin;
 
-    @Value("${if.verify.trace.id:true}")
+    @Value("${if.verify.trace.id:false}")
     private Boolean verifyTraceId;
 
     @Override
