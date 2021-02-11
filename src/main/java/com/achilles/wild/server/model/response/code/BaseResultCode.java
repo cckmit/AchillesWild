@@ -23,9 +23,12 @@ public enum BaseResultCode implements Serializable {
     TOO_MANY_REQUESTS("-2001", "too many requests ~ : %s"),
     REQUESTS_TOO_FREQUENT("-2002", "requests are too frequent ~ : %s"),
     TRACE_ID_NECESSARY("-2003", "traceId is necessary"),
-    TRACE_ID_LENGTH_ILLEGAL("-2004", "traceId length is 10-64"),
+    TRACE_ID_LENGTH_ILLEGAL("-2004", "traceId length is 20-64"),
     TRACE_ID_CONTENT_ILLEGAL("-2005", "traceId must contain letter and number both ~"),
-    TRACE_ID_CONTENT_EXPIRED("-2005", "traceId expired ");
+    TRACE_ID_CONTENT_EXPIRED("-2006", "traceId expired "),
+    TRACE_ID_CONTENT_EXCEED_CURRENT("-2006", "traceId exceed current time "),
+    TRACE_ID_PREFIX_ILLEGAL("-2007", "traceId prefix format illegal ");
+
 
     public final String code;
     public final String message;

@@ -24,10 +24,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
-    @Value("${if.verify.login}")
+    @Value("${if.verify.login:false}")
     private Boolean verifyLogin;
 
-    @Value("${if.verify.trace.id:false}")
+    @Value("${if.verify.trace.id:true}")
     private Boolean verifyTraceId;
 
     @Override
@@ -37,15 +37,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         if(verifyTraceId){
             check(traceId);
         }else{
-            traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+ GenerateUniqueUtil.getRandomUUID();
+            traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
+                    +CommonConstant.SYSTEM_CODE+"_"
+                    + GenerateUniqueUtil.getRandomUUID();
         }
-//        if(StringUtils.isBlank(traceId)){
-//            throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
-//        }
-
-//        if (!CheckUtil.containLetter(traceId) || !CheckUtil.containNumber(traceId)){
-//            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_ILLEGAL);
-//        }
 
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
@@ -78,10 +73,23 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throw new BizException(BaseResultCode.TRACE_ID_LENGTH_ILLEGAL);
         }
         String prefix = traceId.substring(0,17);
-        Date submitDate = DateUtil.getDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS,prefix);
+        Date submitDate = null;
+        try {
+            submitDate = DateUtil.getDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS,prefix);
+        } catch (BizException e) {
+            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL);
+        }
+        if (submitDate==null){
+            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL);
+        }
+
         int seconds = DateUtil.getGapSeconds(submitDate);
-        if(seconds>180){
+        if(seconds>30){
             throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED);
+        }
+
+        if(seconds<-5){
+            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT);
         }
     }
 
