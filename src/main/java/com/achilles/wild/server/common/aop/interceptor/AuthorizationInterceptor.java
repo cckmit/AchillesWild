@@ -36,7 +36,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         String traceId = request.getHeader(CommonConstant.TRACE_ID);
         if(verifyTraceId){
             log.debug("---------------traceId  from  client---------------------:" + traceId);
-            check(traceId);
+            checkTraceId(traceId);
         }else{
             traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
                     + CommonConstant.SYSTEM_CODE+"_"
@@ -67,7 +67,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private void check(String traceId) {
+    private void checkTraceId(String traceId) {
         if(StringUtils.isBlank(traceId)){
            throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
        }
