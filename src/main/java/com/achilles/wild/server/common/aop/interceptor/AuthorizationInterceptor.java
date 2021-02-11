@@ -35,11 +35,13 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         String traceId = request.getHeader(CommonConstant.TRACE_ID);
         if(verifyTraceId){
+            log.debug("---------------traceId  from  client---------------------:" + traceId);
             check(traceId);
         }else{
             traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
-                    +CommonConstant.SYSTEM_CODE+"_"
+                    + CommonConstant.SYSTEM_CODE+"_"
                     + GenerateUniqueUtil.getRandomUUID();
+            log.debug("---------------traceId  generate by  system---------------------:" + traceId);
         }
 
         MDC.put(CommonConstant.TRACE_ID,traceId);
@@ -101,7 +103,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-        log.debug("------------------------------------remove traceId");
+        log.debug("-----------------remove traceId from Thread-----");
         MDC.remove(CommonConstant.TRACE_ID);
     }
 
