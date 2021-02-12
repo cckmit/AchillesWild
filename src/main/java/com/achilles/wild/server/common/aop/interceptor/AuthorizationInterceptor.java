@@ -3,6 +3,7 @@ package com.achilles.wild.server.common.aop.interceptor;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
+import com.achilles.wild.server.model.response.code.UserResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +25,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
-    @Value("${if.verify.login:false}")
+    @Value("${if.verify.login:true}")
     private Boolean verifyLogin;
 
     @Value("${if.verify.trace.id:false}")
@@ -60,7 +61,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         log.debug("------------------------------------token:"+ token);
 
         if(StringUtils.isBlank(token)){
-            throw new BizException(BaseResultCode.NOT_LOGIN.code,BaseResultCode.NOT_LOGIN.message);
+            throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
         }
 
         //todo
