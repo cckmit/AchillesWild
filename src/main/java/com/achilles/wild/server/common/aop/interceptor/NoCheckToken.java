@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoLogin {
+public @interface NoCheckToken {
 
     boolean value() default true;
 }

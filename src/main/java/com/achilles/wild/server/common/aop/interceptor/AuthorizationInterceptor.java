@@ -58,8 +58,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }
 
         HandlerMethod method = (HandlerMethod) handler;
-        NoLogin noLogin = method.getMethodAnnotation(NoLogin.class);
-        if (noLogin!=null && noLogin.value()){
+        NoCheckToken noCheckToken = method.getMethodAnnotation(NoCheckToken.class);
+        if (noCheckToken !=null && noCheckToken.value()){
             return true;
         }
 

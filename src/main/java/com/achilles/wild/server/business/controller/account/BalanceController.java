@@ -2,7 +2,7 @@ package com.achilles.wild.server.business.controller.account;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.common.aop.limit.RequestLimit;
-import com.achilles.wild.server.common.aop.interceptor.NoLogin;
+import com.achilles.wild.server.common.aop.interceptor.NoCheckToken;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
@@ -26,7 +26,7 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-    @NoLogin
+    @NoCheckToken
     @RequestLimit(countLimit=100,rateLimit = 10)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){

@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.util.UUID;
-
 @RestController
 @RequestMapping(value = "/demo",produces = {"application/json;charset=UTF-8"})
 public class DemoController {
@@ -82,11 +79,6 @@ public class DemoController {
         Long.parseLong(name);
 
         return "AchillesWild";
-    }
-
-    @PostConstruct
-    public void getDBUserName(){
-        log.info("PostConstruct ---------test UUID:"+ UUID.randomUUID());
     }
 
     @GetMapping(path = "/event")
