@@ -1,10 +1,68 @@
 {
 	"info": {
 		"_postman_id": "9bae88b7-1e29-426c-8a48-4a6af146d14a",
-		"name": "Test",
+		"name": "local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//把json字符串转化为对象\r",
+									"var data=JSON.parse(responseBody);\r",
+									"\r",
+									"var token=data.data.token;\r",
+									"\r",
+									"pm.globals.set(\"token\", token);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"wild@qq.com\",\r\n    \"password\":\"root\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "demo get",
 			"protocolProfileBehavior": {
@@ -250,6 +308,11 @@
 					{
 						"key": "traceId",
 						"value": "{{traceId}}",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
 						"type": "text"
 					}
 				],
