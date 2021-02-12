@@ -88,8 +88,8 @@ public class ControllerLogAspect {
 
         long duration = System.currentTimeMillis() - startTime;
         String path = clz+"#"+method;
-//        log.info(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
-//        log.info(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
+        log.debug(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
+        log.debug(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
 
         if(!controllerLogParamsConfig.getIfTimeLogInsertDb() || duration<=controllerLogParamsConfig.getTimeLimit()){
             return result;
@@ -131,6 +131,7 @@ public class ControllerLogAspect {
     public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
 
         if(!controllerLogParamsConfig.getIfExceptionLogInsertDb()){
+            log.debug("insert into DB  BizException has been closed");
            return;
         }
 
@@ -203,6 +204,12 @@ public class ControllerLogAspect {
             boolean isSynthetic = value.getClass().isSynthetic();
             if(isSynthetic){
                 val = JsonUtil.toJsonString(value);
+                String jsonVal = val.toString();
+                if (!jsonVal.contains(CommonConstant.PASSWORD)){
+                    Map<String,Object> newParamsMap = JsonUtil.fromJson(jsonVal,HashMap.class);
+                    newParamsMap.remove(CommonConstant.PASSWORD);
+                    val = JsonUtil.toJsonString(newParamsMap);
+                }
             }
             paramsMap.put(key,val);
         }

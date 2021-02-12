@@ -65,14 +65,6 @@ public class DemoController {
         return id;
     }
 
-    @PostMapping(path = "/save")
-    public Account save(@RequestBody(required = true) Account account){
-
-        log.info("=====params ==========save========account:"+account);
-
-        return account;
-    }
-
     @GetMapping(path = "/get/{name}")
     public String getName(@PathVariable("name") String name){
 

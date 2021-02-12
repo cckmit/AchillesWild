@@ -11,6 +11,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -173,8 +174,8 @@ public class JsonUtil {
 	}
 
 	public static void main(String[] args) {
-		String aa="[{\"id\":226287,\"online_order_num\":7,\"online_order_amount\":1779200.00,\"real_name\":\"穆**\",\"id_card_no\":\"231********419\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"183*****719\"},{\"id\":2096384,\"online_order_num\":2,\"online_order_amount\":70000.00,\"real_name\":\"张**\",\"id_card_no\":\"370********582\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"136*****152\"},{\"id\":2106310,\"online_order_num\":0,\"online_order_amount\":420000.00,\"real_name\":\"薛**\",\"id_card_no\":\"231********820\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"187*****198\"},{\"id\":2259158,\"online_order_num\":1,\"online_order_amount\":1514900.00,\"real_name\":\"王**\",\"id_card_no\":\"370********524\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"150*****666\"},{\"id\":2289001,\"online_order_num\":13,\"online_order_amount\":769384.00,\"real_name\":\"王**\",\"id_card_no\":\"370********243\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"186*****803\"},{\"id\":2293168,\"online_order_num\":0,\"online_order_amount\":0.00,\"real_name\":\"娇**\",\"id_card_no\":\"370********220\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"186*****238\"},{\"id\":2295215,\"online_order_num\":1,\"online_order_amount\":143700.00,\"real_name\":\"石**\",\"id_card_no\":\"370********414\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"155*****328\"},{\"id\":2302044,\"online_order_num\":0,\"online_order_amount\":50000.00,\"real_name\":\"胥**\",\"id_card_no\":\"370********666\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"139*****789\"},{\"id\":2320687,\"online_order_num\":1,\"online_order_amount\":46000.00,\"real_name\":\"荆**\",\"id_card_no\":\"370********823\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"159*****568\"},{\"id\":2321247,\"online_order_num\":4,\"online_order_amount\":287000.00,\"real_name\":\"白**\",\"id_card_no\":\"370********413\",\"gender\":\"\",\"birth_month_day\":\"\",\"mobile\":\"158*****919\"}]";
-		List<Map<String, Object>> list = JsonUtil.fromJson(aa,new TypeToken<List<Map<String, Object>>>() { });
+		String aa="{\"password\":\"root\",\"email\":\"wild@qq.com\"}";
+		Map<String, Object> list = JsonUtil.fromJson(aa, HashMap.class);
 		 System.out.println(list.toString());
 	}
 
