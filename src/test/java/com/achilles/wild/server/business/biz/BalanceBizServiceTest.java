@@ -1,6 +1,7 @@
 package com.achilles.wild.server.business.biz;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.tool.ThreadUtil;

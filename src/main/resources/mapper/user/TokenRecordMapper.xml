@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.achilles.wild.server.business.dao.user.TokenDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.user.Token">
+<mapper namespace="com.achilles.wild.server.business.dao.user.TokenRecordDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.user.TokenRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="token" jdbcType="VARCHAR" property="tokenRecord" />
     <result column="terminal_id" jdbcType="VARCHAR" property="terminalId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, user_uuid, token, terminal_id, status, create_date, update_date
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from token
+        <include refid="Base_Column_List" />
+    from
+        token_record
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.user.Token">
-    insert into token
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.user.TokenRecord">
+    insert into token_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userUuid != null">
         user_uuid,
       </if>
@@ -35,20 +35,8 @@
       <if test="terminalId != null">
         terminal_id,
       </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="updateDate != null">
-        update_date,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="userUuid != null">
         #{userUuid,jdbcType=VARCHAR},
       </if>
@@ -58,20 +46,11 @@
       <if test="terminalId != null">
         #{terminalId,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateDate != null">
-        #{updateDate,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.user.Token">
-    update token
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.user.TokenRecord">
+    update token_record
     <set>
       <if test="userUuid != null">
         user_uuid = #{userUuid,jdbcType=VARCHAR},

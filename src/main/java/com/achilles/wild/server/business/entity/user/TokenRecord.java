@@ -2,7 +2,7 @@ package com.achilles.wild.server.business.entity.user;
 
 import com.achilles.wild.server.business.entity.BaseEntity;
 
-public class Token extends BaseEntity {
+public class TokenRecord extends BaseEntity {
 
     private String userUuid;
 

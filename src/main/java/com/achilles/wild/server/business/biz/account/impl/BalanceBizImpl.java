@@ -1,6 +1,6 @@
-package com.achilles.wild.server.business.biz.impl;
+package com.achilles.wild.server.business.biz.account.impl;
 
-import com.achilles.wild.server.business.biz.BalanceBiz;
+import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.business.service.account.BalanceService;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
