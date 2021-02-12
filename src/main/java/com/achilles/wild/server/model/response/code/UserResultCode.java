@@ -7,7 +7,9 @@ public enum UserResultCode implements Serializable {
     NOT_LOGIN("-300", "NOT LOGIN ~"),
     EMAIL_PASSWORD_IS_NECESSARY("-301", "email and password is necessary !"),
     USER_IS_MISSING("-302", "user is missing !"),
-    PASSWORD_IS_WRONG("-301", "password is wrong !"),;
+    PASSWORD_IS_WRONG("-303", "password is wrong !"),
+    LOGIN_EXPIRED("-304", "login expired !"),;
+    ;
 
     public final String code;
     public final String message;

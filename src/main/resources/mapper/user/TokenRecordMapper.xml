@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.user.TokenRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
-    <result column="token" jdbcType="VARCHAR" property="tokenRecord" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="terminal_id" jdbcType="VARCHAR" property="terminalId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -52,25 +52,30 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.user.TokenRecord">
     update token_record
     <set>
-      <if test="userUuid != null">
-        user_uuid = #{userUuid,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
-      </if>
       <if test="terminalId != null">
         terminal_id = #{terminalId,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateDate != null">
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
-      </if>
+        update_date = now()
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByToken" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List" />
+    from
+        token_record
+    <where>
+      <if test="token != null">
+        AND token = #{token,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+        AND status = #{status,jdbcType=INTEGER}
+      </if>
+    </where>
+    limit 500
+  </select>
 </mapper>

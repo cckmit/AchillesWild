@@ -1,5 +1,7 @@
 package com.achilles.wild.server.common.aop.interceptor;
 
+import com.achilles.wild.server.business.entity.user.TokenRecord;
+import com.achilles.wild.server.business.manager.user.TokenRecordManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
@@ -10,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -30,6 +33,9 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Value("${if.verify.trace.id:false}")
     private Boolean verifyTraceId;
+
+    @Autowired
+    private TokenRecordManager tokenRecordManager;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -64,7 +70,22 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
         }
 
-        //todo
+        TokenRecord tokenRecord = tokenRecordManager.getByToken(token);
+        if(tokenRecord==null){
+            throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
+        }
+        int seconds = DateUtil.getGapSeconds(tokenRecord.getUpdateDate());
+        if(seconds>1800){
+            throw new BizException(UserResultCode.LOGIN_EXPIRED.code,UserResultCode.LOGIN_EXPIRED.message);
+        }
+
+        TokenRecord tokenRecordUpdate = new TokenRecord();
+        tokenRecordUpdate.setId(tokenRecord.getId());
+        Boolean update = tokenRecordManager.updateById(tokenRecord);
+        if(!update){
+            throw new Exception("update token time fail");
+        }
+
         return true;
     }
 

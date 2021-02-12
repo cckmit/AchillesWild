@@ -1,3 +1,8 @@
+//Tests 添加,把登录接口返回的token设置为全局变量
+var data=JSON.parse(responseBody);
+var token=data.data.token;
+pm.globals.set("token", token);
+
 Ctrl+Alt+C，打开控制台
 
 

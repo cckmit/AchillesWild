@@ -23,7 +23,7 @@ public class UserController {
 
     @NoLogin
     @PostMapping("/login")
-    public DataResult<UserResponse> getBalance(@RequestBody(required = true) UserRequest request){
+    public DataResult<UserResponse> login(@RequestBody(required = true) UserRequest request){
 
         UserResponse response = new UserResponse();
 
