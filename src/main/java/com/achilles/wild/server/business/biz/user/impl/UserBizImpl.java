@@ -40,7 +40,7 @@ public class UserBizImpl implements UserBiz {
         }
 
         String encipherPassword = MD5Utils.encodeByMd5AndSalt(password);
-        if (encipherPassword.equals(user.getPassword())){
+        if (!encipherPassword.equals(user.getPassword())){
             log.warn("password is wrong;   email="+email);
             throw new BizException(UserResultCode.PASSWORD_IS_WRONG.code,UserResultCode.PASSWORD_IS_WRONG.message);
         }

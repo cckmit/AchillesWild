@@ -87,7 +87,7 @@ public class RequestLimitAspect {
                                       RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
             rateLimiterCache.put(rateLimiterKey,rateLimiter);
             if(!rateLimiter.tryAcquire()){
-                throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT);
+                throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
             }
 
             String countLimitKey = path+"_CountLimit";
@@ -95,7 +95,7 @@ public class RequestLimitAspect {
             int count = atomicInteger.get();
             int countLimit = annotation.countLimit();
             if(count>countLimit){
-                throw new BizException(BaseResultCode.TOO_MANY_REQUESTS);
+                throw new BizException(BaseResultCode.TOO_MANY_REQUESTS.code,BaseResultCode.TOO_MANY_REQUESTS.message);
             }
 
             atomicInteger.incrementAndGet();

@@ -35,6 +35,14 @@ public class BaseResult implements  Serializable {
 		return result;
 	}
 
+	public static BaseResult fail(String code,String message) {
+		BaseResult result = new BaseResult();
+		result.setSuccess(false);
+		result.setCode(code);
+		result.setMessage(message);
+		return result;
+	}
+
 	public String getCode() {
 		return code;
 	}

@@ -2,7 +2,6 @@ package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
-import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -20,9 +19,8 @@ public class GlobalControllerExceptionAdvice {
 
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
-        BaseResultCode baseResultCode = e.getResultCode();
-        log.error(JsonUtil.toJsonString(baseResultCode));
-        BaseResult baseResult = BaseResult.fail(baseResultCode);
+        log.error(e.getMessage());
+        BaseResult baseResult = BaseResult.fail(e.getCode(),e.getMessage());
         return baseResult;
     }
 

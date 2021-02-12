@@ -151,7 +151,7 @@ public class ControllerLogAspect {
 
         if(throwable instanceof BizException){
             log.debug("----------------------insert into DB  BizException ");
-            exceptionLogs.setMessage(((BizException) throwable).getResultCode().message);
+            exceptionLogs.setMessage(((BizException) throwable).getMessage());
             exceptionLogs.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
             log.debug("----------------------insert into DB other Exception ");

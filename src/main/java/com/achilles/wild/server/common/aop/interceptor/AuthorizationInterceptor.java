@@ -60,7 +60,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         log.debug("------------------------------------token:"+ token);
 
         if(StringUtils.isBlank(token)){
-            throw new BizException(BaseResultCode.NOT_LOGIN);
+            throw new BizException(BaseResultCode.NOT_LOGIN.code,BaseResultCode.NOT_LOGIN.message);
         }
 
         //todo
@@ -69,29 +69,29 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private void checkTraceId(String traceId) {
         if(StringUtils.isBlank(traceId)){
-           throw new BizException(BaseResultCode.TRACE_ID_NECESSARY);
+           throw new BizException(BaseResultCode.TRACE_ID_NECESSARY.code,BaseResultCode.TRACE_ID_NECESSARY.message);
        }
         if (traceId.length()<20 || traceId.length()>64){
-            throw new BizException(BaseResultCode.TRACE_ID_LENGTH_ILLEGAL);
+            throw new BizException(BaseResultCode.TRACE_ID_LENGTH_ILLEGAL.code,BaseResultCode.TRACE_ID_LENGTH_ILLEGAL.message);
         }
         String prefix = traceId.substring(0,17);
         Date submitDate = null;
         try {
             submitDate = DateUtil.getDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS,prefix);
         } catch (BizException e) {
-            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL);
+            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL.code,BaseResultCode.TRACE_ID_PREFIX_ILLEGAL.message);
         }
         if (submitDate==null){
-            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL);
+            throw new BizException(BaseResultCode.TRACE_ID_PREFIX_ILLEGAL.code,BaseResultCode.TRACE_ID_PREFIX_ILLEGAL.message);
         }
 
         int seconds = DateUtil.getGapSeconds(submitDate);
         if(seconds>30){
-            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED);
+            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED.code,BaseResultCode.TRACE_ID_CONTENT_EXPIRED.message);
         }
 
         if(seconds<-5){
-            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT);
+            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT.code,BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT.message);
         }
     }
 
