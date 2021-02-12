@@ -1,11 +1,11 @@
 package com.achilles.wild.server.tool.generate.encrypt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -38,7 +38,7 @@ public class MD5Utils {
     
     public static void main(String args[])
     {
-        System.out.println(MD5Utils.encodeByMd5AndSalt("passsdfsword"));
+        System.out.println(MD5Utils.encodeByMd5AndSalt("root"));
     }
     
     /**
