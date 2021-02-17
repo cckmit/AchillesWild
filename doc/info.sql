@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-01-30 14:53:01
+Date: 2021-02-17 23:46:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,7 +147,7 @@ CREATE TABLE `account_transaction_flow` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `account_version` (`account_code`,`version`,`status`),
   UNIQUE KEY `idempotent` (`idempotent`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=25151 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
+) ENGINE=InnoDB AUTO_INCREMENT=25356 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_add
@@ -192,7 +192,7 @@ CREATE TABLE `account_transaction_flow_inter` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`),
   UNIQUE KEY `account_version` (`account_code`,`version`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=13752 DEFAULT CHARSET=utf8 COMMENT='账户交易流水减(内部)';
+) ENGINE=InnoDB AUTO_INCREMENT=13957 DEFAULT CHARSET=utf8 COMMENT='账户交易流水减(内部)';
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_inter_add
@@ -360,6 +360,43 @@ CREATE TABLE `crm_order` (
 ) ENGINE=InnoDB AUTO_INCREMENT=77988 DEFAULT CHARSET=utf8 COMMENT='crm_order';
 
 -- ----------------------------
+-- Table structure for dict
+-- ----------------------------
+DROP TABLE IF EXISTS `dict`;
+CREATE TABLE `dict` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group` varchar(32) NOT NULL COMMENT '参数key',
+  `key` varchar(32) NOT NULL COMMENT '参数key',
+  `val` varchar(32) NOT NULL COMMENT '参数值',
+  `order` int(11) NOT NULL DEFAULT '0' COMMENT '同一group下的顺序',
+  `description` varchar(64) NOT NULL COMMENT '描述',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group` (`group`,`key`,`val`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典';
+
+-- ----------------------------
+-- Table structure for exception_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `exception_logs`;
+CREATE TABLE `exception_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '异常类型，0:非自定义异常，1:自定义异常',
+  `message` varchar(500) NOT NULL COMMENT '异常信息',
+  `clz` varchar(96) NOT NULL COMMENT '类路径',
+  `method` varchar(32) NOT NULL COMMENT '方法名',
+  `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
+  `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  KEY `class_method` (`clz`,`method`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+
+-- ----------------------------
 -- Table structure for lcs_course
 -- ----------------------------
 DROP TABLE IF EXISTS `lcs_course`;
@@ -449,33 +486,86 @@ CREATE TABLE `lcs_member` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1803 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
--- Table structure for logs
--- ----------------------------
-DROP TABLE IF EXISTS `logs`;
-CREATE TABLE `logs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `clz` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类路径',
-  `method` varchar(32) NOT NULL COMMENT '方法名',
-  `params` varchar(300) NOT NULL COMMENT '入参，json',
-  `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='调用日志';
-
--- ----------------------------
 -- Table structure for params
 -- ----------------------------
 DROP TABLE IF EXISTS `params`;
 CREATE TABLE `params` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(32) NOT NULL COMMENT '参数编码',
+  `key` varchar(32) NOT NULL COMMENT '参数key',
   `val` varchar(32) NOT NULL COMMENT '参数值',
+  `description` varchar(64) NOT NULL COMMENT '描述',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`,`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置表';
+
+-- ----------------------------
+-- Table structure for time_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `time_logs`;
+CREATE TABLE `time_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `clz` varchar(96) NOT NULL COMMENT '类路径',
+  `method` varchar(32) NOT NULL COMMENT '方法名',
+  `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
+  `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
+  `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参数配置表';
+  KEY `class_method` (`clz`,`method`)
+) ENGINE=InnoDB AUTO_INCREMENT=232 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+
+-- ----------------------------
+-- Table structure for token_record
+-- ----------------------------
+DROP TABLE IF EXISTS `token_record`;
+CREATE TABLE `token_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_uuid` varchar(32) NOT NULL COMMENT 'uuid',
+  `token` varchar(50) NOT NULL COMMENT 'token',
+  `terminal_id` varchar(50) DEFAULT NULL COMMENT '终端id',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) NOT NULL COMMENT 'uuid',
+  `nick_name` varchar(32) NOT NULL COMMENT '昵称',
+  `password` varchar(32) DEFAULT NULL COMMENT '密码',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机',
+  `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别:0-其他，1-男，2-女',
+  `img` varchar(100) DEFAULT NULL COMMENT '头像',
+  `login_times` int(11) NOT NULL DEFAULT '0' COMMENT '登陆次数',
+  `proved` int(11) NOT NULL DEFAULT '0' COMMENT '是否实名: 0-否,1-是',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- ----------------------------
+-- Table structure for user_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `user_detail`;
+CREATE TABLE `user_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) NOT NULL COMMENT 'uuid',
+  `id_no` varchar(18) NOT NULL COMMENT '身份证',
+  `real_name` varchar(50) NOT NULL COMMENT '姓名',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户详细表';
