@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -19,7 +20,7 @@ public class CacheController {
     private final static Logger log = LoggerFactory.getLogger(CacheController.class);
 
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate<String, Serializable> serializableRedisTemplate;
 
     String key = "AchillesWild";
 
@@ -29,8 +30,8 @@ public class CacheController {
         User user = new User();
         user.setEmail("wer3r");
 
-        redisTemplate.opsForValue().set(key,user,20L, TimeUnit.SECONDS);
-        Object val = redisTemplate.opsForValue().get(key);
+        serializableRedisTemplate.opsForValue().set(key,user,20L, TimeUnit.SECONDS);
+        Object val = serializableRedisTemplate.opsForValue().get(key);
         log.info("--------val:"+val);
 
         return val;

@@ -1,8 +1,11 @@
 package com.achilles.wild.server.business.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BaseEntity {
+public class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = -3049826313045333350L;
 
     private Long id;
 
