@@ -28,7 +28,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
-    @Value("${if.verify.login:true}")
+    @Value("${if.verify.login:false}")
     private Boolean verifyLogin;
 
     @Value("${if.verify.trace.id:false}")
