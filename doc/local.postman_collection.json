@@ -60,6 +60,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "caffeine get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cache/caffeine/set/wild",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cache",
+								"caffeine",
+								"set",
+								"wild"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -341,6 +361,26 @@
 					"path": [
 						"demo",
 						"event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "redis get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/cache/redis/set/wild",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"cache",
+						"redis",
+						"set",
+						"wild"
 					]
 				}
 			},
