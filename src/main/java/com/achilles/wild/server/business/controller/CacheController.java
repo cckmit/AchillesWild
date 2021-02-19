@@ -1,5 +1,6 @@
 package com.achilles.wild.server.business.controller;
 
+import com.achilles.wild.server.business.entity.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,15 @@ public class CacheController {
     String key = "AchillesWild";
 
     @GetMapping(path = "/redis/set/{value}")
-    public String set(@PathVariable("value") String value){
+    public Object set(@PathVariable("value") String value){
 
-        redisTemplate.opsForValue().set(key,value,20L, TimeUnit.SECONDS);
+        User user = new User();
+        user.setEmail("wer3r");
+
+        redisTemplate.opsForValue().set(key,user,20L, TimeUnit.SECONDS);
         Object val = redisTemplate.opsForValue().get(key);
         log.info("--------val:"+val);
 
-        return String.valueOf(val);
+        return val;
     }
 }
