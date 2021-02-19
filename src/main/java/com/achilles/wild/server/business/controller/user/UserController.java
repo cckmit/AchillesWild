@@ -3,6 +3,7 @@ package com.achilles.wild.server.business.controller.user;
 import com.achilles.wild.server.business.biz.user.UserBiz;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.interceptor.NoCheckToken;
+import com.achilles.wild.server.common.aop.log.IgnoreField;
 import com.achilles.wild.server.model.request.user.UserRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.UserResultCode;
@@ -22,6 +23,7 @@ public class UserController {
     private UserBiz userBiz;
 
     @NoCheckToken
+    @IgnoreField
     @PostMapping("/login")
     public DataResult<UserResponse> login(@RequestBody(required = true) UserRequest request){
 

@@ -1,8 +1,9 @@
 package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.business.entity.TimeLogs;
-import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
+import com.achilles.wild.server.common.constans.CommonConstant;
+import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -13,7 +14,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -95,7 +94,7 @@ public class DaoLogAspect {
         long startTime = System.currentTimeMillis();
         String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
         String method = proceedingJoinPoint.getSignature().getName();
-        Map<String,Object> paramsMap = getParamsMap(proceedingJoinPoint);
+        Map<String,Object> paramsMap = AspectUtil.getParamsMap(proceedingJoinPoint);
         String params = null;
         if(paramsMap.size()!=0){
             params = JsonUtil.toJsonString(paramsMap);
@@ -134,46 +133,4 @@ public class DaoLogAspect {
         return result;
     }
 
-    /**
-     * 在切点之后织入
-     * @throws Throwable
-     */
-//    @After("daoLog()")
-//    public void doAfter() throws Throwable {
-//
-//    }
-
-    /**
-     * get params
-     *
-     * @param joinPoint
-     * @return
-     */
-    private Map<String,Object> getParamsMap(JoinPoint joinPoint){
-
-        String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
-        if(paramNames.length==0){
-            return new HashMap<>();
-        }
-
-        Object[] paramValues = joinPoint.getArgs();
-
-        Map<String,Object> paramsMap = new HashMap<>();
-        for(int i=0;i<paramNames.length;i++){
-            String key = paramNames[i];
-            Object value = paramValues[i];
-            paramsMap.put(key,value);
-            if(value==null){
-                continue;
-            }
-            Object val = value;
-            boolean isSynthetic = value.getClass().isSynthetic();
-            if(isSynthetic){
-                val = JsonUtil.toJsonString(value);
-            }
-            paramsMap.put(key,val);
-        }
-
-        return paramsMap;
-    }
 }

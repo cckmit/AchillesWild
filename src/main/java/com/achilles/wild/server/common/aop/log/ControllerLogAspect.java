@@ -9,6 +9,7 @@ import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
 import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
+import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,7 +17,7 @@ import com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.CodeSignature;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -76,9 +76,10 @@ public class ControllerLogAspect {
         }
 
         long startTime = System.currentTimeMillis();
-        String clz = proceedingJoinPoint.getSignature().getDeclaringTypeName();
-        String method = proceedingJoinPoint.getSignature().getName();
-        Map<String,Object> paramsMap = getParamsMap(proceedingJoinPoint);
+        MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
+        String clz = methodSignature.getDeclaringTypeName();
+        String method = methodSignature.getName();
+        Map<String,Object> paramsMap = AspectUtil.getParamsMap(proceedingJoinPoint);
         String params = null;
         if(paramsMap.size()!=0){
             params = JsonUtil.toJsonString(paramsMap);
@@ -137,14 +138,13 @@ public class ControllerLogAspect {
 
         String clz = joinPoint.getSignature().getDeclaringTypeName();
         String method = joinPoint.getSignature().getName();
-        Map<String,Object> paramsMap = getParamsMap(joinPoint);
+        Map<String,Object> paramsMap = AspectUtil.getParamsMap(joinPoint);
         String params = null;
         if(paramsMap.size()!=0){
             params = JsonUtil.toJsonString(paramsMap);
         }
 
         ExceptionLogs exceptionLogs = new ExceptionLogs();
-
         exceptionLogs.setClz(clz);
         exceptionLogs.setMethod(method);
         exceptionLogs.setParams(params);
@@ -167,53 +167,4 @@ public class ControllerLogAspect {
 
     }
 
-//    @AfterThrowing(pointcut="commonLog()", throwing= "exception")
-//    public void afterThrowing(JoinPoint joinPoint, Exception exception){
-//        log.info("[afterThrowingAdvice] exception: "+exception);
-//    }
-//
-//    @AfterThrowing(pointcut="commonLog()", throwing= "myException")
-//    public void afterThrowing(JoinPoint joinPoint, MyException myException){
-//        log.info("[afterThrowingAdvice] myException: "+myException);
-//    }
-
-    /**
-     * get params
-     *
-     * @param joinPoint
-     * @return
-     */
-    private Map<String,Object> getParamsMap(JoinPoint joinPoint){
-
-        String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
-        if(paramNames.length==0){
-            return new HashMap<>();
-        }
-
-        Object[] paramValues = joinPoint.getArgs();
-
-        Map<String,Object> paramsMap = new HashMap<>();
-        for(int i=0;i<paramNames.length;i++){
-            String key = paramNames[i];
-            Object value = paramValues[i];
-            paramsMap.put(key,value);
-            if(value==null){
-                continue;
-            }
-            Object val = value;
-            boolean isSynthetic = value.getClass().isSynthetic();
-            if(isSynthetic){
-                val = JsonUtil.toJsonString(value);
-                String jsonVal = val.toString();
-                if (!jsonVal.contains(CommonConstant.PASSWORD)){
-                    Map<String,Object> newParamsMap = JsonUtil.fromJson(jsonVal,HashMap.class);
-                    newParamsMap.remove(CommonConstant.PASSWORD);
-                    val = JsonUtil.toJsonString(newParamsMap);
-                }
-            }
-            paramsMap.put(key,val);
-        }
-
-        return paramsMap;
-    }
 }
