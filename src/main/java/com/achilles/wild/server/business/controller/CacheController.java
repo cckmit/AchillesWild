@@ -1,6 +1,7 @@
 package com.achilles.wild.server.business.controller;
 
 import com.achilles.wild.server.business.entity.user.User;
+import com.github.benmanes.caffeine.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,32 @@ public class CacheController {
     @Autowired
     private RedisTemplate<String, Serializable> serializableRedisTemplate;
 
+    @Autowired
+    Cache caffeineCache;
+
     String key = "AchillesWild";
 
     @GetMapping(path = "/redis/set/{value}")
-    public Object set(@PathVariable("value") String value){
+    public Object redisSet(@PathVariable("value") String value){
 
         User user = new User();
         user.setEmail("wer3r");
 
         serializableRedisTemplate.opsForValue().set(key,user,20L, TimeUnit.SECONDS);
         Object val = serializableRedisTemplate.opsForValue().get(key);
+        log.info("--------val:"+val);
+
+        return val;
+    }
+
+    @GetMapping(path = "/caffeine/set/{value}")
+    public Object caffeineSet(@PathVariable("value") String value){
+
+        User user = new User();
+        user.setEmail("wer3r");
+
+        caffeineCache.put(key,user);
+        Object val = caffeineCache.getIfPresent(key);
         log.info("--------val:"+val);
 
         return val;
