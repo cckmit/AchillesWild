@@ -120,7 +120,7 @@ public class DaoLogAspect {
             return result;
         }
         integerCache.put(countLimitKey,atomicInteger);
-//      log.info(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
+        log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         TimeLogs timeLogs = new TimeLogs();
         timeLogs.setClz(clz);
         timeLogs.setMethod(method);
