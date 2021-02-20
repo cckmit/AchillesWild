@@ -13,8 +13,11 @@ import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandle
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/demo",produces = {"application/json;charset=UTF-8"})
@@ -39,6 +42,9 @@ public class DemoController {
 
     @Autowired
     private ApplicationListener myApplicationListener;
+
+    @Value("#{${test.map}}")
+    private Map<String,String> map;
 
 //    @ControllerLog
     @GetMapping(path = "/{id}")
