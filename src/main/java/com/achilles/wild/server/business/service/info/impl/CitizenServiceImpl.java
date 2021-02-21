@@ -8,10 +8,10 @@ import com.achilles.wild.server.business.dao.info.CitizenDetailDao;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.alibaba.fastjson.JSONObject;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
-import com.achilles.wild.server.business.entity.info.CitizenDetail;
-import com.achilles.wild.server.business.entity.info.CrmClient;
-import com.achilles.wild.server.business.entity.info.LcsMember;
+import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.CitizenDetail;
+import com.achilles.wild.server.entity.info.CrmClient;
+import com.achilles.wild.server.entity.info.LcsMember;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;

@@ -1,6 +1,6 @@
-package com.achilles.wild.server.business.controller;
+package com.achilles.wild.server.business.controller.demo;
 
-import com.achilles.wild.server.business.entity.user.User;
+import com.achilles.wild.server.entity.user.User;
 import com.github.benmanes.caffeine.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

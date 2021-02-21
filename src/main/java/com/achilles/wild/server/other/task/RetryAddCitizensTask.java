@@ -1,6 +1,6 @@
 package com.achilles.wild.server.other.task;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.business.manager.info.CitizenManager;
 import com.achilles.wild.server.business.service.info.impl.CitizenService2Impl;
 import com.achilles.wild.server.business.service.info.impl.CitizenServiceImpl;

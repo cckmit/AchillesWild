@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao.user;
 
-import com.achilles.wild.server.business.entity.user.User;
+import com.achilles.wild.server.entity.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

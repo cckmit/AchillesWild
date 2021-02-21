@@ -4,7 +4,7 @@ import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.other.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.other.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandler;
-import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.business.service.info.CitizenService;

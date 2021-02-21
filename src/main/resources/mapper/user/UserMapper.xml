@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.user.UserDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.user.User">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.user.User">
     <result column="id" jdbcType="BIGINT" property="id" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
@@ -21,7 +21,7 @@
     id, uuid, nick_name, password, email, mobile, sex, img,login_times,proved,status,create_date,update_date
   </sql>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.user.User">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.user.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">

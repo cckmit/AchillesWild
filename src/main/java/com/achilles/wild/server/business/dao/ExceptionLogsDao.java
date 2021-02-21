@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao;
 
-import com.achilles.wild.server.business.entity.ExceptionLogs;
+import com.achilles.wild.server.entity.ExceptionLogs;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

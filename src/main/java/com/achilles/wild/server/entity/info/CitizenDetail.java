@@ -1,4 +1,4 @@
-package com.achilles.wild.server.business.entity.info;
+package com.achilles.wild.server.entity.info;
 
 import java.util.Date;
 

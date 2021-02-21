@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.account.atom;
 
-import com.achilles.wild.server.business.entity.account.Account;
+import com.achilles.wild.server.entity.account.Account;
 
 public interface AccountAtomManager {
 

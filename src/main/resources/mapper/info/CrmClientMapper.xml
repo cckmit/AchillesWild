@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.info.CrmClientDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.info.CrmClient">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.info.CrmClient">
     <id column="idd" jdbcType="BIGINT" property="idd" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
@@ -50,7 +50,7 @@
     delete from crm_client
     where idd = #{idd,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.achilles.wild.server.business.entity.info.CrmClient">
+  <insert id="insert" parameterType="com.achilles.wild.server.entity.info.CrmClient">
     insert into crm_client (idd, uuid, invite_code, 
       id, realName, mobile, 
       idCardNo, birthday, age, 
@@ -74,7 +74,7 @@
       #{attributes,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.info.CrmClient">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.info.CrmClient">
     insert into crm_client
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="idd != null">
@@ -267,7 +267,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.info.CrmClient">
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.info.CrmClient">
     update crm_client
     <set>
       <if test="uuid != null">
@@ -363,7 +363,7 @@
     </set>
     where idd = #{idd,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.business.entity.info.CrmClient">
+  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.entity.info.CrmClient">
     update crm_client
     set uuid = #{uuid,jdbcType=VARCHAR},
       invite_code = #{inviteCode,jdbcType=VARCHAR},
@@ -398,7 +398,7 @@
     where idd = #{idd,jdbcType=BIGINT}
   </update>
   
-  <select id="selectByIdNoAndName" parameterType="com.achilles.wild.server.business.entity.info.CrmClient" resultMap="BaseResultMap">
+  <select id="selectByIdNoAndName" parameterType="com.achilles.wild.server.entity.info.CrmClient" resultMap="BaseResultMap">
 		SELECT
 			idd,
 			idCardNo

@@ -1,4 +1,4 @@
-package com.achilles.wild.server.business.entity;
+package com.achilles.wild.server.entity;
 
 public class ExceptionLogs extends BaseEntity {
 

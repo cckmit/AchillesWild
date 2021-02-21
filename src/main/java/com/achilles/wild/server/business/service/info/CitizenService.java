@@ -1,8 +1,8 @@
 package com.achilles.wild.server.business.service.info;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
-import com.achilles.wild.server.business.entity.info.CrmClient;
-import com.achilles.wild.server.business.entity.info.LcsMember;
+import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.CrmClient;
+import com.achilles.wild.server.entity.info.LcsMember;
 import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
 import com.alibaba.fastjson.JSONObject;

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop.listener.event;
 
-import com.achilles.wild.server.business.entity.ExceptionLogs;
+import com.achilles.wild.server.entity.ExceptionLogs;
 import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;

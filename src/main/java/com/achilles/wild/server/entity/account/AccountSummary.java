@@ -1,26 +1,20 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class Account {
+public class AccountSummary {
 
     private Long id;
 
     private String accountCode;
 
-    private Integer accountType;
+    private Long amount;
 
-    private Long balance;
-
-    private Long freezeBalance;
+    private Integer type;
 
     private String userId;
 
-    private Long version;
-
-    private Integer locked;
-
-    private Date unlockTime;
+    private Integer day;
 
     private Integer status;
 
@@ -44,28 +38,20 @@ public class Account {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
-    public Integer getAccountType() {
-        return accountType;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setAccountType(Integer accountType) {
-        this.accountType = accountType;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
-    public Long getBalance() {
-        return balance;
+    public Integer getType() {
+        return type;
     }
 
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
-
-    public Long getFreezeBalance() {
-        return freezeBalance;
-    }
-
-    public void setFreezeBalance(Long freezeBalance) {
-        this.freezeBalance = freezeBalance;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getUserId() {
@@ -74,6 +60,14 @@ public class Account {
 
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 
     public Integer getStatus() {
@@ -98,29 +92,5 @@ public class Account {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public Integer getLocked() {
-        return locked;
-    }
-
-    public void setLocked(Integer locked) {
-        this.locked = locked;
-    }
-
-    public Date getUnlockTime() {
-        return unlockTime;
-    }
-
-    public void setUnlockTime(Date unlockTime) {
-        this.unlockTime = unlockTime;
     }
 }

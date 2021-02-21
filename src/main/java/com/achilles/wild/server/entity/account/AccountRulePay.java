@@ -1,18 +1,17 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountLock {
-
+public class AccountRulePay {
     private Long id;
 
     private String accountCode;
 
+    private Integer weight;
+
     private String userId;
 
-    private Integer locked;
-
-    private Date unlockTime;
+    private Integer status;
 
     private Date createDate;
 
@@ -34,6 +33,14 @@ public class AccountLock {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -42,20 +49,12 @@ public class AccountLock {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Integer getLocked() {
-        return locked;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setLocked(Integer locked) {
-        this.locked = locked;
-    }
-
-    public Date getUnlockTime() {
-        return unlockTime;
-    }
-
-    public void setUnlockTime(Date unlockTime) {
-        this.unlockTime = unlockTime;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreateDate() {

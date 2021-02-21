@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
 import com.achilles.wild.server.business.dao.info.ParamsDao;
-import com.achilles.wild.server.business.entity.info.Params;
+import com.achilles.wild.server.entity.info.Params;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
 import com.achilles.wild.server.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;

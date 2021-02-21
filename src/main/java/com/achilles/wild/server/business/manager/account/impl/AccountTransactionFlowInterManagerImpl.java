@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountTransactionFlowInterDao;
-import com.achilles.wild.server.business.entity.account.AccountTransactionFlowInter;
+import com.achilles.wild.server.entity.account.AccountTransactionFlowInter;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowInterManager;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.lang.StringUtils;

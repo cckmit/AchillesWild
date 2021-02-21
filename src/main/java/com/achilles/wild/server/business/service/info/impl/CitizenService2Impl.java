@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.service.info.impl;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.business.manager.info.CitizenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

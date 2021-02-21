@@ -1,28 +1,26 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountTransactionFlowInter {
+public class Account {
 
     private Long id;
 
-    private String flowNo;
-
-    private Integer type;
-
-    private String idempotent;
-
     private String accountCode;
 
-    private Long amount;
+    private Integer accountType;
+
+    private Long balance;
+
+    private Long freezeBalance;
 
     private String userId;
 
-    private Date tradeDate;
-
-    private Integer tradeDay;
-
     private Long version;
+
+    private Integer locked;
+
+    private Date unlockTime;
 
     private Integer status;
 
@@ -38,14 +36,6 @@ public class AccountTransactionFlowInter {
         this.id = id;
     }
 
-    public String getFlowNo() {
-        return flowNo;
-    }
-
-    public void setFlowNo(String flowNo) {
-        this.flowNo = flowNo == null ? null : flowNo.trim();
-    }
-
     public String getAccountCode() {
         return accountCode;
     }
@@ -54,12 +44,28 @@ public class AccountTransactionFlowInter {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
-    public Long getAmount() {
-        return amount;
+    public Integer getAccountType() {
+        return accountType;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setAccountType(Integer accountType) {
+        this.accountType = accountType;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public Long getFreezeBalance() {
+        return freezeBalance;
+    }
+
+    public void setFreezeBalance(Long freezeBalance) {
+        this.freezeBalance = freezeBalance;
     }
 
     public String getUserId() {
@@ -94,22 +100,6 @@ public class AccountTransactionFlowInter {
         this.updateDate = updateDate;
     }
 
-    public Date getTradeDate() {
-        return tradeDate;
-    }
-
-    public void setTradeDate(Date tradeDate) {
-        this.tradeDate = tradeDate;
-    }
-
-    public Integer getTradeDay() {
-        return tradeDay;
-    }
-
-    public void setTradeDay(Integer tradeDay) {
-        this.tradeDay = tradeDay;
-    }
-
     public Long getVersion() {
         return version;
     }
@@ -118,19 +108,19 @@ public class AccountTransactionFlowInter {
         this.version = version;
     }
 
-    public String getIdempotent() {
-        return idempotent;
+    public Integer getLocked() {
+        return locked;
     }
 
-    public void setIdempotent(String idempotent) {
-        this.idempotent = idempotent;
+    public void setLocked(Integer locked) {
+        this.locked = locked;
     }
 
-    public Integer getType() {
-        return type;
+    public Date getUnlockTime() {
+        return unlockTime;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setUnlockTime(Date unlockTime) {
+        this.unlockTime = unlockTime;
     }
 }

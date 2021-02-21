@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop.interceptor;
 
-import com.achilles.wild.server.business.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.TokenRecord;
 import com.achilles.wild.server.business.manager.user.TokenRecordManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;

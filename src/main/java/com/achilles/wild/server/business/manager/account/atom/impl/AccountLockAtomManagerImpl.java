@@ -2,7 +2,7 @@ package com.achilles.wild.server.business.manager.account.atom.impl;
 
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountLockDao;
-import com.achilles.wild.server.business.entity.account.AccountLock;
+import com.achilles.wild.server.entity.account.AccountLock;
 import com.achilles.wild.server.business.manager.account.atom.AccountLockAtomManager;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.collections4.CollectionUtils;

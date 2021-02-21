@@ -1,15 +1,24 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountRulePay {
+public class AccountTransactionFlowInterAdd {
+
     private Long id;
+
+    private String flowNo;
+
+    private String idempotent;
 
     private String accountCode;
 
-    private Integer weight;
+    private Long amount;
 
     private String userId;
+
+    private Date tradeDate;
+
+    private Integer tradeDay;
 
     private Integer status;
 
@@ -25,6 +34,14 @@ public class AccountRulePay {
         this.id = id;
     }
 
+    public String getFlowNo() {
+        return flowNo;
+    }
+
+    public void setFlowNo(String flowNo) {
+        this.flowNo = flowNo == null ? null : flowNo.trim();
+    }
+
     public String getAccountCode() {
         return accountCode;
     }
@@ -33,12 +50,12 @@ public class AccountRulePay {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
-    public Integer getWeight() {
-        return weight;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setWeight(Integer weight) {
-        this.weight = weight;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
     public String getUserId() {
@@ -71,5 +88,29 @@ public class AccountRulePay {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Date getTradeDate() {
+        return tradeDate;
+    }
+
+    public void setTradeDate(Date tradeDate) {
+        this.tradeDate = tradeDate;
+    }
+
+    public Integer getTradeDay() {
+        return tradeDay;
+    }
+
+    public void setTradeDay(Integer tradeDay) {
+        this.tradeDay = tradeDay;
+    }
+
+    public String getIdempotent() {
+        return idempotent;
+    }
+
+    public void setIdempotent(String idempotent) {
+        this.idempotent = idempotent;
     }
 }

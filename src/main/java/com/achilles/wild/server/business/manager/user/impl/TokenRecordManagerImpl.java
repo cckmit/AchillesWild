@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.user.impl;
 
 import com.achilles.wild.server.business.dao.user.TokenRecordDao;
-import com.achilles.wild.server.business.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.TokenRecord;
 import com.achilles.wild.server.business.manager.user.TokenRecordManager;
 import com.achilles.wild.server.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;

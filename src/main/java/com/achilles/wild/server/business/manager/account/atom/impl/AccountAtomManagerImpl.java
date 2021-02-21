@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.account.atom.impl;
 
 import com.achilles.wild.server.business.dao.account.AccountDao;
-import com.achilles.wild.server.business.entity.account.Account;
+import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.business.manager.account.atom.AccountAtomManager;
 import org.apache.commons.collections.CollectionUtils;

@@ -1,15 +1,22 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountRuleCollect {
+public class AccountInter {
+
     private Long id;
 
     private String accountCode;
 
-    private Integer weight;
+    private Integer accountType;
+
+    private Long balance;
+
+    private Long freezeBalance;
 
     private String userId;
+
+    private Long version;
 
     private Integer status;
 
@@ -33,20 +40,28 @@ public class AccountRuleCollect {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
-    public Integer getWeight() {
-        return weight;
+    public Integer getAccountType() {
+        return accountType;
     }
 
-    public void setWeight(Integer weight) {
-        this.weight = weight;
+    public void setAccountType(Integer accountType) {
+        this.accountType = accountType;
     }
 
-    public String getUserId() {
-        return userId;
+    public Long getBalance() {
+        return balance;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public Long getFreezeBalance() {
+        return freezeBalance;
+    }
+
+    public void setFreezeBalance(Long freezeBalance) {
+        this.freezeBalance = freezeBalance;
     }
 
     public Integer getStatus() {
@@ -71,5 +86,21 @@ public class AccountRuleCollect {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

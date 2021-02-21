@@ -2,7 +2,7 @@ package com.achilles.wild.server.tool.data;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
 import com.achilles.wild.server.business.dao.info.*;
-import com.achilles.wild.server.business.entity.info.*;
+import com.achilles.wild.server.entity.info.*;
 import com.achilles.wild.server.business.service.info.CitizenService;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.file.excel.ExcelReadUtil;

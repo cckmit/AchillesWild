@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.info.CitizenDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.info.Citizen">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.info.Citizen">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -24,7 +24,7 @@
     delete from citizen
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.achilles.wild.server.business.entity.info.Citizen">
+  <insert id="insert" parameterType="com.achilles.wild.server.entity.info.Citizen">
     insert into citizen (id, uuid, name, 
       id_no, remark, is_del, 
       create_date, update_date)
@@ -54,7 +54,7 @@
 	    </foreach> 
 	</insert>   
   
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.info.Citizen" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.info.Citizen" useGeneratedKeys="true" keyProperty="id">
     insert into citizen
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.business.entity.info.Citizen">
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.info.Citizen">
     update citizen
     <set>
       <if test="uuid != null">
@@ -136,7 +136,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.business.entity.info.Citizen">
+  <update id="updateByPrimaryKey" parameterType="com.achilles.wild.server.entity.info.Citizen">
     update citizen
     set uuid = #{uuid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-    <select id="selectByIdNoAndName" parameterType="com.achilles.wild.server.business.entity.info.Citizen" resultMap="BaseResultMap">
+    <select id="selectByIdNoAndName" parameterType="com.achilles.wild.server.entity.info.Citizen" resultMap="BaseResultMap">
 		SELECT
 			id,
 			uuid,

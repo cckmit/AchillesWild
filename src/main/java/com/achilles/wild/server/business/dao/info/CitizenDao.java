@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao.info;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.model.query.info.CitizenQuery;
 import org.apache.ibatis.annotations.Mapper;
 

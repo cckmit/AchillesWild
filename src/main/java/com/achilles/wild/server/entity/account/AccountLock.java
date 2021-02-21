@@ -1,22 +1,18 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountSummary {
+public class AccountLock {
 
     private Long id;
 
     private String accountCode;
 
-    private Long amount;
-
-    private Integer type;
-
     private String userId;
 
-    private Integer day;
+    private Integer locked;
 
-    private Integer status;
+    private Date unlockTime;
 
     private Date createDate;
 
@@ -38,22 +34,6 @@ public class AccountSummary {
         this.accountCode = accountCode == null ? null : accountCode.trim();
     }
 
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -62,20 +42,20 @@ public class AccountSummary {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Integer getDay() {
-        return day;
+    public Integer getLocked() {
+        return locked;
     }
 
-    public void setDay(Integer day) {
-        this.day = day;
+    public void setLocked(Integer locked) {
+        this.locked = locked;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Date getUnlockTime() {
+        return unlockTime;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setUnlockTime(Date unlockTime) {
+        this.unlockTime = unlockTime;
     }
 
     public Date getCreateDate() {

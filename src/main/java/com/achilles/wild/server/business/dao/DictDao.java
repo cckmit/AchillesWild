@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao;
 
-import com.achilles.wild.server.business.entity.Dict;
+import com.achilles.wild.server.entity.Dict;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

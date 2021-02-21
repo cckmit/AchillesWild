@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.user;
 
-import com.achilles.wild.server.business.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.TokenRecord;
 
 public interface TokenRecordManager {
 

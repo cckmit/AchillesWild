@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.achilles.wild.server.business.entity.info.Citizen;
-import com.achilles.wild.server.business.entity.info.CrmClient;
-import com.achilles.wild.server.business.entity.info.LcsMember;
+import com.achilles.wild.server.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.CrmClient;
+import com.achilles.wild.server.entity.info.LcsMember;
 import com.achilles.wild.server.business.service.info.CitizenService;
 import com.alibaba.fastjson.JSONObject;
 

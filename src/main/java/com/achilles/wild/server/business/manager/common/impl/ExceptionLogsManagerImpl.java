@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
 import com.achilles.wild.server.business.dao.ExceptionLogsDao;
-import com.achilles.wild.server.business.entity.ExceptionLogs;
+import com.achilles.wild.server.entity.ExceptionLogs;
 import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

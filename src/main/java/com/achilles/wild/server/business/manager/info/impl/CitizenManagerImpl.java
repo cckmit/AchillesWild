@@ -3,7 +3,7 @@ package com.achilles.wild.server.business.manager.info.impl;
 import java.util.List;
 
 import com.achilles.wild.server.business.dao.info.CitizenDao;
-import com.achilles.wild.server.business.entity.info.Citizen;
+import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.business.manager.info.CitizenManager;
 import com.google.common.collect.Lists;
 import com.achilles.wild.server.model.query.info.CitizenQuery;

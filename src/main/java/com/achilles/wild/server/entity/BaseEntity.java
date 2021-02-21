@@ -1,4 +1,4 @@
-package com.achilles.wild.server.business.entity;
+package com.achilles.wild.server.entity;
 
 import java.io.Serializable;
 import java.util.Date;

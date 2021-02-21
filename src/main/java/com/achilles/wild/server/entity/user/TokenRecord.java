@@ -1,6 +1,6 @@
-package com.achilles.wild.server.business.entity.user;
+package com.achilles.wild.server.entity.user;
 
-import com.achilles.wild.server.business.entity.BaseEntity;
+import com.achilles.wild.server.entity.BaseEntity;
 
 public class TokenRecord extends BaseEntity {
 

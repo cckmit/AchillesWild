@@ -1,24 +1,14 @@
-package com.achilles.wild.server.business.entity;
+package com.achilles.wild.server.entity.info;
 
-public class Dict extends BaseEntity {
+import com.achilles.wild.server.entity.BaseEntity;
 
-    private String group;
+public class Params extends BaseEntity {
 
     private String key;
 
     private String val;
 
-    private Integer order;
-
     private String description;
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
 
     public String getKey() {
         return key;
@@ -34,14 +24,6 @@ public class Dict extends BaseEntity {
 
     public void setVal(String val) {
         this.val = val;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public String getDescription() {

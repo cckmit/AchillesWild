@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao.account;
 
-import com.achilles.wild.server.business.entity.account.Account;
+import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.model.query.account.AccountQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

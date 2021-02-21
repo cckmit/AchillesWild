@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.ExceptionLogsDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.business.entity.ExceptionLogs">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.ExceptionLogs">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="message" jdbcType="VARCHAR" property="message" />
@@ -14,7 +14,7 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.business.entity.ExceptionLogs">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.ExceptionLogs">
     insert into exception_logs
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="type != null">

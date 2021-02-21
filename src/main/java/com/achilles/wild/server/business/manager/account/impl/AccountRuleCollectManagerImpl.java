@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
 import com.achilles.wild.server.business.dao.account.AccountRuleCollectDao;
-import com.achilles.wild.server.business.entity.account.AccountRuleCollect;
+import com.achilles.wild.server.entity.account.AccountRuleCollect;
 import com.achilles.wild.server.business.manager.account.AccountRuleCollectManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.account;
 
-import com.achilles.wild.server.business.entity.account.AccountTransactionFlowInter;
+import com.achilles.wild.server.entity.account.AccountTransactionFlowInter;
 
 public interface AccountTransactionFlowInterManager {
 

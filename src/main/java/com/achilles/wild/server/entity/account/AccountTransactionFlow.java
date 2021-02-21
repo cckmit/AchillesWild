@@ -1,12 +1,14 @@
-package com.achilles.wild.server.business.entity.account;
+package com.achilles.wild.server.entity.account;
 
 import java.util.Date;
 
-public class AccountTransactionFlowInterAdd {
+public class AccountTransactionFlow {
 
     private Long id;
 
     private String flowNo;
+
+    private Integer type;
 
     private String idempotent;
 
@@ -19,6 +21,8 @@ public class AccountTransactionFlowInterAdd {
     private Date tradeDate;
 
     private Integer tradeDay;
+
+    private Long version;
 
     private Integer status;
 
@@ -106,11 +110,27 @@ public class AccountTransactionFlowInterAdd {
         this.tradeDay = tradeDay;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public String getIdempotent() {
         return idempotent;
     }
 
     public void setIdempotent(String idempotent) {
         this.idempotent = idempotent;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

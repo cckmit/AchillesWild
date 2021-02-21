@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao.account;
 
-import com.achilles.wild.server.business.entity.account.AccountTransactionFlowInter;
+import com.achilles.wild.server.entity.account.AccountTransactionFlowInter;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

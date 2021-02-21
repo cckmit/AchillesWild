@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.achilles.wild.server.business.dao.account.AccountInterDao;
-import com.achilles.wild.server.business.entity.account.AccountInter;
+import com.achilles.wild.server.entity.account.AccountInter;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.business.manager.account.atom.AccountInterAtomManager;
 import org.apache.commons.collections.CollectionUtils;

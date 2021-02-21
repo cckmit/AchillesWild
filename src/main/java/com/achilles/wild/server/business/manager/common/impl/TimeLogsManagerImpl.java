@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
 import com.achilles.wild.server.business.dao.TimeLogsDao;
-import com.achilles.wild.server.business.entity.TimeLogs;
+import com.achilles.wild.server.entity.TimeLogs;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

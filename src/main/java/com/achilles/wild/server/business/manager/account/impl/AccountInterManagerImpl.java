@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountInterDao;
 import com.achilles.wild.server.common.cache.AccountLock;
-import com.achilles.wild.server.business.entity.account.AccountInter;
+import com.achilles.wild.server.entity.account.AccountInter;
 import com.achilles.wild.server.enums.account.AccountInterTypeEnum;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.google.common.cache.Cache;
