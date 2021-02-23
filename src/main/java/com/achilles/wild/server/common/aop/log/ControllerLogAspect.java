@@ -24,7 +24,10 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -115,6 +118,10 @@ public class ControllerLogAspect {
         if(!rateLimiter.tryAcquire()){
             return result;
         }
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String uri = request.getRequestURI();
+        String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         TimeLogs timeLogs = new TimeLogs();
@@ -123,6 +130,8 @@ public class ControllerLogAspect {
         timeLogs.setParams(params);
         timeLogs.setTime((int)duration);
         timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        timeLogs.setUri(uri);
+        timeLogs.setType(type);
         timeLogsManager.addLog(timeLogs);
 
         return result;

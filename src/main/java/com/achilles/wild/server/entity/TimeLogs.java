@@ -12,6 +12,10 @@ public class TimeLogs extends BaseEntity {
 
     private String traceId;
 
+    private String uri;
+
+    private String type;
+
     public String getClz() {
         return clz;
     }
@@ -50,5 +54,21 @@ public class TimeLogs extends BaseEntity {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

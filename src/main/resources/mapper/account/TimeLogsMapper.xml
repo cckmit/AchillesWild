@@ -7,6 +7,8 @@
     <result column="method" jdbcType="VARCHAR" property="method" />
     <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="time" jdbcType="INTEGER" property="time" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="traceId" jdbcType="VARCHAR" property="trace_id" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -31,6 +33,12 @@
       <if test="traceId != null">
         trace_id,
       </if>
+      <if test="uri != null">
+        uri,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clz != null">
@@ -47,6 +55,12 @@
       </if>
       <if test="traceId != null">
         #{traceId,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>

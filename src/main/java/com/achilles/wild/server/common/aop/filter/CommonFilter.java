@@ -27,9 +27,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @WebFilter(filterName = "myFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
-public class MyFilter implements Filter {
+public class CommonFilter implements Filter {
 
-    private final static Logger log = LoggerFactory.getLogger(MyFilter.class);
+    private final static Logger log = LoggerFactory.getLogger(CommonFilter.class);
 
     private String loginUri;
 
@@ -106,8 +106,8 @@ public class MyFilter implements Filter {
 
             FilterLogs filterLogs = new FilterLogs();
             filterLogs.setUri(uri);
-            String method = request.getMethod();
-            filterLogs.setType(method);
+            String type = request.getMethod();
+            filterLogs.setType(type);
             filterLogs.setTime((int)duration);
             filterLogs.setTraceId(traceId);
             filterLogsManager.addFilterLog(filterLogs);
