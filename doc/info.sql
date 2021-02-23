@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-02-17 23:46:12
+Date: 2021-02-23 22:54:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,7 +147,7 @@ CREATE TABLE `account_transaction_flow` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `account_version` (`account_code`,`version`,`status`),
   UNIQUE KEY `idempotent` (`idempotent`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=25356 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
+) ENGINE=InnoDB AUTO_INCREMENT=25357 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_add
@@ -192,7 +192,7 @@ CREATE TABLE `account_transaction_flow_inter` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`),
   UNIQUE KEY `account_version` (`account_code`,`version`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=13957 DEFAULT CHARSET=utf8 COMMENT='账户交易流水减(内部)';
+) ENGINE=InnoDB AUTO_INCREMENT=13958 DEFAULT CHARSET=utf8 COMMENT='账户交易流水减(内部)';
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_inter_add
@@ -397,6 +397,23 @@ CREATE TABLE `exception_logs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='异常日志';
 
 -- ----------------------------
+-- Table structure for filter_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `filter_logs`;
+CREATE TABLE `filter_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uri` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'url',
+  `type` varchar(10) NOT NULL COMMENT '请求类型，post,get..',
+  `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
+  `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  KEY `url` (`uri`)
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
+
+-- ----------------------------
 -- Table structure for lcs_course
 -- ----------------------------
 DROP TABLE IF EXISTS `lcs_course`;
@@ -512,12 +529,15 @@ CREATE TABLE `time_logs` (
   `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
   `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
   `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
+  `uri` varchar(64) NOT NULL COMMENT 'url',
+  `type` varchar(10) NOT NULL COMMENT '请求类型，post,get..',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=232 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+  KEY `class_method` (`clz`,`method`),
+  KEY `url` (`uri`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
 
 -- ----------------------------
 -- Table structure for token_record
@@ -532,7 +552,7 @@ CREATE TABLE `token_record` (
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='token记录表';
 
 -- ----------------------------
 -- Table structure for user
