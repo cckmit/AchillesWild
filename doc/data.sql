@@ -1,3 +1,20 @@
+DELETE from account_lock;
+DELETE from account_rule_collect;
+DELETE from account_rule_pay;
+DELETE from account_summary;
+DELETE from account_summary;
+DELETE from account_transaction_flow;
+DELETE from account_transaction_flow_add;
+DELETE from account_transaction_flow_inter;
+DELETE from account_transaction_flow_inter_add;
+DELETE from account_transaction_flow_reduce;
+
+DELETE from exception_logs;
+DELETE from filter_logs;
+DELETE from time_logs;
+DELETE from token_record;
+
+----------------------------------------------------------
 select * from account;
 update account set balance=1000,version=0 where user_id='wild';
 
