@@ -85,9 +85,6 @@ public class CommonFilter implements Filter {
 
         filterChain.doFilter(servletRequest,servletResponse);
 
-        log.debug("-----------------remove traceId from Thread-----");
-        MDC.remove(CommonConstant.TRACE_ID);
-
         String uri = request.getRequestURI();
         long duration = System.currentTimeMillis() - startTime;
         log.debug(" ----------- time-consuming : "+uri+"-->("+duration+"ms)");
@@ -114,6 +111,9 @@ public class CommonFilter implements Filter {
             atomicInteger.incrementAndGet();
             caffeineCacheAtomicInteger.put(uri,atomicInteger);
         }
+
+        log.debug("-----------------remove traceId from Thread-----");
+        MDC.remove(CommonConstant.TRACE_ID);
 
         return;
 
