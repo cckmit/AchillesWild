@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -25,15 +24,15 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
-@WebFilter(filterName = "myFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
+
+@WebFilter(filterName = "commonFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
 public class CommonFilter implements Filter {
 
     private final static Logger log = LoggerFactory.getLogger(CommonFilter.class);
 
     private String loginUri;
 
-    @Value("${if.verify.trace.id:false}")
+    @Value("${if.verify.trace.id:true}")
     private Boolean verifyTraceId;
 
     @Value("${filter.log.time.open:true}")
@@ -163,7 +162,7 @@ public class CommonFilter implements Filter {
         }
 
         int seconds = DateUtil.getGapSeconds(submitDate);
-        if(seconds>30){
+        if(seconds>300){
             throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED.code,BaseResultCode.TRACE_ID_CONTENT_EXPIRED.message);
         }
 
