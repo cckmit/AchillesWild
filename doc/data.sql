@@ -9,9 +9,16 @@ DELETE from account_transaction_flow_inter;
 DELETE from account_transaction_flow_inter_add;
 DELETE from account_transaction_flow_reduce;
 
-DELETE from exception_logs;
-DELETE from filter_logs;
-DELETE from time_logs;
+DELETE from citizen;
+DELETE from citizen_detail;
+DELETE FROM crm_client;
+DELETE from crm_order；
+DELETE from lcs_course;
+DELETE from lcs_member;
+
+DELETE from log_controller;
+DELETE from log_exception;
+DELETE from log_filter;
 DELETE from token_record;
 
 ----------------------------------------------------------

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.entity;
 
-public class FilterLogs extends BaseEntity{
+public class LogFilter extends BaseEntity{
 
     private String uri;
 

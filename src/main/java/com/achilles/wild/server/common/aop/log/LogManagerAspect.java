@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 //@Aspect
 //@Component
 //@Order(2)
-public class ManagerLogAspect {
+public class LogManagerAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(ManagerLogAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(LogManagerAspect.class);
 
     private final static String LOG_PREFIX = "ManagerLogAspect";
 

@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.TimeLogs;
-import com.achilles.wild.server.business.manager.common.TimeLogsManager;
+import com.achilles.wild.server.entity.LogController;
+import com.achilles.wild.server.business.manager.common.LogControllerManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -30,9 +30,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Aspect
 @Component
 @Order(6)
-public class DaoLogAspect {
+public class LogDaoAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(DaoLogAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(LogDaoAspect.class);
 
     private final static String PREFIX = "";
 
@@ -53,7 +53,7 @@ public class DaoLogAspect {
     private Integer countOfInsertDBInTime;
 
     @Autowired
-    private TimeLogsManager timeLogsManager;
+    private LogControllerManager logControllerManager;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -121,13 +121,13 @@ public class DaoLogAspect {
         }
         integerCache.put(countLimitKey,atomicInteger);
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        TimeLogs timeLogs = new TimeLogs();
-        timeLogs.setClz(clz);
-        timeLogs.setMethod(method);
-        timeLogs.setParams(params);
-        timeLogs.setTime((int)duration);
-        timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        timeLogsManager.addLog(timeLogs);
+        LogController controllerLogs = new LogController();
+        controllerLogs.setClz(clz);
+        controllerLogs.setMethod(method);
+        controllerLogs.setParams(params);
+        controllerLogs.setTime((int)duration);
+        controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        logControllerManager.addLog(controllerLogs);
 //      log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
         return result;

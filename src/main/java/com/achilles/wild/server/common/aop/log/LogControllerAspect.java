@@ -1,13 +1,13 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.business.manager.common.TimeLogsManager;
+import com.achilles.wild.server.business.manager.common.LogControllerManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.listener.event.EventListeners;
 import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
 import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.ExceptionLogs;
-import com.achilles.wild.server.entity.TimeLogs;
+import com.achilles.wild.server.entity.LogException;
+import com.achilles.wild.server.entity.LogController;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -37,9 +37,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Aspect
 @Component
 @Order(1)
-public class ControllerLogAspect {
+public class LogControllerAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(ControllerLogAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(LogControllerAspect.class);
 
     private final static String PREFIX = "";
 
@@ -51,7 +51,7 @@ public class ControllerLogAspect {
     private ControllerLogParamsConfig controllerLogParamsConfig;
 
     @Autowired
-    private TimeLogsManager timeLogsManager;
+    private LogControllerManager logControllerManager;
 
     @Autowired
     private EventListeners eventListeners;
@@ -128,15 +128,15 @@ public class ControllerLogAspect {
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        TimeLogs timeLogs = new TimeLogs();
-        timeLogs.setClz(clz);
-        timeLogs.setMethod(method);
-        timeLogs.setParams(params);
-        timeLogs.setTime((int)duration);
-        timeLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        timeLogs.setUri(uri);
-        timeLogs.setType(type);
-        timeLogsManager.addLog(timeLogs);
+        LogController controllerLogs = new LogController();
+        controllerLogs.setClz(clz);
+        controllerLogs.setMethod(method);
+        controllerLogs.setParams(params);
+        controllerLogs.setTime((int)duration);
+        controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        controllerLogs.setUri(uri);
+        controllerLogs.setType(type);
+        logControllerManager.addLog(controllerLogs);
 
         return result;
     }
@@ -157,23 +157,23 @@ public class ControllerLogAspect {
             params = JsonUtil.toJsonString(paramsMap);
         }
 
-        ExceptionLogs exceptionLogs = new ExceptionLogs();
-        exceptionLogs.setClz(clz);
-        exceptionLogs.setMethod(method);
-        exceptionLogs.setParams(params);
-        exceptionLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        LogException logException = new LogException();
+        logException.setClz(clz);
+        logException.setMethod(method);
+        logException.setParams(params);
+        logException.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
         if(throwable instanceof BizException){
             log.debug("----------------------insert into DB  BizException ");
-            exceptionLogs.setMessage(((BizException) throwable).getMessage());
-            exceptionLogs.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
+            logException.setMessage(((BizException) throwable).getMessage());
+            logException.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
             log.debug("----------------------insert into DB other Exception ");
-            exceptionLogs.setMessage(throwable.toString());
-            exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
+            logException.setMessage(throwable.toString());
+            logException.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
 //        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
-        applicationContext.publishEvent(new ExceptionLogsEvent(exceptionLogs));
+        applicationContext.publishEvent(new ExceptionLogsEvent(logException));
 
     }
 

@@ -1,25 +1,24 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
-import com.achilles.wild.server.business.dao.TimeLogsDao;
-import com.achilles.wild.server.entity.TimeLogs;
-import com.achilles.wild.server.business.manager.common.TimeLogsManager;
+import com.achilles.wild.server.business.dao.LogExceptionDao;
+import com.achilles.wild.server.entity.LogException;
+import com.achilles.wild.server.business.manager.common.LogExceptionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TimeLogsManagerImpl implements TimeLogsManager {
+public class LogExceptionManagerImpl implements LogExceptionManager {
 
     @Autowired
-    private TimeLogsDao timeLogsDao;
+    private LogExceptionDao logExceptionDao;
 
     @Override
-    public boolean addLog(TimeLogs log) {
-
+    public boolean addLog(LogException log) {
         if (log==null){
             throw new IllegalArgumentException("log can not be null !");
         }
 
-        int insert = timeLogsDao.insertSelective(log);
+        int insert = logExceptionDao.insertSelective(log);
         if (insert==1){
             return true;
         }

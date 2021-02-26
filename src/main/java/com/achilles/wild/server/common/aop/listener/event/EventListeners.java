@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.aop.listener.event;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.ExceptionLogs;
-import com.achilles.wild.server.business.manager.common.ExceptionLogsManager;
+import com.achilles.wild.server.entity.LogException;
+import com.achilles.wild.server.business.manager.common.LogExceptionManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class EventListeners {
     private final static Logger log = LoggerFactory.getLogger(EventListeners.class);
 
     @Autowired
-    private ExceptionLogsManager exceptionLogsManager;
+    private LogExceptionManager logExceptionManager;
 
     @Async
     @EventListener
@@ -28,10 +28,10 @@ public class EventListeners {
             return;
         }
 
-        ExceptionLogs exceptionLogs = (ExceptionLogs) event.getSource();
-        exceptionLogsManager.addLog(exceptionLogs);
+        LogException logException = (LogException) event.getSource();
+        logExceptionManager.addLog(logException);
 
-        MDC.put(CommonConstant.TRACE_ID,exceptionLogs.getTraceId());
+        MDC.put(CommonConstant.TRACE_ID, logException.getTraceId());
 
         log.debug("--------insert ExceptionLogs into DB------"+ JsonUtil.toJsonString(event.getSource()));
 
