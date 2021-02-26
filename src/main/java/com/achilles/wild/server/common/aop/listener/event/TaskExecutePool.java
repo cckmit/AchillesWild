@@ -3,15 +3,13 @@ package com.achilles.wild.server.common.aop.listener.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-@Configuration
-@EnableAsync
+//@Configuration
+//@EnableAsync
 public class TaskExecutePool {
 
     private static final Logger log = LoggerFactory.getLogger(TaskExecutePool.class);

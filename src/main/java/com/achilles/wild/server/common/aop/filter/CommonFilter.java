@@ -73,7 +73,6 @@ public class CommonFilter implements Filter {
 
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
-
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS, DELETE, PATCH");
@@ -86,13 +85,13 @@ public class CommonFilter implements Filter {
 
         String uri = request.getRequestURI();
         long duration = System.currentTimeMillis() - startTime;
-        log.debug(" ----------- time-consuming : "+uri+"-->("+duration+"ms)");
+        log.debug(" ----------- time-consuming : ("+uri+")-->("+duration+"ms)");
 
 
         if (ifOpenLog) {
 
             AtomicInteger atomicInteger = caffeineCacheAtomicInteger.getIfPresent(uri);
-            log.debug(" -----------"+uri+"--insert DB count : "+atomicInteger);
+            log.debug(" -----------"+uri+"--already insert into DB count : "+atomicInteger);
 
             if (atomicInteger == null){
                 atomicInteger = new AtomicInteger();

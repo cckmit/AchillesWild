@@ -1,13 +1,13 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.ExceptionLogs;
-import com.achilles.wild.server.entity.TimeLogs;
 import com.achilles.wild.server.business.manager.common.TimeLogsManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.listener.event.EventListeners;
 import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
 import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
+import com.achilles.wild.server.entity.ExceptionLogs;
+import com.achilles.wild.server.entity.TimeLogs;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -54,6 +55,9 @@ public class ControllerLogAspect {
 
     @Autowired
     private EventListeners eventListeners;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -168,7 +172,9 @@ public class ControllerLogAspect {
             exceptionLogs.setMessage(throwable.toString());
             exceptionLogs.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
-        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
+//        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
+        applicationContext.publishEvent(new ExceptionLogsEvent(exceptionLogs));
+
     }
 
     @After("controllerLog()")

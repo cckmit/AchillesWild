@@ -19,7 +19,7 @@ public class CaffeineCacheConfig {
     public Cache<String, Object> caffeineCache() {
         return Caffeine.newBuilder()
                 .removalListener(( key,  value,  cause) ->
-                        log.debug("key:" + key + "  ,value:" + value + "  ,delete reason :" + cause)
+                        log.debug("caffeine key  :  " + key + "  ,value   :  " + value + "  ,delete reason :" + cause)
                 )
                 // 设置最后一次写入或访问后经过固定时间过期
                 .expireAfterWrite(5, TimeUnit.SECONDS)
@@ -34,7 +34,7 @@ public class CaffeineCacheConfig {
     public Cache<String, AtomicInteger> caffeineCacheAtomicInteger() {
         return Caffeine.newBuilder()
                 .removalListener(( key,  value,  cause) ->
-                        log.debug("key:" + key + "  ,value:" + value + "  ,delete reason :" + cause)
+                        log.debug("caffeine key  :  " + key + "  ,value   :  " + value + "  ,delete reason :" + cause)
                 )
                 // 设置最后一次写入或访问后经过固定时间过期
                 .expireAfterAccess(10, TimeUnit.SECONDS)
