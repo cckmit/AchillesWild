@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.LogControllerDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.LogController">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.LogController">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="clz" jdbcType="VARCHAR" property="clz" />
     <result column="method" jdbcType="VARCHAR" property="method" />
@@ -15,7 +15,7 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.LogController">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.common.LogController">
     insert into log_controller
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="clz != null">

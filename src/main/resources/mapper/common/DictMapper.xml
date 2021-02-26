@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.achilles.wild.server.business.dao.DictDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.Dict">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.Dict">
       <id column="id" jdbcType="INTEGER" property="id" />
       <result column="group" jdbcType="VARCHAR" property="group" />
       <result column="key" jdbcType="VARCHAR" property="key" />
@@ -33,7 +33,7 @@
         </where>
     </select>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.Dict" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.common.Dict" useGeneratedKeys="true" keyProperty="id">
     insert into dict (
           `group`,
           `key`,

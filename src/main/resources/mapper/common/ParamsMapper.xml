@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.achilles.wild.server.business.dao.info.ParamsDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.info.Params">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.Params">
       <id column="id" jdbcType="INTEGER" property="id" />
       <result column="key" jdbcType="VARCHAR" property="key" />
       <result column="val" jdbcType="VARCHAR" property="val" />
@@ -28,7 +28,7 @@
     </where>
   </select>
 
-  <insert id="insert" parameterType="com.achilles.wild.server.entity.info.Params" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.achilles.wild.server.entity.common.Params" useGeneratedKeys="true" keyProperty="id">
     insert into
           params ( `key`, val,description)
     values

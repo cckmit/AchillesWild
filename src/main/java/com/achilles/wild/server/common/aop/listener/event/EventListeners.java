@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.listener.event;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.LogException;
+import com.achilles.wild.server.entity.common.LogException;
 import com.achilles.wild.server.business.manager.common.LogExceptionManager;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;

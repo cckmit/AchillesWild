@@ -1,4 +1,6 @@
-package com.achilles.wild.server.entity;
+package com.achilles.wild.server.entity.common;
+
+import com.achilles.wild.server.entity.BaseEntity;
 
 public class Dict extends BaseEntity {
 

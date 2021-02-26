@@ -3,7 +3,7 @@ package com.achilles.wild.server.common.aop.filter;
 import com.achilles.wild.server.business.manager.common.LogFilterManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.LogFilter;
+import com.achilles.wild.server.entity.common.LogFilter;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.LogController;
+import com.achilles.wild.server.entity.common.LogController;
 import com.achilles.wild.server.business.manager.common.LogControllerManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.tool.bean.AspectUtil;

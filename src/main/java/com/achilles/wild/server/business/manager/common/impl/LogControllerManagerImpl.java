@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
 import com.achilles.wild.server.business.dao.LogControllerDao;
-import com.achilles.wild.server.entity.LogController;
+import com.achilles.wild.server.entity.common.LogController;
 import com.achilles.wild.server.business.manager.common.LogControllerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

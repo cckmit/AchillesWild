@@ -2,7 +2,7 @@ package com.achilles.wild.server.business.manager.common.impl;
 
 import com.achilles.wild.server.business.dao.LogFilterDao;
 import com.achilles.wild.server.business.manager.common.LogFilterManager;
-import com.achilles.wild.server.entity.LogFilter;
+import com.achilles.wild.server.entity.common.LogFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

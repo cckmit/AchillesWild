@@ -1,6 +1,8 @@
-package com.achilles.wild.server.entity;
+package com.achilles.wild.server.entity.common;
 
-public class LogFilter extends BaseEntity{
+import com.achilles.wild.server.entity.BaseEntity;
+
+public class LogFilter extends BaseEntity {
 
     private String uri;
 

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.common;
 
-import com.achilles.wild.server.entity.LogFilter;
+import com.achilles.wild.server.entity.common.LogFilter;
 
 public interface LogFilterManager {
 

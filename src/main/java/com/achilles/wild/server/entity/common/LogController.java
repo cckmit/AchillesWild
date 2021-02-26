@@ -1,10 +1,8 @@
-package com.achilles.wild.server.entity;
+package com.achilles.wild.server.entity.common;
 
-public class LogException extends BaseEntity {
+import com.achilles.wild.server.entity.BaseEntity;
 
-    private Integer type;
-
-    private String message;
+public class LogController extends BaseEntity {
 
     private String clz;
 
@@ -12,23 +10,13 @@ public class LogException extends BaseEntity {
 
     private String params;
 
+    private Integer time;
+
     private String traceId;
 
-    public Integer getType() {
-        return type;
-    }
+    private String uri;
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    private String type;
 
     public String getClz() {
         return clz;
@@ -54,11 +42,35 @@ public class LogException extends BaseEntity {
         this.params = params;
     }
 
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
     public String getTraceId() {
         return traceId;
     }
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

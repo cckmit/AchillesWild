@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.common;
 
-import com.achilles.wild.server.entity.LogController;
+import com.achilles.wild.server.entity.common.LogController;
 
 public interface LogControllerManager {
 

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.config.params;
 
-import com.achilles.wild.server.entity.info.Params;
+import com.achilles.wild.server.entity.common.Params;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

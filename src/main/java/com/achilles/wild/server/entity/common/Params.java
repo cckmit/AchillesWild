@@ -1,4 +1,4 @@
-package com.achilles.wild.server.entity.info;
+package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
