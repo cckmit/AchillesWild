@@ -2,8 +2,6 @@ package com.achilles.wild.server.common.config;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
-import com.github.benmanes.caffeine.cache.RemovalListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,12 +18,9 @@ public class CaffeineCacheConfig {
     @Bean
     public Cache<String, Object> caffeineCache() {
         return Caffeine.newBuilder()
-                .removalListener(new RemovalListener<Object, Object>() {
-                        @Override
-                        public void onRemoval(Object key,Object value,RemovalCause cause) {
-                            log.debug("key:" + key + ",value:" + value + ",删除原因:" + cause);
-                        }
-                    })
+                .removalListener(( key,  value,  cause) ->
+                        log.debug("key:" + key + "  ,value:" + value + "  ,delete reason :" + cause)
+                )
                 // 设置最后一次写入或访问后经过固定时间过期
                 .expireAfterWrite(5, TimeUnit.SECONDS)
                 // 初始的缓存空间大小
@@ -38,11 +33,11 @@ public class CaffeineCacheConfig {
     @Bean
     public Cache<String, AtomicInteger> caffeineCacheAtomicInteger() {
         return Caffeine.newBuilder()
-                .removalListener((String key, AtomicInteger value, RemovalCause cause) ->
-                        log.debug("key:" + key + ",value:" + value + ",删除原因:" + cause)
+                .removalListener(( key,  value,  cause) ->
+                        log.debug("key:" + key + "  ,value:" + value + "  ,delete reason :" + cause)
                 )
                 // 设置最后一次写入或访问后经过固定时间过期
-                .expireAfterWrite(10, TimeUnit.SECONDS)
+                .expireAfterAccess(10, TimeUnit.SECONDS)
                 // 初始的缓存空间大小
                 .initialCapacity(5)
                 // 缓存的最大条数
