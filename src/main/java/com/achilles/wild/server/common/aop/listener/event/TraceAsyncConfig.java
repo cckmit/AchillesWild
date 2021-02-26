@@ -16,8 +16,8 @@ public class TraceAsyncConfig implements AsyncConfigurer  {
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(16);
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(5);
         executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("Achilles-async-pool-");
         executor.setTaskDecorator(new MdcTaskDecorator());
