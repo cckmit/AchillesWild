@@ -2,7 +2,7 @@ package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
-public class LogFilter extends BaseEntity {
+public class LogFilterInfo extends BaseEntity {
 
     private String uri;
 

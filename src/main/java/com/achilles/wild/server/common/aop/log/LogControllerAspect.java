@@ -1,13 +1,13 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.business.manager.common.LogControllerManager;
+import com.achilles.wild.server.business.manager.common.LogBizManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.listener.event.EventListeners;
-import com.achilles.wild.server.common.aop.listener.event.ExceptionLogsEvent;
+import com.achilles.wild.server.common.aop.listener.event.LogExceptionInfoEvent;
 import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.common.LogException;
-import com.achilles.wild.server.entity.common.LogController;
+import com.achilles.wild.server.entity.common.LogExceptionInfo;
+import com.achilles.wild.server.entity.common.LogBiz;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -51,7 +51,7 @@ public class LogControllerAspect {
     private ControllerLogParamsConfig controllerLogParamsConfig;
 
     @Autowired
-    private LogControllerManager logControllerManager;
+    private LogBizManager logBizManager;
 
     @Autowired
     private EventListeners eventListeners;
@@ -128,7 +128,7 @@ public class LogControllerAspect {
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogController controllerLogs = new LogController();
+        LogBiz controllerLogs = new LogBiz();
         controllerLogs.setClz(clz);
         controllerLogs.setMethod(method);
         controllerLogs.setParams(params);
@@ -136,7 +136,7 @@ public class LogControllerAspect {
         controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
         controllerLogs.setUri(uri);
         controllerLogs.setType(type);
-        logControllerManager.addLog(controllerLogs);
+        logBizManager.addLog(controllerLogs);
 
         return result;
     }
@@ -157,23 +157,23 @@ public class LogControllerAspect {
             params = JsonUtil.toJsonString(paramsMap);
         }
 
-        LogException logException = new LogException();
-        logException.setClz(clz);
-        logException.setMethod(method);
-        logException.setParams(params);
-        logException.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        LogExceptionInfo logExceptionInfo = new LogExceptionInfo();
+        logExceptionInfo.setClz(clz);
+        logExceptionInfo.setMethod(method);
+        logExceptionInfo.setParams(params);
+        logExceptionInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
         if(throwable instanceof BizException){
             log.debug("----------------------insert into DB  BizException ");
-            logException.setMessage(((BizException) throwable).getMessage());
-            logException.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
+            logExceptionInfo.setMessage(((BizException) throwable).getMessage());
+            logExceptionInfo.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
             log.debug("----------------------insert into DB other Exception ");
-            logException.setMessage(throwable.toString());
-            logException.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
+            logExceptionInfo.setMessage(throwable.toString());
+            logExceptionInfo.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
         }
 //        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
-        applicationContext.publishEvent(new ExceptionLogsEvent(logException));
+        applicationContext.publishEvent(new LogExceptionInfoEvent(logExceptionInfo));
 
     }
 

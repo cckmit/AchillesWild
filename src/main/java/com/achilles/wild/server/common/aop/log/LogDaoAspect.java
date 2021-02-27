@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.common.LogController;
-import com.achilles.wild.server.business.manager.common.LogControllerManager;
+import com.achilles.wild.server.entity.common.LogBiz;
+import com.achilles.wild.server.business.manager.common.LogBizManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -56,7 +56,7 @@ public class LogDaoAspect {
     private Integer countOfInsertDBInTime;
 
     @Autowired
-    private LogControllerManager logControllerManager;
+    private LogBizManager logBizManager;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -124,19 +124,19 @@ public class LogDaoAspect {
         }
         integerCache.put(countLimitKey,atomicInteger);
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogController controllerLogs = new LogController();
-        controllerLogs.setClz(clz);
-        controllerLogs.setMethod(method);
-        controllerLogs.setParams(params);
-        controllerLogs.setTime((int)duration);
-        controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        LogBiz logBiz = new LogBiz();
+        logBiz.setClz(clz);
+        logBiz.setMethod(method);
+        logBiz.setParams(params);
+        logBiz.setTime((int)duration);
+        logBiz.setTraceId(MDC.get(CommonConstant.TRACE_ID));
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String uri = request.getRequestURI();
         String type = request.getMethod();
-        controllerLogs.setUri(uri);
-        controllerLogs.setType(type);
-        logControllerManager.addLog(controllerLogs);
+        logBiz.setUri(uri);
+        logBiz.setType(type);
+        logBizManager.addLog(logBiz);
 //      log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
         return result;

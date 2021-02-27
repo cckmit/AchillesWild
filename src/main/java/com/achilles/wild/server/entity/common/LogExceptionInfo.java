@@ -2,7 +2,7 @@ package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
-public class LogException extends BaseEntity {
+public class LogExceptionInfo extends BaseEntity {
 
     private Integer type;
 

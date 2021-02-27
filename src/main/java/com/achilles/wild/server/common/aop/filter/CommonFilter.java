@@ -1,9 +1,9 @@
 package com.achilles.wild.server.common.aop.filter;
 
-import com.achilles.wild.server.business.manager.common.LogFilterManager;
+import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.common.LogFilter;
+import com.achilles.wild.server.entity.common.LogFilterInfo;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -42,7 +42,7 @@ public class CommonFilter implements Filter {
     private Integer countOfInsertDBInTime;
 
     @Autowired
-    private LogFilterManager logFilterManager;
+    private LogFilterInfoManager logFilterInfoManager;
 
     @Autowired
     private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
@@ -99,13 +99,13 @@ public class CommonFilter implements Filter {
                 return;
             }
 
-            LogFilter logFilter = new LogFilter();
-            logFilter.setUri(uri);
+            LogFilterInfo logFilterInfo = new LogFilterInfo();
+            logFilterInfo.setUri(uri);
             String type = request.getMethod();
-            logFilter.setType(type);
-            logFilter.setTime((int)duration);
-            logFilter.setTraceId(traceId);
-            logFilterManager.addLog(logFilter);
+            logFilterInfo.setType(type);
+            logFilterInfo.setTime((int)duration);
+            logFilterInfo.setTraceId(traceId);
+            logFilterInfoManager.addLog(logFilterInfo);
             atomicInteger.incrementAndGet();
             caffeineCacheAtomicInteger.put(uri,atomicInteger);
         }
