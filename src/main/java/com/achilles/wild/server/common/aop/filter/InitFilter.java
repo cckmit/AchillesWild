@@ -2,6 +2,7 @@ package com.achilles.wild.server.common.aop.filter;
 
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.common.aop.listener.event.LogFilterInfoEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogFilterInfo;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -25,10 +27,10 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-@WebFilter(filterName = "commonFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
-public class CommonFilter implements Filter {
+@WebFilter(filterName = "initFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
+public class InitFilter implements Filter {
 
-    private final static Logger log = LoggerFactory.getLogger(CommonFilter.class);
+    private final static Logger log = LoggerFactory.getLogger(InitFilter.class);
 
     private String loginUri;
 
@@ -47,11 +49,14 @@ public class CommonFilter implements Filter {
     @Autowired
     private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.loginUri = filterConfig.getInitParameter("loginUri");
-        log.info("-------------------------------------init-----------------------------------URL=" + this.loginUri);
+        log.debug("-------------------------------------init-----------------------------------URL=" + this.loginUri);
     }
 
     @Override
@@ -87,33 +92,38 @@ public class CommonFilter implements Filter {
         long duration = System.currentTimeMillis() - startTime;
         log.debug(" ----------- time-consuming : ("+uri+")-->("+duration+"ms)");
 
+        if (!ifOpenLog) {
+            log.debug("-----------------remove traceId from Thread-----");
+            MDC.remove(CommonConstant.TRACE_ID);
+            return;
+        }
 
-        if (ifOpenLog) {
-
-            AtomicInteger atomicInteger = caffeineCacheAtomicInteger.getIfPresent(uri);
+        uri = uri.intern();
+        AtomicInteger atomicInteger;
+        synchronized (uri) {
+            atomicInteger = caffeineCacheAtomicInteger.getIfPresent(uri);
             log.debug(" -----------"+uri+"--already insert into DB count : "+atomicInteger);
-
             if (atomicInteger == null){
                 atomicInteger = new AtomicInteger();
-            }else if(atomicInteger.get() >= countOfInsertDBInTime) {
-                return;
+                caffeineCacheAtomicInteger.put(uri,atomicInteger);
             }
-
-            LogFilterInfo logFilterInfo = new LogFilterInfo();
-            logFilterInfo.setUri(uri);
-            String type = request.getMethod();
-            logFilterInfo.setType(type);
-            logFilterInfo.setTime((int)duration);
-            logFilterInfo.setTraceId(traceId);
-            logFilterInfoManager.addLog(logFilterInfo);
-            atomicInteger.incrementAndGet();
-            caffeineCacheAtomicInteger.put(uri,atomicInteger);
         }
+
+        atomicInteger.incrementAndGet();
+        if(atomicInteger.get() > countOfInsertDBInTime) {
+            return;
+        }
+
+        LogFilterInfo logFilterInfo = new LogFilterInfo();
+        logFilterInfo.setUri(uri);
+        String type = request.getMethod();
+        logFilterInfo.setType(type);
+        logFilterInfo.setTime((int)duration);
+        logFilterInfo.setTraceId(traceId);
+        applicationContext.publishEvent(new LogFilterInfoEvent(logFilterInfo));
 
         log.debug("-----------------remove traceId from Thread-----");
         MDC.remove(CommonConstant.TRACE_ID);
-
-        return;
 
 //
 //        String uri = request.getRequestURI();
@@ -139,7 +149,7 @@ public class CommonFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.info("-------------------------------------destroy-----------------------------------");
+        log.debug("-------------------------------------destroy-----------------------------------");
     }
 
     private void checkTraceId(String traceId) {

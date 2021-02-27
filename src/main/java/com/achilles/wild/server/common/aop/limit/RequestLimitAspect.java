@@ -107,14 +107,9 @@ public class RequestLimitAspect {
                 }
             }
 
-            int countLimit = annotation.countLimit();
-            if (atomicInteger.get() >= countLimit){
-                throw new BizException(BaseResultCode.TOO_MANY_REQUESTS.code,BaseResultCode.TOO_MANY_REQUESTS.message);
-            }
-
             atomicInteger.incrementAndGet();
-
             int count = atomicInteger.get();
+            int countLimit = annotation.countLimit();
             if(count>countLimit){
                 throw new BizException(BaseResultCode.TOO_MANY_REQUESTS.code,BaseResultCode.TOO_MANY_REQUESTS.message);
             }
