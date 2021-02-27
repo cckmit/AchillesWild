@@ -29,9 +29,9 @@ public class RequestLimitAspect {
 
         private final static String LOG_PREFIX = "";
 
-        private Cache<String, AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
+        private Cache<String, AtomicInteger> integerCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterAccess(10, TimeUnit.SECONDS).build();
 
-        private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterWrite(10, TimeUnit.SECONDS).build();
+        private Cache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder().concurrencyLevel(5000).maximumSize(500).expireAfterAccess(10, TimeUnit.SECONDS).build();
 
 //        private final RateLimiter rateLimiter = RateLimiter.create(1);
 
@@ -76,30 +76,48 @@ public class RequestLimitAspect {
             Signature signature = proceedingJoinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature)signature;
             String methodName= methodSignature.getName();
-
             String path = signature.getDeclaringTypeName()+"#"+methodName;
-            log.info(LOG_PREFIX+"#method : "+path);
+
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
             RequestLimit annotation = currentMethod.getAnnotation(RequestLimit.class);
             double rateLimit = annotation.rateLimit();
             String rateLimiterKey = path+"_RateLimiter";
-            RateLimiter rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey)==null ?
-                                      RateLimiter.create(rateLimit):rateLimiterCache.getIfPresent(rateLimiterKey);
-            rateLimiterCache.put(rateLimiterKey,rateLimiter);
+            RateLimiter rateLimiter;
+            synchronized (rateLimiterKey) {
+                rateLimiter = rateLimiterCache.getIfPresent(rateLimiterKey);
+                log.debug("key : "+rateLimiterKey+"  from cache : "+rateLimiter);
+                if (rateLimiter == null){
+                    rateLimiter = RateLimiter.create(rateLimit);
+                    rateLimiterCache.put(rateLimiterKey,rateLimiter);
+                }
+            }
             if(!rateLimiter.tryAcquire()){
                 throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
             }
 
             String countLimitKey = path+"_CountLimit";
-            AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null ? new AtomicInteger():integerCache.getIfPresent(countLimitKey);
-            int count = atomicInteger.get();
+            countLimitKey = countLimitKey.intern();
+            AtomicInteger atomicInteger;
+            synchronized (countLimitKey) {
+                atomicInteger = integerCache.getIfPresent(countLimitKey);
+                log.debug("key : "+countLimitKey+"  from cache : "+atomicInteger);
+                if (atomicInteger == null){
+                    atomicInteger = new AtomicInteger();
+                    integerCache.put(countLimitKey,atomicInteger);
+                }
+            }
+
             int countLimit = annotation.countLimit();
-            if(count>countLimit){
+            if (atomicInteger.get() >= countLimit){
                 throw new BizException(BaseResultCode.TOO_MANY_REQUESTS.code,BaseResultCode.TOO_MANY_REQUESTS.message);
             }
 
             atomicInteger.incrementAndGet();
-            integerCache.put(countLimitKey,atomicInteger);
+
+            int count = atomicInteger.get();
+            if(count>countLimit){
+                throw new BizException(BaseResultCode.TOO_MANY_REQUESTS.code,BaseResultCode.TOO_MANY_REQUESTS.message);
+            }
 
             return proceedingJoinPoint.proceed();
         }

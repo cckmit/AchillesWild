@@ -27,7 +27,7 @@ public class BalanceController {
     private BalanceService balanceService;
 
     @NoCheckToken
-    @RequestLimit(countLimit=100,rateLimit = 10)
+    @RequestLimit(countLimit=1000,rateLimit = 100)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 

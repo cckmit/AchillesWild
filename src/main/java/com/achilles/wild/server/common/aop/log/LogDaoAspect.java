@@ -21,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -127,6 +130,12 @@ public class LogDaoAspect {
         controllerLogs.setParams(params);
         controllerLogs.setTime((int)duration);
         controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String uri = request.getRequestURI();
+        String type = request.getMethod();
+        controllerLogs.setUri(uri);
+        controllerLogs.setType(type);
         logControllerManager.addLog(controllerLogs);
 //      log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
