@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
-import com.achilles.wild.server.business.dao.LogFilterInfoDao;
+import com.achilles.wild.server.business.dao.common.LogFilterInfoDao;
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.entity.common.LogFilterInfo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
-import com.achilles.wild.server.business.dao.info.ParamsDao;
+import com.achilles.wild.server.business.dao.common.ParamsDao;
 import com.achilles.wild.server.entity.common.Params;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
 import com.achilles.wild.server.enums.StatusEnum;

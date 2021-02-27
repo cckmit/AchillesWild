@@ -1,25 +1,19 @@
 package com.achilles.wild.server.business.service.info.impl;
 
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import com.achilles.wild.server.business.dao.info.CitizenDao;
 import com.achilles.wild.server.business.dao.info.CitizenDetailDao;
-import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
-import com.alibaba.fastjson.JSONObject;
-
+import com.achilles.wild.server.business.manager.info.CitizenManager;
+import com.achilles.wild.server.business.service.info.CitizenService;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.entity.info.CitizenDetail;
-import com.achilles.wild.server.entity.info.CrmClient;
-import com.achilles.wild.server.entity.info.LcsMember;
+import com.achilles.wild.server.model.query.info.CitizenQuery;
+import com.achilles.wild.server.model.response.PageResult;
+import com.achilles.wild.server.tool.date.DateUtil;
+import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
-import com.achilles.wild.server.business.manager.info.CitizenManager;
-import com.achilles.wild.server.model.query.info.CitizenQuery;
-import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.business.service.info.CitizenService;
-import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +27,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -144,52 +141,6 @@ public class CitizenServiceImpl implements CitizenService, Callable<Integer> {
 		 citizenDe.setRemark("CRM");
 		 citizenDe.setCreateDate(DateUtil.getCurrentDate());
 		 citizenDe.setUpdateDate(citizenDe.getCreateDate());
-		 citizenDetailDao.insertSelective(citizenDe);
-	}
-
-	@Override
-	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
-	public void addCitizen(LcsMember member) {
-		Citizen citizen = new Citizen();
-		 String uuid = GenerateUniqueUtil.getUuId();
-		 citizen.setUuid(uuid);
-		 citizen.setName(member.getRealName());
-		 citizen.setIdNo(member.getIdcardNo());
-		 citizen.setRemark("邀请码");
-		 citizen.setCreateDate(DateUtil.getCurrentDate());
-		 citizen.setUpdateDate(citizen.getCreateDate());
-		 citizenDao.insertSelective(citizen);
-		 CitizenDetail citizenDe = new CitizenDetail();
-		 citizenDe.setUuid(uuid);
-		 citizenDe.setMobile(member.getMobile());
-		 citizenDe.setNickName(member.getNickName());
-		 citizenDe.setAddress(member.getCityname());
-		 citizenDe.setEmail(member.getEmail());
-		 citizenDe.setRemark("邀请码");
-		 citizenDe.setCreateDate(DateUtil.getCurrentDate());
-		 citizenDe.setUpdateDate(citizenDe.getCreateDate());
-		 citizenDetailDao.insertSelective(citizenDe);
-	}
-	
-	@Override
-	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
-	public void addCitizen(CrmClient crmClient) {
-		Citizen citizen = new Citizen();
-		 String uuid = GenerateUniqueUtil.getUuId();
-		 citizen.setUuid(uuid);
-		 citizen.setName(crmClient.getRealname());
-		 citizen.setIdNo(crmClient.getIdcardno());
-		 citizen.setRemark("CRM");
-		 citizen.setCreateDate(DateUtil.getCurrentDate());
-		 citizenDao.insertSelective(citizen);
-		 CitizenDetail citizenDe = new CitizenDetail();
-		 citizenDe.setUuid(uuid);
-		 citizenDe.setMobile(crmClient.getMobile());
-		 citizenDe.setAddress(crmClient.getNativeplace());
-		 citizenDe.setEmail(crmClient.getEmail());
-		 citizenDe.setBirthday(crmClient.getBirthday());
-		 citizenDe.setRemark("CRM");
-		 citizenDe.setCreateDate(DateUtil.getCurrentDate());
 		 citizenDetailDao.insertSelective(citizenDe);
 	}
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-02-26 22:56:18
+Date: 2021-02-27 23:56:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -343,99 +343,6 @@ CREATE TABLE `citizen_detail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for crm_client
--- ----------------------------
-DROP TABLE IF EXISTS `crm_client`;
-CREATE TABLE `crm_client` (
-  `idd` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(40) NOT NULL COMMENT '唯一标示',
-  `invite_code` varchar(20) DEFAULT NULL,
-  `id` varchar(18) DEFAULT NULL,
-  `realName` varchar(30) DEFAULT NULL,
-  `mobile` varchar(18) DEFAULT NULL,
-  `idCardNo` varchar(18) DEFAULT NULL,
-  `birthday` varchar(40) DEFAULT NULL,
-  `age` varchar(3) DEFAULT NULL,
-  `sex` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `registerTime` varchar(100) DEFAULT NULL,
-  `bindTime` varchar(40) DEFAULT NULL,
-  `nativePlace` varchar(80) DEFAULT NULL,
-  `isReal` varchar(10) DEFAULT NULL,
-  `attributesVersion` varchar(100) DEFAULT NULL,
-  `delFlag` varchar(1) DEFAULT NULL,
-  `isLive` varchar(100) DEFAULT NULL,
-  `spendInCount` varchar(100) DEFAULT NULL,
-  `channelCode` varchar(40) DEFAULT NULL,
-  `fromMemberId` varchar(18) DEFAULT NULL,
-  `withdrawPwd` varchar(100) DEFAULT NULL,
-  `spendCount` varchar(40) DEFAULT NULL,
-  `updateTime` varchar(30) DEFAULT NULL,
-  `wuId` varchar(100) DEFAULT NULL,
-  `createTime` varchar(100) DEFAULT NULL,
-  `isHf` varchar(1) DEFAULT NULL,
-  `attributes` varchar(100) DEFAULT NULL,
-  `flag` varchar(1) DEFAULT NULL,
-  `create_time` datetime NOT NULL,
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`idd`),
-  UNIQUE KEY `idno` (`invite_code`,`idCardNo`,`realName`)
-) ENGINE=InnoDB AUTO_INCREMENT=115168 DEFAULT CHARSET=utf8 COMMENT='crm_client';
-
--- ----------------------------
--- Records of crm_client
--- ----------------------------
-
--- ----------------------------
--- Table structure for crm_order
--- ----------------------------
-DROP TABLE IF EXISTS `crm_order`;
-CREATE TABLE `crm_order` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(40) NOT NULL COMMENT '唯一标示',
-  `memberId` varchar(40) DEFAULT NULL,
-  `orderNo` varchar(50) DEFAULT NULL,
-  `sourceOrderNo` varchar(50) DEFAULT NULL,
-  `payStatusEnum` varchar(50) DEFAULT NULL,
-  `spendTime` varchar(50) DEFAULT NULL,
-  `interestTime` varchar(50) DEFAULT NULL,
-  `redemptionTime` varchar(50) DEFAULT NULL,
-  `period` varchar(10) DEFAULT NULL,
-  `payAmount` varchar(50) DEFAULT NULL,
-  `spendAmount` varchar(50) DEFAULT NULL,
-  `productId` varchar(50) DEFAULT NULL,
-  `productName` varchar(50) DEFAULT NULL,
-  `orderStatusEnum` varchar(50) DEFAULT NULL,
-  `parentOrderNo` varchar(50) DEFAULT NULL,
-  `createTime` varchar(50) DEFAULT NULL,
-  `continueProductId` varchar(50) DEFAULT NULL,
-  `countProfit` varchar(50) DEFAULT NULL,
-  `expandProfit` varchar(50) DEFAULT NULL,
-  `expctedEarning` varchar(50) DEFAULT NULL,
-  `exprieProcessMode` varchar(50) DEFAULT NULL,
-  `exprieProcessModeEnum` varchar(50) DEFAULT NULL,
-  `haveparent` varchar(50) DEFAULT NULL,
-  `makertProfit` varchar(100) DEFAULT NULL,
-  `newProduct` varchar(80) DEFAULT NULL,
-  `orderChannelEnum` varchar(50) DEFAULT NULL,
-  `oredrProfit` varchar(100) DEFAULT NULL,
-  `payModeEnum` varchar(50) DEFAULT NULL,
-  `productCat` varchar(50) DEFAULT NULL,
-  `productCatCodeEnum` varchar(100) DEFAULT NULL,
-  `profit` varchar(100) DEFAULT NULL,
-  `tradeNo` varchar(100) DEFAULT NULL,
-  `userCoupon` varchar(50) DEFAULT NULL,
-  `create_time` datetime NOT NULL,
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idno` (`memberId`,`orderNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=77988 DEFAULT CHARSET=utf8 COMMENT='crm_order';
-
--- ----------------------------
--- Records of crm_order
--- ----------------------------
-
--- ----------------------------
 -- Table structure for dict
 -- ----------------------------
 DROP TABLE IF EXISTS `dict`;
@@ -458,107 +365,10 @@ CREATE TABLE `dict` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for lcs_course
+-- Table structure for log_biz
 -- ----------------------------
-DROP TABLE IF EXISTS `lcs_course`;
-CREATE TABLE `lcs_course` (
-  `id` int(15) NOT NULL COMMENT '主键',
-  `course_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '课程标题',
-  `vido_url` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '音频/视频链接地址',
-  `ppt_url` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ppt课件链接地址',
-  `course_type` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '课程类型 1 视频 2 音频',
-  `category_id` int(15) DEFAULT NULL COMMENT '课程分类id',
-  `course_explain` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '课程简介',
-  `study_number` int(20) DEFAULT NULL COMMENT '学习人数',
-  `study_times` int(20) DEFAULT NULL COMMENT '学习次数',
-  `start_show_time` datetime DEFAULT NULL COMMENT '开始展示时间',
-  `end_show_time` datetime DEFAULT NULL COMMENT '结束展示时间',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `del_flag` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '删除标识 0是未删除 1 已删除',
-  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ----------------------------
--- Records of lcs_course
--- ----------------------------
-
--- ----------------------------
--- Table structure for lcs_member
--- ----------------------------
-DROP TABLE IF EXISTS `lcs_member`;
-CREATE TABLE `lcs_member` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_uuid` varchar(100) NOT NULL COMMENT 'uuid',
-  `mobile` varchar(11) DEFAULT NULL COMMENT '手机',
-  `sex` varchar(1) DEFAULT NULL COMMENT '性别',
-  `nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
-  `header_img` varchar(100) DEFAULT NULL COMMENT '头像',
-  `password` varchar(50) DEFAULT NULL COMMENT '密码',
-  `isAuth` char(2) NOT NULL DEFAULT '0' COMMENT '是否实名认证：1是；0否',
-  `real_name` varchar(50) DEFAULT NULL COMMENT '姓名',
-  `idcard_no` varchar(18) DEFAULT NULL COMMENT '身份证',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `money_pwd` varchar(50) DEFAULT NULL COMMENT '提现密码',
-  `invite_code` varchar(20) DEFAULT NULL COMMENT '邀请码',
-  `industry` char(2) DEFAULT NULL COMMENT '从事行业(00:保险;01:银行理财;02:基金;03:信托;04其他)',
-  `ageScope` char(2) DEFAULT NULL COMMENT '从业年限(00:1年以下；01:1-3年; 02:3-5年; 03:5-10年; 04:10年以上;05:其他)',
-  `cityName` varchar(50) DEFAULT NULL COMMENT '所在地区名称',
-  `company` varchar(50) DEFAULT NULL COMMENT '所在机构',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `del_flag` int(11) NOT NULL DEFAULT '0' COMMENT '删除状态',
-  `login_times` int(11) NOT NULL DEFAULT '0' COMMENT '登陆次数',
-  `usercenter_uuid` varchar(100) DEFAULT '' COMMENT '用户中心的uuid',
-  `terminal` varchar(50) DEFAULT NULL COMMENT '终端设备,如pc,微信,移动端',
-  `invite_partner_num` int(11) DEFAULT '0' COMMENT '本月已邀请合伙人数',
-  `belong_to_partner` bigint(20) NOT NULL DEFAULT '0' COMMENT '属于哪个合伙人',
-  `partner_date` datetime DEFAULT NULL,
-  `belong_to_lcs` bigint(20) NOT NULL DEFAULT '0' COMMENT '属于哪个理财师',
-  `lcs_date` datetime DEFAULT NULL,
-  `is_lcs` int(11) NOT NULL DEFAULT '0' COMMENT '0:默认普通客户,1:理财师',
-  `quaState` char(2) NOT NULL DEFAULT '0' COMMENT '理财师资质认证状态：0：未提交资质；1：审核中；2：审核通过；3：审核未通过',
-  `quaImgUrl` varchar(100) DEFAULT NULL COMMENT '理财师资质图片url',
-  `imgType` char(2) DEFAULT NULL COMMENT '理财师资质类型 1:银行从业资格证书',
-  `is_new` int(11) NOT NULL DEFAULT '0' COMMENT '用户新消息提示。11表示不提示 12用户提示  21合伙人提示 22全部提示',
-  `is_admin` int(11) NOT NULL DEFAULT '0' COMMENT '默认是0:普通用户 ， 1:管理员',
-  `customer_num` int(11) NOT NULL DEFAULT '0' COMMENT '客户数',
-  `total_sale_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '销售总金额',
-  `is_crm` char(10) NOT NULL DEFAULT '0' COMMENT '是否已注册crm：0：未注册；1：已注册',
-  `newbie_close_time` datetime DEFAULT NULL COMMENT '新手活动最后被关闭的时间',
-  `is_9jia_member` int(11) DEFAULT '0' COMMENT '职业类型。0网络理财师、1玖加职能、2玖加销售、3渠道、4独立理财师、5向阳花、6沈阳渠道、7深圳、8重庆、9离职员工',
-  `fuyou_status` char(2) DEFAULT '0' COMMENT '富友金账号开通状态：0:未开通，1:已开通',
-  `register_crm_date` datetime DEFAULT NULL COMMENT '理财师注册crm时间',
-  `is_j9_customer` int(11) DEFAULT '0' COMMENT '是否玖加客户.0:未知,1:玖加客户,2不是玖加客户,3忽略',
-  `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `is_modify_money_pwd` smallint(6) DEFAULT '0' COMMENT '已否修改过取现密码.0:未改过，1:修改过',
-  `visit_status` smallint(6) DEFAULT '0' COMMENT '''理财师属性 0:待跟进,1:已放弃,2:已成交'',',
-  `ass_level` decimal(10,2) DEFAULT '0.00' COMMENT '理财师考核等级',
-  `data_origin` varchar(200) DEFAULT '',
-  `manage_id` bigint(20) DEFAULT '0' COMMENT '管理人id',
-  `manage_date` datetime DEFAULT NULL COMMENT '管理时间',
-  `op_dimission_time` datetime DEFAULT NULL COMMENT '一键离职时间',
-  `bind_switch` char(2) DEFAULT '0' COMMENT '理财师绑定老客户开关0:开 1:关',
-  `belong_region` varchar(50) DEFAULT NULL COMMENT '手机归属地',
-  PRIMARY KEY (`id`),
-  KEY `lcs_member_mobile` (`mobile`),
-  KEY `lcs_member_is_9jia_member` (`is_9jia_member`),
-  KEY `lcs_member_del_flag` (`del_flag`),
-  KEY `lcs_member_invite_code` (`invite_code`),
-  KEY `lcs_user_uuid` (`user_uuid`),
-  KEY `lcs_del_flag` (`del_flag`)
-) ENGINE=InnoDB AUTO_INCREMENT=1803 DEFAULT CHARSET=utf8 COMMENT='用户表';
-
--- ----------------------------
--- Records of lcs_member
--- ----------------------------
-
--- ----------------------------
--- Table structure for log_controller
--- ----------------------------
-DROP TABLE IF EXISTS `log_controller`;
-CREATE TABLE `log_controller` (
+DROP TABLE IF EXISTS `log_biz`;
+CREATE TABLE `log_biz` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `clz` varchar(96) NOT NULL COMMENT '类路径',
   `method` varchar(32) NOT NULL COMMENT '方法名',
@@ -573,21 +383,20 @@ CREATE TABLE `log_controller` (
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
 
 -- ----------------------------
--- Records of log_controller
+-- Records of log_biz
 -- ----------------------------
-INSERT INTO `log_controller` VALUES ('1', 'com.achilles.wild.server.business.controller.demo.DemoController', 'invokeEvent', null, '8', '20210226225137604_postman', '/achilles/demo/event', 'GET', '1', '2021-02-26 22:51:37', '2021-02-26 22:51:37');
 
 -- ----------------------------
--- Table structure for log_exception
+-- Table structure for log_exception_info
 -- ----------------------------
-DROP TABLE IF EXISTS `log_exception`;
-CREATE TABLE `log_exception` (
+DROP TABLE IF EXISTS `log_exception_info`;
+CREATE TABLE `log_exception_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL DEFAULT '0' COMMENT '异常类型，0:非自定义异常，1:自定义异常',
-  `message` varchar(500) NOT NULL COMMENT '异常信息',
+  `message` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '异常信息',
   `clz` varchar(96) NOT NULL COMMENT '类路径',
   `method` varchar(32) NOT NULL COMMENT '方法名',
   `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
@@ -597,18 +406,17 @@ CREATE TABLE `log_exception` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='异常日志';
 
 -- ----------------------------
--- Records of log_exception
+-- Records of log_exception_info
 -- ----------------------------
-INSERT INTO `log_exception` VALUES ('1', '0', 'java.lang.NumberFormatException: For input string: \"34e\"', 'com.achilles.wild.server.business.controller.demo.DemoController', 'getName', '{\"name\":\"34e\"}', '20210226224754703_postman', '1', '2021-02-26 22:47:55', '2021-02-26 22:47:55');
 
 -- ----------------------------
--- Table structure for log_filter
+-- Table structure for log_filter_info
 -- ----------------------------
-DROP TABLE IF EXISTS `log_filter`;
-CREATE TABLE `log_filter` (
+DROP TABLE IF EXISTS `log_filter_info`;
+CREATE TABLE `log_filter_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `uri` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'url',
   `type` varchar(10) NOT NULL COMMENT '请求类型，post,get..',
@@ -619,13 +427,11 @@ CREATE TABLE `log_filter` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
 
 -- ----------------------------
--- Records of log_filter
+-- Records of log_filter_info
 -- ----------------------------
-INSERT INTO `log_filter` VALUES ('1', '/achilles/demo/get/34e', 'GET', '371', '20210226224754703_postman', '1', '2021-02-26 22:47:55', '2021-02-26 22:47:55');
-INSERT INTO `log_filter` VALUES ('2', '/achilles/demo/event', 'GET', '260', '20210226225137604_postman', '1', '2021-02-26 22:51:37', '2021-02-26 22:51:37');
 
 -- ----------------------------
 -- Table structure for params

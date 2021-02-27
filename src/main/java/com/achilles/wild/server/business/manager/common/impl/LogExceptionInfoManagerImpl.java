@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager.common.impl;
 
-import com.achilles.wild.server.business.dao.LogExceptionInfoDao;
+import com.achilles.wild.server.business.dao.common.LogExceptionInfoDao;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.business.manager.common.LogExceptionInfoManager;
 import org.springframework.beans.factory.annotation.Autowired;

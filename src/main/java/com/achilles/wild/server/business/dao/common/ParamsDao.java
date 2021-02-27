@@ -1,4 +1,4 @@
-package com.achilles.wild.server.business.dao.info;
+package com.achilles.wild.server.business.dao.common;
 
 import com.achilles.wild.server.entity.common.Params;
 import org.apache.ibatis.annotations.Mapper;

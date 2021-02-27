@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.dao;
 
 import com.achilles.wild.server.SpringbootApplicationTests;
-import com.achilles.wild.server.business.dao.info.ParamsDao;
+import com.achilles.wild.server.business.dao.common.ParamsDao;
 import com.achilles.wild.server.entity.common.Params;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
