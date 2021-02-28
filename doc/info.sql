@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-02-28 08:22:56
+Date: 2021-02-28 22:02:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -403,7 +403,7 @@ CREATE TABLE `log_biz_info` (
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
 
 -- ----------------------------
 -- Records of log_biz_info
@@ -426,7 +426,7 @@ CREATE TABLE `log_exception_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='异常日志';
 
 -- ----------------------------
 -- Records of log_exception_info
@@ -447,22 +447,11 @@ CREATE TABLE `log_filter_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
 
 -- ----------------------------
 -- Records of log_filter_info
 -- ----------------------------
-INSERT INTO `log_filter_info` VALUES ('55', '/achilles/balance/get/wild', 'GET', '326', '20210228003217879_postman', '1', '2021-02-28 00:32:18', '2021-02-28 00:32:18');
-INSERT INTO `log_filter_info` VALUES ('56', '/achilles/balance/get/wild', 'GET', '46', '20210228003241645_postman', '1', '2021-02-28 00:32:41', '2021-02-28 00:32:41');
-INSERT INTO `log_filter_info` VALUES ('57', '/achilles/balance/get/wild', 'GET', '42', '20210228003242277_postman', '1', '2021-02-28 00:32:42', '2021-02-28 00:32:42');
-INSERT INTO `log_filter_info` VALUES ('58', '/achilles/balance/get/wild', 'GET', '30', '20210228003242786_postman', '1', '2021-02-28 00:32:42', '2021-02-28 00:32:42');
-INSERT INTO `log_filter_info` VALUES ('59', '/achilles/balance/get/wild', 'GET', '349', '20210228003741694_postman', '1', '2021-02-28 00:37:42', '2021-02-28 00:37:42');
-INSERT INTO `log_filter_info` VALUES ('60', '/achilles/balance/get/wild', 'GET', '330', '20210228003808290_postman', '1', '2021-02-28 00:38:08', '2021-02-28 00:38:08');
-INSERT INTO `log_filter_info` VALUES ('61', '/achilles/balance/get/wild', 'GET', '370', '20210228004046649_postman', '1', '2021-02-28 00:40:47', '2021-02-28 00:40:47');
-INSERT INTO `log_filter_info` VALUES ('62', '/achilles/balance/get/wild', 'GET', '342', '20210228004709057_postman', '1', '2021-02-28 00:47:09', '2021-02-28 00:47:09');
-INSERT INTO `log_filter_info` VALUES ('63', '/achilles/balance/get/wild', 'GET', '427', '20210228004753119_postman', '1', '2021-02-28 00:47:53', '2021-02-28 00:47:53');
-INSERT INTO `log_filter_info` VALUES ('64', '/achilles/balance/get/wild', 'GET', '319', '20210228004831098_postman', '1', '2021-02-28 00:48:31', '2021-02-28 00:48:31');
-INSERT INTO `log_filter_info` VALUES ('65', '/achilles/balance/get/wild', 'GET', '530', '20210228082219220_postman', '1', '2021-02-28 08:22:19', '2021-02-28 08:22:19');
 
 -- ----------------------------
 -- Table structure for user
