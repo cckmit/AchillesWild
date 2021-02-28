@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="clz" jdbcType="VARCHAR" property="clz" />
     <result column="method" jdbcType="VARCHAR" property="method" />
-    <result column="configParams" jdbcType="VARCHAR" property="configParams" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="time" jdbcType="INTEGER" property="time" />
     <result column="uri" jdbcType="VARCHAR" property="uri" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -24,8 +24,8 @@
       <if test="method != null">
           method,
       </if>
-      <if test="configParams != null">
-          configParams,
+      <if test="params != null">
+        params,
       </if>
       <if test="time != null">
           time,
@@ -47,8 +47,8 @@
       <if test="method != null">
         #{method,jdbcType=VARCHAR},
       </if>
-      <if test="configParams != null">
-        #{configParams,jdbcType=VARCHAR},
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         #{time,jdbcType=INTEGER},
