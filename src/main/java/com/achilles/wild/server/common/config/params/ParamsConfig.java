@@ -24,7 +24,7 @@ public class ParamsConfig {
     private ParamsManager paramsManager;
 
     @Autowired
-    private ControllerLogParamsConfig controllerLogParamsConfig;
+    private LogBizParamsConfig logBizParamsConfig;
 
     @PostConstruct
     public void initParams(){

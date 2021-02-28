@@ -111,6 +111,7 @@ public class InitFilter implements Filter {
 
         atomicInteger.incrementAndGet();
         if(atomicInteger.get() > countOfInsertDBInTime) {
+            log.debug(" -----------"+uri+"-- insert into DB count out of limit ");
             return;
         }
 

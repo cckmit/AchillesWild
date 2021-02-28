@@ -1,7 +1,9 @@
 package com.achilles.wild.server.common.aop.listener.event;
 
+import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
 import com.achilles.wild.server.business.manager.common.LogExceptionInfoManager;
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
+import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.entity.common.LogFilterInfo;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -24,6 +26,23 @@ public class EventListeners {
     @Autowired
     private LogFilterInfoManager logFilterInfoManager;
 
+    @Autowired
+    private LogBizInfoManager logBizInfoManager;
+
+
+    @EventListener
+    public void addLogBizInfoEvent(LogBizInfoEvent event) {
+
+        if (event.getSource()==null){
+            return;
+        }
+
+        LogBizInfo logBizInfo = (LogBizInfo) event.getSource();
+        log.debug("--------insert LogBizInfo into DB------"+ JsonUtil.toJsonString(logBizInfo));
+        logBizInfoManager.addLog(logBizInfo);
+
+
+    }
 
     @EventListener
     public void addLogFilterEvent(LogFilterInfoEvent event) {
@@ -33,9 +52,9 @@ public class EventListeners {
         }
 
         LogFilterInfo logFilterInfo = (LogFilterInfo) event.getSource();
+        log.debug("--------insert LogFilterInfo into DB------"+ JsonUtil.toJsonString(logFilterInfo));
         logFilterInfoManager.addLog(logFilterInfo);
 
-        log.debug("--------insert LogFilterInfo into DB------"+ JsonUtil.toJsonString(logFilterInfo));
     }
 
     @EventListener
@@ -46,8 +65,7 @@ public class EventListeners {
         }
 
         LogExceptionInfo logExceptionInfo = (LogExceptionInfo) event.getSource();
+        log.debug("--------insert LogExceptionInfo into DB------"+ JsonUtil.toJsonString(logExceptionInfo));
         logExceptionInfoManager.addLog(logExceptionInfo);
-
-        log.debug("--------insert ExceptionLogs into DB------"+ JsonUtil.toJsonString(logExceptionInfo));
     }
 }

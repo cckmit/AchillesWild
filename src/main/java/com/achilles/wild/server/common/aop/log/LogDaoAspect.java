@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.common.LogBizInfo;
-import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
+import com.achilles.wild.server.common.aop.listener.event.LogBizInfoEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
+import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -46,17 +47,8 @@ public class LogDaoAspect {
     @Value("${dao.log.time.open}")
     private Boolean openLog;
 
-    @Value("${dao.log.time.insert.db}")
-    private Boolean ifInsertDb;
-
-    @Value("${dao.log.time.of.time.consuming.limit}")
-    private Integer timeLimit;
-
-    @Value("${dao.log.time.of.count.limit.in.time}")
-    private Integer countOfInsertDBInTime;
-
     @Autowired
-    private LogBizInfoManager logBizInfoManager;
+    private ApplicationContext applicationContext;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -106,23 +98,8 @@ public class LogDaoAspect {
         Object result = proceedingJoinPoint.proceed();
 
         long duration = System.currentTimeMillis() - startTime;
+
         String path = clz+"#"+method;
-
-        if(!ifInsertDb || duration<=timeLimit){
-            return result;
-        }
-
-        String countLimitKey = path+"_CountLimit";
-        AtomicInteger atomicInteger = integerCache.getIfPresent(countLimitKey)==null?new AtomicInteger():integerCache.getIfPresent(countLimitKey);
-        int count = atomicInteger.get();
-        if(count>=countOfInsertDBInTime){
-            return result;
-        }
-        count = atomicInteger.incrementAndGet();
-        if(count>countOfInsertDBInTime){
-            return result;
-        }
-        integerCache.put(countLimitKey,atomicInteger);
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         LogBizInfo logBizInfo = new LogBizInfo();
         logBizInfo.setClz(clz);
@@ -136,8 +113,7 @@ public class LogDaoAspect {
         String type = request.getMethod();
         logBizInfo.setUri(uri);
         logBizInfo.setType(type);
-        logBizInfoManager.addLog(logBizInfo);
-//      log.info(PREFIX +"#insert slow log into db over, method : "+path);
+        applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
         return result;
     }
