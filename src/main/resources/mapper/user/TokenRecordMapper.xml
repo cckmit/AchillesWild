@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.user.TokenRecordDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.user.TokenRecord">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.user.UserToken">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
     <result column="token" jdbcType="VARCHAR" property="token" />
@@ -19,12 +19,12 @@
     select 
         <include refid="Base_Column_List" />
     from
-        token_record
+      user_token
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.user.TokenRecord">
-    insert into token_record
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.user.UserToken">
+    insert into user_token
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
         user_uuid,
@@ -49,8 +49,8 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.user.TokenRecord">
-    update token_record
+  <update id="updateByPrimaryKeySelective" parameterType="com.achilles.wild.server.entity.user.UserToken">
+    update user_token
     <set>
       <if test="terminalId != null">
         terminal_id = #{terminalId,jdbcType=VARCHAR},
@@ -67,7 +67,7 @@
     select
         <include refid="Base_Column_List" />
     from
-        token_record
+        user_token
     <where>
       <if test="token != null">
         AND token = #{token,jdbcType=VARCHAR}

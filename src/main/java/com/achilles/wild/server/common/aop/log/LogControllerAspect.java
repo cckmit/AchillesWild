@@ -1,13 +1,13 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.business.manager.common.LogBizManager;
+import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.listener.event.EventListeners;
 import com.achilles.wild.server.common.aop.listener.event.LogExceptionInfoEvent;
 import com.achilles.wild.server.common.config.params.ControllerLogParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
-import com.achilles.wild.server.entity.common.LogBiz;
+import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -51,7 +51,7 @@ public class LogControllerAspect {
     private ControllerLogParamsConfig controllerLogParamsConfig;
 
     @Autowired
-    private LogBizManager logBizManager;
+    private LogBizInfoManager logBizInfoManager;
 
     @Autowired
     private EventListeners eventListeners;
@@ -128,7 +128,7 @@ public class LogControllerAspect {
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogBiz controllerLogs = new LogBiz();
+        LogBizInfo controllerLogs = new LogBizInfo();
         controllerLogs.setClz(clz);
         controllerLogs.setMethod(method);
         controllerLogs.setParams(params);
@@ -136,7 +136,7 @@ public class LogControllerAspect {
         controllerLogs.setTraceId(MDC.get(CommonConstant.TRACE_ID));
         controllerLogs.setUri(uri);
         controllerLogs.setType(type);
-        logBizManager.addLog(controllerLogs);
+        logBizInfoManager.addLog(controllerLogs);
 
         return result;
     }

@@ -1,9 +1,9 @@
 package com.achilles.wild.server.common.aop.interceptor;
 
-import com.achilles.wild.server.business.manager.user.TokenRecordManager;
+import com.achilles.wild.server.business.manager.user.UserTokenManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.UserToken;
 import com.achilles.wild.server.model.response.code.UserResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     private Boolean verifyLogin;
 
     @Autowired
-    private TokenRecordManager tokenRecordManager;
+    private UserTokenManager userTokenManager;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -50,18 +50,18 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
         }
 
-        TokenRecord tokenRecord = tokenRecordManager.getByToken(token);
-        if(tokenRecord==null){
+        UserToken userToken = userTokenManager.getByToken(token);
+        if(userToken ==null){
             throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
         }
-        int seconds = DateUtil.getGapSeconds(tokenRecord.getUpdateDate());
+        int seconds = DateUtil.getGapSeconds(userToken.getUpdateDate());
         if(seconds>1800){
             throw new BizException(UserResultCode.LOGIN_EXPIRED.code,UserResultCode.LOGIN_EXPIRED.message);
         }
 
-        TokenRecord tokenRecordUpdate = new TokenRecord();
-        tokenRecordUpdate.setId(tokenRecord.getId());
-        Boolean update = tokenRecordManager.updateById(tokenRecord);
+        UserToken userTokenUpdate = new UserToken();
+        userTokenUpdate.setId(userToken.getId());
+        Boolean update = userTokenManager.updateById(userToken);
         if(!update){
             throw new Exception("update token time fail");
         }

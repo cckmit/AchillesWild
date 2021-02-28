@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao.user;
 
-import com.achilles.wild.server.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.UserToken;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper
 public interface TokenRecordDao {
 
-    int insertSelective(TokenRecord record);
+    int insertSelective(UserToken record);
 
-    TokenRecord selectByPrimaryKey(Long id);
+    UserToken selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(TokenRecord record);
+    int updateByPrimaryKeySelective(UserToken record);
 
-    List<TokenRecord> selectByToken(@Param("token") String token, @Param("status") Integer status);
+    List<UserToken> selectByToken(@Param("token") String token, @Param("status") Integer status);
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-02-27 23:56:03
+Date: 2021-02-28 08:22:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -343,10 +343,10 @@ CREATE TABLE `citizen_detail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for dict
+-- Table structure for config_dict
 -- ----------------------------
-DROP TABLE IF EXISTS `dict`;
-CREATE TABLE `dict` (
+DROP TABLE IF EXISTS `config_dict`;
+CREATE TABLE `config_dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group` varchar(32) NOT NULL COMMENT '参数key',
   `key` varchar(32) NOT NULL COMMENT '参数key',
@@ -361,14 +361,34 @@ CREATE TABLE `dict` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典';
 
 -- ----------------------------
--- Records of dict
+-- Records of config_dict
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for log_biz
+-- Table structure for config_params
 -- ----------------------------
-DROP TABLE IF EXISTS `log_biz`;
-CREATE TABLE `log_biz` (
+DROP TABLE IF EXISTS `config_params`;
+CREATE TABLE `config_params` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(32) NOT NULL COMMENT '参数key',
+  `val` varchar(32) NOT NULL COMMENT '参数值',
+  `description` varchar(64) NOT NULL COMMENT '描述',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`,`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置表';
+
+-- ----------------------------
+-- Records of config_params
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for log_biz_info
+-- ----------------------------
+DROP TABLE IF EXISTS `log_biz_info`;
+CREATE TABLE `log_biz_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `clz` varchar(96) NOT NULL COMMENT '类路径',
   `method` varchar(32) NOT NULL COMMENT '方法名',
@@ -383,10 +403,10 @@ CREATE TABLE `log_biz` (
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
 
 -- ----------------------------
--- Records of log_biz
+-- Records of log_biz_info
 -- ----------------------------
 
 -- ----------------------------
@@ -427,52 +447,22 @@ CREATE TABLE `log_filter_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
 
 -- ----------------------------
 -- Records of log_filter_info
 -- ----------------------------
-
--- ----------------------------
--- Table structure for params
--- ----------------------------
-DROP TABLE IF EXISTS `params`;
-CREATE TABLE `params` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(32) NOT NULL COMMENT '参数key',
-  `val` varchar(32) NOT NULL COMMENT '参数值',
-  `description` varchar(64) NOT NULL COMMENT '描述',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `key` (`key`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置表';
-
--- ----------------------------
--- Records of params
--- ----------------------------
-INSERT INTO `params` VALUES ('1', 'controller.log.time.open', 'true', 'desc', '1', '2021-02-08 20:33:32', '2021-02-09 00:21:27');
-INSERT INTO `params` VALUES ('2', 'achilles1612787693759', 'wild', 'desc', '1', '2021-02-08 20:34:54', '2021-02-08 20:34:54');
-
--- ----------------------------
--- Table structure for token_record
--- ----------------------------
-DROP TABLE IF EXISTS `token_record`;
-CREATE TABLE `token_record` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `user_uuid` varchar(32) NOT NULL COMMENT 'uuid',
-  `token` varchar(50) NOT NULL COMMENT 'token',
-  `terminal_id` varchar(50) DEFAULT NULL COMMENT '终端id',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COMMENT='token记录表';
-
--- ----------------------------
--- Records of token_record
--- ----------------------------
+INSERT INTO `log_filter_info` VALUES ('55', '/achilles/balance/get/wild', 'GET', '326', '20210228003217879_postman', '1', '2021-02-28 00:32:18', '2021-02-28 00:32:18');
+INSERT INTO `log_filter_info` VALUES ('56', '/achilles/balance/get/wild', 'GET', '46', '20210228003241645_postman', '1', '2021-02-28 00:32:41', '2021-02-28 00:32:41');
+INSERT INTO `log_filter_info` VALUES ('57', '/achilles/balance/get/wild', 'GET', '42', '20210228003242277_postman', '1', '2021-02-28 00:32:42', '2021-02-28 00:32:42');
+INSERT INTO `log_filter_info` VALUES ('58', '/achilles/balance/get/wild', 'GET', '30', '20210228003242786_postman', '1', '2021-02-28 00:32:42', '2021-02-28 00:32:42');
+INSERT INTO `log_filter_info` VALUES ('59', '/achilles/balance/get/wild', 'GET', '349', '20210228003741694_postman', '1', '2021-02-28 00:37:42', '2021-02-28 00:37:42');
+INSERT INTO `log_filter_info` VALUES ('60', '/achilles/balance/get/wild', 'GET', '330', '20210228003808290_postman', '1', '2021-02-28 00:38:08', '2021-02-28 00:38:08');
+INSERT INTO `log_filter_info` VALUES ('61', '/achilles/balance/get/wild', 'GET', '370', '20210228004046649_postman', '1', '2021-02-28 00:40:47', '2021-02-28 00:40:47');
+INSERT INTO `log_filter_info` VALUES ('62', '/achilles/balance/get/wild', 'GET', '342', '20210228004709057_postman', '1', '2021-02-28 00:47:09', '2021-02-28 00:47:09');
+INSERT INTO `log_filter_info` VALUES ('63', '/achilles/balance/get/wild', 'GET', '427', '20210228004753119_postman', '1', '2021-02-28 00:47:53', '2021-02-28 00:47:53');
+INSERT INTO `log_filter_info` VALUES ('64', '/achilles/balance/get/wild', 'GET', '319', '20210228004831098_postman', '1', '2021-02-28 00:48:31', '2021-02-28 00:48:31');
+INSERT INTO `log_filter_info` VALUES ('65', '/achilles/balance/get/wild', 'GET', '530', '20210228082219220_postman', '1', '2021-02-28 08:22:19', '2021-02-28 08:22:19');
 
 -- ----------------------------
 -- Table structure for user
@@ -517,4 +507,23 @@ CREATE TABLE `user_detail` (
 
 -- ----------------------------
 -- Records of user_detail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_token
+-- ----------------------------
+DROP TABLE IF EXISTS `user_token`;
+CREATE TABLE `user_token` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_uuid` varchar(32) NOT NULL COMMENT 'uuid',
+  `token` varchar(50) NOT NULL COMMENT 'token',
+  `terminal_id` varchar(50) DEFAULT NULL COMMENT '终端id',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+
+-- ----------------------------
+-- Records of user_token
 -- ----------------------------

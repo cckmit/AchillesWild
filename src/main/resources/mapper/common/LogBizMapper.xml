@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.achilles.wild.server.business.dao.common.LogBizDao">
-  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.LogBiz">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.LogBizInfo">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="clz" jdbcType="VARCHAR" property="clz" />
     <result column="method" jdbcType="VARCHAR" property="method" />
-    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="configParams" jdbcType="VARCHAR" property="configParams" />
     <result column="time" jdbcType="INTEGER" property="time" />
     <result column="uri" jdbcType="VARCHAR" property="uri" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -15,8 +15,8 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
 
-  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.common.LogBiz">
-    insert into log_biz
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.common.LogBizInfo">
+    insert into log_biz_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="clz != null">
           clz,
@@ -24,8 +24,8 @@
       <if test="method != null">
           method,
       </if>
-      <if test="params != null">
-          params,
+      <if test="configParams != null">
+          configParams,
       </if>
       <if test="time != null">
           time,
@@ -47,8 +47,8 @@
       <if test="method != null">
         #{method,jdbcType=VARCHAR},
       </if>
-      <if test="params != null">
-        #{params,jdbcType=VARCHAR},
+      <if test="configParams != null">
+        #{configParams,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         #{time,jdbcType=INTEGER},

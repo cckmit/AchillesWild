@@ -1,9 +1,9 @@
 package com.achilles.wild.server.business.biz.user.impl;
 
 import com.achilles.wild.server.business.biz.user.UserBiz;
-import com.achilles.wild.server.entity.user.TokenRecord;
+import com.achilles.wild.server.entity.user.UserToken;
 import com.achilles.wild.server.entity.user.User;
-import com.achilles.wild.server.business.manager.user.TokenRecordManager;
+import com.achilles.wild.server.business.manager.user.UserTokenManager;
 import com.achilles.wild.server.business.manager.user.UserManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.model.response.DataResult;
@@ -25,7 +25,7 @@ public class UserBizImpl implements UserBiz {
     private UserManager userManager;
 
     @Autowired
-    private TokenRecordManager tokenRecordManager;
+    private UserTokenManager userTokenManager;
 
     @Override
     public DataResult<String> login(String email,String password) {
@@ -44,11 +44,11 @@ public class UserBizImpl implements UserBiz {
             log.warn("password is wrong;   email="+email);
             throw new BizException(UserResultCode.PASSWORD_IS_WRONG.code,UserResultCode.PASSWORD_IS_WRONG.message);
         }
-        TokenRecord tokenRecord = new TokenRecord();
-        tokenRecord.setUserUuid(user.getUuid());
-        tokenRecord.setToken(GenerateUniqueUtil.getUuId());
-        tokenRecordManager.addTokenRecord(tokenRecord);
+        UserToken userToken = new UserToken();
+        userToken.setUserUuid(user.getUuid());
+        userToken.setToken(GenerateUniqueUtil.getUuId());
+        userTokenManager.addTokenRecord(userToken);
 
-        return DataResult.success(tokenRecord.getToken());
+        return DataResult.success(userToken.getToken());
     }
 }

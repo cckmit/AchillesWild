@@ -10,15 +10,15 @@ stack com.alipic.cfp.portal.facade.LotteryFacadeImpl getCurrentLotteryPool
 trace com.alipic.cfp.portal.facade.LotteryFacadeImpl getCurrentLotteryPool
 
 出参入参详细值
-watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{params}" -x 3
-watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{params,returnObj}" -x 3
+watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{configParams}" -x 3
+watch com.alipic.cfp.biz.service.impl.CommentServiceImpl getDefaultHotComments "{configParams,returnObj}" -x 3
 
-watch com.alipic.cfp.sal.comment.CommentReadFacadeClient getDefaultHotComments "{params,returnObj}" -x 3
-watch com.alipic.zao.community.app.service.CommentReadFacadeImpl getDefaultHotComments  "{params,returnObj}" -x 3
+watch com.alipic.cfp.sal.comment.CommentReadFacadeClient getDefaultHotComments "{configParams,returnObj}" -x 3
+watch com.alipic.zao.community.app.service.CommentReadFacadeImpl getDefaultHotComments  "{configParams,returnObj}" -x 3
 
 具体方法参数值
-watch com.alipic.cfp.portal.service.impl.TaskCenterCoreServiceImpl listLotteryTaskMeta "{params, target}" -x 3
-watch com.alipic.cfp.biz.impl.seller.PreSaleItemSellerFacadeImpl getPreSaleUpdateRestCount "{params[0],throwExp}" -e -x 3
+watch com.alipic.cfp.portal.service.impl.TaskCenterCoreServiceImpl listLotteryTaskMeta "{configParams, target}" -x 3
+watch com.alipic.cfp.biz.impl.seller.PreSaleItemSellerFacadeImpl getPreSaleUpdateRestCount "{configParams[0],throwExp}" -e -x 3
 
 监控某个特殊方法的调用统计数据，包括总调用次数，平均rt，成功率等信息，每隔5秒输出一次
 monitor -c 5 com.alipic.cfp.portal.facade.LotteryFacadeImpl getBenefitRecord

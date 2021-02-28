@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.entity.common.LogBiz;
-import com.achilles.wild.server.business.manager.common.LogBizManager;
+import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -56,7 +56,7 @@ public class LogDaoAspect {
     private Integer countOfInsertDBInTime;
 
     @Autowired
-    private LogBizManager logBizManager;
+    private LogBizInfoManager logBizInfoManager;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -124,19 +124,19 @@ public class LogDaoAspect {
         }
         integerCache.put(countLimitKey,atomicInteger);
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogBiz logBiz = new LogBiz();
-        logBiz.setClz(clz);
-        logBiz.setMethod(method);
-        logBiz.setParams(params);
-        logBiz.setTime((int)duration);
-        logBiz.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        LogBizInfo logBizInfo = new LogBizInfo();
+        logBizInfo.setClz(clz);
+        logBizInfo.setMethod(method);
+        logBizInfo.setParams(params);
+        logBizInfo.setTime((int)duration);
+        logBizInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String uri = request.getRequestURI();
         String type = request.getMethod();
-        logBiz.setUri(uri);
-        logBiz.setType(type);
-        logBizManager.addLog(logBiz);
+        logBizInfo.setUri(uri);
+        logBizInfo.setType(type);
+        logBizInfoManager.addLog(logBizInfo);
 //      log.info(PREFIX +"#insert slow log into db over, method : "+path);
 
         return result;

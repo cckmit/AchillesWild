@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
-import com.achilles.wild.server.business.dao.common.ParamsDao;
-import com.achilles.wild.server.entity.common.Params;
+import com.achilles.wild.server.business.dao.common.ConfigParamsDao;
+import com.achilles.wild.server.entity.common.ConfigParams;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
 import com.achilles.wild.server.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,11 @@ import java.util.List;
 public class ParamsManagerImpl implements ParamsManager {
 
     @Autowired
-    private ParamsDao paramsDao;
+    private ConfigParamsDao configParamsDao;
 
     @Override
-    public List<Params> selectAll() {
-        List<Params> paramsList = paramsDao.selectList(null, StatusEnum.NORMAL.toNumbericValue());
-        return paramsList;
+    public List<ConfigParams> selectAll() {
+        List<ConfigParams> configParamsList = configParamsDao.selectList(null, StatusEnum.NORMAL.toNumbericValue());
+        return configParamsList;
     }
 }

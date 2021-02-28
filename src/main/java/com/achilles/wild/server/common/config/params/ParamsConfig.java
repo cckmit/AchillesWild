@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.config.params;
 
-import com.achilles.wild.server.entity.common.Params;
+import com.achilles.wild.server.entity.common.ConfigParams;
 import com.achilles.wild.server.business.manager.account.ParamsManager;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -29,17 +29,17 @@ public class ParamsConfig {
     @PostConstruct
     public void initParams(){
 
-        List<Params> paramsList = paramsManager.selectAll();
+        List<ConfigParams> configParamsList = paramsManager.selectAll();
 
-        log.info("------------initParams  size : "+ paramsList.size());
-        if (paramsList.size()==0){
+        log.info("------------initParams  size : "+ configParamsList.size());
+        if (configParamsList.size()==0){
             log.warn("------------initParams  size : 0");
             return;
         }
 
         //todo redis
-        for (Params params:paramsList) {
-            paramsCache.put(params.getKey(),params.getVal());
+        for (ConfigParams configParams : configParamsList) {
+            paramsCache.put(configParams.getKey(), configParams.getVal());
         }
     }
 

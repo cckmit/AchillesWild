@@ -2,7 +2,7 @@ package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
-public class LogBiz extends BaseEntity {
+public class LogBizInfo extends BaseEntity {
 
     private String clz;
 

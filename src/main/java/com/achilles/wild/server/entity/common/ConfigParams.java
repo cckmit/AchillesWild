@@ -2,7 +2,7 @@ package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
-public class Params extends BaseEntity {
+public class ConfigParams extends BaseEntity {
 
     private String key;
 
