@@ -1,5 +1,7 @@
 package com.achilles.wild.server.tool.generate.unique;
 
+import com.achilles.wild.server.tool.date.DateUtil;
+
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -13,6 +15,14 @@ public class GenerateUniqueUtil {
 
 	public static void main(String[] args) {
 		System.out.println(getRandomUUID());
+	}
+
+
+	public static String getTraceId(String mark){
+		String traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
+				+ mark+"_"
+				+ GenerateUniqueUtil.getUuId();
+		return traceId;
 	}
 
 	public static String getRandomUUID(){

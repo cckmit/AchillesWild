@@ -70,9 +70,7 @@ public class InitFilter implements Filter {
             log.debug("---------------traceId  from  client---------------------:" + traceId);
             checkTraceId(traceId);
         }else{
-            traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
-                    + CommonConstant.SYSTEM_CODE+"_"
-                    + GenerateUniqueUtil.getUuId();
+            traceId = GenerateUniqueUtil.getTraceId(CommonConstant.SYSTEM_CODE);
             log.debug("---------------traceId  generate by  system---------------------:" + traceId);
         }
 
