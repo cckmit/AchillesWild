@@ -16,12 +16,14 @@ public class ScheduleTask {
     private final static Logger log = LoggerFactory.getLogger(ScheduleTask.class);
 
     //3.添加定时任务
-    @Scheduled(cron = "0/5 * * * * ?")
+//    @Scheduled(cron = "0/5 * * * * ?")
     //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
+    @Scheduled(fixedRate=7000)
     private void configureTasks() {
         String traceId = GenerateUniqueUtil.getTraceId("task1");
         MDC.put(CommonConstant.TRACE_ID,traceId);
         log.debug("---------task---------traceId  : " + traceId);
+
+        MDC.remove(CommonConstant.TRACE_ID);
     }
 }
