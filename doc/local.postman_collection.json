@@ -84,6 +84,103 @@
 			]
 		},
 		{
+			"name": "demo",
+			"item": [
+				{
+					"name": "upload excel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Achilles/Desktop/test.xls"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/excel/upload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"excel",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload excel2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Achilles/Desktop/test.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/excel/upload2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"excel",
+								"upload2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download excel",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/excel/download",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"excel",
+								"download"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "demo get",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -278,14 +375,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{host}}/demo/get/34",
+					"raw": "{{host}}/demo/get/343",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"demo",
 						"get",
-						"34"
+						"343"
 					]
 				}
 			},
