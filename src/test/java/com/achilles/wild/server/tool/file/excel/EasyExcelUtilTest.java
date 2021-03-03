@@ -1,8 +1,7 @@
 package com.achilles.wild.server.tool.file.excel;
 
 import com.achilles.wild.server.common.aop.listener.UploadExcelListener;
-import com.achilles.wild.server.model.response.account.vo.DreamBenefitExcelUploadVO;
-import com.achilles.wild.server.tool.date.DateUtil;
+import com.achilles.wild.server.model.response.common.LogFilterInfoVO;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.ExcelWriter;
@@ -28,42 +27,42 @@ public class EasyExcelUtilTest{
     @Test
     public void simpleRead() {
         UploadExcelListener listener =  new UploadExcelListener();
-        EasyExcel.read(path, DreamBenefitExcelUploadVO.class, listener).sheet().doRead();
+        EasyExcel.read(path, LogFilterInfoVO.class, listener).sheet().doRead();
         System.out.println(JSON.toJSONString(listener.getList()));
     }
 
 
     @Test
     public void simpleWrite(){
-        List<DreamBenefitExcelUploadVO> list = new ArrayList<DreamBenefitExcelUploadVO>();
+        List<LogFilterInfoVO> list = new ArrayList<LogFilterInfoVO>();
         for (int i = 100001; i <= 100002; i++) {
-            DreamBenefitExcelUploadVO vo = new DreamBenefitExcelUploadVO();
-            vo.setItemId(i*3L);
-            vo.setPublishDate(DateUtil.getTheDayFirstTime(7));
-            vo.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
-            vo.setItemCount(i+100);
-            vo.setMaxUserCount(i+998);
+            LogFilterInfoVO vo = new LogFilterInfoVO();
+//            vo.setItemId(i*3L);
+//            vo.setPublishDate(DateUtil.getTheDayFirstTime(7));
+//            vo.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
+//            vo.setItemCount(i+100);
+//            vo.setMaxUserCount(i+998);
             list.add(vo);
         }
-        EasyExcel.write(path, DreamBenefitExcelUploadVO.class).sheet("test").doWrite(list);
+        EasyExcel.write(path, LogFilterInfoVO.class).sheet("test").doWrite(list);
     }
 
     @Test
     public void simpleWriteInputStram() throws Exception{
-        List<DreamBenefitExcelUploadVO> list = new ArrayList<DreamBenefitExcelUploadVO>();
+        List<LogFilterInfoVO> list = new ArrayList<LogFilterInfoVO>();
         for (int i = 1; i <= 10; i++) {
-            DreamBenefitExcelUploadVO dreamBenefitExcelUploadVO = new DreamBenefitExcelUploadVO();
-            dreamBenefitExcelUploadVO.setItemId(i*3L);
-            dreamBenefitExcelUploadVO.setName("������"+i);
-            dreamBenefitExcelUploadVO.setPublishDate(DateUtil.getTheDayFirstTime(7));
-            dreamBenefitExcelUploadVO.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
-            dreamBenefitExcelUploadVO.setItemCount(i+100);
-            dreamBenefitExcelUploadVO.setMaxUserCount(i+998);
-            dreamBenefitExcelUploadVO.setFire(i);
-            list.add(dreamBenefitExcelUploadVO);
+            LogFilterInfoVO logFilterInfoVO = new LogFilterInfoVO();
+//            logFilterInfoVO.setItemId(i*3L);
+//            logFilterInfoVO.setName("������"+i);
+//            logFilterInfoVO.setPublishDate(DateUtil.getTheDayFirstTime(7));
+//            logFilterInfoVO.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
+//            logFilterInfoVO.setItemCount(i+100);
+//            logFilterInfoVO.setMaxUserCount(i+998);
+//            logFilterInfoVO.setFire(i);
+            list.add(logFilterInfoVO);
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        EasyExcel.write(outputStream, DreamBenefitExcelUploadVO.class).excelType(ExcelTypeEnum.XLSX).sheet("��Ŀ").doWrite(list);
+        EasyExcel.write(outputStream, LogFilterInfoVO.class).excelType(ExcelTypeEnum.XLSX).sheet("��Ŀ").doWrite(list);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         //String str = new String(outputStream.toByteArray());
         //BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(outputStream.toByteArray()),"GBK"));
@@ -79,28 +78,28 @@ public class EasyExcelUtilTest{
 
     @Test
     public void simpleWriteTest()  throws Exception {
-        List<DreamBenefitExcelUploadVO> list = new ArrayList<DreamBenefitExcelUploadVO>();
+        List<LogFilterInfoVO> list = new ArrayList<LogFilterInfoVO>();
         for (int i = 100001; i <= 100003; i++) {
-            DreamBenefitExcelUploadVO vo = new DreamBenefitExcelUploadVO();
-            vo.setItemId(i * 4L);
-            vo.setPublishDate(DateUtil.getTheDayFirstTime(7));
-            vo.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
-            vo.setItemCount(i + 100);
-            vo.setMaxUserCount(i + 998);
+            LogFilterInfoVO vo = new LogFilterInfoVO();
+//            vo.setItemId(i * 4L);
+//            vo.setPublishDate(DateUtil.getTheDayFirstTime(7));
+//            vo.setPublishDateEnd(DateUtil.getTheDayFirstTime(9));
+//            vo.setItemCount(i + 100);
+//            vo.setMaxUserCount(i + 998);
             list.add(vo);
         }
 
-        byte[] array =  exportByteArray("ACHI",list,DreamBenefitExcelUploadVO.class);
+        byte[] array =  exportByteArray("ACHI",list, LogFilterInfoVO.class);
         //String fileContent = new String(array, "GBK");
         ByteArrayInputStream excelFile = new ByteArrayInputStream(array);
         String result = new String(array, "UTF-8");
         System.out.println(array);
     }
 
-    private  byte[] exportByteArray(String sheetName, List<DreamBenefitExcelUploadVO> dataList,
+    private  byte[] exportByteArray(String sheetName, List<LogFilterInfoVO> dataList,
         Class clazz) throws Exception{
         // ����������Ϣ
-        Map<String, List<DreamBenefitExcelUploadVO>> dataListMap = Maps.newLinkedHashMap();
+        Map<String, List<LogFilterInfoVO>> dataListMap = Maps.newLinkedHashMap();
         // ����������뵽Excel��
         dataListMap.put(sheetName, dataList);
 
@@ -121,18 +120,18 @@ public class EasyExcelUtilTest{
     }
 
 
-    private void writeIntoOutputStream(Map<String, List<DreamBenefitExcelUploadVO>> dataListMap, Class clazz, OutputStream outputStream) {
+    private void writeIntoOutputStream(Map<String, List<LogFilterInfoVO>> dataListMap, Class clazz, OutputStream outputStream) {
 
             // ��������
             int sheetNo = 1;
             // �����ļ���
             ExcelWriter writer = EasyExcelFactory.getWriter(outputStream);
             // ѭ��д��ÿ��������
-            for (Entry<String, List<DreamBenefitExcelUploadVO>> entry : dataListMap.entrySet()) {
+            for (Entry<String, List<LogFilterInfoVO>> entry : dataListMap.entrySet()) {
                 // �õ�����������
                 String sheetName = entry.getKey();
                 // �õ�����������
-                List<DreamBenefitExcelUploadVO> dataList = entry.getValue();
+                List<LogFilterInfoVO> dataList = entry.getValue();
                 // ���ù�������Ϣ
                 Sheet sheet1 = new Sheet(sheetNo++, 1, clazz, sheetName, null);
                 // ��������Ӧ���

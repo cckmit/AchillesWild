@@ -1,39 +1,65 @@
 package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.common.aop.listener.UploadExcelListener;
-import com.achilles.wild.server.model.response.account.vo.DreamBenefitExcelUploadVO;
+import com.achilles.wild.server.common.aop.log.IgnoreField;
+import com.achilles.wild.server.model.response.common.LogFilterInfoVO;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-@Controller
-@RequestMapping("/excel")
+@RestController
+@RequestMapping(value = "/excel",produces = {"application/json;charset=UTF-8"})
 public class ExcelController {
+
     private final static Logger LOG = LoggerFactory.getLogger(ExcelController.class);
 
-    /**
-     * 文件上传
-     * <p>
-     * 1. 创建excel对应的实体对象 参照{@link }
-     * <p>
-     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link}
-     * <p>
-     * 3. 直接读即可
-     */
-    @RequestMapping("/upload")
+
+    @PostMapping("/upload2")
+    @IgnoreField
+    public String upload2(){
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        MultipartResolver multipartResolver = new StandardServletMultipartResolver();
+        MultipartHttpServletRequest multipartHttpServletRequest = multipartResolver.resolveMultipart(request);
+        Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+        MultipartFile file = fileMap.get("file");
+
+        UploadExcelListener listener = new UploadExcelListener();
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            EasyExcel.read(inputStream,  LogFilterInfoVO.class,listener).sheet().doRead();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<LogFilterInfoVO> list = listener.getList();
+        LOG.info("list==========="+ JSON.toJSONString(list));
+        return "success";
+    }
+
+    @PostMapping("/upload")
+    @IgnoreField
     public String upload(MultipartFile file){
 
         UploadExcelListener listener = null;
@@ -47,40 +73,38 @@ public class ExcelController {
             inputStream = file.getInputStream();
 
             listener = new UploadExcelListener();
-            EasyExcel.read(inputStream,  DreamBenefitExcelUploadVO.class,listener).sheet().doRead();
+            EasyExcel.read(inputStream,  LogFilterInfoVO.class,listener).sheet().doRead();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        List<DreamBenefitExcelUploadVO> list = listener.getList();
+        List<LogFilterInfoVO> list = listener.getList();
         LOG.info("list==========="+ JSON.toJSONString(list));
         return "success";
     }
 
 
-    @RequestMapping("/download")
+    @GetMapping("/download")
+    @IgnoreField
     public void download(HttpServletResponse response) throws Exception {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("测试A", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename="+fileName+".xlsx");
-        EasyExcel.write(response.getOutputStream(), DreamBenefitExcelUploadVO.class).sheet("第一个sheet").doWrite(data());;
+        String fileName = URLEncoder.encode("test", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename="+fileName+".xls");
+        EasyExcel.write(response.getOutputStream(), LogFilterInfoVO.class).sheet("第一个sheet").doWrite(data());;
     }
 
 
     protected List<?> data() {
-        List<DreamBenefitExcelUploadVO> rowList = new ArrayList<>();
-        DreamBenefitExcelUploadVO vo = new DreamBenefitExcelUploadVO();
-        vo.setItemId(12L);
-        vo.setPublishDate(new Date());
-        vo.setName("2422342");
+        List<LogFilterInfoVO> rowList = new ArrayList<>();
+        LogFilterInfoVO vo = new LogFilterInfoVO();
+        vo.setUri("/demo/id/34");
+        vo.setTime(12);
         rowList.add(vo);
+        LogFilterInfoVO vo2 = new LogFilterInfoVO();
+        vo2.setUri("/account/id/34");
+        vo2.setTime(12);
+        rowList.add(vo2);
         return rowList;
 
     }
