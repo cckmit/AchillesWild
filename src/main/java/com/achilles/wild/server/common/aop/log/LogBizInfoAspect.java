@@ -91,6 +91,9 @@ public class LogBizInfoAspect {
         String path = clz+"#"+method;
         log.debug(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
         log.debug(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
+        if(!logBizParamsConfig.getIfTimeLogInsertDb()){
+            return proceedingJoinPoint.proceed();
+        }
 
 //        if(!controllerLogParamsConfig.getIfTimeLogInsertDb() || duration<=controllerLogParamsConfig.getTimeLimit()){
 //            return result;

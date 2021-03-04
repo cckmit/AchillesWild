@@ -37,8 +37,8 @@ public class InitFilter implements Filter {
     @Value("${if.verify.trace.id:true}")
     private Boolean verifyTraceId;
 
-    @Value("${filter.log.time.open:true}")
-    private Boolean ifOpenLog;
+    @Value("${filter.log.time.insert.db.open:true}")
+    private Boolean ifOpenInsertDb;
 
     @Value("${filter.log.time.of.count.limit.in.time:10000}")
     private Integer countOfInsertDBInTime;
@@ -90,7 +90,7 @@ public class InitFilter implements Filter {
         long duration = System.currentTimeMillis() - startTime;
         log.debug(" ----------- time-consuming : ("+uri+")-->("+duration+"ms)");
 
-        if (!ifOpenLog) {
+        if (!ifOpenInsertDb) {
             log.debug("-----------------remove traceId from Thread-----");
             MDC.remove(CommonConstant.TRACE_ID);
             return;
@@ -110,6 +110,7 @@ public class InitFilter implements Filter {
         atomicInteger.incrementAndGet();
         if(atomicInteger.get() > countOfInsertDBInTime) {
             log.debug(" -----------"+uri+"-- insert into DB count out of limit ");
+            MDC.remove(CommonConstant.TRACE_ID);
             return;
         }
 
