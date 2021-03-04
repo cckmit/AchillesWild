@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.common.aop.listener.UploadExcelListener;
-import com.achilles.wild.server.common.aop.log.IgnoreField;
+import com.achilles.wild.server.common.aop.log.IgnoreParams;
 import com.achilles.wild.server.model.response.common.LogFilterInfoVO;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
@@ -35,7 +35,7 @@ public class ExcelController {
 
 
     @PostMapping("/upload2")
-    @IgnoreField
+    @IgnoreParams
     public String upload2(){
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -59,7 +59,7 @@ public class ExcelController {
     }
 
     @PostMapping("/upload")
-    @IgnoreField
+    @IgnoreParams
     public String upload(MultipartFile file){
 
         UploadExcelListener listener = null;
@@ -85,7 +85,7 @@ public class ExcelController {
 
 
     @GetMapping("/download")
-    @IgnoreField
+    @IgnoreParams
     public void download(HttpServletResponse response) throws Exception {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");

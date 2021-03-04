@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.bean;
 
-import com.achilles.wild.server.common.aop.log.IgnoreField;
+import com.achilles.wild.server.common.aop.log.IgnoreParams;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -26,10 +26,10 @@ public class AspectUtil {
 
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        IgnoreField ignoreField = method.getAnnotation(IgnoreField.class);
+        IgnoreParams ignoreParams = method.getAnnotation(IgnoreParams.class);
 //        String[] ignoreFields = null;
 //        Set<String> ignoreFieldSet = new HashSet<>();
-        if(ignoreField!=null){
+        if(ignoreParams !=null){
             return new HashMap<>();
 //            ignoreFields = ignoreField.value();
 //            if (ignoreFields.length!=0){
