@@ -2,7 +2,7 @@ package com.achilles.wild.server.common.aop.filter;
 
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
-import com.achilles.wild.server.common.aop.listener.event.LogFilterInfoEvent;
+import com.achilles.wild.server.common.listener.event.LogFilterInfoEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogFilterInfo;
 import com.achilles.wild.server.model.response.code.BaseResultCode;

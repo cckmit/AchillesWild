@@ -1,6 +1,6 @@
 package com.achilles.wild.server.common.aop.log;
 
-import com.achilles.wild.server.common.aop.listener.event.LogBizInfoEvent;
+import com.achilles.wild.server.common.listener.event.LogBizInfoEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.achilles.wild.server.tool.bean.AspectUtil;

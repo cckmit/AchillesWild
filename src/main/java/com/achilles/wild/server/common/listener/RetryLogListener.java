@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop.listener;
+package com.achilles.wild.server.common.listener;
 
 import java.util.concurrent.ExecutionException;
 

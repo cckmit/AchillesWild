@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop.listener.event;
+package com.achilles.wild.server.common.listener.event;
 
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Configuration;

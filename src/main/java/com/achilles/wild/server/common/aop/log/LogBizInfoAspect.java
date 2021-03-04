@@ -1,8 +1,8 @@
 package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.common.aop.exception.BizException;
-import com.achilles.wild.server.common.aop.listener.event.LogBizInfoEvent;
-import com.achilles.wild.server.common.aop.listener.event.LogExceptionInfoEvent;
+import com.achilles.wild.server.common.listener.event.LogBizInfoEvent;
+import com.achilles.wild.server.common.listener.event.LogExceptionInfoEvent;
 import com.achilles.wild.server.common.config.params.LogBizParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogBizInfo;
