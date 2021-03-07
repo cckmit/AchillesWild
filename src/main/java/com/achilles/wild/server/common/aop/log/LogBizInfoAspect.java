@@ -1,10 +1,9 @@
 package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.common.aop.exception.BizException;
-import com.achilles.wild.server.common.listener.event.LogBizInfoEvent;
-import com.achilles.wild.server.common.listener.event.LogExceptionInfoEvent;
 import com.achilles.wild.server.common.config.params.LogBizParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
+import com.achilles.wild.server.common.listener.event.LogExceptionInfoEvent;
 import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
@@ -29,6 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,6 +51,9 @@ public class LogBizInfoAspect {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    BlockingQueue<LogBizInfo> logBizInfoQueue;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -132,7 +135,8 @@ public class LogBizInfoAspect {
         logBizInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
         logBizInfo.setUri(uri);
         logBizInfo.setType(type);
-        applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
+        boolean add = logBizInfoQueue.offer(logBizInfo);
+        log.debug(PREFIX +"#---------controller add to queue success : "+add);
 
         return result;
     }

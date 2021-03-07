@@ -115,7 +115,7 @@ public class LogDaoAspect {
         //applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
         boolean add = logBizInfoQueue.offer(logBizInfo);
-        log.debug(PREFIX +"#---------add to queue success : "+add);
+        log.debug(PREFIX +"#---------dao add to queue success : "+add);
         return result;
     }
 
