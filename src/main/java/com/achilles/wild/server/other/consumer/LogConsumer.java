@@ -45,36 +45,29 @@ public class LogConsumer {
             String traceId = GenerateUniqueUtil.getTraceId("log");
             MDC.put(CommonConstant.TRACE_ID,traceId);
 
-            int size = logBizInfoQueue.size();
-            log.debug("-----logBizInfoQueue---before logQueue.poll size :"+size);
-            if (size==0){
-                return;
-            }
-
             try {
-                addLogs(size);
+                addLogs();
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("-----logBizInfoQueue--- :"+e.getMessage());
             }
 
-            log.debug("-----logBizInfoQueue---end-------");
-
-        }, 5, 10, TimeUnit.SECONDS);
+        }, 5, 2, TimeUnit.SECONDS);
     }
 
     @PreDestroy
     public void destroy(){
+        log.debug("-----logBizInfoQueue---destroy  size:"+logBizInfoQueue.size());
+        addLogs();
+    }
+
+    private void addLogs(){
         int size = logBizInfoQueue.size();
-        log.debug("-----logBizInfoQueue---destroy  size:"+size);
+        log.debug("-----logBizInfoQueue---  size:"+size);
         if (size==0){
             return;
         }
 
-        addLogs(size);
-    }
-
-    private void addLogs(int size){
         List<LogBizInfo> logBizInfoList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             LogBizInfo logBizInfo = logBizInfoQueue.poll();
