@@ -18,12 +18,21 @@ public class ScheduleTask {
     //3.添加定时任务
 //    @Scheduled(cron = "0/5 * * * * ?")
     //或直接指定时间间隔，例如：5秒
-    @Scheduled(fixedRate=2000)
+    @Scheduled(fixedRate=20000)
     private void configureTasks() {
         String traceId = GenerateUniqueUtil.getTraceId("task1");
         MDC.put(CommonConstant.TRACE_ID,traceId);
         log.debug("---------task---------traceId  : " + traceId);
 
+        MDC.remove(CommonConstant.TRACE_ID);
+    }
+
+    @Scheduled(fixedRate=200000)
+    private void configureTasks2() throws Exception{
+        String traceId = GenerateUniqueUtil.getTraceId("task1");
+        MDC.put(CommonConstant.TRACE_ID,traceId);
+        log.debug("---------task2---------traceId  : " + traceId);
+        Thread.sleep(5000L);
         MDC.remove(CommonConstant.TRACE_ID);
     }
 }
