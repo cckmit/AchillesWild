@@ -32,13 +32,13 @@ public class LogConsumer {
     @Autowired
     private LogBizInfoManager logBizInfoManager;
 
+    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
+            new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
+
     @PostConstruct
     public void execute(){
 
         log.debug("-----logBizInfoQueue---start-------");
-
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
 
         service.scheduleAtFixedRate(()->{
 
@@ -63,10 +63,10 @@ public class LogConsumer {
 
     private void addLogs(){
         int size = logBizInfoQueue.size();
-        log.debug("-----logBizInfoQueue---  size:"+size);
         if (size==0){
             return;
         }
+        log.debug("-----logBizInfoQueue---  size:"+size);
 
         List<LogBizInfo> logBizInfoList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
