@@ -25,6 +25,8 @@ public class LogConsumer {
     @PostConstruct
     public void execute(){
 
+        log.debug("-----logBizInfoQueue---before logQueue.poll size :"+logBizInfoQueue.size());
+
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("single_pool_worker_%d").build());
 
@@ -33,6 +35,10 @@ public class LogConsumer {
             try {
                 LogBizInfo logBizInfo = logBizInfoQueue.poll();
                 log.debug("--------logQueue.poll logBizInfo:"+logBizInfo);
+
+                //todo
+
+                log.debug("-----logBizInfoQueue---after logQueue.poll size :"+logBizInfoQueue.size());
             } catch (Exception e) {
                 System.out.println("发生异常");
             }
@@ -42,6 +48,8 @@ public class LogConsumer {
 
     @PreDestroy
     public void destroy(){
+
+        log.debug("-----logBizInfoQueue---destroy :"+logBizInfoQueue.size());
 
     }
 }
