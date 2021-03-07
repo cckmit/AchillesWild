@@ -27,6 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -49,6 +50,9 @@ public class LogDaoAspect {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private BlockingQueue<LogBizInfo> logBizInfoQueue;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -115,6 +119,8 @@ public class LogDaoAspect {
         logBizInfo.setType(type);
         applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
+        boolean add = logBizInfoQueue.offer(logBizInfo);
+        log.debug(PREFIX +"#---------add to queue : "+add);
         return result;
     }
 
