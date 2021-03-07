@@ -15,7 +15,7 @@ public class ScheduleConfig {
     @Bean
     public ScheduledThreadPoolExecutor scheduledExecutorService() {
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2,
-                new ThreadFactoryBuilder().setNameFormat("schedule_pool_worker_%d").build());
+                new ThreadFactoryBuilder().setNameFormat("schedule_pool_%d").build());
         return executor;
     }
 }

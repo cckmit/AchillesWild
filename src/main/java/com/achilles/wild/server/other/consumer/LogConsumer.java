@@ -1,10 +1,14 @@
 package com.achilles.wild.server.other.consumer;
 
 import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
+import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
+import com.achilles.wild.server.tool.page.PageUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,29 +38,36 @@ public class LogConsumer {
         log.debug("-----logBizInfoQueue---start-------");
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("single_pool_worker_%d").build());
+                new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
 
         service.scheduleAtFixedRate(()->{
-            log.debug("-----logBizInfoQueue---before logQueue.poll size :"+logBizInfoQueue.size());
+
+            String traceId = GenerateUniqueUtil.getTraceId("log");
+            MDC.put(CommonConstant.TRACE_ID,traceId);
+
+            int size = logBizInfoQueue.size();
+            log.debug("-----logBizInfoQueue---before logQueue.poll size :"+size);
             List<LogBizInfo> logBizInfoList = new ArrayList<>();
             try {
-                for (int i = 0; i < 500; i++) {
+                for (int i = 0; i < size; i++) {
                     LogBizInfo logBizInfo = logBizInfoQueue.poll();
                     if (logBizInfo==null){
                         break;
                     }
                     logBizInfoList.add(logBizInfo);
-                    log.debug("--------logQueue.poll logBizInfo:"+logBizInfo);
-                    //todo
                 }
-                if (logBizInfoList.size()!=0){
-                    //logBizInfoManager.addLog();
+                if (logBizInfoList.size()==0){
+                    return;
                 }
-
+                List<List> pageList = PageUtil.getPageDataList(logBizInfoList,500);
+                for(List list:pageList){
+                    logBizInfoManager.addLogs(list);
+                }
 
                 log.debug("-----logBizInfoQueue---after logQueue.poll size :"+logBizInfoQueue.size());
             } catch (Exception e) {
-                System.out.println("发生异常");
+                e.printStackTrace();
+                log.error("-----logBizInfoQueue--- :"+e.getMessage());
             }
 
             log.debug("-----logBizInfoQueue---end-------");

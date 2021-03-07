@@ -65,4 +65,28 @@
     </trim>
   </insert>
 
+  <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO log_biz_info
+      (
+        clz,
+        method,
+        params,
+        time,
+        trace_id,
+        uri,
+        type
+     )
+    VALUES
+    <foreach collection="list" index="index" item="item" separator=",">
+      (
+        #{item.clz,jdbcType=VARCHAR},
+        #{item.method,jdbcType=VARCHAR},
+        #{item.params,jdbcType=VARCHAR},
+        #{item.time,jdbcType=INTEGER},
+        #{item.traceId,jdbcType=VARCHAR},
+        #{item.uri,jdbcType=VARCHAR},
+        #{item.type,jdbcType=INTEGER}
+      )
+      </foreach>
+  </insert>
 </mapper>
