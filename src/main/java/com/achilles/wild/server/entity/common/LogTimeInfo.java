@@ -2,7 +2,13 @@ package com.achilles.wild.server.entity.common;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
-public class LogBizInfo extends BaseEntity {
+public class LogTimeInfo extends BaseEntity {
+
+    private String uri;
+
+    private String type;
+
+    private Integer layer;
 
     private String clz;
 
@@ -14,9 +20,30 @@ public class LogBizInfo extends BaseEntity {
 
     private String traceId;
 
-    private String uri;
 
-    private String type;
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getLayer() {
+        return layer;
+    }
+
+    public void setLayer(Integer layer) {
+        this.layer = layer;
+    }
 
     public String getClz() {
         return clz;
@@ -56,21 +83,5 @@ public class LogBizInfo extends BaseEntity {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

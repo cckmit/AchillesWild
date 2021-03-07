@@ -2,9 +2,8 @@ package com.achilles.wild.server.common.aop.filter;
 
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
-import com.achilles.wild.server.common.listener.event.LogFilterInfoEvent;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.common.LogFilterInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -24,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -50,7 +49,7 @@ public class InitFilter implements Filter {
     private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    BlockingQueue<LogTimeInfo> logTimeInfoQueue;
 
 
     @Override
@@ -114,18 +113,21 @@ public class InitFilter implements Filter {
             return;
         }
 
-        LogFilterInfo logFilterInfo = new LogFilterInfo();
-        logFilterInfo.setUri(uri);
+        LogTimeInfo logTimeInfo = new LogTimeInfo();
+        logTimeInfo.setUri(uri);
         String type = request.getMethod();
-        logFilterInfo.setType(type);
-        logFilterInfo.setTime((int)duration);
-        logFilterInfo.setTraceId(traceId);
-        applicationContext.publishEvent(new LogFilterInfoEvent(logFilterInfo));
+        logTimeInfo.setType(type);
+        logTimeInfo.setLayer(0);
+//        logTimeInfo.setClz(clz);
+//        logTimeInfo.setMethod(method);
+//        logTimeInfo.setParams(params);
+        logTimeInfo.setTime((int)duration);
+        logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        boolean add = logTimeInfoQueue.offer(logTimeInfo);
+        log.debug("#---------filter add to queue success : "+add);
 
-        log.debug("-----------------remove traceId from Thread-----");
         MDC.remove(CommonConstant.TRACE_ID);
 
-//
 //        String uri = request.getRequestURI();
 //        log.info("--------------------------------------uri:"+ uri);
 //        if(uri.endsWith(loginUri)){

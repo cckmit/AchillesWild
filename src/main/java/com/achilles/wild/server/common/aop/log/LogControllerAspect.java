@@ -4,7 +4,7 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.config.params.LogBizParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.common.listener.event.LogExceptionInfoEvent;
-import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
@@ -36,9 +36,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Aspect
 @Component
 @Order(1)
-public class LogBizInfoAspect {
+public class LogControllerAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(LogBizInfoAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(LogControllerAspect.class);
 
     private final static String PREFIX = "";
 
@@ -53,7 +53,7 @@ public class LogBizInfoAspect {
     private ApplicationContext applicationContext;
 
     @Autowired
-    BlockingQueue<LogBizInfo> logBizInfoQueue;
+    BlockingQueue<LogTimeInfo> logTimeInfoQueue;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -127,15 +127,16 @@ public class LogBizInfoAspect {
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogBizInfo logBizInfo = new LogBizInfo();
-        logBizInfo.setClz(clz);
-        logBizInfo.setMethod(method);
-        logBizInfo.setParams(params);
-        logBizInfo.setTime((int)duration);
-        logBizInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        logBizInfo.setUri(uri);
-        logBizInfo.setType(type);
-        boolean add = logBizInfoQueue.offer(logBizInfo);
+        LogTimeInfo logTimeInfo = new LogTimeInfo();
+        logTimeInfo.setUri(uri);
+        logTimeInfo.setType(type);
+        logTimeInfo.setLayer(1);
+        logTimeInfo.setClz(clz);
+        logTimeInfo.setMethod(method);
+        logTimeInfo.setParams(params);
+        logTimeInfo.setTime((int)duration);
+        logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        boolean add = logTimeInfoQueue.offer(logTimeInfo);
         log.debug(PREFIX +"#---------controller add to queue success : "+add);
 
         return result;

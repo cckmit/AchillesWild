@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.log;
 
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
@@ -47,7 +47,7 @@ public class LogDaoAspect {
     private Boolean openLog;
 
     @Autowired
-    private BlockingQueue<LogBizInfo> logBizInfoQueue;
+    private BlockingQueue<LogTimeInfo> logTimeInfoQueue;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -100,21 +100,23 @@ public class LogDaoAspect {
 
         String path = clz+"#"+method;
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogBizInfo logBizInfo = new LogBizInfo();
-        logBizInfo.setClz(clz);
-        logBizInfo.setMethod(method);
-        logBizInfo.setParams(params);
-        logBizInfo.setTime((int)duration);
-        logBizInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        LogTimeInfo logTimeInfo = new LogTimeInfo();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String uri = request.getRequestURI();
         String type = request.getMethod();
-        logBizInfo.setUri(uri);
-        logBizInfo.setType(type);
+        logTimeInfo.setUri(uri);
+        logTimeInfo.setType(type);
+        logTimeInfo.setLayer(2);
+        logTimeInfo.setClz(clz);
+        logTimeInfo.setMethod(method);
+        logTimeInfo.setParams(params);
+        logTimeInfo.setTime((int)duration);
+        logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+
         //applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
-        boolean add = logBizInfoQueue.offer(logBizInfo);
+        boolean add = logTimeInfoQueue.offer(logTimeInfo);
         log.debug(PREFIX +"#---------dao add to queue success : "+add);
         return result;
     }

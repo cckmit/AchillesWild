@@ -1,8 +1,8 @@
 package com.achilles.wild.server.other.consumer;
 
-import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
+import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
-import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.tool.page.PageUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -27,10 +27,10 @@ public class LogConsumer {
     private final static Logger log = LoggerFactory.getLogger(LogConsumer.class);
 
     @Autowired
-    private BlockingQueue<LogBizInfo> logBizInfoQueue;
+    private BlockingQueue<LogTimeInfo> logTimeInfoQueue;
 
     @Autowired
-    private LogBizInfoManager logBizInfoManager;
+    private LogTimeInfoManager logTimeInfoManager;
 
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
             new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
@@ -57,31 +57,31 @@ public class LogConsumer {
 
     @PreDestroy
     public void destroy(){
-        log.debug("-----logBizInfoQueue---destroy  size:"+logBizInfoQueue.size());
+        log.debug("-----logBizInfoQueue---destroy  size:"+ logTimeInfoQueue.size());
         addLogs();
     }
 
     private void addLogs(){
-        int size = logBizInfoQueue.size();
+        int size = logTimeInfoQueue.size();
         if (size==0){
             return;
         }
         log.debug("-----logBizInfoQueue---  size:"+size);
 
-        List<LogBizInfo> logBizInfoList = new ArrayList<>();
+        List<LogTimeInfo> logTimeInfoList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            LogBizInfo logBizInfo = logBizInfoQueue.poll();
-            if (logBizInfo==null){
+            LogTimeInfo logTimeInfo = logTimeInfoQueue.poll();
+            if (logTimeInfo ==null){
                 break;
             }
-            logBizInfoList.add(logBizInfo);
+            logTimeInfoList.add(logTimeInfo);
         }
-        if (logBizInfoList.size()==0){
+        if (logTimeInfoList.size()==0){
             return;
         }
-        List<List> pageList = PageUtil.getPageDataList(logBizInfoList,500);
+        List<List> pageList = PageUtil.getPageDataList(logTimeInfoList,500);
         for(List list:pageList){
-            logBizInfoManager.addLogs(list);
+            logTimeInfoManager.addLogs(list);
         }
     }
 }

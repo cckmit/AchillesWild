@@ -1,6 +1,6 @@
 package com.achilles.wild.server.other.consumer.queue;
 
-import com.achilles.wild.server.entity.common.LogBizInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ public class LogQueue {
 
 
     @Bean
-    public BlockingQueue<LogBizInfo> logBizInfoQueue(){
+    public BlockingQueue<LogTimeInfo> logBizInfoQueue(){
         return new LinkedBlockingQueue<>(10000);
     }
 }
