@@ -47,24 +47,12 @@ public class LogConsumer {
 
             int size = logBizInfoQueue.size();
             log.debug("-----logBizInfoQueue---before logQueue.poll size :"+size);
-            List<LogBizInfo> logBizInfoList = new ArrayList<>();
-            try {
-                for (int i = 0; i < size; i++) {
-                    LogBizInfo logBizInfo = logBizInfoQueue.poll();
-                    if (logBizInfo==null){
-                        break;
-                    }
-                    logBizInfoList.add(logBizInfo);
-                }
-                if (logBizInfoList.size()==0){
-                    return;
-                }
-                List<List> pageList = PageUtil.getPageDataList(logBizInfoList,500);
-                for(List list:pageList){
-                    logBizInfoManager.addLogs(list);
-                }
+            if (size==0){
+                return;
+            }
 
-                log.debug("-----logBizInfoQueue---after logQueue.poll size :"+logBizInfoQueue.size());
+            try {
+                addLogs(size);
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("-----logBizInfoQueue--- :"+e.getMessage());
@@ -77,8 +65,30 @@ public class LogConsumer {
 
     @PreDestroy
     public void destroy(){
+        int size = logBizInfoQueue.size();
+        log.debug("-----logBizInfoQueue---destroy  size:"+size);
+        if (size==0){
+            return;
+        }
 
-        log.debug("-----logBizInfoQueue---destroy :"+logBizInfoQueue.size());
+        addLogs(size);
+    }
 
+    private void addLogs(int size){
+        List<LogBizInfo> logBizInfoList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            LogBizInfo logBizInfo = logBizInfoQueue.poll();
+            if (logBizInfo==null){
+                break;
+            }
+            logBizInfoList.add(logBizInfo);
+        }
+        if (logBizInfoList.size()==0){
+            return;
+        }
+        List<List> pageList = PageUtil.getPageDataList(logBizInfoList,500);
+        for(List list:pageList){
+            logBizInfoManager.addLogs(list);
+        }
     }
 }

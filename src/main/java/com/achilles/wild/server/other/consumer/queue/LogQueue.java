@@ -13,6 +13,6 @@ public class LogQueue {
 
     @Bean
     public BlockingQueue<LogBizInfo> logBizInfoQueue(){
-        return new LinkedBlockingQueue<>(3);
+        return new LinkedBlockingQueue<>(10000);
     }
 }

@@ -100,7 +100,7 @@ public class InitFilter implements Filter {
         AtomicInteger atomicInteger;
         synchronized (uri) {
             atomicInteger = caffeineCacheAtomicInteger.getIfPresent(uri);
-            log.debug(" -----------"+uri+"--already insert into DB count : "+atomicInteger);
+            log.debug(" -----------("+uri+") already insert into DB count : "+atomicInteger);
             if (atomicInteger == null){
                 atomicInteger = new AtomicInteger();
                 caffeineCacheAtomicInteger.put(uri,atomicInteger);

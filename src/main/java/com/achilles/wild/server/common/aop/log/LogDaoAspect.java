@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -46,9 +45,6 @@ public class LogDaoAspect {
 
     @Value("${dao.log.time.open}")
     private Boolean openLog;
-
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Autowired
     private BlockingQueue<LogBizInfo> logBizInfoQueue;
@@ -119,7 +115,7 @@ public class LogDaoAspect {
         //applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
         boolean add = logBizInfoQueue.offer(logBizInfo);
-        log.debug(PREFIX +"#---------add to queue : "+add);
+        log.debug(PREFIX +"#---------add to queue success : "+add);
         return result;
     }
 
