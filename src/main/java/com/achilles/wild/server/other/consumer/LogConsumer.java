@@ -1,5 +1,6 @@
 package com.achilles.wild.server.other.consumer;
 
+import com.achilles.wild.server.business.manager.common.LogBizInfoManager;
 import com.achilles.wild.server.entity.common.LogBizInfo;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,28 +25,43 @@ public class LogConsumer {
     @Autowired
     private BlockingQueue<LogBizInfo> logBizInfoQueue;
 
+    @Autowired
+    private LogBizInfoManager logBizInfoManager;
+
     @PostConstruct
     public void execute(){
 
-        log.debug("-----logBizInfoQueue---before logQueue.poll size :"+logBizInfoQueue.size());
+        log.debug("-----logBizInfoQueue---start-------");
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("single_pool_worker_%d").build());
 
         service.scheduleAtFixedRate(()->{
-
+            log.debug("-----logBizInfoQueue---before logQueue.poll size :"+logBizInfoQueue.size());
+            List<LogBizInfo> logBizInfoList = new ArrayList<>();
             try {
-                LogBizInfo logBizInfo = logBizInfoQueue.poll();
-                log.debug("--------logQueue.poll logBizInfo:"+logBizInfo);
+                for (int i = 0; i < 500; i++) {
+                    LogBizInfo logBizInfo = logBizInfoQueue.poll();
+                    if (logBizInfo==null){
+                        break;
+                    }
+                    logBizInfoList.add(logBizInfo);
+                    log.debug("--------logQueue.poll logBizInfo:"+logBizInfo);
+                    //todo
+                }
+                if (logBizInfoList.size()!=0){
+                    //logBizInfoManager.addLog();
+                }
 
-                //todo
 
                 log.debug("-----logBizInfoQueue---after logQueue.poll size :"+logBizInfoQueue.size());
             } catch (Exception e) {
                 System.out.println("发生异常");
             }
 
-        }, 5, 6, TimeUnit.SECONDS);
+            log.debug("-----logBizInfoQueue---end-------");
+
+        }, 5, 10, TimeUnit.SECONDS);
     }
 
     @PreDestroy
