@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-02-28 22:02:04
+Date: 2021-03-07 23:38:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -385,31 +385,6 @@ CREATE TABLE `config_params` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for log_biz_info
--- ----------------------------
-DROP TABLE IF EXISTS `log_biz_info`;
-CREATE TABLE `log_biz_info` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `clz` varchar(96) NOT NULL COMMENT '类路径',
-  `method` varchar(32) NOT NULL COMMENT '方法名',
-  `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
-  `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
-  `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
-  `uri` varchar(64) NOT NULL COMMENT 'url',
-  `type` varchar(10) NOT NULL COMMENT '请求类型，post,get..',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  KEY `class_method` (`clz`,`method`),
-  KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COMMENT='调用Controller耗费时间日志';
-
--- ----------------------------
--- Records of log_biz_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for log_exception_info
 -- ----------------------------
 DROP TABLE IF EXISTS `log_exception_info`;
@@ -426,7 +401,7 @@ CREATE TABLE `log_exception_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='异常日志';
 
 -- ----------------------------
 -- Records of log_exception_info
@@ -447,10 +422,36 @@ CREATE TABLE `log_filter_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8 COMMENT='过滤器耗费时间日志';
 
 -- ----------------------------
 -- Records of log_filter_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for log_time_info
+-- ----------------------------
+DROP TABLE IF EXISTS `log_time_info`;
+CREATE TABLE `log_time_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uri` varchar(64) NOT NULL COMMENT 'url',
+  `type` varchar(10) NOT NULL COMMENT '请求类型，post,get..',
+  `layer` int(11) NOT NULL COMMENT '应用哪一层',
+  `clz` varchar(96) NOT NULL DEFAULT '0' COMMENT '类路径',
+  `method` varchar(32) NOT NULL DEFAULT '0' COMMENT '方法名',
+  `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
+  `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
+  `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  KEY `class_method` (`clz`,`method`),
+  KEY `url` (`uri`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+
+-- ----------------------------
+-- Records of log_time_info
 -- ----------------------------
 
 -- ----------------------------

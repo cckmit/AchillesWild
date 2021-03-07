@@ -12,10 +12,10 @@ DELETE from account_transaction_flow_reduce;
 DELETE from citizen;
 DELETE from citizen_detail;
 
-DELETE from log_biz_info;
+DELETE from log_time_info;
 DELETE from log_exception_info;
 DELETE from log_filter_info;
-DELETE from token_record;
+DELETE from user_token;
 
 ----------------------------------------------------------
 select * from account;
