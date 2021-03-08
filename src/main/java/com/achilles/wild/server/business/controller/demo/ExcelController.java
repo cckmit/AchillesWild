@@ -90,7 +90,7 @@ public class ExcelController {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
         String fileName = URLEncoder.encode("test", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename="+fileName+".xls");
+        response.setHeader("Content-disposition", "attachment;filename="+fileName+".xlsx");
         EasyExcel.write(response.getOutputStream(), LogFilterInfoVO.class).sheet("第一个sheet").doWrite(data());;
     }
 
