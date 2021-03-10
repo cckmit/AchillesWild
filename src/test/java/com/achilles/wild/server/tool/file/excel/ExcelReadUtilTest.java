@@ -1,16 +1,13 @@
 package com.achilles.wild.server.tool.file.excel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.achilles.wild.server.tool.file.txt.TxtUtil;
+import com.achilles.wild.server.tool.jdbc.MySqlUtil;
+import com.achilles.wild.server.tool.jdbc.SqlUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.achilles.wild.server.tool.jdbc.MySqlUtil;
-import com.achilles.wild.server.tool.jdbc.SqlUtil;
+import java.util.*;
 
 /**
  * 数据库与excel数据互读互写
@@ -20,7 +17,30 @@ import com.achilles.wild.server.tool.jdbc.SqlUtil;
 public class ExcelReadUtilTest {
 
 	private final static Logger log =LoggerFactory.getLogger(ExcelReadUtilTest.class);
-	
+
+	@Test
+	public void readExcelForSet() {
+		//1.读取excel数据-------------------------------------------------
+//		String path = "C:\\Users\\Achilles\\Desktop\\resume.doc";
+//		String content = WordUtil.read(path);
+
+		String path = "C:\\Users\\Achilles\\Desktop\\diary.txt";
+		String content = TxtUtil.read(path);
+
+		String url = "C:\\Users\\Achilles\\Desktop\\test.xlsx";
+//		 String url = "C://Users//Achil//Desktop//a.xls";
+		Set<String> set = ExcelReadUtil.readExcelForSet(url,2,1);
+		Set<String> existSet = new HashSet<>();
+		for (String key: set) {
+			if (content.contains(key)){
+				existSet.add(key);
+				System.out.println(key);
+			}
+		}
+		System.out.println("---------------总数-------"+existSet.size());
+
+	}
+
 	/**
 	 * 把excel数据写的数据库
 	 */
