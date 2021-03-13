@@ -10,8 +10,6 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.xmlbeans.XmlException;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 操作word文档
@@ -26,49 +24,6 @@ public class WordUtil {
 			return readDocx(path);
 		}
 		return readDoc(path);
-	}
-
-	public static List<String> readWord(String filePath){
-
-		List<String> linList = new ArrayList<String>();
-		String buffer = "";
-		try {
-			if (filePath.endsWith(".doc")) {
-				InputStream is = new FileInputStream(new File(filePath));
-				WordExtractor ex = new WordExtractor(is);
-				buffer = ex.getText();
-				ex.close();
-
-				if(buffer.length() > 0){
-					//使用回车换行符分割字符串
-					String [] arry = buffer.split("\\r\\n");
-					for (String string : arry) {
-						linList.add(string.trim());
-					}
-				}
-			} else if (filePath.endsWith(".docx")) {
-				OPCPackage opcPackage = POIXMLDocument.openPackage(filePath);
-				POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
-				buffer = extractor.getText();
-				extractor.close();
-
-				if(buffer.length() > 0){
-					//使用换行符分割字符串
-					String [] arry = buffer.split("\\n");
-					for (String string : arry) {
-						linList.add(string.trim());
-					}
-				}
-			} else {
-				return null;
-			}
-
-			return linList;
-		} catch (Exception e) {
-			System.out.print("error---->"+filePath);
-			e.printStackTrace();
-			return null;
-		}
 	}
 	
 	/**
