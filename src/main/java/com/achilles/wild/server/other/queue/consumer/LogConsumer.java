@@ -32,7 +32,7 @@ public class LogConsumer {
     private LogTimeInfoManager logTimeInfoManager;
 
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
-            new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
+            new ThreadFactoryBuilder().setNameFormat("single_pool_log_%d").build());
 
     @PostConstruct
     public void doIt(){
