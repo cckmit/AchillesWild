@@ -4,7 +4,6 @@ import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
-import com.achilles.wild.server.tool.page.PageUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,7 @@ public class LogConsumer {
             new ThreadFactoryBuilder().setNameFormat("single_pool_%d").build());
 
     @PostConstruct
-    public void execute(){
+    public void doIt(){
 
         log.debug("-----logInfoConcurrentLinkedQueue---start-------");
 
@@ -62,26 +61,31 @@ public class LogConsumer {
     }
 
     private void addLogs(){
-        int size = logInfoConcurrentLinkedQueue.size();
-        if (size==0){
-            return;
-        }
-        log.debug("-----logInfoConcurrentLinkedQueue---  size:"+size);
+
+        int consumeCount = 0;
 
         List<LogTimeInfo> logTimeInfoList = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
+        while (!logInfoConcurrentLinkedQueue.isEmpty()){
             LogTimeInfo logTimeInfo = logInfoConcurrentLinkedQueue.poll();
-            if (logTimeInfo ==null){
+            if (logTimeInfo == null){
                 break;
             }
+            consumeCount++;
             logTimeInfoList.add(logTimeInfo);
+            if (logTimeInfoList.size()<500){
+                continue;
+            }
+            logTimeInfoManager.addLogs(logTimeInfoList);
+            logTimeInfoList.clear();
         }
+
+        if (consumeCount!=0){
+            log.debug("-----logInfoConcurrentLinkedQueue--- this time consume count : "+consumeCount);
+        }
+
         if (logTimeInfoList.size()==0){
             return;
         }
-        List<List> pageList = PageUtil.getPageDataList(logTimeInfoList,500);
-        for(List list:pageList){
-            logTimeInfoManager.addLogs(list);
-        }
+        logTimeInfoManager.addLogs(logTimeInfoList);
     }
 }
