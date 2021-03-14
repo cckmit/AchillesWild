@@ -4,8 +4,8 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.config.params.LogBizParamsConfig;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.common.listener.event.LogExceptionInfoEvent;
-import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
+import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -28,7 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,7 +53,7 @@ public class LogControllerAspect {
     private ApplicationContext applicationContext;
 
     @Autowired
-    BlockingQueue<LogTimeInfo> logTimeInfoQueue;
+    Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -136,7 +136,7 @@ public class LogControllerAspect {
         logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        boolean add = logTimeInfoQueue.offer(logTimeInfo);
+        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
         log.debug(PREFIX +"#---------controller add to queue success : "+add);
 
         return result;

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -49,7 +49,7 @@ public class InitFilter implements Filter {
     private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
 
     @Autowired
-    BlockingQueue<LogTimeInfo> logTimeInfoQueue;
+    Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
 
 
     @Override
@@ -123,7 +123,7 @@ public class InitFilter implements Filter {
 //        logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        boolean add = logTimeInfoQueue.offer(logTimeInfo);
+        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
         log.debug("#---------filter add to queue success : "+add);
 
         MDC.remove(CommonConstant.TRACE_ID);
