@@ -1,19 +1,7 @@
 package com.achilles.wild.server.tool.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.sql.*;
+import java.util.*;
 
 /**
  * mysql 连接
@@ -21,8 +9,7 @@ import java.util.Set;
  *
  */
 public class MySqlUtil {
-	
-	static String driverClass = "com.mysql.cj.jdbc.Driver";
+
 	static String urlString = "jdbc:mysql://localhost:3306/info?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false";
 	static String name = "root";
 	static String password = "root";
@@ -217,7 +204,6 @@ public class MySqlUtil {
 	public static Connection getConnection() {
 		Connection con = null; //定义一个MYSQL链接对象
 		try {
-            Class.forName(driverClass).newInstance(); //MYSQL驱动
             con = DriverManager.getConnection(urlString, name, password); //链接本地MYSQL
 //            con.setAutoCommit(false);
         } catch (Exception e) {
