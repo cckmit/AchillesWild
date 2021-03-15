@@ -14,6 +14,7 @@ public class HelloEventHandler implements EventHandler<MessageModel> {
     @Override
     public void onEvent(MessageModel event, long sequence, boolean endOfBatch) {
         try {
+            log.info("消费者消费的信息是：sequence:"+sequence+",endOfBatch:"+endOfBatch);
             //这里停止1000ms是为了确定消费消息是异步的
             Thread.sleep(1000);
             log.info("消费者处理消息开始");
