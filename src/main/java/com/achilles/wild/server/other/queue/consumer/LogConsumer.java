@@ -11,7 +11,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class LogConsumer {
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
             new ThreadFactoryBuilder().setNameFormat("single_pool_log_%d").build());
 
-    @PostConstruct
+//    @PostConstruct
     public void doIt(){
 
         log.debug("-----logInfoConcurrentLinkedQueue---start-------");

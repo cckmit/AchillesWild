@@ -8,6 +8,7 @@ import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.github.benmanes.caffeine.cache.Cache;
+import com.lmax.disruptor.RingBuffer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,9 @@ public class InitFilter implements Filter {
 
     @Autowired
     Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
+
+    @Autowired
+    private RingBuffer<LogTimeInfo> messageModelRingBuffer;
 
 
     @Override
@@ -113,18 +117,18 @@ public class InitFilter implements Filter {
             return;
         }
 
-        LogTimeInfo logTimeInfo = new LogTimeInfo();
+        long sequence = messageModelRingBuffer.next();
+        LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
         logTimeInfo.setUri(uri);
         String type = request.getMethod();
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(0);
-//        logTimeInfo.setClz(clz);
-//        logTimeInfo.setMethod(method);
-//        logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
-        log.debug("#---------filter add to queue success : "+add);
+//        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
+//        log.debug("#---------filter add to queue success : "+add);
+
+        messageModelRingBuffer.publish(sequence);
 
         MDC.remove(CommonConstant.TRACE_ID);
 
