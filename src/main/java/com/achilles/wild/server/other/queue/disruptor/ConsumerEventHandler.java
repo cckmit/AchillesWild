@@ -7,7 +7,6 @@ import com.achilles.wild.server.tool.json.JsonUtil;
 import com.lmax.disruptor.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,16 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
 
     private final static Logger log = LoggerFactory.getLogger(ConsumerEventHandler.class);
 
-//    @Value("${insert.into.db.batch.size:1}")
-//    private Integer batchSize;
+
+    private LogTimeInfoManager logTimeInfoManager;
+
+    private LogTimeInfoManager getLogTimeInfoManager() {
+        if (logTimeInfoManager != null){
+            return logTimeInfoManager;
+        }
+        logTimeInfoManager = SpringContextUtil.getBean(LogTimeInfoManager.class);
+        return logTimeInfoManager;
+    }
 
     private final List<LogTimeInfo> logTimeInfoList = new ArrayList<>();
 
@@ -36,12 +43,9 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
 
         logTimeInfoList.add(logTimeInfo);
         try {
-            Environment environment = SpringContextUtil.getBean(Environment.class);
-            String size = environment.getProperty("insert.into.db.batch.size");
-            size=size==null ? "1":size;
-            if (logTimeInfoList.size() == Integer.parseInt(size)){
-                LogTimeInfoManager logTimeInfoManager = SpringContextUtil.getBean(LogTimeInfoManager.class);
-                logTimeInfoManager.addLogs(logTimeInfoList);
+
+            if (logTimeInfoList.size() == 1){
+                getLogTimeInfoManager().addLogs(logTimeInfoList);
                 logTimeInfoList.clear();
             }
         } catch (Exception e) {
