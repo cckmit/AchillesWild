@@ -31,7 +31,7 @@ public class ParamsConfig {
 
         List<ConfigParams> configParamsList = paramsManager.selectAll();
 
-        log.info("------------initParams  size : "+ configParamsList.size());
+        log.debug("------------initParams  size : "+ configParamsList.size());
         if (configParamsList.size()==0){
             log.warn("------------initParams  size : 0");
             return;
