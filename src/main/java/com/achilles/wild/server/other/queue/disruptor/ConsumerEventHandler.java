@@ -26,7 +26,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
     @Override
     public void onEvent(LogTimeInfo logTimeInfo, long sequence, boolean endOfBatch) {
 
-        log.debug("消费者消费的信息是：sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
+        log.debug("consumer ----- sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
 
         if (logTimeInfo == null) {
             log.error("----------------------------空消息-------------------------sequence:"+sequence);
