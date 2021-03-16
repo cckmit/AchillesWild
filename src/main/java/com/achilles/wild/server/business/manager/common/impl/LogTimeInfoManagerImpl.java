@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,13 +17,15 @@ public class LogTimeInfoManagerImpl implements LogTimeInfoManager {
     private LogTimeInfoDao logTimeInfoDao;
 
     @Override
-    public boolean addLog(LogTimeInfo log) {
+    public boolean addLog(LogTimeInfo logTimeInfo) {
 
-        if (log==null){
+        if (logTimeInfo==null){
             throw new IllegalArgumentException("log can not be null !");
         }
 
-        int insert = logTimeInfoDao.insertSelective(log);
+        logTimeInfo.setCreateDate(new Date());
+        logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
+        int insert = logTimeInfoDao.insertSelective(logTimeInfo);
         if (insert==1){
             return true;
         }
@@ -44,6 +47,8 @@ public class LogTimeInfoManagerImpl implements LogTimeInfoManager {
             if (logTimeInfo.getMethod()==null){
                 logTimeInfo.setMethod("0");
             }
+            logTimeInfo.setCreateDate(new Date());
+            logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
         });
 
         int insert = logTimeInfoDao.batchInsert(logTimeInfoList);

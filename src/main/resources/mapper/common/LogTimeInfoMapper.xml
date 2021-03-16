@@ -40,6 +40,12 @@
       <if test="type != null">
         type,
       </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clz != null">
@@ -63,6 +69,12 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
 
@@ -76,7 +88,9 @@
         method,
         params,
         time,
-        trace_id
+        trace_id,
+        create_date,
+        update_date
      )
         VALUES
     <foreach collection="list" index="index" item="item" separator=",">
@@ -88,7 +102,9 @@
         #{item.method,jdbcType=VARCHAR},
         #{item.params,jdbcType=VARCHAR},
         #{item.time,jdbcType=INTEGER},
-        #{item.traceId,jdbcType=VARCHAR}
+        #{item.traceId,jdbcType=VARCHAR},
+        #{item.createDate,jdbcType=TIMESTAMP},
+        #{item.updateDate,jdbcType=TIMESTAMP}
       )
       </foreach>
   </insert>
