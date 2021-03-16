@@ -7,6 +7,7 @@ import com.achilles.wild.server.tool.json.JsonUtil;
 import com.lmax.disruptor.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,10 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
 
         logTimeInfoList.add(logTimeInfo);
         try {
-            if (logTimeInfoList.size() == 1){
+            Environment environment = SpringContextUtil.getBean(Environment.class);
+            String size = environment.getProperty("insert.into.db.batch.size");
+            size=size==null ? "1":size;
+            if (logTimeInfoList.size() == Integer.parseInt(size)){
                 LogTimeInfoManager logTimeInfoManager = SpringContextUtil.getBean(LogTimeInfoManager.class);
                 logTimeInfoManager.addLogs(logTimeInfoList);
                 logTimeInfoList.clear();
