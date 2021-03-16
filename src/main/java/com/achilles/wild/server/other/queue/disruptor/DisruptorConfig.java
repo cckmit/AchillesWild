@@ -29,7 +29,7 @@ public class DisruptorConfig {
                 factory,
                 bufferSize,
                 new ThreadFactoryBuilder().setNameFormat("disruptor_%d").build(),
-                ProducerType.SINGLE,
+                ProducerType.MULTI,
                 new BlockingWaitStrategy());
 
         //设置事件业务处理器---消费者
