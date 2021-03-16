@@ -1,12 +1,12 @@
 package com.achilles.wild.server.business.controller.demo;
 
-import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.business.service.account.BalanceService;
-import com.achilles.wild.server.common.listener.event.MyApplicationEvent;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
 import com.achilles.wild.server.common.config.ConfigProperties2;
+import com.achilles.wild.server.common.listener.event.MyApplicationEvent;
+import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.other.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.other.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandler;
@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -41,7 +41,7 @@ public class DemoController {
     private BalanceService balanceService;
 
     @Autowired
-    private ApplicationListener myApplicationListener;
+    private ApplicationContext applicationContext;
 
     @Value("#{${test.map}}")
     private Map<String,String> map;
@@ -84,7 +84,7 @@ public class DemoController {
 
         Account account = new Account();
         account.setId(23L);
-        myApplicationListener.onApplicationEvent(new MyApplicationEvent(account));
+        applicationContext.publishEvent(new MyApplicationEvent(account));
         return "invokeEvent ok";
     }
 }

@@ -7,6 +7,7 @@ import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
+import com.lmax.disruptor.RingBuffer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -48,6 +49,9 @@ public class LogDaoAspect {
 
     @Autowired
     private Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
+
+    @Autowired
+    private RingBuffer<LogTimeInfo> messageModelRingBuffer;
 
 //    @Pointcut("within(com.achilles.wild.server.business.dao.account.AccountDao+)")
     @Pointcut("execution(* com.achilles.wild.server.business.dao.account..*.*(..))")
@@ -100,7 +104,8 @@ public class LogDaoAspect {
 
         String path = clz+"#"+method;
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogTimeInfo logTimeInfo = new LogTimeInfo();
+        long sequence = messageModelRingBuffer.next();
+        LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String uri = request.getRequestURI();
@@ -114,10 +119,12 @@ public class LogDaoAspect {
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
 
+        messageModelRingBuffer.publish(sequence);
+
         //applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
-        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
-        log.debug(PREFIX +"#---------dao add to queue success : "+add);
+//        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
+//        log.debug(PREFIX +"#---------dao add to queue success : "+add);
         return result;
     }
 

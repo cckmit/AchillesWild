@@ -12,6 +12,7 @@ import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
+import com.lmax.disruptor.RingBuffer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -54,6 +55,9 @@ public class LogControllerAspect {
 
     @Autowired
     Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
+
+    @Autowired
+    private RingBuffer<LogTimeInfo> messageModelRingBuffer;
 
     @Pointcut("execution(* com.achilles.wild.server.business.controller..*.*(..))")
     public void controllerLog() {}
@@ -127,7 +131,8 @@ public class LogControllerAspect {
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
-        LogTimeInfo logTimeInfo = new LogTimeInfo();
+        long sequence = messageModelRingBuffer.next();
+        LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
         logTimeInfo.setUri(uri);
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(1);
@@ -136,8 +141,10 @@ public class LogControllerAspect {
         logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
-        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
-        log.debug(PREFIX +"#---------controller add to queue success : "+add);
+//        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
+//        log.debug(PREFIX +"#---------controller add to queue success : "+add);
+
+        messageModelRingBuffer.publish(sequence);
 
         return result;
     }
