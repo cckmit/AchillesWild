@@ -95,6 +95,10 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
             return;
         }
 
+        if (DateUtil.getGapSeconds(lastUpdateTime) <= 10){
+            return;
+        }
+
         log.debug("-----Disruptor--consumer   task -start-------");
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
