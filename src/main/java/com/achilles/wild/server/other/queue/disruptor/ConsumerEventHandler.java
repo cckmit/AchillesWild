@@ -75,6 +75,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
                 }
                 getLogTimeInfoManager().addLogs(logTimeInfoList);
                 logTimeInfoList.clear();
+                lastUpdateTime = DateUtil.getCurrentDate();
 
             }
         } catch (Exception e) {
@@ -89,6 +90,10 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
     }
 
     private void doIt(){
+
+        if (lastUpdateTime==null || logTimeInfoList.size() == 0){
+            return;
+        }
 
         log.debug("-----Disruptor--consumer   task -start-------");
 
@@ -119,7 +124,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
                 log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
             }
 
-        }, 5, 7, TimeUnit.SECONDS);
+        }, 0, 7, TimeUnit.SECONDS);
     }
 
 }
