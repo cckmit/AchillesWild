@@ -47,8 +47,8 @@ public class LogTimeInfoManagerImpl implements LogTimeInfoManager {
             if (logTimeInfo.getMethod()==null){
                 logTimeInfo.setMethod("0");
             }
-            logTimeInfo.setCreateDate(new Date());
-            logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
+//            logTimeInfo.setCreateDate(new Date());
+//            logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
         });
 
         int insert = logTimeInfoDao.batchInsert(logTimeInfoList);

@@ -20,6 +20,16 @@ public class LogTimeInfo extends BaseEntity {
 
     private String traceId;
 
+    public static void clear(LogTimeInfo logTimeInfo){
+        if (logTimeInfo==null){
+            return;
+        }
+        logTimeInfo.setId(null);
+        logTimeInfo.setClz(null);
+        logTimeInfo.setMethod(null);
+        logTimeInfo.setParams(null);
+    }
+
 
     public String getUri() {
         return uri;

@@ -3,6 +3,7 @@ package com.achilles.wild.server.common.aop.log;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.bean.AspectUtil;
+import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -106,6 +107,7 @@ public class LogDaoAspect {
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         long sequence = messageModelRingBuffer.next();
         LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
+        LogTimeInfo.clear(logTimeInfo);
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String uri = request.getRequestURI();
@@ -118,6 +120,8 @@ public class LogDaoAspect {
         logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        logTimeInfo.setCreateDate(DateUtil.getCurrentDate());
+        logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
 
         messageModelRingBuffer.publish(sequence);
 

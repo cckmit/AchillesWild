@@ -8,6 +8,7 @@ import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.enums.account.ExceptionTypeEnum;
 import com.achilles.wild.server.tool.bean.AspectUtil;
+import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -133,6 +134,7 @@ public class LogControllerAspect {
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         long sequence = messageModelRingBuffer.next();
         LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
+        LogTimeInfo.clear(logTimeInfo);
         logTimeInfo.setUri(uri);
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(1);
@@ -141,6 +143,8 @@ public class LogControllerAspect {
         logTimeInfo.setParams(params);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        logTimeInfo.setCreateDate(DateUtil.getCurrentDate());
+        logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
 //        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
 //        log.debug(PREFIX +"#---------controller add to queue success : "+add);
 

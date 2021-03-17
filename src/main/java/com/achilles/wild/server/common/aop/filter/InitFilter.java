@@ -119,12 +119,15 @@ public class InitFilter implements Filter {
 
         long sequence = messageModelRingBuffer.next();
         LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
+        LogTimeInfo.clear(logTimeInfo);
         logTimeInfo.setUri(uri);
         String type = request.getMethod();
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(0);
         logTimeInfo.setTime((int)duration);
         logTimeInfo.setTraceId(MDC.get(CommonConstant.TRACE_ID));
+        logTimeInfo.setCreateDate(DateUtil.getCurrentDate());
+        logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
 //        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
 //        log.debug("#---------filter add to queue success : "+add);
 
