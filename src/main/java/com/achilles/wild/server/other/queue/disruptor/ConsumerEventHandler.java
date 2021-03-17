@@ -9,6 +9,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.lmax.disruptor.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 消费者
  */
-public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
+public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, InitializingBean,DisposableBean {
 
     private final static Logger log = LoggerFactory.getLogger(ConsumerEventHandler.class);
 
@@ -41,6 +43,11 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
     private final List<LogTimeInfo> logTimeInfoList = new ArrayList<>();
 
     private Thread.State threadState;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("-----afterPropertiesSet------");
+    }
 
     @Override
     public void onEvent(LogTimeInfo logTimeInfo, long sequence, boolean endOfBatch) {
@@ -74,6 +81,11 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
             e.printStackTrace();
             log.error("----------------------------insert into db error-------------------------");
         }
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        log.info("-----destroy------");
     }
 
     private void doIt(){
