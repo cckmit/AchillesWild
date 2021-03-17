@@ -28,7 +28,7 @@ public class DisruptorConfig {
         Disruptor<LogTimeInfo> disruptor = new Disruptor<>(
                 factory,
                 bufferSize,
-                new ThreadFactoryBuilder().setNameFormat("disruptor_%d").build(),
+                new ThreadFactoryBuilder().setNameFormat("disruptor_consumer_%d").build(),
                 ProducerType.MULTI,
                 new BlockingWaitStrategy());
 

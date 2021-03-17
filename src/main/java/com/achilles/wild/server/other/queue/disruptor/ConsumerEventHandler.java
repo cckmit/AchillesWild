@@ -98,7 +98,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
         log.debug("-----Disruptor--consumer   task -start-------");
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("disruptor_log_%d").build());
+                new ThreadFactoryBuilder().setNameFormat("disruptor_consumer_task_%d").build());
 
         service.scheduleAtFixedRate(()->{
 
