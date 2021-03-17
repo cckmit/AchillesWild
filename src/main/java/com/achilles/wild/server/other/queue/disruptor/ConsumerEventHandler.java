@@ -107,7 +107,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo> {
                 log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
             }
 
-        }, 5, 10, TimeUnit.SECONDS);
+        }, 5, 7, TimeUnit.SECONDS);
     }
 
 }
