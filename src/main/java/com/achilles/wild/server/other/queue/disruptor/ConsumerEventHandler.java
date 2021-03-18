@@ -26,11 +26,11 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 
     private final static Logger log = LoggerFactory.getLogger(ConsumerEventHandler.class);
 
-
     private LogTimeInfoManager logTimeInfoManager;
 
-
     private Date lastUpdateTime;
+
+    private final Integer batchSize = 5;
 
     private LogTimeInfoManager getLogTimeInfoManager() {
         if (logTimeInfoManager != null){
@@ -65,12 +65,12 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 
         logTimeInfoList.add(logTimeInfo);
         lastUpdateTime = DateUtil.getCurrentDate();
-        if (logTimeInfoList.size() < 5){
+        if (logTimeInfoList.size() != batchSize){
             return;
         }
         try {
             synchronized (logTimeInfoList){
-                if (logTimeInfoList.size() != 5) {
+                if (logTimeInfoList.size() != batchSize) {
                     return;
                 }
                 getLogTimeInfoManager().addLogs(logTimeInfoList);
@@ -92,10 +92,6 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
     private void doIt(){
 
         if (lastUpdateTime==null || logTimeInfoList.size() == 0){
-            return;
-        }
-
-        if (DateUtil.getGapSeconds(lastUpdateTime) <= 10){
             return;
         }
 
@@ -128,7 +124,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
                 log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
             }
 
-        }, 0, 7, TimeUnit.SECONDS);
+        }, 0, 3, TimeUnit.SECONDS);
     }
 
 }
