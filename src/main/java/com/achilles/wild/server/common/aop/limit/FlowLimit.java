@@ -5,10 +5,13 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -41,6 +44,17 @@ public class FlowLimit {
         rule.setTimeWindow(80);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
+    }
+
+    @PostConstruct
+    public void initParamFlowRule() {
+
+        // 定义热点限流的规则，对第一个参数设置 qps 限流模式，阈值为5
+        ParamFlowRule rule = new ParamFlowRule(key)
+                .setParamIdx(0)
+                .setGrade(RuleConstant.FLOW_GRADE_QPS)
+                .setCount(5);
+        ParamFlowRuleManager.loadRules(Collections.singletonList(rule));
     }
 
 }
