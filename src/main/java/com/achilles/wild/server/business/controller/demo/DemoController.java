@@ -1,6 +1,8 @@
 package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.aop.limit.BlockHandler;
+import com.achilles.wild.server.common.aop.limit.FallBackHandler;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
@@ -11,7 +13,6 @@ import com.achilles.wild.server.other.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.other.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandler;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,9 @@ public class DemoController {
     private Map<String,String> map;
 
     @GetMapping(path = "/flow/{name}")
-    @SentinelResource(value = "limit_test", blockHandler = "handleFlowQpsException",
-            fallback = "queryOrderInfo2Fallback")
+    @SentinelResource(value = "limit_test",
+            blockHandlerClass = BlockHandler.class,blockHandler = "handleFlowQpsException",
+            fallbackClass = FallBackHandler.class,fallback = "queryOrderInfo2Fallback")
     public String flow(@PathVariable("name") String name){
 
         // 资源名
@@ -59,29 +61,6 @@ public class DemoController {
         Long.parseLong(name);
 
         return "AchillesWild";
-    }
-
-    /**
-     * 订单查询接口抛出限流或降级时的处理逻辑
-     *
-     * 注意: 方法参数、返回值要与原函数保持一致
-     * @return
-     */
-    public String handleFlowQpsException(String name, BlockException e) {
-        e.printStackTrace();
-        log.info("==================handleFlowQpsException ============"+name);
-        return "----------------handleFlowQpsException for : " + name;
-    }
-
-    /**
-     * 订单查询接口运行时抛出的异常提供fallback处理
-     *
-     * 注意: 方法参数、返回值要与原函数保持一致
-     * @return
-     */
-    public String queryOrderInfo2Fallback(String name, Throwable e) {
-        log.info("==================queryOrderInfo2Fallback ==fallback=========="+name);
-        return "-----------------queryOrderInfo2Fallback fallback : " + name;
     }
 
     //    @ControllerLog
