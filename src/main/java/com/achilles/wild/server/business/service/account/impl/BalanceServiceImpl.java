@@ -191,9 +191,4 @@ public class BalanceServiceImpl implements BalanceService {
         return true;
     }
 
-    @Override
-    public Long getInterBalance() {
-
-        return accountInterManager.getBalance(AccountConstant.ACCOUNT_INTER_USER_ID);
-    }
 }
