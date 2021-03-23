@@ -1,6 +1,7 @@
 package com.achilles.wild.server.common.aop.limit;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +15,15 @@ public class BlockHandler {
      * 注意: 方法参数、返回值要与原函数保持一致
      * @return
      */
-    public static String handleFlowQpsException(String name, BlockException e) {
+    public static String block(String name, BlockException e) {
         e.printStackTrace();
-        log.info("==================handleFlowQpsException ============"+name);
-        return "----------------handleFlowQpsException for : " + name;
+        log.info("==================block ============"+name);
+        return "----------------block : " + name;
+    }
+
+    public static String degrade(String name, DegradeException e) {
+        e.printStackTrace();
+        log.info("==================Degrade ============"+name);
+        return "----------------Degrade : " + name;
     }
 }

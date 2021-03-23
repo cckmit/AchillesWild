@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SentinelAspectConfiguration {
+public class SentinelAspectConfig {
 
     @Bean
     public SentinelResourceAspect sentinelResourceAspect() {

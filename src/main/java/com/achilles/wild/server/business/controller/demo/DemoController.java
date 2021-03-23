@@ -51,14 +51,20 @@ public class DemoController {
 
     @GetMapping(path = "/flow/{name}")
     @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "handleFlowQpsException",
-            fallbackClass = FallBackHandler.class,fallback = "queryOrderInfo2Fallback")
+            blockHandlerClass = BlockHandler.class,blockHandler = "degrade",
+            fallbackClass = FallBackHandler.class,fallback = "fallback")
     public String flow(@PathVariable("name") String name){
 
         // 资源名
         log.info("==================name ============"+name);
 
         Long.parseLong(name);
+
+        try {
+            Thread.sleep(210L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return "AchillesWild";
     }

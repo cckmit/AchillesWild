@@ -8,8 +8,8 @@ public class FallBackHandler {
     private final static Logger log = LoggerFactory.getLogger(FallBackHandler.class);
 
 
-    public static String queryOrderInfo2Fallback(String name, Throwable e) {
-        log.info("==================queryOrderInfo2Fallback ==fallback=========="+name);
-        return "-----------------queryOrderInfo2Fallback fallback : " + name;
+    public static String fallback(String name, Throwable e) {
+        log.info("==================fallback=========="+name);
+        return "-----------------fallback : " + name;
     }
 }
