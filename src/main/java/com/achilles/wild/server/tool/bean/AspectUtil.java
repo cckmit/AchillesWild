@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.bean;
 
-import com.achilles.wild.server.common.aop.log.IgnoreParams;
+import com.achilles.wild.server.common.aop.log.annotation.IgnoreParams;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
