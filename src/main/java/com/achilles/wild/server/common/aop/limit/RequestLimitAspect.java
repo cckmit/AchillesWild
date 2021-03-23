@@ -1,6 +1,7 @@
 package com.achilles.wild.server.common.aop.limit;
 
 import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -45,7 +46,7 @@ public class RequestLimitAspect {
 //        private Integer countLimit;
 
         /** 以 @requestLimit注解为切入点 */
-        @Pointcut("@annotation(com.achilles.wild.server.common.aop.limit.RequestLimit)")
+        @Pointcut("@annotation(com.achilles.wild.server.common.aop.limit.annotation.RequestLimit)")
         public void requestLimit() {}
 
         /**

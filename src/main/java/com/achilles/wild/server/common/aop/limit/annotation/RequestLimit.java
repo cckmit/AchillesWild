@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop.limit;
+package com.achilles.wild.server.common.aop.limit.annotation;
 
 import java.lang.annotation.*;
 
