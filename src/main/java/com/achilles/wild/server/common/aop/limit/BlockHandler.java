@@ -18,12 +18,12 @@ public class BlockHandler {
     public static String block(String name, BlockException e) {
         e.printStackTrace();
         log.info("==================block ============"+name);
-        return "----------------block : " + name;
+        return "block";
     }
 
     public static String degrade(String name, DegradeException e) {
         e.printStackTrace();
         log.info("==================Degrade ============"+name);
-        return "----------------Degrade : " + name;
+        return "degrade";
     }
 }

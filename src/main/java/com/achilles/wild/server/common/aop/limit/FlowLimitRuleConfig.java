@@ -71,7 +71,7 @@ public class FlowLimitRuleConfig {
         //平均相应时间,当1s内持续进入5个请求,对应时刻平均时间(秒级)均超过阈值,那么接下来的timewindow 秒之内,对这个方法熔断
         rule.setGrade(RuleConstant.DEGRADE_GRADE_RT);
         // 设置时间窗口
-        rule.setTimeWindow(1);
+        rule.setTimeWindow(5);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
     }

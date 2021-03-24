@@ -1,13 +1,13 @@
 package com.achilles.wild.server.tool.http;
 
+import com.achilles.tool.http.HttpGetUtil;
+import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
+import org.junit.Test;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.junit.Test;
-
-import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
 
 
 public class HttpGetUtilTest {
