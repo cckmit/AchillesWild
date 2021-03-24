@@ -1,13 +1,11 @@
 package com.achilles.wild.server.common.aop.filter;
 
-import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
-import com.github.benmanes.caffeine.cache.Cache;
 import com.lmax.disruptor.RingBuffer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,8 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 @WebFilter(filterName = "initFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
@@ -35,25 +31,22 @@ public class InitFilter implements Filter {
     private String loginUri;
 
     @Value("${if.verify.trace.id:false}")
-    private Boolean verifyTraceId;
+    Boolean verifyTraceId;
 
     @Value("${filter.log.time.insert.db.open:true}")
-    private Boolean ifOpenInsertDb;
+    Boolean ifOpenInsertDb;
 
-    @Value("${filter.log.time.of.count.limit.in.time:10000}")
-    private Integer countOfInsertDBInTime;
+//    @Value("${filter.log.time.of.count.limit.in.time:10000}")
+//    private Integer countOfInsertDBInTime;
 
-    @Autowired
-    private LogFilterInfoManager logFilterInfoManager;
+//    @Autowired
+//    private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
 
-    @Autowired
-    private Cache<String, AtomicInteger> caffeineCacheAtomicInteger;
-
-    @Autowired
-    Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
+//    @Autowired
+//    Queue<LogTimeInfo> logInfoConcurrentLinkedQueue;
 
     @Autowired
-    private RingBuffer<LogTimeInfo> messageModelRingBuffer;
+    RingBuffer<LogTimeInfo> messageModelRingBuffer;
 
 
     @Override
@@ -95,24 +88,6 @@ public class InitFilter implements Filter {
 
         if (!ifOpenInsertDb) {
             log.debug("-----------------remove traceId from Thread-----");
-            MDC.remove(CommonConstant.TRACE_ID);
-            return;
-        }
-
-        uri = uri.intern();
-        AtomicInteger atomicInteger;
-        synchronized (uri) {
-            atomicInteger = caffeineCacheAtomicInteger.getIfPresent(uri);
-            log.debug(" -----------("+uri+") already insert into DB count : "+atomicInteger);
-            if (atomicInteger == null){
-                atomicInteger = new AtomicInteger();
-                caffeineCacheAtomicInteger.put(uri,atomicInteger);
-            }
-        }
-
-        atomicInteger.incrementAndGet();
-        if(atomicInteger.get() > countOfInsertDBInTime) {
-            log.debug(" -----------"+uri+"-- insert into DB count out of limit ");
             MDC.remove(CommonConstant.TRACE_ID);
             return;
         }
