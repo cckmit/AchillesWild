@@ -1,5 +1,6 @@
-git reset --hard commit_id   回退到哪个commit
+git remote -v  查看远程地址
 
+git reset --hard commit_id   回退到哪个commit
 
 VCS——>check out from version control———>git———>
 1:远程路径
