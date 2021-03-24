@@ -22,14 +22,18 @@ public class FlowLimitRuleConfig {
 //    @PostConstruct
     public void initFlowQpsRule() {
         List<FlowRule> rules = new ArrayList<FlowRule>();
-        FlowRule rule1 = new FlowRule();
-        rule1.setResource(key);
+        FlowRule rule = new FlowRule();
+        rule.setResource(key);
         // QPS控制在2以内
-        rule1.setCount(1);
+        rule.setCount(1);
         // QPS限流
-        rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);
-        rule1.setLimitApp("default");
-        rules.add(rule1);
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        //判断的根据是资源自身，还是根据其它关联资源 (refResource)，还是根据链路入口,
+        rule.setStrategy(RuleConstant.CONTROL_BEHAVIOR_DEFAULT);
+        rule.setLimitApp(RuleConstant.LIMIT_APP_DEFAULT);
+        //流控效果（直接拒绝 / 排队等待 / 慢启动模式）,默认直接拒绝
+        rule.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT);
+        rules.add(rule);
         FlowRuleManager.loadRules(rules);
     }
 
