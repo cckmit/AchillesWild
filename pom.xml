@@ -300,7 +300,6 @@
 			<artifactId>caffeine</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
 		<dependency>
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
@@ -311,13 +310,11 @@
 			<artifactId>sentinel-core</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba.csp/sentinel-annotation-aspectj -->
 		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-annotation-aspectj</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba.csp/sentinel-parameter-flow-control -->
 		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-parameter-flow-control</artifactId>

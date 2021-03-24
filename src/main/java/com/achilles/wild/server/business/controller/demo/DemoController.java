@@ -51,7 +51,7 @@ public class DemoController {
 
     @GetMapping(path = "/flow/{name}")
     @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "degrade",
+            blockHandlerClass = BlockHandler.class,blockHandler = "block",
             fallbackClass = FallBackHandler.class,fallback = "fallback")
     public String flow(@PathVariable("name") String name){
 
