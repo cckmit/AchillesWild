@@ -1,12 +1,16 @@
 package com.achilles.wild.server.common.aop.limit;
 
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
+import com.alibaba.csp.sentinel.slots.system.SystemRule;
+import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -38,7 +42,7 @@ public class FlowLimitRuleConfig {
     }
 
     //@PostConstruct
-    public void initDegradeRule() {
+    public void initDegradeRuleException() {
         List<DegradeRule> rules = new ArrayList<>();
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
@@ -72,15 +76,39 @@ public class FlowLimitRuleConfig {
         DegradeRuleManager.loadRules(rules);
     }
 
+    /**
+     * 热点规则
+     */
 //    @PostConstruct
     public void initParamFlowRule() {
 
         // 定义热点限流的规则，对第一个参数设置 qps 限流模式，阈值为1
-        ParamFlowRule rule = new ParamFlowRule(key)
-                .setParamIdx(0)
-                .setGrade(RuleConstant.FLOW_GRADE_QPS)
-                .setCount(1);
+        ParamFlowRule rule = new ParamFlowRule(key);
+        rule.setParamIdx(0);
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule.setCount(1);
         ParamFlowRuleManager.loadRules(Collections.singletonList(rule));
+    }
+
+    //    @PostConstruct
+    public void initSystemRule() {
+        List<SystemRule> rules = new ArrayList<>();
+        SystemRule rule = new SystemRule();
+        rule.setHighestSystemLoad(10);
+        rule.setAvgRt(200L);
+        rule.setMaxThread(300L);
+        rule.setQps(1000);
+        rules.add(rule);
+        SystemRuleManager.loadRules(rules);
+    }
+
+    //    @PostConstruct
+    public void initAuthorityRule() {
+        AuthorityRule rule = new AuthorityRule();
+        rule.setResource(key);
+        rule.setStrategy(RuleConstant.AUTHORITY_BLACK);
+        rule.setLimitApp("appA,appB");
+        AuthorityRuleManager.loadRules(Collections.singletonList(rule));
     }
 
 }
