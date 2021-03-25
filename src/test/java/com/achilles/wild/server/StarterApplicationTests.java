@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringbootApplicationTests {
+public class StarterApplicationTests {
 
-	private final static Logger log = LoggerFactory.getLogger(SpringbootApplicationTests.class);
+	private final static Logger log = LoggerFactory.getLogger(StarterApplicationTests.class);
 
 	@Autowired
 	AccountDao accountDao;

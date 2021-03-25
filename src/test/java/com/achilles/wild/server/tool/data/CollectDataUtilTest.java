@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.data;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.tool.data.collect.CollectDataUtil;
 import com.achilles.wild.server.tool.file.excel.ExcelReadUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class CollectDataUtilTest extends SpringbootApplicationTests {
+public class CollectDataUtilTest extends StarterApplicationTests {
 
 	String str = "#$1870141 庞庞 庞  464哈82rth is牛eo$1870匹配1514亓 官648*";
 	@Test

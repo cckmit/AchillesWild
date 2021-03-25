@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.manager;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.business.manager.account.AccountManager;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 
-public class AccountManagerTest extends SpringbootApplicationTests {
+public class AccountManagerTest extends StarterApplicationTests {
 
     private final static Logger LOG = LoggerFactory.getLogger(AccountManagerTest.class);
 

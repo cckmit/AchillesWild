@@ -1,13 +1,13 @@
 package com.achilles.wild.server.business.manager;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.manager.account.atom.AccountLockAtomManager;
 import org.junit.Test;
 
 import javax.annotation.Resource;
 
-public class AccountLockManagerTest extends SpringbootApplicationTests {
+public class AccountLockManagerTest extends StarterApplicationTests {
 
 
     @Resource

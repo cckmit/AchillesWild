@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.data;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.entity.info.Citizen;
 import com.achilles.wild.server.business.manager.info.CitizenManager;
 import com.achilles.wild.server.model.query.info.CitizenQuery;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CitizenTest  extends SpringbootApplicationTests {
+public class CitizenTest  extends StarterApplicationTests {
 
 	private final static Logger LOG = LoggerFactory.getLogger(CitizenTest.class);
 

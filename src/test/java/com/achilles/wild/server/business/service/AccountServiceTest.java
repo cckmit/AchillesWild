@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.service;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.model.request.account.AccountRequest;
 import com.achilles.wild.server.model.response.PageResult;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 
-public class AccountServiceTest  extends SpringbootApplicationTests {
+public class AccountServiceTest  extends StarterApplicationTests {
 
     @Resource
     private AccountService accountService;

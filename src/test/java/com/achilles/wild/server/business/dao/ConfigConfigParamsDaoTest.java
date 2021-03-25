@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.dao;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.business.dao.common.ConfigParamsDao;
 import com.achilles.wild.server.entity.common.ConfigParams;
 import com.alibaba.fastjson.JSON;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 
-public class ConfigConfigParamsDaoTest extends SpringbootApplicationTests {
+public class ConfigConfigParamsDaoTest extends StarterApplicationTests {
 
     @Resource
     private ConfigParamsDao configParamsDao;

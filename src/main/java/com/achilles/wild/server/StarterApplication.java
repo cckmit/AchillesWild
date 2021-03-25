@@ -23,11 +23,11 @@ import java.sql.SQLException;
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})
 //@ImportResource("classpath:applicationContext.xml")
 //@MapperScan(basePackages = {"com.achilles.wild.server.business.dao.account"})
-public class SpringbootApplication {
+public class StarterApplication {
 
 	public static void main(String[] args) {
 
-		ApplicationContext applicationContext = SpringApplication.run(SpringbootApplication.class, args);
+		ApplicationContext applicationContext = SpringApplication.run(StarterApplication.class, args);
 		DataSource dataSource = applicationContext.getBean(DataSource.class);
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~datasource is : " + dataSource+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

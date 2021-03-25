@@ -1,6 +1,6 @@
 package com.achilles.wild.server.business.controller;
 
-import com.achilles.wild.server.SpringbootApplicationTests;
+import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.business.controller.account.BalanceController;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import java.util.Date;
 
-public class BalanceControllerTest extends SpringbootApplicationTests {
+public class BalanceControllerTest extends StarterApplicationTests {
 
     private final static Logger LOG = LoggerFactory.getLogger(BalanceControllerTest.class);
 

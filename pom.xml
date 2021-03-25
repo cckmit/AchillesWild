@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.achilles.wild.server</groupId>
-	<artifactId>springboot</artifactId>
+	<artifactId>AchillesWild</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>springboot</name>
+	<name>AchillesWild</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -27,7 +27,7 @@
 	</properties>
 
 	<build>
-		<finalName>springboot</finalName>
+		<finalName>AchillesWild</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -74,7 +74,7 @@
 					<version>3.3.1</version>
 					<configuration>
 						<!--默认打包名为项目名称，生成的WAR存放在target下 -->
-						<warName>springboot</warName>
+						<warName>AchillesWild</warName>
 						<!--<outputDirectory>D:\Path\Java\apache-tomcat-9.0.27\webapps</outputDirectory>-->
 						<!-- <outputDirectory>D:\Path\Java\apache-tomcat-6.0.32\webapps</outputDirectory> -->
 						<!-- <outputDirectory>E:\PATH\Java\apache-tomcat-6.0.32\webapps</outputDirectory> -->
