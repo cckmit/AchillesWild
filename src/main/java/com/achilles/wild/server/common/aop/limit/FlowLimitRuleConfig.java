@@ -67,7 +67,7 @@ public class FlowLimitRuleConfig {
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
         // set threshold rt, 200 ms
-        rule.setCount(200);
+        rule.setCount(100);
         //平均相应时间,当1s内持续进入5个请求,对应时刻平均时间(秒级)均超过阈值,那么接下来的timewindow 秒之内,对这个方法熔断
         rule.setGrade(RuleConstant.DEGRADE_GRADE_RT);
         // 设置时间窗口

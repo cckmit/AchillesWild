@@ -32,6 +32,10 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 
     private final Integer batchSize = 5;
 
+    private final Integer rate = 1;
+
+    private final Integer expiredTime = 2;
+
     private LogTimeInfoManager getLogTimeInfoManager() {
         if (logTimeInfoManager != null){
             return logTimeInfoManager;
@@ -103,7 +107,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
         service.scheduleAtFixedRate(()->{
 
             threadState = Thread.currentThread().getState();
-            if (DateUtil.getGapSeconds(lastUpdateTime) <= 10){
+            if (DateUtil.getGapSeconds(lastUpdateTime) <= expiredTime){
                 return;
             }
             if (logTimeInfoList.size() == 0) {
@@ -124,7 +128,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
                 log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
             }
 
-        }, 0, 3, TimeUnit.SECONDS);
+        }, 0, rate, TimeUnit.SECONDS);
     }
 
 }

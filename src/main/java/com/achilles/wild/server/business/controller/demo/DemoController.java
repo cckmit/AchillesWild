@@ -61,7 +61,7 @@ public class DemoController {
         Long.parseLong(name);
 
         try {
-            Thread.sleep(201L);
+            Thread.sleep(101L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
