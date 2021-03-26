@@ -30,7 +30,7 @@ public class InitFilter implements Filter {
 
     private String loginUri;
 
-    @Value("${if.verify.trace.id:false}")
+    @Value("${if.verify.trace.id:true}")
     Boolean verifyTraceId;
 
     @Value("${filter.log.time.insert.db.open:true}")

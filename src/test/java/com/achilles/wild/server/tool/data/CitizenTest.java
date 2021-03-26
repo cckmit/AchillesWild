@@ -7,7 +7,6 @@ import com.achilles.wild.server.model.query.info.CitizenQuery;
 import com.achilles.wild.server.model.response.PageResult;
 import com.achilles.wild.server.business.service.info.CitizenService;
 import com.achilles.wild.server.other.task.RetryAddCitizensTask;
-import com.achilles.wild.server.tool.date.DateConstant;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import com.achilles.wild.server.tool.jdbc.MySqlUtil;
@@ -70,7 +69,7 @@ public class CitizenTest  extends StarterApplicationTests {
 
 	@Test
 	public void addCitizenRetryTest(){
-		String now = DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		String now = DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS);
 
 		Retryer<Boolean> retry = RetryUtil.getRetryCount(1, 3,"入库");
 		//Retryer<Boolean> retry = getRetryTimeOut(1, 4,"store ");
@@ -83,12 +82,12 @@ public class CitizenTest  extends StarterApplicationTests {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS));
+		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS));
 	}
 
 	@Test
 	public void addCitizensRetryTest(){
-		String now = DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		String now = DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS);
 		//Retryer<Boolean> retry = getRetryCount(1, 3,"入库");
 		//Retryer<Boolean> retry = getRetryTimeOut(1, 4,"store ");
 		Retryer<Integer> retry = RetryUtil.getRetryNeverStop(10, "store ");
@@ -100,17 +99,17 @@ public class CitizenTest  extends StarterApplicationTests {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS));
+		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS));
 	}
 
 	@Test
 	public void addCitizensThreadTest(){
-		String now = DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		String now = DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS);
 
 		List<Citizen> list = getCitizenList(200000);
 		RetryAddCitizensTask.addCitizenTask(citizenManager,transactionManager,list);
 
-		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS));
+		LOG.info("starts:    "+now+"     ---------------   ends:   "+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS));
 
 	}
 
@@ -131,7 +130,7 @@ public class CitizenTest  extends StarterApplicationTests {
 
 	@Test
 	public void addCitizensTest(){
-		String now = DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		String now = DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS);
 		List<Citizen> list = getCitizenList(2);
 		citizenService.addCitizens(list);
 		 Thread thread = Thread.currentThread();
@@ -139,7 +138,7 @@ public class CitizenTest  extends StarterApplicationTests {
 		Object val =local.get();
 
 
-		System.out.println("STARTS:    "+now+"     ***************************   ENDS:   "+DateUtil.getCurrentStr(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS));
+		System.out.println("STARTS:    "+now+"     ***************************   ENDS:   "+DateUtil.getCurrentStr(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS));
 	}
 	
 	@Test

@@ -122,17 +122,17 @@ public class DateUtil {
 	/**
 	 * 根据指定日期获取某月月末时间；如传入 2017-12-09 12:12:12 ， 获取  2018-01-01 23:59:59
 	 * @param dateTime  时间
-	 * @param back   左右浮动，正数加月，负数减月
+	 * @param move   左右浮动，正数加月，负数减月
 	 * @return
 	 */
 	public static Date getTheMonthLastDateByDate(Date dateTime,int move) {
-	       SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD);
+	       SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
 	       Calendar ca = Calendar.getInstance();
 	       ca.setTime(dateTime);
 	       ca.add(Calendar.MONTH, move);
 	       ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
 	       String last = sdf.format(ca.getTime());
-	 	  sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+	 	  sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 	 	  Date date = null;
 	       try {
 	     	  date = sdf.parse(last+" 23:59:59");
@@ -145,7 +145,7 @@ public class DateUtil {
 	/**
 	 * 根据指定日期获取某月月初时间；如传入 2017-12-09 12:12:12 ， 获取  2018-01-01 00:00:00
 	 * @param dateTime  时间
-	 * @param back   左右浮动，正数加月，负数减月
+	 * @param move 左右浮动，正数加月，负数减月
 	 * @return
 	 */
 	public static Date getTheMonthFirstDateByDate(Date dateTime,int move) {
@@ -153,9 +153,9 @@ public class DateUtil {
 		cal.setTime(dateTime);
 		cal.add(Calendar.MONTH, move);
 		cal.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-		SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD); 
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
 		String first = sdf.format(cal.getTime());
-		sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 		Date date = null;
 		try {
     	    date = sdf.parse(first+" 00:00:00");
@@ -167,7 +167,7 @@ public class DateUtil {
     
     /**
      * 根据指定时间获取某一周开始时间
-     * @param move为0获取当前周的起始时间，如果获取前一周起始时间：-7，后一周7，0本周
+     * @param move 为0获取当前周的起始时间，如果获取前一周起始时间：-7，后一周7，0本周
      * @return
      */
 	public static Date getTheWeekFirstTime(Date date,int move) {
@@ -181,9 +181,9 @@ public class DateUtil {
 		if (dayOrder==1) {//周日
 			cal.add(Calendar.DATE, -7);
 		}		
-		SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD); 
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
 		String first = sdf.format(cal.getTime());
-		sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 		try {
     	    date = sdf.parse(first+" 00:00:00");
 		} catch (ParseException e) {
@@ -194,15 +194,15 @@ public class DateUtil {
     
     /**
      * 获取某一周开始时间
-     * @param move为0获取当前周的起始时间，如果获取前一周起始时间：-7，后一周7，0本周
+     * @param move 为0获取当前周的起始时间，如果获取前一周起始时间：-7，后一周7，0本周
      * @return
      */
 	public static Date getTheWeekFirstTime(int move) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 0-cal.get(Calendar.DAY_OF_WEEK)+2+move);
-		SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD); 
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
 		String first = sdf.format(cal.getTime());
-		sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 		Date date = null;
 		try {
     	    date = sdf.parse(first+" 00:00:00");
@@ -678,12 +678,12 @@ public class DateUtil {
     * @return
     */
    public static Date getTheMonthFirstTime(int move){
-       SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD); 
+       SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
        Calendar c = Calendar.getInstance();    
        c.add(Calendar.MONTH, move);
        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
        String first = sdf.format(c.getTime());
- 	  sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+ 	  sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
  	  Date date = null;
        try {
      	  date = sdf.parse(first+" 00:00:00");
@@ -699,12 +699,12 @@ public class DateUtil {
     * @return
     */
    public static Date getTheMonthLastTime(int move){
-       SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD);
+       SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
        Calendar ca = Calendar.getInstance();   
        ca.add(Calendar.MONTH, move);
        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
        String last = sdf.format(ca.getTime());
- 	  sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+ 	  sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
  	  Date date = null;
        try {
      	  date = sdf.parse(last+" 23:59:59");
@@ -745,9 +745,9 @@ public class DateUtil {
 	public static Date getTheDayFirstTime(int move) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, move);
-		SimpleDateFormat sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD); 
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
 		String first = sdf.format(cal.getTime());
-		sdf = new SimpleDateFormat(DateConstant.FORMAT_YYYY_MM_DD_HHMMSS);
+		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 		Date date = null;
 		try {
     	    date = sdf.parse(first+" 00:00:00");
@@ -881,7 +881,7 @@ public class DateUtil {
 	 /**
      * 
      * 功能: 判断是否是月末
-     * @param 日期
+     * @param date
      * @return true月末,false不是月末
      */
     public static boolean isLastDady(Date date){
