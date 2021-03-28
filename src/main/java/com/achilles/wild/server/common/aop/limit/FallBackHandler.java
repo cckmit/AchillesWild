@@ -10,6 +10,6 @@ public class FallBackHandler {
 
     public static String fallback(String name, Throwable e) {
         log.info("==================fallback=========="+name);
-        return "-----------------fallback : " + name;
+        return "fallback";
     }
 }
