@@ -33,7 +33,7 @@ public class ParamsConfig {
 
         log.debug("------------initParams  size : "+ configParamsList.size());
         if (configParamsList.size()==0){
-            log.warn("------------initParams  size : 0");
+            log.debug("------------initParams  size : 0");
             return;
         }
 

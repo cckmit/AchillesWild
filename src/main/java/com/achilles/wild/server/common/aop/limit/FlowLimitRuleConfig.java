@@ -41,13 +41,13 @@ public class FlowLimitRuleConfig {
         FlowRuleManager.loadRules(rules);
     }
 
-    //@PostConstruct
+    @PostConstruct
     public void initDegradeRuleException() {
         List<DegradeRule> rules = new ArrayList<>();
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
         // 5s内调用接口出现异常次数超过3的时候, 进行熔断
-        rule.setCount(3);
+        rule.setCount(2);
         rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
         rule.setTimeWindow(25);
         rules.add(rule);

@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Aspect
 @Component
-@Order(1)
+@Order(0)
 public class LogControllerAspect {
 
     private final static Logger log = LoggerFactory.getLogger(LogControllerAspect.class);
@@ -100,7 +100,7 @@ public class LogControllerAspect {
         log.debug(PREFIX +"#result : "+path+"-->"+ JsonUtil.toJsonString(result));
         log.debug(PREFIX +"#time-consuming : "+path+"-->("+duration+"ms)");
         if(!logBizParamsConfig.getIfTimeLogInsertDb()){
-            return proceedingJoinPoint.proceed();
+            return result;
         }
 
 //        if(!controllerLogParamsConfig.getIfTimeLogInsertDb() || duration<=controllerLogParamsConfig.getTimeLimit()){

@@ -21,9 +21,9 @@ public class BlockHandler {
         return "block";
     }
 
-    public static String block(String name, DegradeException e) {
-        e.printStackTrace();
-        log.info("==================DegradeException ============"+name);
-        return "degrade";
-    }
+//    public static String block(String name, DegradeException e) {
+//        e.printStackTrace();
+//        log.info("==================DegradeException ============"+name);
+//        return "degrade";
+//    }
 }

@@ -21,7 +21,6 @@ public class FlowController {
             fallbackClass = FallBackHandler.class,fallback = "fallback")
     public String fallback(@PathVariable("name") String name){
 
-        // 资源名
         log.info("==================name ============"+name);
 
         Long.parseLong(name);
@@ -42,7 +41,6 @@ public class FlowController {
             blockHandlerClass = BlockHandler.class,blockHandler = "block")
     public String block(@PathVariable("name") String name){
 
-        // 资源名
         log.info("==================name ============"+name);
 
         Long.parseLong(name);
