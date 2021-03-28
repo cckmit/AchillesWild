@@ -23,7 +23,7 @@ public class FlowLimitRuleConfig {
 
     String key = "limit_test";
 
-//    @PostConstruct
+    @PostConstruct
     public void initFlowQpsRule() {
         List<FlowRule> rules = new ArrayList<FlowRule>();
         FlowRule rule = new FlowRule();
