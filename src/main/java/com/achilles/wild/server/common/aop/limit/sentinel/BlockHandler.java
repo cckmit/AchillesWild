@@ -1,7 +1,6 @@
-package com.achilles.wild.server.common.aop.limit;
+package com.achilles.wild.server.common.aop.limit.sentinel;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

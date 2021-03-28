@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.controller.demo;
 
-import com.achilles.wild.server.common.aop.limit.BlockHandler;
-import com.achilles.wild.server.common.aop.limit.FallBackHandler;
+import com.achilles.wild.server.common.aop.limit.sentinel.BlockHandler;
+import com.achilles.wild.server.common.aop.limit.sentinel.FallBackHandler;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

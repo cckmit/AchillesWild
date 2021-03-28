@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop.limit;
+package com.achilles.wild.server.common.aop.limit.sentinel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

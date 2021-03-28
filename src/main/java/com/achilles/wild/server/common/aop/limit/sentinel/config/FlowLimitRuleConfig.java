@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.aop.limit;
+package com.achilles.wild.server.common.aop.limit.sentinel.config;
 
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
