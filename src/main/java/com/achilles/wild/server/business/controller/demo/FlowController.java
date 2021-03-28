@@ -26,7 +26,9 @@ public class FlowController {
         Long.parseLong(name);
 
         try {
-            Thread.sleep(101L);
+            if ("2".equals(name)){
+                Thread.sleep(101L);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
