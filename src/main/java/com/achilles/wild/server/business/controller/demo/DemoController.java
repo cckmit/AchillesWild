@@ -49,26 +49,6 @@ public class DemoController {
     @Value("#{${test.map}}")
     private Map<String,String> map;
 
-    @GetMapping(path = "/flow/{name}")
-    @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "degrade",
-            fallbackClass = FallBackHandler.class,fallback = "fallback")
-    public String flow(@PathVariable("name") String name){
-
-        // 资源名
-        log.info("==================name ============"+name);
-
-        Long.parseLong(name);
-
-        try {
-            Thread.sleep(101L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return "AchillesWild";
-    }
-
     //    @ControllerLog
     @GetMapping(path = "/{id}")
     public Long getConfig(@PathVariable("id") Long id,

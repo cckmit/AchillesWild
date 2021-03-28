@@ -2,6 +2,7 @@ package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -16,6 +17,12 @@ public class GlobalControllerExceptionAdvice {
 
     private final static Logger log = LoggerFactory.getLogger(GlobalControllerExceptionAdvice.class);
 
+    @ExceptionHandler(value = DegradeException.class)
+    public BaseResult degradeExceptionHandler(DegradeException e){
+        log.error(e.getMessage());
+        BaseResult baseResult = BaseResult.fail(BaseResultCode.FAIL.code,e.getMessage());
+        return baseResult;
+    }
 
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {

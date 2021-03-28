@@ -17,13 +17,13 @@ public class BlockHandler {
      */
     public static String block(String name, BlockException e) {
         e.printStackTrace();
-        log.info("==================block ============"+name);
+        log.info("==================BlockException ============"+name);
         return "block";
     }
 
-    public static String degrade(String name, DegradeException e) {
+    public static String block(String name, DegradeException e) {
         e.printStackTrace();
-        log.info("==================Degrade ============"+name);
+        log.info("==================DegradeException ============"+name);
         return "degrade";
     }
 }

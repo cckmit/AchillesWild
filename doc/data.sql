@@ -14,7 +14,8 @@ DELETE from citizen_detail;
 
 DELETE from log_time_info;
 DELETE from log_exception_info;
-DELETE from log_filter_info;
+
+
 DELETE from user_token;
 
 ----------------------------------------------------------
