@@ -38,7 +38,7 @@ public class FlowController {
 
     @GetMapping(path = "/block/{name}")
     @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "block")
+            blockHandlerClass = BlockHandler.class,blockHandler = "block",exceptionsToIgnore = Throwable.class)
     public String block(@PathVariable("name") String name){
 
         log.info("==================name ============"+name);

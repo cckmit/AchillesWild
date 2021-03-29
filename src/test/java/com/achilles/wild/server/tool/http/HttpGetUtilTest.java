@@ -1,6 +1,5 @@
 package com.achilles.wild.server.tool.http;
 
-import com.achilles.tool.http.HttpGetUtil;
 import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class HttpGetUtilTest {
 		params.put("pageNum","1");
 		params.put("token","3A63E11235C747DCB6D64D847160654F");
 		params.put("sign",MD5Utils.encodeByMd5AndSalt("9F|1001918267|1|1|4A58989759D844EDB91C02B86D4BB02E|LCS"));//注意顺序TreeMap
-		System.out.println(HttpGetUtil.get("http://jflcs.nbeebank.com/customer/getCoupon.do", params));
+		System.out.println(HttpGetUtil.get("http://jflcs.nbeebank.com/customer/getCoupon.do", params,null));
 	}
 	
 	@Test
@@ -61,7 +60,7 @@ public class HttpGetUtilTest {
 		params.put("userUuid","1");
 		params.put("token","9");
 //		System.out.println(HttpGetUtil.get("http://localhost:80/licaishi/lcsPoster/posterList.do", params));
-		System.out.println(HttpGetUtil.get("http://192.168.90.210/licaishi/lcsPoster/posterList.do", params));
+		System.out.println(HttpGetUtil.get("http://192.168.90.210/licaishi/lcsPoster/posterList.do", params,null));
 //		System.out.println(HttpGetUtil.get("http://192.168.90.210/licaishi/lcsPoster/posterList.do?pageNo=1&pageSize=9&userUuid=232&token=23", params));
 	}
 	
