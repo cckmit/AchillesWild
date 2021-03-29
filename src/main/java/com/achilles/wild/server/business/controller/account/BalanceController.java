@@ -10,12 +10,13 @@ import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.business.service.account.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping(path = "/balance",produces = {"application/json;charset=UTF-8"})
+@RequestMapping(value = "/balance", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BalanceController {
 
     private final static Logger log = LoggerFactory.getLogger(BalanceController.class);
