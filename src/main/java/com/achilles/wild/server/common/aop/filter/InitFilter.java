@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 
 @WebFilter(filterName = "initFilter", urlPatterns = "/*" , initParams = {@WebInitParam(name = "loginUri", value = "/login")})
@@ -35,6 +37,11 @@ public class InitFilter implements Filter {
 
     @Value("${filter.log.time.insert.db.open:true}")
     Boolean ifOpenInsertDb;
+
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
+
+    @Value("#{'${auth.filter.exclude-urls}'.split(',')}")
+    private List<String> authFilterExcludeUrls;
 
 //    @Value("${filter.log.time.of.count.limit.in.time:10000}")
 //    private Integer countOfInsertDBInTime;
@@ -72,7 +79,18 @@ public class InitFilter implements Filter {
 
         MDC.put(CommonConstant.TRACE_ID,traceId);
 
+        String servletPath = request.getServletPath();
+
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        // Exclude the urls which needn't auth
+        boolean authFilterExcludeMatch = authFilterExcludeUrls.stream()
+                .anyMatch(authFilterExcludeUrl -> PATH_MATCHER.match(authFilterExcludeUrl, servletPath));
+        if (authFilterExcludeMatch) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS, DELETE, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
@@ -82,9 +100,9 @@ public class InitFilter implements Filter {
 
         filterChain.doFilter(servletRequest,servletResponse);
 
-        String uri = request.getRequestURI();
+
         long duration = System.currentTimeMillis() - startTime;
-        log.debug(" ----------- time-consuming : ("+uri+")-->("+duration+"ms)");
+        log.debug(" ----------- time-consuming : ("+servletPath+")-->("+duration+"ms)");
 
         if (!ifOpenInsertDb) {
             log.debug("-----------------remove traceId from Thread-----");
@@ -95,7 +113,7 @@ public class InitFilter implements Filter {
         long sequence = messageModelRingBuffer.next();
         LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
         LogTimeInfo.clear(logTimeInfo);
-        logTimeInfo.setUri(uri);
+        logTimeInfo.setUri(servletPath);
         String type = request.getMethod();
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(0);

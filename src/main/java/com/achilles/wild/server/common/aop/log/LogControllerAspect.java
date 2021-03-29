@@ -128,14 +128,14 @@ public class LogControllerAspect {
 //        }
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String uri = request.getRequestURI();
+        String servletPath = request.getServletPath();
         String type = request.getMethod();
 
         log.debug(PREFIX +"#insert slow log into db start, method : "+path+"-->"+ params+""+"--->"+duration+"ms");
         long sequence = messageModelRingBuffer.next();
         LogTimeInfo logTimeInfo = messageModelRingBuffer.get(sequence);
         LogTimeInfo.clear(logTimeInfo);
-        logTimeInfo.setUri(uri);
+        logTimeInfo.setUri(servletPath);
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(1);
         logTimeInfo.setClz(clz);

@@ -46,6 +46,12 @@ public class DemoController {
     @Value("#{${test.map}}")
     private Map<String,String> map;
 
+    @GetMapping(path = "/check/heartbeat")
+    public String checkHeartBeat(){
+        return "Everything is fine !";
+    }
+
+
     //    @ControllerLog
     @GetMapping(path = "/{id}")
     public Long getConfig(@PathVariable("id") Long id,

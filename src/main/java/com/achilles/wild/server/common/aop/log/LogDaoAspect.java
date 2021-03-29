@@ -110,9 +110,9 @@ public class LogDaoAspect {
         LogTimeInfo.clear(logTimeInfo);
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String uri = request.getRequestURI();
+        String servletPath = request.getServletPath();
         String type = request.getMethod();
-        logTimeInfo.setUri(uri);
+        logTimeInfo.setUri(servletPath);
         logTimeInfo.setType(type);
         logTimeInfo.setLayer(2);
         logTimeInfo.setClz(clz);
