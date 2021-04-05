@@ -17,7 +17,6 @@ import java.sql.SQLException;
 @SpringBootApplication
 @EnableAsync
 @ServletComponentScan
-
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan(basePackages = {"com.achilles.wild.server"})

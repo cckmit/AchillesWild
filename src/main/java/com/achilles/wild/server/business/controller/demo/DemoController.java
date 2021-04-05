@@ -94,4 +94,5 @@ public class DemoController {
         applicationContext.publishEvent(new MyApplicationEvent(account));
         return "invokeEvent ok";
     }
+
 }

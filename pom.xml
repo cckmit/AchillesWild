@@ -330,6 +330,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.spring4all</groupId>-->
+<!--			<artifactId>swagger-spring-boot-starter</artifactId>-->
+<!--			<version>1.9.1.RELEASE</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 
