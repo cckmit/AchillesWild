@@ -1,4 +1,4 @@
-package com.achilles.wild.server.common.config;
+package com.achilles.wild.server.common.cache.redis;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

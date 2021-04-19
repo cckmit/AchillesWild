@@ -1,7 +1,10 @@
 package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.entity.user.User;
+import com.achilles.wild.server.model.response.BaseResult;
 import com.github.benmanes.caffeine.cache.Cache;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,24 @@ public class CacheController {
     @Autowired
     Cache caffeineCache;
 
+    @Autowired
+    RedissonClient redissonClient;
+
     String key = "AchillesWild";
+
+    private Integer m = 0;
+
+    @GetMapping(path = "/redisson/set/{value}")
+    public Object redissonLock(@PathVariable("value") Integer value){
+        log.info("----param----val:"+value);
+
+        RLock lock = redissonClient.getLock(key);
+        lock.lock();
+        m = m+value;
+        log.info("----after----val:"+m);
+        lock.unlock();
+        return new BaseResult();
+    }
 
     @GetMapping(path = "/redis/set/{value}")
     public Object redisSet(@PathVariable("value") String value){
