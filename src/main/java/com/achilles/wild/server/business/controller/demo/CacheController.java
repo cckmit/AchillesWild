@@ -30,7 +30,7 @@ public class CacheController {
     @Autowired
     Cache caffeineCache;
 
-    @Autowired
+    //@Autowired
     RedissonClient redissonClient;
 
     String key = "AchillesWild";
