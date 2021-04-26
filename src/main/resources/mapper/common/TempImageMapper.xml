@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.achilles.wild.server.business.dao.common.TempImageDao">
+  <resultMap id="BaseResultMap" type="com.achilles.wild.server.entity.common.TempImage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="biz_uuid" jdbcType="VARCHAR" property="bizUuid" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.achilles.wild.server.entity.common.TempImage">
+    <result column="image" jdbcType="LONGVARBINARY" property="image" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uuid, biz_uuid, url, status, create_date, update_date
+  </sql>
+  <sql id="Blob_Column_List">
+    image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from temp_image
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.common.TempImage">
+    insert into temp_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="bizUuid != null">
+        biz_uuid,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bizUuid != null">
+        #{bizUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+
+
+</mapper>
