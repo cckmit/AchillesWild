@@ -9,6 +9,38 @@ import java.util.Base64;
 
 public class FileUtil {
 
+    public static void main(String[] args) {
+        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
+    }
+
+
+    /**
+     * copyFile
+     *
+     * @param path          "C:\\Users\\Achilles\\Desktop\\z.jpg";
+     * @param targetPath    "C:\\Users\\Achilles\\Desktop\\z.jpg";
+     */
+    public static void copyFile(String path,String targetPath) {
+
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(targetPath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            IOUtils.copy(fileInputStream,fileOutputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * cloneInputStream
