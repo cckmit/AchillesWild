@@ -2,6 +2,7 @@ package com.achilles.wild.server.tool.generate.unique;
 
 import com.achilles.wild.server.tool.date.DateUtil;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -14,12 +15,16 @@ import java.util.UUID;
 public class GenerateUniqueUtil {
 
 	public static void main(String[] args) {
-		System.out.println(getRandomUUID());
+		for (int i = 0; i < 100; i++) {
+			System.out.println(getRandomNumber(3));
+		}
+
 	}
 
 
 	public static String getTraceId(String mark){
-		String traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"
+		String traceId = DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)
+				+"_"
 				+ mark+"_"
 				+ GenerateUniqueUtil.getUuId();
 		return traceId;
@@ -78,8 +83,21 @@ public class GenerateUniqueUtil {
             str=str.substring(0, maxLength); 
         }
         return str;
-    }	
-	
+    }
+
+	/**
+	 * 获取<参数值得随机数
+	 *
+	 * @param max
+	 * @return
+	 */
+	public static int getRandomNumber(int max){
+
+		SecureRandom secureRandom = new SecureRandom();
+		int randomNumber =  secureRandom.nextInt(max);
+
+		return randomNumber;
+	}
 	
 	/**
 	 * 根据传入的数字获取这个值长度内的随机数
