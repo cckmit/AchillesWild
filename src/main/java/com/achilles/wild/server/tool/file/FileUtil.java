@@ -10,7 +10,9 @@ import java.util.Base64;
 public class FileUtil {
 
     public static void main(String[] args) {
-        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
+//        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
+        String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
+        System.out.println();
     }
 
 
@@ -70,6 +72,26 @@ public class FileUtil {
             byteArrayInputStreams[i] = byteArrayInputStream;
         }
         return byteArrayInputStreams;
+    }
+
+    /**
+     * toBase64
+     *
+     * @param path
+     * @return
+     */
+    public static String toBase64(String path){
+
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String encoded = toBase64(fileInputStream);
+
+        return encoded;
     }
 
     /**
