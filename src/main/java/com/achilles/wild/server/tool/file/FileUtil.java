@@ -29,7 +29,7 @@ public class FileUtil {
             byteArrayOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new ByteArrayInputStream[0];
         }
 
         ByteArrayInputStream[] byteArrayInputStreams = new ByteArrayInputStream[size];
