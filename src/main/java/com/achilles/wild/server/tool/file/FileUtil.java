@@ -9,20 +9,67 @@ import java.util.Base64;
 
 public class FileUtil {
 
+    static String path = "C:\\Users\\Achilles\\Desktop\\z.jpg";
+
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
 
-        readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
+        //readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
         //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
+        byte[] bytes = readToBytes(path);
         System.out.println();
     }
 
     /**
-     * readAndWrite
+     * readToBytes
      *
-     * @param sourcePath
-     * @param targetPath
+     * @param path
+     * @return
      */
+    public static byte[] readToBytes(String path){
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[8096];
+        int len = -1;
+        try {
+            while ((len = inputStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (outSteam != null) {
+                    outSteam.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return outSteam.toByteArray();
+    }
+
+        /**
+         * readAndWrite
+         *
+         * @param sourcePath
+         * @param targetPath
+         */
     public static void readAndWrite(String sourcePath,String targetPath) {
 
         BufferedInputStream bufferedInputStream = null;
