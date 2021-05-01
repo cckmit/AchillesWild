@@ -11,10 +11,59 @@ public class FileUtil {
 
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
-        String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
+
+        readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
+        //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
         System.out.println();
     }
 
+    /**
+     * readAndWrite
+     *
+     * @param sourcePath
+     * @param targetPath
+     */
+    public static void readAndWrite(String sourcePath,String targetPath) {
+
+        BufferedInputStream bufferedInputStream = null;
+        try {
+            bufferedInputStream = new BufferedInputStream(new FileInputStream(sourcePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedOutputStream bufferedOutputStream = null;
+        try {
+            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(targetPath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] b=new byte[1024];
+        int len=0;
+        try {
+            while(-1!= (len = bufferedInputStream.read(b, 0, b.length))) {
+                bufferedOutputStream.write(b, 0, len);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            if (bufferedInputStream != null){
+                try {
+                    bufferedInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (bufferedOutputStream != null){
+                try {
+                    bufferedOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     /**
      * copyFile
@@ -60,10 +109,17 @@ public class FileUtil {
             while ((len = inputStream.read(buffer)) > -1) {
                 byteArrayOutputStream.write(buffer, 0, len);
             }
-            byteArrayOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
             return new ByteArrayInputStream[0];
+        }finally {
+            if (inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         ByteArrayInputStream[] byteArrayInputStreams = new ByteArrayInputStream[size];
