@@ -10,8 +10,10 @@ import java.math.BigDecimal;
 
 public class ImageUtil {
 
-    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
+    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\4609.jpg";
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test.jpg";
+
+    static String format = "jpg";
 
     public static void main(String[] args) {
 
@@ -24,10 +26,17 @@ public class ImageUtil {
 
 //        compressForScale(path,desc,220*1024L,0.8);
 
-        trimByQuality(srcPath,destPath,"jpg",200);
+        trimBySizeLimit(srcPath,destPath,300);
     }
 
-    public static void trimByQuality(String srcPath,String destPath,String format,int sizeLimit){
+    /**
+     * trimBySizeLimit
+     *
+     * @param srcPath
+     * @param destPath
+     * @param sizeLimit
+     */
+    public static void trimBySizeLimit(String srcPath,String destPath,int sizeLimit){
 
         File srcFile = new File(srcPath);
         int srcFileSize = (int)srcFile.length()/1024;
@@ -42,12 +51,30 @@ public class ImageUtil {
             e.printStackTrace();
         }
 
-        inputStream = trimByQuality(inputStream,srcFileSize,format,sizeLimit);
+        inputStream = trimBySizeLimit(inputStream,sizeLimit);
         FileUtil.toFile(inputStream,destPath);
     }
 
 
-    public static InputStream trimByQuality(InputStream inputStream,int srcFileSize,String format,int sizeLimit){
+    /**
+     * trimBySizeLimit
+     *
+     * @param inputStream
+     * @param sizeLimit
+     * @return
+     */
+    public static InputStream trimBySizeLimit(InputStream inputStream,int sizeLimit){
+
+        if (inputStream == null){
+            throw new IllegalArgumentException("inputStream can not be null !");
+        }
+
+        int srcFileSize = 0;
+        try {
+            srcFileSize = inputStream.available()/1024;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (srcFileSize <= sizeLimit) {
             return inputStream;
@@ -69,7 +96,7 @@ public class ImageUtil {
             return inputStream;
         }
 
-        return trimByQuality(inputStream,srcFileSize,format,sizeLimit);
+        return trimBySizeLimit(inputStream,sizeLimit);
     }
 
     /**
