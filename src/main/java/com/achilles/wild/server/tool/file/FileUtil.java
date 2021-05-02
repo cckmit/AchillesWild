@@ -27,6 +27,45 @@ public class FileUtil {
     }
 
 
+    public static void getOutputStream(InputStream inputStream,OutputStream outputStream){
+        try {
+            IOUtils.copy(inputStream,outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * getInputStream
+     *
+     * @param byteArrayOutputStream
+     * @return
+     */
+    public static ByteArrayInputStream getInputStream(ByteArrayOutputStream byteArrayOutputStream){
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        return byteArrayInputStream;
+    }
+
+    /**
+     * getInputStream
+     *
+     * @param path
+     * @return
+     */
+    public static InputStream getInputStream(String path){
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return inputStream;
+    }
+
+
     /**
      * getString
      *
