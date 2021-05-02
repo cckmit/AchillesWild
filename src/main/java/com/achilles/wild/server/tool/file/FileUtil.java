@@ -9,16 +9,80 @@ import java.util.Base64;
 
 public class FileUtil {
 
-    static String path = "C:\\Users\\Achilles\\Desktop\\z.jpg";
+    static String path = "C:\\Users\\Achilles\\Desktop\\66.jpg";
 
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
 
         //readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
         //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
-        byte[] bytes = readToBytes(path);
-        System.out.println();
+//        byte[] bytes = readToBytes(path);
+//        byte[] bytes = getBytes(path);
+        for (int i = 0; i < 10000; i++) {
+            String str = getString(path);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+        System.out.println("............................................");
     }
+
+
+    /**
+     * getString
+     *
+     * @param path
+     * @return
+     */
+    public static String getString(String path){
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String content = null;
+        try {
+            content = IOUtils.toString(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        return content;
+    }
+
+    /**
+     * getBytes
+     *
+     * @param path
+     * @return
+     */
+    public static byte[] getBytes(String path){
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            IOUtils.copy(inputStream,outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+//            1.先打开的后关闭，后打开的先关闭
+//            2.看依赖关系，如果流a依赖流b，应该先关闭流a，再关闭流b
+            IOUtils.closeQuietly(outputStream);
+            IOUtils.closeQuietly(inputStream);
+        }
+
+        return outputStream.toByteArray();
+    }
+
 
     /**
      * readToBytes
