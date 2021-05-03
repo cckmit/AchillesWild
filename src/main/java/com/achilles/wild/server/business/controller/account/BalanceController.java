@@ -29,7 +29,7 @@ public class BalanceController {
     private BalanceService balanceService;
 
     @NoCheckToken
-    @CommonQpsLimit(key="getBalance",permitsPerSecond = 0.1)
+    @CommonQpsLimit(permitsPerSecond = 0.1)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 

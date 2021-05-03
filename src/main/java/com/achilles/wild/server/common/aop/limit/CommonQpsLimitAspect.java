@@ -4,7 +4,6 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -73,12 +72,12 @@ public class CommonQpsLimitAspect {
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
 
             CommonQpsLimit annotation = currentMethod.getAnnotation(CommonQpsLimit.class);
-            String key = annotation.key();
             Double permitsPerSecond = annotation.permitsPerSecond();
-            if (StringUtils.isEmpty(key) || permitsPerSecond == null) {
+            if (permitsPerSecond == null) {
                 throw new BizException(BaseResultCode.ILLEGAL_PARAM.code,BaseResultCode.ILLEGAL_PARAM.message);
             }
-            RateLimiter rateLimiter = commonRateLimiterConfig.getRateLimiter(key,permitsPerSecond);
+            String path = signature.getDeclaringTypeName()+"#"+methodName;
+            RateLimiter rateLimiter = commonRateLimiterConfig.getRateLimiter(path,permitsPerSecond);
             if (!rateLimiter.tryAcquire()) {
                 throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
             }

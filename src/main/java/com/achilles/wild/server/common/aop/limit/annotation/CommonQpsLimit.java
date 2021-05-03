@@ -8,6 +8,4 @@ import java.lang.annotation.*;
 public @interface CommonQpsLimit {
 
     double permitsPerSecond() default 1.0;
-
-    String key() default "";
 }
