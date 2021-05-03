@@ -1,10 +1,15 @@
 package com.achilles.wild.server.business.controller.demo;
 
+import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.common.aop.limit.RateLimiterConfig;
 import com.achilles.wild.server.common.aop.limit.sentinel.BlockHandler;
 import com.achilles.wild.server.common.aop.limit.sentinel.FallBackHandler;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlowController {
 
     private final static Logger log = LoggerFactory.getLogger(FlowController.class);
+
+    @Autowired
+    RateLimiterConfig rateLimiterConfig;
+
+    @GetMapping(path = "/limit/{rate}")
+    public String rate(@PathVariable("rate") Double rate){
+
+        log.info("==================name ============"+rate);
+
+        RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(rate);
+        if (!rateLimiter.tryAcquire()) {
+            log.error("=============limit  rate ============"+rate);
+            throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+        }
+
+
+        return "AchillesWild";
+    }
 
     @GetMapping(path = "/fallback/{name}")
     @SentinelResource(value = "limit_test",

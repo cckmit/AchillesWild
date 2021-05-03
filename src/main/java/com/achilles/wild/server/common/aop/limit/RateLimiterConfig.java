@@ -1,27 +1,24 @@
 package com.achilles.wild.server.common.aop.limit;
 
 import com.google.common.util.concurrent.RateLimiter;
-import io.swagger.models.auth.In;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class RateLimiterConfig {
 
-    private static final Integer[] limits = {
-            1,2,3,5,10,
-            20,30,50,100,
-            200,300,500,600,800,1000
+    private static final Double[] initLimits = {
+            0.1,0.2,0.5,
+            1.0,2.0,3.0,5.0,10.0,
+            20.0,30.0,50.0,100.0
     };
 
-    private final static Map<Integer, RateLimiter> rateLimiterMap = new HashMap<>(limits.length);
+    private final static Map<Double, RateLimiter> rateLimiterMap = new HashMap<>(initLimits.length);
 
     static {
-        for (Integer limit:limits) {
+        for (Double limit : initLimits) {
             RateLimiter rateLimiter = RateLimiter.create(limit);
             rateLimiterMap.put(limit,rateLimiter);
         }
@@ -29,7 +26,7 @@ public class RateLimiterConfig {
 
     Object lock = new Object();
 
-    public RateLimiter getRateLimiter(Integer limit){
+    public RateLimiter getRateLimiter(Double limit){
 
         RateLimiter rateLimiter = rateLimiterMap.get(limit);
         if (rateLimiter != null) {
@@ -47,14 +44,14 @@ public class RateLimiterConfig {
         return rateLimiter;
     }
 
-    @PostConstruct
-    public void initRateLimiterMap(){
-
-        Map<Integer, RateLimiter> rateLimiterMap = new HashMap<>(limits.length);
-        for (Integer limit:limits) {
-            RateLimiter rateLimiter = RateLimiter.create(limit);
-            rateLimiterMap.put(limit,rateLimiter);
-        }
-
-    }
+//    @PostConstruct
+//    public void initRateLimiterMap(){
+//
+//        Map<Double, RateLimiter> rateLimiterMap = new HashMap<>(initLimits.length);
+//        for (Double limit: initLimits) {
+//            RateLimiter rateLimiter = RateLimiter.create(limit);
+//            rateLimiterMap.put(limit,rateLimiter);
+//        }
+//
+//    }
 }
