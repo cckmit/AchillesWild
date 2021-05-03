@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class RateLimiterConfig extends BaseRateLimiterConfig{
+public class RateLimiterConfig implements BaseRateLimiterService{
 
     @Value("${request.rate.limit:}")
     Double permitsPerSecond;
@@ -22,7 +22,7 @@ public class RateLimiterConfig extends BaseRateLimiterConfig{
 
     @PostConstruct
     private void initRateLimiterMap(){
-//        rateLimiterMap = initRateLimiterMap(initPermitsPerSecond);
+
         if (permitsPerSecond == null) {
             return;
         }
@@ -35,6 +35,7 @@ public class RateLimiterConfig extends BaseRateLimiterConfig{
         return permitsPerSecond;
     }
 
+    @Override
     public RateLimiter getRateLimiter(Double limit){
 
         RateLimiter rateLimiter = getInstance(rateLimiterMap,limit);

@@ -72,7 +72,7 @@ public class QpsLimitAspect {
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
 
             QpsLimit annotation = currentMethod.getAnnotation(QpsLimit.class);
-            BaseRateLimiterConfig rateLimiterConfig = applicationContext.getBean(annotation.limitClass());
+            BaseRateLimiterService rateLimiterConfig = (BaseRateLimiterService) applicationContext.getBean(annotation.limitClass());
             Double permitsPerSecond = rateLimiterConfig.getPermitsPerSecond();
             if (permitsPerSecond == null) {
                 permitsPerSecond = annotation.permitsPerSecond();
