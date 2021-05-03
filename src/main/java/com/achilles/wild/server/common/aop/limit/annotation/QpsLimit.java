@@ -12,4 +12,7 @@ public @interface QpsLimit {
     double permitsPerSecond() default 1.0;
 
     Class<? extends BaseRateLimiterConfig> limitClass();
+
+
+//    Class<?> limitClass() default RateLimiterConfig.class;
 }
