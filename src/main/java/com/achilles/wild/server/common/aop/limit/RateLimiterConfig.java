@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class RateLimiterConfig {
+public class RateLimiterConfig extends BaseRateLimiterConfig{
 
     private static final Double[] initLimits = {
             0.1,0.2,0.5,
@@ -26,7 +26,7 @@ public class RateLimiterConfig {
 
     Object lock = new Object();
 
-    public RateLimiter getRateLimiter(Double limit){
+    public RateLimiter getInstance(Double limit){
 
         RateLimiter rateLimiter = rateLimiterMap.get(limit);
         if (rateLimiter != null) {

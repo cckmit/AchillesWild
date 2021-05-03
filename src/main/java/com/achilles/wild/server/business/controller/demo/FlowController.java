@@ -2,6 +2,7 @@ package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.RateLimiterConfig;
+import com.achilles.wild.server.common.aop.limit.annotation.QpsLimit;
 import com.achilles.wild.server.common.aop.limit.sentinel.BlockHandler;
 import com.achilles.wild.server.common.aop.limit.sentinel.FallBackHandler;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
@@ -25,12 +26,28 @@ public class FlowController {
     @Autowired
     RateLimiterConfig rateLimiterConfig;
 
+    @GetMapping(path = "/limit/aop/{rate}")
+    @QpsLimit(limitClass = RateLimiterConfig.class,rate = 0.1)
+    public String aopLimit(@PathVariable("rate") Double rate){
+
+        log.info("==================name ============"+rate);
+
+//        RateLimiter rateLimiter = rateLimiterConfig.getInstance(rate);
+//        if (!rateLimiter.tryAcquire()) {
+//            log.error("=============limit  rate ============"+rate);
+//            throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+//        }
+
+
+        return "AchillesWild";
+    }
+
     @GetMapping(path = "/limit/{rate}")
     public String rate(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);
 
-        RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(rate);
+        RateLimiter rateLimiter = rateLimiterConfig.getInstance(rate);
         if (!rateLimiter.tryAcquire()) {
             log.error("=============limit  rate ============"+rate);
             throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
