@@ -9,8 +9,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface QpsLimit {
 
-    double rate() default 1.0;
+    double permitsPerSecond() default 1.0;
 
     Class<? extends BaseRateLimiterConfig> limitClass();
-   // Class<? extends Throwable>[] value() default {};
 }

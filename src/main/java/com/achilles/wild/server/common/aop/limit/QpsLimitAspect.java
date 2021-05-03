@@ -68,14 +68,16 @@ public class QpsLimitAspect {
             Signature signature = proceedingJoinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature)signature;
             String methodName= methodSignature.getName();
-            String path = signature.getDeclaringTypeName()+"#"+methodName;
 
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
-            QpsLimit annotation = currentMethod.getAnnotation(QpsLimit.class);
 
+            QpsLimit annotation = currentMethod.getAnnotation(QpsLimit.class);
             BaseRateLimiterConfig rateLimiterConfig = applicationContext.getBean(annotation.limitClass());
-            double rate = annotation.rate();
-            RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(rate);
+            Double permitsPerSecond = rateLimiterConfig.getPermitsPerSecond();
+            if (permitsPerSecond == null) {
+                permitsPerSecond = annotation.permitsPerSecond();
+            }
+            RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(permitsPerSecond);
             if (!rateLimiter.tryAcquire()) {
                 throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
             }
