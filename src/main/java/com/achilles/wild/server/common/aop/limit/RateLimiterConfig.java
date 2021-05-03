@@ -11,7 +11,7 @@ import java.util.Map;
 @Configuration
 public class RateLimiterConfig extends BaseRateLimiterConfig{
 
-    @Value("${request.rate.limit:0.2}")
+    @Value("${request.rate.limit:}")
     Double permitsPerSecond;
 
 //    @Value("#{'${request.rate.limit.init:0.1,0.2,0.5,2.0,3.0,10.0}'.split(',')}")
@@ -23,6 +23,9 @@ public class RateLimiterConfig extends BaseRateLimiterConfig{
     @PostConstruct
     private void initRateLimiterMap(){
 //        rateLimiterMap = initRateLimiterMap(initPermitsPerSecond);
+        if (permitsPerSecond == null) {
+            return;
+        }
         RateLimiter rateLimiter = RateLimiter.create(permitsPerSecond);
         rateLimiterMap.put(permitsPerSecond,rateLimiter);
     }
