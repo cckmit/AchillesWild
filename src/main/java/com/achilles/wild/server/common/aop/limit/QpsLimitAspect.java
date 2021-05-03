@@ -75,7 +75,7 @@ public class QpsLimitAspect {
 
             BaseRateLimiterConfig rateLimiterConfig = applicationContext.getBean(annotation.limitClass());
             double rate = annotation.rate();
-            RateLimiter rateLimiter = rateLimiterConfig.getInstance(rate);
+            RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(rate);
             if (!rateLimiter.tryAcquire()) {
                 throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
             }

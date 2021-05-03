@@ -26,20 +26,10 @@ public class RateLimiterConfig extends BaseRateLimiterConfig{
 
     Object lock = new Object();
 
-    public RateLimiter getInstance(Double limit){
+    public RateLimiter getRateLimiter(Double limit){
 
-        RateLimiter rateLimiter = rateLimiterMap.get(limit);
-        if (rateLimiter != null) {
-            return rateLimiter;
-        }
+        RateLimiter rateLimiter = getInstance(rateLimiterMap,limit);
 
-        synchronized (lock) {
-            rateLimiter = rateLimiterMap.get(limit);
-            if (rateLimiter == null) {
-                rateLimiter = RateLimiter.create(limit);
-                rateLimiterMap.put(limit,rateLimiter);
-            }
-        }
 
         return rateLimiter;
     }
