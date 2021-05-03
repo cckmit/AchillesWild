@@ -1,6 +1,7 @@
 package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
@@ -48,6 +49,7 @@ public class DemoController {
     private Map<String,String> map;
 
     @GetMapping(path = "/check/heartbeat")
+    @CommonQpsLimit(key="checkHeartBeat",permitsPerSecond = 0.2)
     public String checkHeartBeat(){
         return "Everything is fine !";
     }

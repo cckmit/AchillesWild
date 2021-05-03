@@ -1,13 +1,14 @@
 package com.achilles.wild.server.business.controller.account;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
-import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
+import com.achilles.wild.server.business.service.account.BalanceService;
 import com.achilles.wild.server.common.aop.interceptor.NoCheckToken;
+import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
+import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
-import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -28,7 +29,7 @@ public class BalanceController {
     private BalanceService balanceService;
 
     @NoCheckToken
-    @RequestLimit(countLimit=1000,rateLimit = 100)
+    @CommonQpsLimit(key="getBalance",permitsPerSecond = 0.1)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 
