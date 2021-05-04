@@ -27,10 +27,13 @@ public class FileUtil {
 //        }
 //        String base64 = toBase64(srcPath);
 //        base64ToFile(base64,destPath);
-        for (int i = 0; i < 10; i++) {
-            String str = getUniqueIdentification(getInputStream(destPath));
-            System.out.println(str);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            String str = getUniqueIdentification(getInputStream(destPath));
+//            System.out.println(str);
+//        }
+
+        FileInputStream inputStream = (FileInputStream) getInputStream(destPath);
+
 
     }
 
@@ -307,13 +310,7 @@ public class FileUtil {
             e.printStackTrace();
             return new ByteArrayInputStream[0];
         }finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            IOUtils.closeQuietly(inputStream);
         }
 
         ByteArrayInputStream[] byteArrayInputStreams = new ByteArrayInputStream[size];
