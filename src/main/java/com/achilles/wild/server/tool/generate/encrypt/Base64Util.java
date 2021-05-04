@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Base64
  */
-public class Base64 {
+public class Base64Util {
 
     /**
      * encodeToString
