@@ -1,5 +1,6 @@
 package com.achilles.wild.server.tool.file;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,7 @@ import java.util.Base64;
 public class FileUtil {
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
-    static String destPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
+    static String destPath = "C:\\Users\\Achilles\\Desktop\\test1.jpg";
 
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
@@ -24,11 +25,35 @@ public class FileUtil {
 //            String str = getString(path);
 //            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //        }
-        String base64 =  getBase64(srcPath);
-        base64ToFile(base64,destPath);
+//        String base64 = toBase64(srcPath);
+//        base64ToFile(base64,destPath);
+        for (int i = 0; i < 10; i++) {
+            String str = getUniqueIdentification(getInputStream(destPath));
+            System.out.println(str);
+        }
 
-        System.out.println("............................................");
     }
+
+
+    /**
+     * getUniqueIdentification
+     *
+     * @param inputStream
+     * @return
+     */
+    public static String getUniqueIdentification(InputStream inputStream) {
+
+        String key = null;
+        try {
+            key = DigestUtils.md5Hex(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return key;
+    }
+
 
     /**
      * getOutputStream

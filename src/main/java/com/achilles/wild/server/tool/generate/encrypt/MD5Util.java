@@ -1,5 +1,7 @@
 package com.achilles.wild.server.tool.generate.encrypt;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /*******************************************************************************
  * keyBean 类实现了RSA Data Security, Inc.在提交给IETF 的RFC1321中的keyBean message-digest
  * 算法。
@@ -52,10 +54,22 @@ public class MD5Util {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		String md5 = MD5Util.getkeyBeanofStr("Achilles");//DDA093A0D95855CCFB851A4C054A8F15
+		//String md5 = MD5Util.getkeyBeanofStr("Achilles");
+
+		String md5 = get("Achilles");
 		System.out.println(md5);
-	}	
-	
+	}
+
+	/**
+	 * get md5 Str
+	 *
+	 * @param str
+	 * @return
+	 */
+	public static String get(String str) {
+		String key = DigestUtils.md5Hex(str);
+		return key;
+	}
 	
 	/*
 	 * getkeyBeanofStr是类keyBean最主要的公共方法，入口参数是你想要进行keyBean变换的字符串
