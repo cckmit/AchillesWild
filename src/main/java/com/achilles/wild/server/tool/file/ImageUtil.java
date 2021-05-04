@@ -1,7 +1,6 @@
 package com.achilles.wild.server.tool.file;
 
 import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,7 @@ import java.util.Map;
 public class ImageUtil {
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
-    static String destPath = "C:\\Users\\Achilles\\Desktop\\test.jpg";
+    static String destPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
 
     static String format = "jpg";
 
@@ -29,8 +28,11 @@ public class ImageUtil {
 //        compressForScale(path,desc,220*1024L,0.8);
 
 //        trimBySizeLimit(srcPath,destPath,300);
-        System.out.println(getWidthAndHeight(srcPath));
+
+        System.out.println();
     }
+
+
 
     /**
      * trimBySizeLimit

@@ -3,30 +3,39 @@ package com.achilles.wild.server.tool.file;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Base64Utils;
 
 import java.io.*;
 import java.util.Base64;
 
 public class FileUtil {
 
-    static String path = "C:\\Users\\Achilles\\Desktop\\test.jpg";
+    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
+    static String destPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
 
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
 
         //readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
         //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
-        byte[] bytes = imageToBytes(path);
+        byte[] bytes = toBytes(srcPath);
 //        byte[] bytes = getBytes(path);
 //        for (int i = 0; i < 10000; i++) {
 //            String str = getString(path);
 //            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //        }
+        String base64 =  getBase64(srcPath);
+        base64ToFile(base64,destPath);
 
         System.out.println("............................................");
     }
 
-
+    /**
+     * getOutputStream
+     *
+     * @param inputStream
+     * @param outputStream
+     */
     public static void getOutputStream(InputStream inputStream,OutputStream outputStream){
         try {
             IOUtils.copy(inputStream,outputStream);
@@ -65,7 +74,6 @@ public class FileUtil {
         return inputStream;
     }
 
-
     /**
      * getString
      *
@@ -92,14 +100,9 @@ public class FileUtil {
         return content;
     }
 
-    public static byte[] imageToBytes(String path){
+    public static byte[] toBytes(String path){
 
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(path);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        InputStream inputStream = getInputStream(path);
 
         byte[] bytes = null;
         try {
@@ -300,6 +303,32 @@ public class FileUtil {
             byteArrayInputStreams[i] = byteArrayInputStream;
         }
         return byteArrayInputStreams;
+    }
+
+    /**
+     * base64ToFile
+     *
+     * @param base64
+     * @param destPath
+     */
+    public static void base64ToFile(String base64,String destPath){
+
+        byte[] imageBytes = Base64Utils.decodeFromString(base64);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+
+        File targetFile = new File(destPath);
+        try {
+            FileUtils.copyInputStreamToFile(inputStream, targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static String getBase64(String srcPath){
+        byte[] imageBytes = toBytes(srcPath);
+        String base64 = Base64Utils.encodeToString(imageBytes);
+        return base64;
     }
 
     /**
