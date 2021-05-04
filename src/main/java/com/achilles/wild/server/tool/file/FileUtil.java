@@ -1,6 +1,6 @@
 package com.achilles.wild.server.tool.file;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ public class FileUtil {
 
         //readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
         //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
-        byte[] bytes = toBytes(srcPath);
+        //Zbyte[] bytes = toBytes(srcPath);
 //        byte[] bytes = getBytes(path);
 //        for (int i = 0; i < 10000; i++) {
 //            String str = getString(path);
@@ -43,15 +43,9 @@ public class FileUtil {
      */
     public static String getUniqueIdentification(InputStream inputStream) {
 
-        String key = null;
-        try {
-            key = DigestUtils.md5Hex(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        String encryption =  MD5Util.get(inputStream,MD5Util.SALT);
 
-        return key;
+        return encryption;
     }
 
 

@@ -8,7 +8,6 @@ import com.achilles.wild.server.business.manager.user.UserManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.UserResultCode;
-import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

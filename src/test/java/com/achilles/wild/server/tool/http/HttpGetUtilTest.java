@@ -1,6 +1,5 @@
 package com.achilles.wild.server.tool.http;
 
-import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;

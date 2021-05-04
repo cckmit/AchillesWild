@@ -1,14 +1,38 @@
 package com.achilles.wild.server.tool.generate.encrypt;
 
-import java.io.UnsupportedEncodingException;
-
+import org.springframework.util.Base64Utils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+
+import java.io.UnsupportedEncodingException;
+
 /**
- * Base64加密
+ * Base64
  */
 public class Base64 {
-	// 加密  
+
+    /**
+     * encodeToString
+     *
+     * @param src
+     * @return
+     */
+    public static String encodeToString(byte[] src){
+        String base64 = Base64Utils.encodeToString(src);
+        return base64;
+    }
+
+    /**
+     * decodeFromString
+     *
+     * @param str
+     * @return
+     */
+    public static byte[] decodeFromString(String str){
+        byte[] base64 = Base64Utils.decodeFromString(str);
+        return base64;
+    }
+
     public static String getEncodeMsg(String str) {  
         byte[] b = null;  
         String s = null;  
@@ -23,7 +47,7 @@ public class Base64 {
         return s;  
     }  
   
-    // 解密  
+
     public static String getDecodeMsg(String s) {  
         byte[] b = null;  
         String result = null;  

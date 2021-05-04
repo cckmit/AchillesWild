@@ -6,8 +6,6 @@ import java.util.TreeMap;
 
 import org.junit.Test;
 
-import com.achilles.wild.server.tool.generate.encrypt.MD5Utils;
-
 public class HttpPostUtilTest {
 
 	@Test
