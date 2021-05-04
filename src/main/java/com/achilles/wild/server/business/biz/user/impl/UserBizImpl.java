@@ -1,13 +1,14 @@
 package com.achilles.wild.server.business.biz.user.impl;
 
 import com.achilles.wild.server.business.biz.user.UserBiz;
-import com.achilles.wild.server.entity.user.UserToken;
-import com.achilles.wild.server.entity.user.User;
-import com.achilles.wild.server.business.manager.user.UserTokenManager;
 import com.achilles.wild.server.business.manager.user.UserManager;
+import com.achilles.wild.server.business.manager.user.UserTokenManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.entity.user.User;
+import com.achilles.wild.server.entity.user.UserToken;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.UserResultCode;
+import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class UserBizImpl implements UserBiz {
             throw new BizException(UserResultCode.USER_IS_MISSING.code,UserResultCode.USER_IS_MISSING.message);
         }
 
-        String encipherPassword = MD5Utils.encodeByMd5AndSalt(password);
+        String encipherPassword = MD5Util.get(password);
         if (!encipherPassword.equals(user.getPassword())){
             log.warn("password is wrong;   email="+email);
             throw new BizException(UserResultCode.PASSWORD_IS_WRONG.code,UserResultCode.PASSWORD_IS_WRONG.message);

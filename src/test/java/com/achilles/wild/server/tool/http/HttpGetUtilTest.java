@@ -1,5 +1,6 @@
 package com.achilles.wild.server.tool.http;
 
+import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +35,7 @@ public class HttpGetUtilTest {
 		params.put("memberId","1001529497");
 		params.put("pageNum","1");
 		params.put("token","CDA8EF1019014D56A6C3D668D4E1F901");
-		params.put("sign",MD5Utils.encodeByMd5AndSalt("9F|1001529497|1|0|dce1c5be-3ea0-01257037-25aa4a11|LCS"));//注意顺序TreeMap
+		params.put("sign", MD5Util.get("9F|1001529497|1|0|dce1c5be-3ea0-01257037-25aa4a11|LCS"));//注意顺序TreeMap
 //		System.out.println(HttpGetUtil.get("http://jflcs.nbeebank.com/customer/detailPage.do", params));
 		System.out.println(HttpPostUtil.post("http://jflcs.nbeebank.com/customer/detailPage.do", params));
 	}
@@ -47,7 +48,7 @@ public class HttpGetUtilTest {
 		params.put("memberId","1001918267");
 		params.put("pageNum","1");
 		params.put("token","3A63E11235C747DCB6D64D847160654F");
-		params.put("sign",MD5Utils.encodeByMd5AndSalt("9F|1001918267|1|1|4A58989759D844EDB91C02B86D4BB02E|LCS"));//注意顺序TreeMap
+		params.put("sign",MD5Util.get("9F|1001918267|1|1|4A58989759D844EDB91C02B86D4BB02E|LCS"));//注意顺序TreeMap
 		System.out.println(HttpGetUtil.get("http://jflcs.nbeebank.com/customer/getCoupon.do", params,null));
 	}
 	

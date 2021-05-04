@@ -20,10 +20,9 @@ public class MD5Util {
 	 * get
 	 *
 	 * @param inputStream
-	 * @param salt
 	 * @return
 	 */
-	public static String get(InputStream inputStream,String salt) {
+	public static String getAddSalt(InputStream inputStream) {
 
 		String key;
 		try {
@@ -33,7 +32,7 @@ public class MD5Util {
 			return null;
 		}
 
-		String encryption = get(key,salt);
+		String encryption = getAddSalt(key);
 
 		return encryption;
 	}
@@ -63,8 +62,8 @@ public class MD5Util {
 	 * @param key
 	 * @return
 	 */
-	public static String get(String key,String salt) {
-		String encryption = DigestUtils.md5Hex(key+salt);
+	public static String getAddSalt(String key) {
+		String encryption = DigestUtils.md5Hex(key+SALT);
 		return encryption;
 	}
 

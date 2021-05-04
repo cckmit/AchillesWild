@@ -46,7 +46,7 @@ public class FileUtil {
      */
     public static String getUniqueIdentification(InputStream inputStream) {
 
-        String encryption =  MD5Util.get(inputStream,MD5Util.SALT);
+        String encryption =  MD5Util.getAddSalt(inputStream);
 
         return encryption;
     }

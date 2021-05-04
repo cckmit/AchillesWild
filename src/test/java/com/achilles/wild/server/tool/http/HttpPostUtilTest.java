@@ -1,10 +1,11 @@
 package com.achilles.wild.server.tool.http;
 
+import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.junit.Test;
 
 public class HttpPostUtilTest {
 
@@ -94,7 +95,7 @@ public class HttpPostUtilTest {
 		params.put("status","1");
 		params.put("memberId","1001918267");
 		params.put("token","3A63E11235C747DCB6D64D847160654F");
-		params.put("sign",MD5Utils.encodeByMd5AndSalt("9F|1001918267|1|4A58989759D844EDB91C02B86D4BB02E|LCS"));//注意顺序TreeMap
+		params.put("sign", MD5Util.get("9F|1001918267|1|4A58989759D844EDB91C02B86D4BB02E|LCS"));//注意顺序TreeMap
 		System.out.println(HttpPostUtil.post("http://jflcs.nbeebank.com/customer/getCoupon.do", params));
 		
 //		Map<String, String> params = new HashMap<>();
@@ -226,7 +227,7 @@ public class HttpPostUtilTest {
 		params.put("memberId","366");
 		params.put("userUuid","4CD1C6124AC54F248155AD29CC5DD09C");
 		params.put("token","41A6274D5CB84C7EB9BA3467DA75126A");
-		params.put("sign",MD5Utils.encodeByMd5AndSalt("9F|366|4CD1C6124AC54F248155AD29CC5DD09C|LCS"));//注意顺序TreeMap
+		params.put("sign",MD5Util.get("9F|366|4CD1C6124AC54F248155AD29CC5DD09C|LCS"));//注意顺序TreeMap
 		System.out.println(HttpPostUtil.post("http://10.15.21.249/licaishi/partner/detailData.do", params));
 	}
 }
