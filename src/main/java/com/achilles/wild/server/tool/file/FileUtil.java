@@ -9,19 +9,19 @@ import java.util.Base64;
 
 public class FileUtil {
 
-    static String path = "C:\\Users\\Achilles\\Desktop\\66.jpg";
+    static String path = "C:\\Users\\Achilles\\Desktop\\test.jpg";
 
     public static void main(String[] args) {
 //        copyFile("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\z3453.jpg");
 
         //readAndWrite("C:\\Users\\Achilles\\Desktop\\z.jpg","C:\\Users\\Achilles\\Desktop\\66.jpg");
         //String base64 = toBase64("C:\\Users\\Achilles\\Desktop\\z.jpg");
-//        byte[] bytes = readToBytes(path);
+        byte[] bytes = imageToBytes(path);
 //        byte[] bytes = getBytes(path);
-        for (int i = 0; i < 10000; i++) {
-            String str = getString(path);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
+//        for (int i = 0; i < 10000; i++) {
+//            String str = getString(path);
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        }
 
         System.out.println("............................................");
     }
@@ -90,6 +90,28 @@ public class FileUtil {
             IOUtils.closeQuietly(inputStream);
         }
         return content;
+    }
+
+    public static byte[] imageToBytes(String path){
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        byte[] bytes = null;
+        try {
+            bytes  = new byte[inputStream.available()];
+            inputStream.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+
+        return bytes;
     }
 
     /**
