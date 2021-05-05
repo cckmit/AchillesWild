@@ -49,7 +49,7 @@ public class DemoController {
     private Map<String,String> map;
 
     @GetMapping(path = "/check/heartbeat")
-    @CommonQpsLimit(permitsPerSecond = 0.2)
+    @CommonQpsLimit(permitsPerSecond = 0.2,code = "0",message = "checkHeartBeat too much")
     public String checkHeartBeat(){
         return "Everything is fine !";
     }

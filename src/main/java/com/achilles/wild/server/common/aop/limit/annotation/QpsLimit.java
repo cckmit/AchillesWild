@@ -13,6 +13,9 @@ public @interface QpsLimit {
 
     //Class<? extends BaseRateLimiterConfig> limitClass();
 
+    String code() default "";
+
+    String message() default "";
 
     Class<?> limitClass() default BaseRateLimiterService.class;
 }

@@ -4,6 +4,7 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -12,8 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +27,6 @@ public class CommonQpsLimitAspect {
 
         private final static String LOG_PREFIX = "";
 
-        @Value("${request.limit.open}")
-        private Boolean openRequestLimit;
-
-        @Autowired
-        ApplicationContext applicationContext;
-
         @Autowired
         CommonRateLimiterConfig commonRateLimiterConfig;
 
@@ -47,9 +40,7 @@ public class CommonQpsLimitAspect {
          */
         @Before("commonQpsLimit()")
         public void doBefore(JoinPoint joinPoint) throws Throwable {
-            if(!openRequestLimit){
-                return;
-            }
+
         }
 
         /**
@@ -60,10 +51,6 @@ public class CommonQpsLimitAspect {
          */
         @Around("commonQpsLimit()")
         public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
-
-            if(!openRequestLimit){
-                return proceedingJoinPoint.proceed();
-            }
 
             Signature signature = proceedingJoinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature)signature;
@@ -79,7 +66,11 @@ public class CommonQpsLimitAspect {
             String path = signature.getDeclaringTypeName()+"#"+methodName;
             RateLimiter rateLimiter = commonRateLimiterConfig.getRateLimiter(path,permitsPerSecond);
             if (!rateLimiter.tryAcquire()) {
-                throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+                if (StringUtils.isNotEmpty(annotation.code()) || StringUtils.isNotEmpty(annotation.message()) ) {
+                    throw new BizException(annotation.code(),annotation.message());
+                } else {
+                    throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+                }
             }
 
             return proceedingJoinPoint.proceed();

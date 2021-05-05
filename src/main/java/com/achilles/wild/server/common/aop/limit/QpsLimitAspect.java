@@ -4,6 +4,7 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.annotation.QpsLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -12,7 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -26,12 +26,6 @@ public class QpsLimitAspect {
 
         private final static Logger log = LoggerFactory.getLogger(QpsLimitAspect.class);
 
-        private final static String LOG_PREFIX = "";
-
-//        private final RateLimiter rateLimiter = RateLimiter.create(1);
-
-        @Value("${request.limit.open}")
-        private Boolean openRequestLimit;
 
         @Autowired
         ApplicationContext applicationContext;
@@ -47,9 +41,6 @@ public class QpsLimitAspect {
          */
         @Before("qpsLimit()")
         public void doBefore(JoinPoint joinPoint) throws Throwable {
-            if(!openRequestLimit){
-                return;
-            }
         }
 
         /**
@@ -61,10 +52,6 @@ public class QpsLimitAspect {
         @Around("qpsLimit()")
         public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 
-            if(!openRequestLimit){
-                return proceedingJoinPoint.proceed();
-            }
-
             Signature signature = proceedingJoinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature)signature;
             String methodName= methodSignature.getName();
@@ -73,13 +60,18 @@ public class QpsLimitAspect {
 
             QpsLimit annotation = currentMethod.getAnnotation(QpsLimit.class);
             BaseRateLimiterService rateLimiterConfig = (BaseRateLimiterService) applicationContext.getBean(annotation.limitClass());
+            //优先用配置的值，配置没有就用方法上的注解值
             Double permitsPerSecond = rateLimiterConfig.getPermitsPerSecond();
             if (permitsPerSecond == null) {
                 permitsPerSecond = annotation.permitsPerSecond();
             }
             RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(permitsPerSecond);
             if (!rateLimiter.tryAcquire()) {
-                throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+                if (StringUtils.isNotEmpty(annotation.code()) || StringUtils.isNotEmpty(annotation.message()) ) {
+                    throw new BizException(annotation.code(),annotation.message());
+                } else {
+                    throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
+                }
             }
 
             return proceedingJoinPoint.proceed();
