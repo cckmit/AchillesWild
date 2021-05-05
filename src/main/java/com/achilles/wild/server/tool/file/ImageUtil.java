@@ -1,6 +1,9 @@
 package com.achilles.wild.server.tool.file;
 
+import com.achilles.wild.server.business.controller.demo.ImageController;
 import net.coobird.thumbnailator.Thumbnails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageUtil {
+
+    private final static Logger log = LoggerFactory.getLogger(ImageController.class);
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
@@ -41,7 +46,7 @@ public class ImageUtil {
      * @param destPath
      * @param sizeLimit
      */
-    public static void trimBySizeLimit(String srcPath,String destPath,int sizeLimit){
+    public static void trimBySizeLimit(String srcPath,String destPath,double quality,int sizeLimit){
 
         File srcFile = new File(srcPath);
         int srcFileSize = (int)srcFile.length()/1024;
@@ -56,7 +61,7 @@ public class ImageUtil {
             e.printStackTrace();
         }
 
-        inputStream = trimBySizeLimit(inputStream,sizeLimit);
+        inputStream = trimBySizeLimit(inputStream,quality,sizeLimit);
         FileUtil.toFile(inputStream,destPath);
     }
 
@@ -68,7 +73,7 @@ public class ImageUtil {
      * @param sizeLimit
      * @return
      */
-    public static InputStream trimBySizeLimit(InputStream inputStream,int sizeLimit){
+    public static InputStream trimBySizeLimit(InputStream inputStream,double quality,int sizeLimit){
 
         if (inputStream == null){
             throw new IllegalArgumentException("inputStream can not be null !");
@@ -90,18 +95,24 @@ public class ImageUtil {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            Thumbnails.of(inputStream).scale(scale).outputQuality(1).outputFormat(format).toOutputStream(outputStream);
+            log.info("11111111111");
+            Thumbnails.of(inputStream).scale(scale).outputQuality(quality).outputFormat(format).toOutputStream(outputStream);
+            log.info("222222222");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        srcFileSize = outputStream.size()/1024;
-        inputStream = FileUtil.getInputStream(outputStream);
+        InputStream trimInputStream = FileUtil.getInputStream(outputStream);
+        try {
+            srcFileSize = trimInputStream.available()/1024;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (srcFileSize <= sizeLimit) {
-            return inputStream;
+            return trimInputStream;
         }
 
-        return trimBySizeLimit(inputStream,sizeLimit);
+        return trimBySizeLimit(trimInputStream,quality,sizeLimit);
     }
 
     /**
