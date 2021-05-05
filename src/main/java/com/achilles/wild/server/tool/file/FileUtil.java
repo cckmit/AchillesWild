@@ -368,6 +368,26 @@ public class FileUtil {
     }
 
     /**
+     * getBase64
+     *
+     * @param inputStream
+     * @return
+     */
+    public static String getBase64(InputStream inputStream){
+        byte[] bytes = null;
+        try {
+            bytes  = new byte[inputStream.available()];
+            inputStream.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        String base64 = Base64Utils.encodeToString(bytes);
+        return base64;
+    }
+
+    /**
      * toBase64
      *
      * @param inputStream

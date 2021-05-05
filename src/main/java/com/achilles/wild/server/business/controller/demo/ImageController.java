@@ -27,6 +27,42 @@ public class ImageController {
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\test\\10028.jpg";
 
+    @PostMapping("/getKey")
+    @IgnoreParams
+    public String getKey(MultipartFile file){
+
+        InputStream inputStream = null;
+        String key = null;
+        try {
+            inputStream = file.getInputStream();
+            key = MD5Util.getAddSalt(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+
+        return key;
+    }
+
+    @PostMapping("/getBase64")
+    @IgnoreParams
+    public String getBase64(MultipartFile file){
+
+        InputStream inputStream = null;
+        String base64 = null;
+        try {
+            inputStream = file.getInputStream();
+            base64 = FileUtil.getBase64(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+
+        return base64;
+    }
+
     @PostMapping("/upload")
     @IgnoreParams
     public String upload(MultipartFile file){
