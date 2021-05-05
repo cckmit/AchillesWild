@@ -321,6 +321,14 @@ public class FileUtil {
         return byteArrayInputStreams;
     }
 
+    public static InputStream base64ToInputStream(String base64){
+
+        byte[] imageBytes = Base64Utils.decodeFromString(base64);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+
+        return inputStream;
+    }
+
     /**
      * base64ToFile
      *
