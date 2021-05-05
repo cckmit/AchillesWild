@@ -40,6 +40,7 @@ public class FlowController {
     }
 
     @GetMapping(path = "/limit/{rate}")
+    @QpsLimit(limitClass = RateLimiterConfig.class,permitsPerSecond = 0.4,code = "0",message = "aopLimit too much")
     public String rate(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);
