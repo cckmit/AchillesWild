@@ -38,7 +38,7 @@ public class ImageController {
             ByteArrayInputStream[] byteArrayInputStreams = FileUtil.cloneInputStream(inputStream,2);
             log.info("before trimBySizeLimit");
 
-            InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],0.9,500);
+            InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
             log.info("after trimBySizeLimit");
             FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\photo\\test\\"+ GenerateUniqueUtil.getUuId() +".jpg");
             log.info("after toFile");

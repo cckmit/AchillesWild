@@ -70,12 +70,24 @@ public class ImageUtil {
      * trimBySizeLimit
      *
      * @param inputStream
+     * @param quality
      * @param sizeLimit
      * @return
      */
     public static InputStream trimBySizeLimit(InputStream inputStream,double quality,int sizeLimit){
+        return trimBySizeAndCountLimit(inputStream,quality,sizeLimit,0);
+    }
 
-        if (inputStream == null){
+    /**
+     * trimBySizeAndCountLimit
+     *
+     * @param inputStream
+     * @param sizeLimit
+     * @return
+     */
+    public static InputStream trimBySizeAndCountLimit(InputStream inputStream,double quality,int sizeLimit,int count){
+
+        if (inputStream == null) {
             throw new IllegalArgumentException("inputStream can not be null !");
         }
 
@@ -97,22 +109,24 @@ public class ImageUtil {
         try {
             log.info("11111111111");
             Thumbnails.of(inputStream).scale(scale).outputQuality(quality).outputFormat(format).toOutputStream(outputStream);
+            count++;
             log.info("222222222");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        InputStream trimInputStream = FileUtil.getInputStream(outputStream);
+        InputStream trimInputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        int  trimSrcFileSize = 0;
         try {
-            srcFileSize = trimInputStream.available()/1024;
+            trimSrcFileSize = trimInputStream.available()/1024;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (srcFileSize <= sizeLimit) {
+        if (count >= 3 || trimSrcFileSize <= sizeLimit) {
             return trimInputStream;
         }
 
-        return trimBySizeLimit(trimInputStream,quality,sizeLimit);
+        return trimBySizeAndCountLimit(trimInputStream,quality,sizeLimit,count);
     }
 
     /**
