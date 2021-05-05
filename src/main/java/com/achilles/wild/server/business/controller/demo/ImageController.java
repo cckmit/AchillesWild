@@ -10,15 +10,13 @@ import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 
 @RestController
 @RequestMapping(value = "/image")
@@ -28,6 +26,40 @@ public class ImageController {
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\test\\10028.jpg";
 
+    @Autowired
+    HttpServletResponse response;
+
+    @ResponseBody
+    @GetMapping("/downloadFromBase64")
+    @IgnoreParams
+    public void downloadFromBase64(@RequestBody ImageRequest request) {
+
+        String fileName = null;
+        try {
+            fileName = URLEncoder.encode(GenerateUniqueUtil.getUuId(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        response.setHeader("Content-disposition", "attachment;filename="+fileName+".jpg");
+
+        String base64 = request.getBase64();
+        InputStream inputStream = FileUtil.base64ToInputStream(base64);
+        OutputStream outputStream = null;
+        try{
+            outputStream = response.getOutputStream();
+            byte[] buff = new byte[1024];
+            int len = -1;
+            while ((len = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, len);
+            }
+            outputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(outputStream);
+            IOUtils.closeQuietly(inputStream);
+        }
+    }
 
     @PostMapping("/uploadBase64")
     @IgnoreParams
