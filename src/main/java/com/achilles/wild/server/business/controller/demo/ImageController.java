@@ -2,7 +2,6 @@ package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.common.aop.log.annotation.IgnoreParams;
 import com.achilles.wild.server.model.request.demo.ImageRequest;
-import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.tool.file.FileUtil;
 import com.achilles.wild.server.tool.file.ImageUtil;
 import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
@@ -61,21 +60,36 @@ public class ImageController {
         }
     }
 
-    @PostMapping("/uploadBase64")
+    @PostMapping("/downloadFromBase64/trim")
     @IgnoreParams
-    public DataResult uploadBase64(@RequestBody ImageRequest request) {
+    public void downloadFromBase64AndTrim(@RequestBody ImageRequest request) {
 
         String base64 = request.getBase64();
         InputStream inputStream = FileUtil.base64ToInputStream(base64);
+        inputStream = ImageUtil.trimBySizeLimit(inputStream,1,300);
+        String fileName = null;
+        try {
+            fileName = URLEncoder.encode(GenerateUniqueUtil.getUuId(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        response.setHeader("Content-disposition", "attachment;filename="+fileName+".jpg");
 
-        ByteArrayInputStream[] byteArrayInputStreams = FileUtil.cloneInputStream(inputStream,2);
-        InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
-        log.info("after trimBySizeLimit");
-        FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\photo\\base64\\"+ GenerateUniqueUtil.getUuId() +".jpg");
-        log.info("after toFile");
-        String key = MD5Util.getAddSalt(byteArrayInputStreams[1]);
-
-        return DataResult.success(key);
+        OutputStream outputStream = null;
+        try{
+            outputStream = response.getOutputStream();
+            byte[] buff = new byte[1024];
+            int len = -1;
+            while ((len = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, len);
+            }
+            outputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(outputStream);
+            IOUtils.closeQuietly(inputStream);
+        }
     }
 
     @PostMapping("/upload")
