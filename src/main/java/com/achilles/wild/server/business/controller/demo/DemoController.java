@@ -2,12 +2,14 @@ package com.achilles.wild.server.business.controller.demo;
 
 import com.achilles.wild.server.business.service.account.BalanceService;
 import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
+import com.achilles.wild.server.common.aop.log.annotation.IgnoreParams;
 import com.achilles.wild.server.common.config.ConfigComplex;
 import com.achilles.wild.server.common.config.ConfigProperties;
 import com.achilles.wild.server.common.config.ConfigProperties1;
 import com.achilles.wild.server.common.config.ConfigProperties2;
 import com.achilles.wild.server.common.listener.event.MyApplicationEvent;
 import com.achilles.wild.server.entity.account.Account;
+import com.achilles.wild.server.model.request.BaseRequest;
 import com.achilles.wild.server.other.design.proxy.cglib.CglibInterceptor;
 import com.achilles.wild.server.other.design.proxy.cglib.ServiceClient;
 import com.achilles.wild.server.other.design.proxy.jdk.JavaProxyInvocationHandler;
@@ -19,6 +21,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -48,10 +52,25 @@ public class DemoController {
     @Value("#{${test.map}}")
     private Map<String,String> map;
 
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
+    @Autowired
+    HttpServletResponse httpServletResponse;
+
     @GetMapping(path = "/check/heartbeat")
     @CommonQpsLimit(permitsPerSecond = 0.2,code = "0",message = "checkHeartBeat too much")
     public String checkHeartBeat(){
         return "Everything is fine !";
+    }
+
+    @PostMapping(path = "/check")
+    @IgnoreParams
+    public BaseRequest check(@RequestBody BaseRequest request,HttpServletResponse httpServletResponse){
+
+        String header = httpServletRequest.getHeader("header131");
+        httpServletResponse.setHeader("header2222","headerva3333");
+        return request;
     }
 
 
