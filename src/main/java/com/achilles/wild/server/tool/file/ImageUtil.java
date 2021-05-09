@@ -16,7 +16,7 @@ public class ImageUtil {
 
     private final static Logger log = LoggerFactory.getLogger(ImageController.class);
 
-    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
+    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\3513.jpg";
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
 
     static String format = "jpg";
@@ -32,7 +32,7 @@ public class ImageUtil {
 
 //        compressForScale(path,desc,220*1024L,0.8);
 
-//        trimBySizeLimit(srcPath,destPath,300);
+        trimBySizeLimit(srcPath,destPath,1,300);
 
         System.out.println();
     }
@@ -103,14 +103,20 @@ public class ImageUtil {
         }
 
         double times = new BigDecimal(srcFileSize).divide(new BigDecimal(sizeLimit),10,BigDecimal.ROUND_HALF_UP).doubleValue();
-        double scale = 1/Math.sqrt(times);
-
+        double scale = 1/times;
+        if (times >= 1 && times <= 1.5) {
+            scale = 0.4;
+        } else if (times > 1.5 && times <= 2.5) {
+            scale = 0.3;
+        } else if (times > 5.5 && times <= 8.5) {
+            scale = 0.2;
+        } else if (times > 8.5 && times <= 12) {
+            scale = 0.16;
+        }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            log.info("11111111111");
             Thumbnails.of(inputStream).scale(scale).outputQuality(quality).outputFormat(format).toOutputStream(outputStream);
             count++;
-            log.info("222222222");
         } catch (IOException e) {
             e.printStackTrace();
         }
