@@ -119,6 +119,34 @@ public class ImageController {
         return key;
     }
 
+    @PostMapping("/upload2")
+    @IgnoreParams
+    public String upload2(MultipartFile file,@RequestParam("name") String name) {
+
+        InputStream inputStream = null;
+        String key = null;
+        try {
+            inputStream = file.getInputStream();
+            ByteArrayInputStream[] byteArrayInputStreams = FileUtil.cloneInputStream(inputStream,2);
+            log.info("before trimBySizeLimit");
+
+            InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
+            log.info("after trimBySizeLimit");
+            FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\"+ GenerateUniqueUtil.getUuId() +".jpg");
+            log.info("after toFile");
+            key = MD5Util.getAddSalt(byteArrayInputStreams[1]);
+            log.info("after MD5Util");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+
+        return key;
+    }
+
+
     @PostMapping("/getKey")
     @IgnoreParams
     public String getKey(MultipartFile file){
