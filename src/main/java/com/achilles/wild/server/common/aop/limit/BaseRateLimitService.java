@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.RateLimiter;
 
 import java.util.Map;
 
-public interface BaseRateLimiterService {
+public interface BaseRateLimitService {
 
     RateLimiter getRateLimiter(Double limit);
 
@@ -12,12 +12,19 @@ public interface BaseRateLimiterService {
 
     default RateLimiter getInstance(Map<Double, RateLimiter> rateLimiterMap, Double permitsPerSecond){
 
+        if (rateLimiterMap == null) {
+            throw new IllegalArgumentException("rateLimiterMap can not be null !");
+        }
+        if (permitsPerSecond == null || permitsPerSecond <= 0) {
+            throw new IllegalArgumentException("permitsPerSecond can not be null or less 0 !");
+        }
+
         RateLimiter rateLimiter = rateLimiterMap.get(permitsPerSecond);
         if (rateLimiter != null) {
             return rateLimiter;
         }
 
-        synchronized (this) {
+        synchronized (rateLimiterMap) {
             rateLimiter = rateLimiterMap.get(permitsPerSecond);
             if (rateLimiter == null) {
                 rateLimiter = RateLimiter.create(permitsPerSecond);

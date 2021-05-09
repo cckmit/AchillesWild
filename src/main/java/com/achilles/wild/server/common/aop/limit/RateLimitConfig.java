@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class RateLimiterConfig implements BaseRateLimiterService{
+public class RateLimitConfig implements BaseRateLimitService {
 
     @Value("${request.rate.limit:}")
     Double permitsPerSecond;

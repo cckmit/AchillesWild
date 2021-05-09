@@ -1,7 +1,7 @@
 package com.achilles.wild.server.common.aop.limit;
 
 import com.achilles.wild.server.common.aop.exception.BizException;
-import com.achilles.wild.server.common.aop.limit.annotation.QpsLimit;
+import com.achilles.wild.server.common.aop.limit.annotation.RateLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
 import org.apache.commons.lang3.StringUtils;
@@ -22,50 +22,37 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 @Order(0)
-public class QpsLimitAspect {
+public class RateLimitAspect {
 
-        private final static Logger log = LoggerFactory.getLogger(QpsLimitAspect.class);
+        private final static Logger log = LoggerFactory.getLogger(RateLimitAspect.class);
 
 
         @Autowired
         ApplicationContext applicationContext;
 
-        /** 以 @qpsLimit注解为切入点 */
-        @Pointcut("@annotation(com.achilles.wild.server.common.aop.limit.annotation.QpsLimit)")
-        public void qpsLimit() {}
+        @Pointcut("@annotation(com.achilles.wild.server.common.aop.limit.annotation.RateLimit)")
+        public void rateLimit() {}
 
-        /**
-         * 在切点之前织入
-         * @param joinPoint
-         * @throws Throwable
-         */
-        @Before("qpsLimit()")
+        @Before("rateLimit()")
         public void doBefore(JoinPoint joinPoint) throws Throwable {
         }
 
-        /**
-         * 环绕
-         * @param proceedingJoinPoint
-         * @return
-         * @throws Throwable
-         */
-        @Around("qpsLimit()")
+        @Around("rateLimit()")
         public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 
             Signature signature = proceedingJoinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature)signature;
             String methodName= methodSignature.getName();
-
             Method currentMethod = proceedingJoinPoint.getTarget().getClass().getMethod(methodName,methodSignature.getParameterTypes());
 
-            QpsLimit annotation = currentMethod.getAnnotation(QpsLimit.class);
-            BaseRateLimiterService rateLimiterConfig = (BaseRateLimiterService) applicationContext.getBean(annotation.limitClass());
+            RateLimit annotation = currentMethod.getAnnotation(RateLimit.class);
+            BaseRateLimitService rateLimitService = (BaseRateLimitService) applicationContext.getBean(annotation.limitClass());
             //优先用配置的值，配置没有就用方法上的注解值
-            Double permitsPerSecond = rateLimiterConfig.getPermitsPerSecond();
+            Double permitsPerSecond = rateLimitService.getPermitsPerSecond();
             if (permitsPerSecond == null) {
                 permitsPerSecond = annotation.permitsPerSecond();
             }
-            RateLimiter rateLimiter = rateLimiterConfig.getRateLimiter(permitsPerSecond);
+            RateLimiter rateLimiter = rateLimitService.getRateLimiter(permitsPerSecond);
             if (!rateLimiter.tryAcquire()) {
                 if (StringUtils.isNotEmpty(annotation.code()) || StringUtils.isNotEmpty(annotation.message()) ) {
                     throw new BizException(annotation.code(),annotation.message());
@@ -77,20 +64,12 @@ public class QpsLimitAspect {
             return proceedingJoinPoint.proceed();
         }
 
-        /**
-         * 在切点之后织入
-         * @throws Throwable
-         */
-        @After("qpsLimit()")
+        @After("rateLimit()")
         public void doAfter() throws Throwable {
 
         }
 
-        /**
-         * 在切点之后织入
-         * @throws Throwable
-         */
-        @AfterThrowing("qpsLimit()")
+        @AfterThrowing("rateLimit()")
         public void afterThrowing() throws Throwable {
 //            log.info(LOG_PREFIX+"#-------------------------------afterThrowing---------------------------------------");
         }

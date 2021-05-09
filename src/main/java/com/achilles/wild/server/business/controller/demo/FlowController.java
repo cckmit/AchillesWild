@@ -1,7 +1,7 @@
 package com.achilles.wild.server.business.controller.demo;
 
-import com.achilles.wild.server.common.aop.limit.RateLimiterConfig;
-import com.achilles.wild.server.common.aop.limit.annotation.QpsLimit;
+import com.achilles.wild.server.common.aop.limit.RateLimitConfig;
+import com.achilles.wild.server.common.aop.limit.annotation.RateLimit;
 import com.achilles.wild.server.common.aop.limit.sentinel.BlockHandler;
 import com.achilles.wild.server.common.aop.limit.sentinel.FallBackHandler;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
@@ -21,10 +21,10 @@ public class FlowController {
     private final static Logger log = LoggerFactory.getLogger(FlowController.class);
 
     @Autowired
-    RateLimiterConfig rateLimiterConfig;
+    RateLimitConfig rateLimitConfig;
 
     @GetMapping(path = "/limit/aop/{rate}")
-    @QpsLimit(limitClass = RateLimiterConfig.class,permitsPerSecond = 0.2,code = "0",message = "aopLimit too much")
+    @RateLimit(limitClass = RateLimitConfig.class,permitsPerSecond = 0.2,code = "0",message = "aopLimit too much")
     public String aopLimit(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);
@@ -40,7 +40,7 @@ public class FlowController {
     }
 
     @GetMapping(path = "/limit/{rate}")
-    @QpsLimit(limitClass = RateLimiterConfig.class,permitsPerSecond = 0.4,code = "0",message = "aopLimit too much")
+    @RateLimit(limitClass = RateLimitConfig.class,permitsPerSecond = 0.4,code = "0",message = "aopLimit too much")
     public String rate(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);

@@ -1,13 +1,13 @@
 package com.achilles.wild.server.common.aop.limit.annotation;
 
-import com.achilles.wild.server.common.aop.limit.BaseRateLimiterService;
+import com.achilles.wild.server.common.aop.limit.BaseRateLimitService;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface QpsLimit {
+public @interface RateLimit {
 
     double permitsPerSecond() default 1.0;
 
@@ -17,5 +17,5 @@ public @interface QpsLimit {
 
     String message() default "";
 
-    Class<?> limitClass() default BaseRateLimiterService.class;
+    Class<?> limitClass() default BaseRateLimitService.class;
 }
