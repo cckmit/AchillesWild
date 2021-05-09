@@ -44,10 +44,10 @@ public class DemoController {
     ConfigComplex configComplex;
 
     @Autowired
-    private BalanceService balanceService;
+    BalanceService balanceService;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    ApplicationContext applicationContext;
 
     @Value("#{${test.map}}")
     private Map<String,String> map;
@@ -63,6 +63,16 @@ public class DemoController {
     public String checkHeartBeat(){
         return "Everything is fine !";
     }
+
+    @PostMapping(path = "/check1")
+    @IgnoreParams
+    public BaseRequest check1(@RequestBody BaseRequest request,HttpServletResponse httpServletResponse){
+
+        String header = httpServletRequest.getHeader("header131");
+        httpServletResponse.setHeader("header2222","headerva3333");
+        return request;
+    }
+
 
     @PostMapping(path = "/check")
     @IgnoreParams

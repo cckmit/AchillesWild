@@ -105,7 +105,7 @@ public class ImageController {
 
             InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
             log.info("after trimBySizeLimit");
-            FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\photo\\file\\"+ GenerateUniqueUtil.getUuId() +".jpg");
+            FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\"+ GenerateUniqueUtil.getUuId() +".jpg");
             log.info("after toFile");
             key = MD5Util.getAddSalt(byteArrayInputStreams[1]);
             log.info("after MD5Util");
