@@ -24,7 +24,7 @@ public class FlowController {
     RateLimitConfig rateLimitConfig;
 
     @GetMapping(path = "/limit/aop/{rate}")
-    @RateLimit(limitClass = RateLimitConfig.class,permitsPerSecond = 0.2,code = "0",message = "aopLimit too much")
+    @RateLimit(limitClass = RateLimitConfig.class,code = "0",message = "aopLimit too much")
     public String aopLimit(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);
@@ -40,7 +40,7 @@ public class FlowController {
     }
 
     @GetMapping(path = "/limit/{rate}")
-    @RateLimit(limitClass = RateLimitConfig.class,permitsPerSecond = 0.4,code = "0",message = "aopLimit too much")
+    @RateLimit(limitClass = RateLimitConfig.class,code = "0",message = "aopLimit too much")
     public String rate(@PathVariable("rate") Double rate){
 
         log.info("==================name ============"+rate);

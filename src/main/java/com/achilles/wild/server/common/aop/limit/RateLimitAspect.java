@@ -47,12 +47,7 @@ public class RateLimitAspect {
 
             RateLimit annotation = currentMethod.getAnnotation(RateLimit.class);
             BaseRateLimitService rateLimitService = (BaseRateLimitService) applicationContext.getBean(annotation.limitClass());
-            //优先用配置的值，配置没有就用方法上的注解值
-            Double permitsPerSecond = rateLimitService.getPermitsPerSecond();
-            if (permitsPerSecond == null) {
-                permitsPerSecond = annotation.permitsPerSecond();
-            }
-            RateLimiter rateLimiter = rateLimitService.getRateLimiter(permitsPerSecond);
+            RateLimiter rateLimiter = rateLimitService.getRateLimiter();
             if (!rateLimiter.tryAcquire()) {
                 if (StringUtils.isNotEmpty(annotation.code()) || StringUtils.isNotEmpty(annotation.message()) ) {
                     throw new BizException(annotation.code(),annotation.message());

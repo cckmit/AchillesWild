@@ -6,9 +6,7 @@ import java.util.Map;
 
 public interface BaseRateLimitService {
 
-    RateLimiter getRateLimiter(Double limit);
-
-    Double getPermitsPerSecond();
+    RateLimiter getRateLimiter();
 
     default RateLimiter getInstance(Map<Double, RateLimiter> rateLimiterMap, Double permitsPerSecond){
 
@@ -16,7 +14,7 @@ public interface BaseRateLimitService {
             throw new IllegalArgumentException("rateLimiterMap can not be null !");
         }
         if (permitsPerSecond == null || permitsPerSecond <= 0) {
-            throw new IllegalArgumentException("permitsPerSecond can not be null or less 0 !");
+            throw new IllegalArgumentException("permitsPerSecond can not be null or less than 0 !");
         }
 
         RateLimiter rateLimiter = rateLimiterMap.get(permitsPerSecond);
