@@ -117,7 +117,11 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return content;
     }
@@ -160,10 +164,12 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-//            1.先打开的后关闭，后打开的先关闭
-//            2.看依赖关系，如果流a依赖流b，应该先关闭流a，再关闭流b
-            IOUtils.closeQuietly(outputStream);
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(outputStream);
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return outputStream.toByteArray();
@@ -310,7 +316,11 @@ public class FileUtil {
             e.printStackTrace();
             return new ByteArrayInputStream[0];
         }finally {
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         ByteArrayInputStream[] byteArrayInputStreams = new ByteArrayInputStream[size];
@@ -389,7 +399,11 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         String base64 = Base64Utils.encodeToString(bytes);
         return base64;
