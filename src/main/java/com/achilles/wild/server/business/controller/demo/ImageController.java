@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/image")
@@ -87,8 +88,12 @@ public class ImageController {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            IOUtils.closeQuietly(outputStream);
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(outputStream);
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -113,7 +118,11 @@ public class ImageController {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            IOUtils.closeQuietly(inputStream);
+            try {
+                IOUtils.close(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return key;
@@ -121,7 +130,7 @@ public class ImageController {
 
     @PostMapping("/upload2")
     @IgnoreParams
-    public String upload2(MultipartFile file,@RequestParam("name") String name) {
+    public String upload2(Map<String,String> map,MultipartFile file) {
 
         InputStream inputStream = null;
         String key = null;

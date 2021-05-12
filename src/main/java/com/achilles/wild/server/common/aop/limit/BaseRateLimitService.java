@@ -1,5 +1,6 @@
 package com.achilles.wild.server.common.aop.limit;
 
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
 
 import java.util.Map;
@@ -7,6 +8,12 @@ import java.util.Map;
 public interface BaseRateLimitService {
 
     RateLimiter getRateLimiter();
+
+    BaseResultCode getResultCode();
+
+    default BaseResultCode getDefaultResultCode (){
+        return BaseResultCode.REQUESTS_TOO_FREQUENT;
+    }
 
     default RateLimiter getInstance(Map<Double, RateLimiter> rateLimiterMap, Double permitsPerSecond){
 

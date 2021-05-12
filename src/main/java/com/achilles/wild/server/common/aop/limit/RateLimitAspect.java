@@ -4,7 +4,6 @@ import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.annotation.RateLimit;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -49,11 +48,7 @@ public class RateLimitAspect {
             BaseRateLimitService rateLimitService = (BaseRateLimitService) applicationContext.getBean(annotation.limitClass());
             RateLimiter rateLimiter = rateLimitService.getRateLimiter();
             if (!rateLimiter.tryAcquire()) {
-                if (StringUtils.isNotEmpty(annotation.code()) || StringUtils.isNotEmpty(annotation.message()) ) {
-                    throw new BizException(annotation.code(),annotation.message());
-                } else {
-                    throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT.code,BaseResultCode.REQUESTS_TOO_FREQUENT.message);
-                }
+                throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT);
             }
 
             return proceedingJoinPoint.proceed();

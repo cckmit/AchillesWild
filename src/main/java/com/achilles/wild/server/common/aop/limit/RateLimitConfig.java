@@ -1,5 +1,6 @@
 package com.achilles.wild.server.common.aop.limit;
 
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.google.common.util.concurrent.RateLimiter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -36,5 +37,8 @@ public class RateLimitConfig implements BaseRateLimitService {
         return rateLimiter;
     }
 
-
+    @Override
+    public BaseResultCode getResultCode() {
+        return BaseResultCode.REQUESTS_TOO_FREQUENT;
+    }
 }

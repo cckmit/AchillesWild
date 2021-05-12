@@ -9,13 +9,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface RateLimit {
 
-    double permitsPerSecond() default 1.0;
-
-    //Class<? extends BaseRateLimiterConfig> limitClass();
-
-    String code() default "";
-
-    String message() default "";
 
     Class<?> limitClass() default BaseRateLimitService.class;
 }
