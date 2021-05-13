@@ -36,25 +36,17 @@ public class ImageController {
     @GetMapping(value = "/getImage")
     public void getImage() throws IOException {
 
-        OutputStream outputStream = null;
-        try {
-            BufferedImage image = ImageIO.read(new FileInputStream("C:\\Users\\Achilles\\Desktop\\photo\\44.jpg"));
+        try (
+            FileInputStream inputStream = new FileInputStream("C:\\Users\\Achilles\\Desktop\\photo\\44.jpg");
+            OutputStream outputStream =response.getOutputStream();
+          ){
+            BufferedImage image = ImageIO.read(inputStream);
             response.setContentType("image/jpg");
-            outputStream = response.getOutputStream();
-
             if (image != null) {
                 ImageIO.write(image, "jpg", outputStream);
             }
-        } catch (IOException e) {
-            log.error("获取图片异常{}",e.getMessage());
-        } finally {
-            if (outputStream != null) {
-                outputStream.flush();
-                outputStream.close();
-            }
         }
     }
-
 
     @ResponseBody
     @GetMapping("/downloadFromBase64")
