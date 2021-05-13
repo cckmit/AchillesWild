@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -28,6 +30,31 @@ public class ImageController {
 
     @Autowired
     HttpServletResponse response;
+
+
+    @ResponseBody
+    @GetMapping(value = "/getImage")
+    public void getImage() throws IOException {
+
+        OutputStream outputStream = null;
+        try {
+            BufferedImage image = ImageIO.read(new FileInputStream("C:\\Users\\Achilles\\Desktop\\photo\\44.jpg"));
+            response.setContentType("image/jpg");
+            outputStream = response.getOutputStream();
+
+            if (image != null) {
+                ImageIO.write(image, "jpg", outputStream);
+            }
+        } catch (IOException e) {
+            log.error("获取图片异常{}",e.getMessage());
+        } finally {
+            if (outputStream != null) {
+                outputStream.flush();
+                outputStream.close();
+            }
+        }
+    }
+
 
     @ResponseBody
     @GetMapping("/downloadFromBase64")
