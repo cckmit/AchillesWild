@@ -11,7 +11,7 @@ import java.util.Base64;
 
 public class FileUtil {
 
-    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\10028.jpg";
+    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\4854.jpg";
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test1.jpg";
 
     public static void main(String[] args) {
@@ -32,8 +32,9 @@ public class FileUtil {
 //            System.out.println(str);
 //        }
 
-        FileInputStream inputStream = (FileInputStream) getInputStream(destPath);
-
+//        FileInputStream inputStream = (FileInputStream) getInputStream(destPath);
+        String base64 = getBase64(srcPath);
+        System.out.println();
 
     }
 
