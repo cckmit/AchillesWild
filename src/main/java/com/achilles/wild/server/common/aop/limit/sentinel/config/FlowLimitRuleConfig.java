@@ -47,7 +47,7 @@ public class FlowLimitRuleConfig {
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
         rule.setCount(0.6);
-        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO);
+        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO);//资源的每秒异常总数占通过量
 //        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
         rule.setTimeWindow(3);//熔断时长，单位为 s
         rule.setMinRequestAmount(2);//熔断触发的最小请求数，请求数小于该值时即使异常比率超出阈值也不会熔断
