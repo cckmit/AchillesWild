@@ -8,6 +8,9 @@ public class BizException extends RuntimeException{
 
     private String message;
 
+    private BaseResultCode baseResultCode;
+
+
     public String getCode() {
         return code;
     }
@@ -25,7 +28,6 @@ public class BizException extends RuntimeException{
         this.message = message;
     }
 
-    private BaseResultCode baseResultCode;
 
     public BizException(BaseResultCode baseResultCode) {
         this.baseResultCode = baseResultCode;
@@ -36,7 +38,7 @@ public class BizException extends RuntimeException{
         this.message = message;
     }
 
-//    public BaseResultCode getResultCode() {
-//        return baseResultCode;
-//    }
+    public BaseResultCode getResultCode() {
+        return baseResultCode;
+    }
 }

@@ -14,6 +14,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import com.lmax.disruptor.RingBuffer;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -177,12 +178,15 @@ public class LogControllerAspect {
 
         if(throwable instanceof BizException){
             log.debug("----------------------insert into DB  BizException ");
-            logExceptionInfo.setMessage(((BizException) throwable).getMessage());
+            logExceptionInfo.setMessage(throwable.getMessage());
             logExceptionInfo.setType(ExceptionTypeEnum.BIZ_EXCEPTION.toNumbericValue());
         }else {
             log.debug("----------------------insert into DB other Exception ");
             logExceptionInfo.setMessage(throwable.toString());
             logExceptionInfo.setType(ExceptionTypeEnum.OTHER_EXCEPTION.toNumbericValue());
+        }
+        if (StringUtils.isEmpty(logExceptionInfo.getMessage())) {
+            logExceptionInfo.setMessage("0");
         }
 //        eventListeners.addExceptionLogsEvent(new ExceptionLogsEvent(exceptionLogs));
         applicationContext.publishEvent(new LogExceptionInfoEvent(logExceptionInfo));

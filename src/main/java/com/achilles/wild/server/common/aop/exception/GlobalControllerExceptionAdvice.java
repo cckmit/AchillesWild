@@ -2,8 +2,7 @@ package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.achilles.wild.server.tool.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -18,17 +17,24 @@ public class GlobalControllerExceptionAdvice {
 
     private final static Logger log = LoggerFactory.getLogger(GlobalControllerExceptionAdvice.class);
 
-    @ExceptionHandler(value = FlowException.class)
-    public BaseResult flowExceptionHandler(FlowException e){
-        log.error(e.getMessage());
-        BaseResult baseResult = BaseResult.fail(BaseResultCode.FAIL.code,e.getMessage());
-        return baseResult;
-    }
+//    @ExceptionHandler(value = BlockException.class)
+//    public BaseResult blockExceptionHandler(BlockException e){
+//        log.error(JsonUtil.toJsonString(e));
+//        BaseResult baseResult = BaseResult.fail(BaseResultCode.FAIL.code,e.getMessage());
+//        return baseResult;
+//    }
+//
+//    @ExceptionHandler(value = FlowException.class)
+//    public BaseResult flowExceptionHandler(FlowException e){
+//        log.error(JsonUtil.toJsonString(e));
+//        BaseResult baseResult = BaseResult.fail(BaseResultCode.FAIL.code,e.getMessage());
+//        return baseResult;
+//    }
 
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
-        log.error(e.getMessage());
-        BaseResult baseResult = BaseResult.fail(e.getCode(),e.getMessage());
+        log.error(JsonUtil.toJsonString(e));
+        BaseResult baseResult = BaseResult.fail(e.getResultCode().code,e.getResultCode().message);
         return baseResult;
     }
 
@@ -43,7 +49,7 @@ public class GlobalControllerExceptionAdvice {
     @ExceptionHandler(value = Exception.class)
     public BaseResult defaultExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         e.printStackTrace();
-        log.error(e.getMessage());
+        log.error(JsonUtil.toJsonString(e));
         BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);
         return baseResult;
     }
@@ -51,7 +57,7 @@ public class GlobalControllerExceptionAdvice {
     @ExceptionHandler(value = Throwable.class)
     public BaseResult throwableHandler(HttpServletRequest req, Throwable e) throws Exception {
         e.printStackTrace();
-        log.error(e.getMessage());
+        log.error(JsonUtil.toJsonString(e));
         BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);
         return baseResult;
     }
