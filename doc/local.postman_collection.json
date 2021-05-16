@@ -461,14 +461,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/flow/block/2m",
+							"raw": "{{host}}/flow/block/3",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"flow",
 								"block",
-								"2m"
+								"3"
 							]
 						}
 					},
@@ -508,6 +508,25 @@
 								"limit",
 								"aop",
 								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "qps limit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/flow/qps/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"flow",
+								"qps",
+								"3"
 							]
 						}
 					},
