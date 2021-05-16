@@ -3,8 +3,7 @@ package com.achilles.wild.server.common.aop.exception;
 import com.achilles.wild.server.model.response.BaseResult;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.achilles.wild.server.tool.json.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(basePackages = "com.achilles.wild.server.business.controller")
 @Order(5)
+@Slf4j
 public class GlobalControllerExceptionAdvice {
-
-    private final static Logger log = LoggerFactory.getLogger(GlobalControllerExceptionAdvice.class);
 
 //    @ExceptionHandler(value = BlockException.class)
 //    public BaseResult blockExceptionHandler(BlockException e){
@@ -34,7 +32,7 @@ public class GlobalControllerExceptionAdvice {
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
         log.error(JsonUtil.toJsonString(e));
-        BaseResult baseResult = BaseResult.fail(e.getResultCode().code,e.getResultCode().message);
+        BaseResult baseResult = BaseResult.fail(e.getResultCode());
         return baseResult;
     }
 
@@ -47,7 +45,7 @@ public class GlobalControllerExceptionAdvice {
 //    }
 
     @ExceptionHandler(value = Exception.class)
-    public BaseResult defaultExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
+    public BaseResult exceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         e.printStackTrace();
         log.error(JsonUtil.toJsonString(e));
         BaseResult baseResult = BaseResult.fail(BaseResultCode.EXCEPTION_TO_CLIENT);

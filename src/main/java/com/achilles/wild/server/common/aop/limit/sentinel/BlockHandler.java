@@ -3,12 +3,10 @@ package com.achilles.wild.server.common.aop.limit.sentinel;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class BlockHandler {
-
-    private final static Logger log = LoggerFactory.getLogger(BlockHandler.class);
 
     /**
      * 订单查询接口抛出限流或降级时的处理逻辑
