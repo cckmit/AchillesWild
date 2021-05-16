@@ -4,6 +4,7 @@ import com.achilles.wild.server.common.aop.limit.RateLimitConfig;
 import com.achilles.wild.server.common.aop.limit.annotation.RateLimit;
 import com.achilles.wild.server.common.aop.limit.sentinel.BlockHandler;
 import com.achilles.wild.server.common.aop.limit.sentinel.FallBackHandler;
+import com.achilles.wild.server.model.request.BaseRequest;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(value = "/flow", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,7 +24,7 @@ public class FlowController {
     private final static Logger log = LoggerFactory.getLogger(FlowController.class);
 
     @Autowired
-    RateLimitConfig rateLimitConfig;
+    RestTemplate restTemplate;
 
     @GetMapping(path = "/limit/aop/{rate}")
     @RateLimit(limitClass = RateLimitConfig.class)
@@ -77,10 +80,14 @@ public class FlowController {
 
     @GetMapping(path = "/block/{name}")
     @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "block",exceptionsToTrace = IllegalArgumentException.class)
+            blockHandlerClass = BlockHandler.class,blockHandler = "block",exceptionsToTrace = ResourceAccessException.class)
     public String block(@PathVariable("name") String name){
 
         log.info("==================name ============"+name);
+
+        BaseRequest baseRequest =new BaseRequest();
+        baseRequest.setId("AchillesWild");
+        BaseRequest result = restTemplate.getForObject("https://google.com/", BaseRequest.class);
 
         if (!name.equals("erwe")) {
             throw new IllegalArgumentException();

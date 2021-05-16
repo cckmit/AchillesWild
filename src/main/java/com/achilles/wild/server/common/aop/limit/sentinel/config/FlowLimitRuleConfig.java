@@ -47,10 +47,10 @@ public class FlowLimitRuleConfig {
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
         // 5s内调用接口出现异常次数超过3的时候, 进行熔断
-        rule.setCount(2);
+        rule.setCount(1);
         rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
-        rule.setTimeWindow(5);
-        rule.setMinRequestAmount(3);
+        rule.setTimeWindow(60);
+        rule.setMinRequestAmount(1);
         rule.setStatIntervalMs(50000);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
