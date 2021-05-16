@@ -1,5 +1,7 @@
 package com.achilles.wild.server.common.aop.limit.sentinel;
 
+import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.model.response.code.BaseResultCode;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,6 @@ public class BlockHandler {
 
         log.info("==================qps limit ============"+name);
 
-        return "qps limit";
+        throw new BizException(BaseResultCode.REQUESTS_TOO_FREQUENT);
     }
 }
