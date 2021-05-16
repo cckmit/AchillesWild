@@ -77,10 +77,14 @@ public class FlowController {
 
     @GetMapping(path = "/block/{name}")
     @SentinelResource(value = "limit_test",
-            blockHandlerClass = BlockHandler.class,blockHandler = "block",exceptionsToIgnore = Throwable.class)
+            blockHandlerClass = BlockHandler.class,blockHandler = "block",exceptionsToTrace = IllegalArgumentException.class)
     public String block(@PathVariable("name") String name){
 
         log.info("==================name ============"+name);
+
+        if (!name.equals("erwe")) {
+            throw new IllegalArgumentException();
+        }
 
         Long.parseLong(name);
 

@@ -23,9 +23,9 @@ public class FlowLimitRuleConfig {
 
     String key = "limit_test";
 
-    @PostConstruct
+//    @PostConstruct
     public void initFlowQpsRule() {
-        List<FlowRule> rules = new ArrayList<FlowRule>();
+        List<FlowRule> rules = new ArrayList<>();
         FlowRule rule = new FlowRule();
         rule.setResource(key);
         // QPS控制在2以内
@@ -49,7 +49,9 @@ public class FlowLimitRuleConfig {
         // 5s内调用接口出现异常次数超过3的时候, 进行熔断
         rule.setCount(2);
         rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
-        rule.setTimeWindow(25);
+        rule.setTimeWindow(5);
+        rule.setMinRequestAmount(3);
+        rule.setStatIntervalMs(50000);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
     }
@@ -61,7 +63,7 @@ public class FlowLimitRuleConfig {
     //DEGRADE_GRADE_EXCEPTION_COUNT
     //当资源近1分钟的异常数目超过阈值之后会进行熔断,因为是1分钟级别,若timewindow小于60s,则结束熔断妆后仍可能进入熔断
 
-    @PostConstruct
+//    @PostConstruct
     public void initDegradeRuleRt() {
         List<DegradeRule> rules = new ArrayList<>();
         DegradeRule rule = new DegradeRule();
