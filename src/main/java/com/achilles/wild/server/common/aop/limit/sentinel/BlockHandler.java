@@ -14,15 +14,13 @@ public class BlockHandler {
      * 注意: 方法参数、返回值要与原函数保持一致
      * @return
      */
-    public static String block(String name, BlockException e) {
-        e.printStackTrace();
+    public static String exception(String name, BlockException e) {
         log.info("==================BlockException ============"+name);
-        return "block";
+        return "exception DEGRADE";
     }
 
-//    public static String block(String name, DegradeException e) {
-//        e.printStackTrace();
-//        log.info("==================DegradeException ============"+name);
-//        return "degrade";
-//    }
+    public static String qps(String name, BlockException e) {
+        log.info("==================qps limit ============"+name);
+        return "qps limit";
+    }
 }

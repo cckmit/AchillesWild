@@ -23,7 +23,7 @@ public class FlowLimitRuleConfig {
 
     String key = "limit_test";
 
-//    @PostConstruct
+    @PostConstruct
     public void initFlowQpsRule() {
         List<FlowRule> rules = new ArrayList<>();
         FlowRule rule = new FlowRule();
@@ -33,7 +33,7 @@ public class FlowLimitRuleConfig {
         // QPS限流
         rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         //判断的根据是资源自身，还是根据其它关联资源 (refResource)，还是根据链路入口,
-        rule.setStrategy(RuleConstant.CONTROL_BEHAVIOR_DEFAULT);
+        rule.setStrategy(RuleConstant.STRATEGY_DIRECT );
         rule.setLimitApp(RuleConstant.LIMIT_APP_DEFAULT);
         //流控效果（直接拒绝 / 排队等待 / 慢启动模式）,默认直接拒绝
         rule.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT);
@@ -46,11 +46,10 @@ public class FlowLimitRuleConfig {
         List<DegradeRule> rules = new ArrayList<>();
         DegradeRule rule = new DegradeRule();
         rule.setResource(key);
-        // 5s内调用接口出现异常次数超过3的时候, 进行熔断
         rule.setCount(0.6);
         rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO);
 //        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
-        rule.setTimeWindow(15);//熔断时长，单位为 s
+        rule.setTimeWindow(3);//熔断时长，单位为 s
         rule.setMinRequestAmount(2);//熔断触发的最小请求数，请求数小于该值时即使异常比率超出阈值也不会熔断
         rule.setStatIntervalMs(5000);//统计时长（单位为 ms），如 60*1000 代表分钟级
         rules.add(rule);
