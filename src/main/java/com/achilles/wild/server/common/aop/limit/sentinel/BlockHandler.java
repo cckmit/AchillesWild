@@ -15,12 +15,16 @@ public class BlockHandler {
      * @return
      */
     public static String exception(String name, BlockException e) {
+
         log.info("==================BlockException ============"+name);
-        return "exception DEGRADE";
+
+        return "exception degrade";
     }
 
     public static String qps(String name, BlockException e) {
+
         log.info("==================qps limit ============"+name);
+
         return "qps limit";
     }
 }

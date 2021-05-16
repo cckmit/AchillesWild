@@ -27,7 +27,7 @@ public class FlowLimitRuleConfig {
     public void initFlowQpsRule() {
         List<FlowRule> rules = new ArrayList<>();
         FlowRule rule = new FlowRule();
-        rule.setResource(key);
+        rule.setResource("com.achilles.wild.server.business.controller.demo.FlowController.qps");
         // QPS控制在2以内
         rule.setCount(1);
         // QPS限流

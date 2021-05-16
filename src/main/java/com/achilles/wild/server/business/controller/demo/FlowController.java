@@ -24,6 +24,8 @@ public class FlowController {
     @Autowired
     RestTemplate restTemplate;
 
+    String str = "";
+
     @GetMapping(path = "/limit/aop/{rate}")
     @RateLimit(limitClass = RateLimitConfig.class)
     public String aopLimit(@PathVariable("rate") Double rate){
@@ -77,7 +79,7 @@ public class FlowController {
     }
 
     @GetMapping(path = "/qps/{name}")
-    @SentinelResource(value = "limit_test", blockHandlerClass = BlockHandler.class,blockHandler = "qps")
+    @SentinelResource(value = "com.achilles.wild.server.business.controller.demo.FlowController.qps", blockHandlerClass = BlockHandler.class,blockHandler = "qps")
     public String qps(@PathVariable("name") String name){
 
         log.info("==================name ============"+name);
