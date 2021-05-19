@@ -1,9 +1,6 @@
 package com.achilles.wild.server.tool;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class ThreadUtil {
 
@@ -16,7 +13,7 @@ public class ThreadUtil {
         当线程池的任务缓存队列已满并且线程池中的线程数目达到maximumPoolSize，如果还有任务到来就会采取任务拒绝策略
         ThreadPoolExecutor.CallerRunsPolicy;//由调用线程处理该任务*/
         ExecutorService executor = new ThreadPoolExecutor( corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.SECONDS,
-            new SynchronousQueue<>(), new ThreadPoolExecutor.CallerRunsPolicy());
+            new ArrayBlockingQueue<>(1000), new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;
     }
 }
