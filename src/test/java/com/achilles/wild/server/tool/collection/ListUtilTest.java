@@ -143,4 +143,16 @@ public class ListUtilTest {
     private static List<Long> getCitizenIds(){
         return getCitizen().stream().map(var -> var.getId()).collect(Collectors.toList());
     }
+
+
+    public static void cal(List<Long> list){
+        double avg = list.stream().mapToDouble(value -> Objects.isNull(value) ? 0L : value).average().getAsDouble();
+        System.out.println("avg = " + avg);
+
+        List<Long> sortedlist = list.stream().filter(value->value!=null).sorted().collect(Collectors.toList());
+        System.out.println("sort : " + sortedlist); //Collections.sort(list);
+
+        Collections.reverse(sortedlist);
+        System.out.println("sort : " + sortedlist);
+    }
 }
