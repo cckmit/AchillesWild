@@ -36,6 +36,13 @@
 				</includes>
 			</resource>
 			<resource>
+				<directory>${project.basedir}/lib/</directory>
+				<targetPath>/BOOT-INF/lib/</targetPath>
+				<includes>
+					<include>**/*.jar</include>
+				</includes>
+			</resource>
+			<resource>
 				<includes>
 					<include>properties/db.properties</include>
 				</includes>
@@ -53,11 +60,13 @@
 				<filtering>false</filtering>
 			</testResource>
 		</testResources>
-		<pluginManagement>
-			<plugins>
+		<plugins>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<mainClass>com.achilles.wild.server.StarterApplication</mainClass>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -90,10 +99,13 @@
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
+						<compilerArguments>
+							<extdirs>${project.basedir}/lib/</extdirs>
+						</compilerArguments>
 					</configuration>
+
 				</plugin>
 			</plugins>
-		</pluginManagement>
 	</build>
 
 	<dependencies>
