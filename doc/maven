@@ -20,3 +20,5 @@ mvn dependency:resolve -Dclassifier=javadoc
 D:/Path/Java/apache-maven-3.6.2
 D:\Java\JarMaven\settings.xml
 D:\Java\JarMaven\repository
+------------------------插件----------------------------
+排查包冲突   Maven Helper
