@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class ImageUtil {
 
     private final static Logger log = LoggerFactory.getLogger(ImageController.class);
 
-    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\5588.jpg";
+    static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\619.jpg";
 //    static String srcPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test3.jpg";
 
@@ -35,12 +34,12 @@ public class ImageUtil {
 
 //        trimByWidthLimit(srcPath,destPath,500);
 
-        trimBySizeLimit( srcPath, destPath, 300);
+        trimByWidthAndHeight( srcPath, destPath, 120,120);
 
         System.out.println();
     }
 
-    public static void trimByWidthLimit(String srcPath,String destPath,int width){
+    public static void trimByWidthAndHeight(String srcPath,String destPath,int width,int height){
 
         File srcFile = new File(srcPath);
 
@@ -51,7 +50,7 @@ public class ImageUtil {
             e.printStackTrace();
         }
 
-        inputStream = trimByWidthLimit(inputStream,width,format);
+        inputStream = trimByWidthAndHeight(inputStream,width,height,format);
         FileUtil.toFile(inputStream,destPath);
     }
 
@@ -63,7 +62,7 @@ public class ImageUtil {
      * @param format
      * @return
      */
-    public static InputStream trimByWidthLimit(InputStream inputStream,int width,String format){
+    public static InputStream trimByWidthAndHeight(InputStream inputStream,int width,int height,String format){
 
         if (inputStream == null) {
             throw new IllegalArgumentException("inputStream can not be null !");
@@ -71,7 +70,7 @@ public class ImageUtil {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            Thumbnails.of(inputStream).width(width).outputQuality(1).outputFormat(format).toOutputStream(outputStream);
+            Thumbnails.of(inputStream).width(width).height(height).outputQuality(1).outputFormat(format).toOutputStream(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,102 +155,6 @@ public class ImageUtil {
         }
 
         return trimBySizeLimit(trimInputStream,sizeLimit,format,count);
-    }
-
-    /**
-     * trimBySizeLimit
-     *
-     * @param srcPath
-     * @param destPath
-     * @param sizeLimit
-     */
-    public static void trimBySizeLimit(String srcPath,String destPath,double quality,int sizeLimit){
-
-        File srcFile = new File(srcPath);
-        int srcFileSize = (int)srcFile.length()/1024;
-        if (srcFileSize <= sizeLimit) {
-            return;
-        }
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(srcFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        inputStream = trimBySizeLimit(inputStream,quality,sizeLimit);
-        FileUtil.toFile(inputStream,destPath);
-    }
-
-
-    /**
-     * trimBySizeLimit
-     *
-     * @param inputStream
-     * @param quality
-     * @param sizeLimit
-     * @return
-     */
-    public static InputStream trimBySizeLimit(InputStream inputStream,double quality,int sizeLimit){
-        return trimBySizeAndCountLimit(inputStream,quality,sizeLimit,0);
-    }
-
-    /**
-     * trimBySizeAndCountLimit
-     *
-     * @param inputStream
-     * @param sizeLimit
-     * @return
-     */
-    public static InputStream trimBySizeAndCountLimit(InputStream inputStream,double quality,int sizeLimit,int count){
-
-        if (inputStream == null) {
-            throw new IllegalArgumentException("inputStream can not be null !");
-        }
-
-        int srcFileSize = 0;
-        try {
-            srcFileSize = inputStream.available()/1024;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (srcFileSize <= sizeLimit) {
-            return inputStream;
-        }
-
-        double times = new BigDecimal(srcFileSize).divide(new BigDecimal(sizeLimit),10,BigDecimal.ROUND_HALF_UP).doubleValue();
-        double scale = 1/times;
-        if (times >= 1 && times <= 1.5) {
-            scale = 0.4;
-        } else if (times > 1.5 && times <= 2.5) {
-            scale = 0.3;
-        } else if (times > 5.5 && times <= 8.5) {
-            scale = 0.2;
-        } else if (times > 8.5 && times <= 12) {
-            scale = 0.16;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            Thumbnails.of(inputStream).scale(scale).outputQuality(quality).outputFormat(format).toOutputStream(outputStream);
-            count++;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        InputStream trimInputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        int  trimSrcFileSize = 0;
-        try {
-            trimSrcFileSize = trimInputStream.available()/1024;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (count >= 3 || trimSrcFileSize <= sizeLimit) {
-            return trimInputStream;
-        }
-
-        return trimBySizeAndCountLimit(trimInputStream,quality,sizeLimit,count);
     }
 
     /**
