@@ -86,7 +86,7 @@ public class ImageController {
 
         String base64 = request.getBase64();
         InputStream inputStream = FileUtil.base64ToInputStream(base64);
-        inputStream = ImageUtil.trimBySizeLimit(inputStream,1,300);
+        inputStream = ImageUtil.trimByWidthAndHeight(inputStream,500,300,"jpg");
         String fileName = null;
         try {
             fileName = URLEncoder.encode(GenerateUniqueUtil.getUuId(), "UTF-8");
@@ -127,7 +127,7 @@ public class ImageController {
             ByteArrayInputStream[] byteArrayInputStreams = FileUtil.cloneInputStream(inputStream,2);
             log.info("before trimBySizeLimit");
 
-            InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
+            InputStream trimInputStream = ImageUtil.trimByWidthAndHeight(byteArrayInputStreams[0],500,300,"jpg");
             log.info("after trimBySizeLimit");
             FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\"+ GenerateUniqueUtil.getUuId() +".jpg");
             log.info("after toFile");
@@ -158,7 +158,7 @@ public class ImageController {
             ByteArrayInputStream[] byteArrayInputStreams = FileUtil.cloneInputStream(inputStream,2);
             log.info("before trimBySizeLimit");
 
-            InputStream trimInputStream = ImageUtil.trimBySizeLimit(byteArrayInputStreams[0],1,300);
+            InputStream trimInputStream = ImageUtil.trimByWidthAndHeight(byteArrayInputStreams[0],500,300,"jpg");
             log.info("after trimBySizeLimit");
             FileUtil.toFile(trimInputStream,"C:\\Users\\Achilles\\Desktop\\"+ GenerateUniqueUtil.getUuId() +".jpg");
             log.info("after toFile");
