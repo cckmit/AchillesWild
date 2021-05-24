@@ -2,6 +2,8 @@
 mvn dependency:sources
 mvn dependency:resolve -Dclassifier=javadoc
 
+查看冲突  dependency:tree -Dverbose
+
 ----------------setting.xml配置下载源码----------------------------
  <profiles>
 		<profile>
