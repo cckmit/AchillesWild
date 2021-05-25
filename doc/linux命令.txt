@@ -1,0 +1,57 @@
+rm -rf wheatfield    删除文件夹
+ps -ef|grep 'tomcat8-mtaegis-rop-8138'  查看进程	ps -ef|grep 'wheatfield'
+kill -9 进程号
+tail -500f wheatfield.log
+ps -aux|grep 20993    根据端口看进程号
+ sz filename  下载
+ rm filename  删除
+mv A B               将目录A重命名为B
+压缩 ： tar -cvf wheatfield_20160901_trans.tar wheatfield    tar -cvf wheatfield_20160226_Local_.tar wheatfield
+tar -cvf rop.tar rop
+解压 : 	tar -xvf rop.tar
+压缩 ： zip wheatfield.zip wheatfield
+解压 : unzip wheatfield.zip
+mkdir name   创建目录
+rz -by 复制本地项目到服务器
+vi filename  打开文件
+退出当前修改的文件：连按两次大写字母Z
+ which java   ch
+cat -n wheatfield.log|grep '要找的字符串' (-n显示行号)
+sed -n '599070,599098p' catalina.2016-06-12.out
+
+jdk安装后的目录：echo $JAVA_HOME；
+jdk的版本java -version；
+获得所安装后的jdk的版本，在bin目录下输入　./java -version
+
+—————————Redis——————————
+编译：
+	cd redis-5.0.7
+	make
+运行：
+	src/redis-server
+
+src/redis-cli
+
+-------------------mac---------------------------
+// 启动：
+sudo /usr/local/mysql/support-files/mysql.server start
+// 关闭
+sudo /usr/local/mysql/support-files/mysql.server stop
+
+进入   mysql -u root -p
+导出数据
+
+Administration Data Export
+
+
+
+　　Win + Q 快速打开搜索
+　　Win + I 快速打开Win10设置栏
+　Win键组合快捷键大全（Win7/8以及Win10通用）
+
+　　Win + ←：最大化窗口到左侧的屏幕上（与开始屏幕应用无关）
+
+　　Win + →：最大化窗口到右侧的屏幕上（与开始屏幕应用无关）
+
+　　Win+ ↑：最大化窗口（与开始屏幕应用无关）
+

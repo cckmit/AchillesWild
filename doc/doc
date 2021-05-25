@@ -1,0 +1,2 @@
+arp -a  获取路由器的MAC
+ipconfig /all
