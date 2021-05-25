@@ -1,3 +1,4 @@
+shutdown -s -t 7200
 arp -a  获取路由器的MAC
 ipconfig /all
 getmac
