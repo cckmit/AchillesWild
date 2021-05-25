@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,8 @@ public class ImageUtil {
     static String destPath = "C:\\Users\\Achilles\\Desktop\\test3.jpg";
 
     static String format = "jpg";
+
+    static String remoteUrl = "https://gamma-attendance1.obs.cn-north-4.myhuaweicloud.com:443/a/a/z.jpg?AccessKeyId=JS2GFAVBZJCMNWZ2GVEL&Expires=1621987461&Signature=kjb2sCGoZPJKtPU7XE6%2BVVKtodE%3D";
 
     public static void main(String[] args) {
 
@@ -34,10 +38,38 @@ public class ImageUtil {
 
 //        trimByWidthLimit(srcPath,destPath,500);
 
-        trimByWidthAndHeight( srcPath, destPath, 120,120);
+//        trimByWidthAndHeight( srcPath, destPath, 120,120);
+
+        downloadPicture( remoteUrl,destPath);
 
         System.out.println();
     }
+
+    public static void downloadPicture(String remoteUrl,String localPath) {
+        URL url = null;
+        try {
+            url = new URL(remoteUrl);
+            DataInputStream dataInputStream = new DataInputStream(url.openStream());
+
+            FileOutputStream fileOutputStream = new FileOutputStream(localPath);
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = dataInputStream.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+            fileOutputStream.write(output.toByteArray());
+            dataInputStream.close();
+            fileOutputStream.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void trimByWidthAndHeight(String srcPath,String destPath,int width,int height){
 
