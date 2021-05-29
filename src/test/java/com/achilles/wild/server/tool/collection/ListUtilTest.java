@@ -47,9 +47,20 @@ public class ListUtilTest {
         //list.add(1l);
         //list.add(2l);
         //List<Long> itemIdList = getCitizen().stream().filter(Objects::nonNull).map(var -> var.getId()).collect(Collectors.toList());
-        Map<Long, Citizen> map =  getCitizenMap1(getCitizen());
+//        Map<Long, Citizen> map =  getCitizenMap1(getCitizen());
+        Map<String,String> map = new HashMap<>();
+        map.put("key1","value1");
+        map.put("key2","value2");
+        printMap(map);
+//        System.out.println(map);
+    }
 
-        System.out.println(map);
+    public static void printMap(Map<String,String> map){
+        map.forEach((key,value)->{
+            System.out.println(key);
+            System.out.println(value);
+        });
+
     }
 
     private static Map<Long, Citizen> getCitizenMap(List<Citizen> list){
