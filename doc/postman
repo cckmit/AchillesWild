@@ -6,15 +6,26 @@ pm.globals.set("token", token);
 Ctrl+Alt+C，打开控制台
 
 #------------添加全局测试traceId(文件夹右键-edit-Pre-request Script)
+var moment = require("moment");
+var data = moment().format("YYYYMMDDHHmmssSSS");
+function  getUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+};
+var uuid = getUUID().replace(/-/g,"");
+pm.environment.set("traceId",data+"_"+uuid);
+console.log(pm.environment.get("traceId"));
+
+var moment = require("moment");
+var data = moment().format("YYYYMMDDHHmmssSSS");
+pm.environment.set("traceId",data+"_postman");
+console.log(pm.environment.get("traceId"));
+
 pm.environment.set("random",Math.round(new Date().getTime()));
 console.log(pm.environment.get("random"));
 var moment = require("moment");
 var data = moment().format(" YYYY-MM-DD HH:mm:ss");
 pm.environment.set("now",data);
 console.log(pm.environment.get("now"));
-
-
-var moment = require("moment");
-var data = moment().format("YYYYMMDDHHmmssSSS");
-pm.environment.set("traceId",data+"_postman");
-console.log(pm.environment.get("traceId"));
