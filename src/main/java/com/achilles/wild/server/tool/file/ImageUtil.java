@@ -1,6 +1,5 @@
 package com.achilles.wild.server.tool.file;
 
-import com.achilles.wild.server.business.controller.demo.ImageController;
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 public class ImageUtil {
 
-    private final static Logger log = LoggerFactory.getLogger(ImageController.class);
+    private final static Logger log = LoggerFactory.getLogger(ImageUtil.class);
 
     static String srcPath = "C:\\Users\\Achilles\\Desktop\\photo\\619.jpg";
 //    static String srcPath = "C:\\Users\\Achilles\\Desktop\\test2.jpg";

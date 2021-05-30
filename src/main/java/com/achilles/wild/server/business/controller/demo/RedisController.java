@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/cache", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CacheController {
+public class RedisController {
 
-    private final static Logger log = LoggerFactory.getLogger(CacheController.class);
+    private final static Logger log = LoggerFactory.getLogger(RedisController.class);
 
     @Autowired
     private RedisTemplate<String, Serializable> serializableRedisTemplate;
