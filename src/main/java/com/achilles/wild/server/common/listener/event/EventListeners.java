@@ -1,9 +1,8 @@
 package com.achilles.wild.server.common.listener.event;
 
-import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.business.manager.common.LogExceptionInfoManager;
 import com.achilles.wild.server.business.manager.common.LogFilterInfoManager;
-import com.achilles.wild.server.entity.common.LogTimeInfo;
+import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.entity.common.LogExceptionInfo;
 import com.achilles.wild.server.entity.common.LogFilterInfo;
 import com.achilles.wild.server.tool.json.JsonUtil;
@@ -28,21 +27,6 @@ public class EventListeners {
 
     @Autowired
     private LogTimeInfoManager logTimeInfoManager;
-
-
-    @EventListener
-    public void addLogBizInfoEvent(LogBizInfoEvent event) {
-
-        if (event.getSource()==null){
-            return;
-        }
-
-        LogTimeInfo logTimeInfo = (LogTimeInfo) event.getSource();
-        log.debug("--------insert LogBizInfo into DB------"+ JsonUtil.toJsonString(logTimeInfo));
-        logTimeInfoManager.addLog(logTimeInfo);
-
-
-    }
 
     @EventListener
     public void addLogFilterEvent(LogFilterInfoEvent event) {

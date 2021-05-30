@@ -125,7 +125,6 @@ public class LogDaoAspect {
 
         messageModelRingBuffer.publish(sequence);
 
-        //applicationContext.publishEvent(new LogBizInfoEvent(logBizInfo));
 
 //        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
 //        log.debug(PREFIX +"#---------dao add to queue success : "+add);
