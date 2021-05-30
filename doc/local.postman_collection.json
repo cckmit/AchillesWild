@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"wild@qq.com\",\r\n    \"password\":\"root\"\r\n}",
+							"raw": "{\r\n    \"email\": \"AchillesWild@qq.com\",\r\n    \"password\":\"root\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -65,7 +65,13 @@
 					"name": "caffeine get",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/cache/caffeine/set/wild",
 							"host": [
@@ -237,6 +243,24 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "getImage",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/image/getImage",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"image",
+										"getImage"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -394,30 +418,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "demo get",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "traceId",
-								"value": "{{traceId}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/demo/12",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"demo",
-								"12"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -546,6 +546,11 @@
 								"key": "traceId",
 								"value": "{{traceId}}",
 								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -637,7 +642,14 @@
 				"exec": [
 					"var moment = require(\"moment\");",
 					"var data = moment().format(\"YYYYMMDDHHmmssSSS\");",
-					"pm.environment.set(\"traceId\",data+\"_postman\");",
+					"function  getUUID() {",
+					"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+					"        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);",
+					"        return v.toString(16);",
+					"    });",
+					"};",
+					"var uuid = getUUID().replace(/-/g,\"\");",
+					"pm.environment.set(\"traceId\",data+\"_\"+uuid);",
 					"console.log(pm.environment.get(\"traceId\"));"
 				]
 			}

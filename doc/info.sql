@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-03-17 00:05:57
+Date: 2021-05-31 00:26:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -401,7 +401,7 @@ CREATE TABLE `log_exception_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1175 DEFAULT CHARSET=utf8 COMMENT='异常日志';
 
 -- ----------------------------
 -- Records of log_exception_info
@@ -427,10 +427,32 @@ CREATE TABLE `log_time_info` (
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=10960 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
 
 -- ----------------------------
 -- Records of log_time_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for temp_image
+-- ----------------------------
+DROP TABLE IF EXISTS `temp_image`;
+CREATE TABLE `temp_image` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) NOT NULL COMMENT 'uuid',
+  `biz_uuid` varchar(32) NOT NULL COMMENT 'biz_uuid',
+  `image` mediumblob NOT NULL COMMENT 'image',
+  `url` varchar(32) NOT NULL COMMENT 'url',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  KEY `uuid` (`uuid`),
+  KEY `biz_uuid` (`biz_uuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='临时图片表';
+
+-- ----------------------------
+-- Records of temp_image
 -- ----------------------------
 
 -- ----------------------------
@@ -457,7 +479,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '97a87026d8a4475a9679bb03e305cbaf', 'AchillesWild', 'A699E23DD2179DBB3A705BD652AA3C06', 'wild@qq.com', null, '0', null, '0', '0', '1', '2021-02-12 18:28:46', '2021-02-12 18:32:30');
+INSERT INTO `user` VALUES ('1', '97a87026d8a4475a9679bb03e305cbaf', 'AchillesWild', '63a9f0ea7bb98050796b649e85481845', 'AchillesWild@qq.com', null, '0', null, '0', '0', '1', '2021-02-12 18:28:46', '2021-05-30 11:10:05');
 
 -- ----------------------------
 -- Table structure for user_detail
@@ -488,10 +510,12 @@ CREATE TABLE `user_token` (
   `token` varchar(50) NOT NULL COMMENT 'token',
   `terminal_id` varchar(50) DEFAULT NULL COMMENT '终端id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
+  `expiration_time` datetime NOT NULL COMMENT '过期时间',
+  PRIMARY KEY (`id`),
+  KEY `token` (`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='token记录表';
 
 -- ----------------------------
 -- Records of user_token
