@@ -32,7 +32,7 @@ public class GlobalControllerExceptionAdvice {
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
         log.error(JsonUtil.toJsonString(e));
-        BaseResult baseResult = BaseResult.fail(e.getResultCode());
+        BaseResult baseResult = BaseResult.fail(e.getCode(),e.getMessage());
         return baseResult;
     }
 

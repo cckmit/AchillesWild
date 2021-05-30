@@ -4,10 +4,12 @@ import com.achilles.wild.server.business.biz.user.UserBiz;
 import com.achilles.wild.server.business.manager.user.UserManager;
 import com.achilles.wild.server.business.manager.user.UserTokenManager;
 import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.user.User;
 import com.achilles.wild.server.entity.user.UserToken;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.UserResultCode;
+import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.encrypt.MD5Util;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,7 @@ public class UserBizImpl implements UserBiz {
 
     @Autowired
     private UserTokenManager userTokenManager;
+
 
     @Override
     public DataResult<String> login(String email,String password) {
@@ -47,6 +50,7 @@ public class UserBizImpl implements UserBiz {
         UserToken userToken = new UserToken();
         userToken.setUserUuid(user.getUuid());
         userToken.setToken(GenerateUniqueUtil.getUuId());
+        userToken.setExpirationTime(DateUtil.getDateByAddMill(CommonConstant.TOKEN_EXPIRATION_TIME));
         userTokenManager.addTokenRecord(userToken);
 
         return DataResult.success(userToken.getToken());

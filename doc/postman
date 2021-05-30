@@ -1,11 +1,11 @@
-//Tests 添加,把登录接口返回的token设置为全局变量
+#------------添加,把登录接口返回的token设置为全局变量(Tests页签下)
 var data=JSON.parse(responseBody);
 var token=data.data.token;
 pm.globals.set("token", token);
 
 Ctrl+Alt+C，打开控制台
 
-
+#------------添加全局测试traceId(文件夹右键-edit-Pre-request Script)
 pm.environment.set("random",Math.round(new Date().getTime()));
 console.log(pm.environment.get("random"));
 var moment = require("moment");

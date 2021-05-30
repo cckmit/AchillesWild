@@ -12,7 +12,7 @@ public class MD5Util {
 
 	public static void main(String args[]) {
 
-		String md5 = get("Achilles");
+		String md5 = get("root");
 		System.out.println(md5);
 	}
 

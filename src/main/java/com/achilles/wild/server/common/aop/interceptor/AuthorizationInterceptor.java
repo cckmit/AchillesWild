@@ -24,7 +24,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
-    @Value("${if.verify.login:false}")
+    @Value("${if.verify.login:true}")
     private Boolean verifyLogin;
 
     @Autowired
@@ -47,21 +47,22 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         log.debug("------------------------------------token:"+ token);
 
         if(StringUtils.isBlank(token)){
-            throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
+            throw new BizException(UserResultCode.NOT_LOGIN);
         }
 
         UserToken userToken = userTokenManager.getByToken(token);
         if(userToken ==null){
-            throw new BizException(UserResultCode.NOT_LOGIN.code,UserResultCode.NOT_LOGIN.message);
+            throw new BizException(UserResultCode.NOT_LOGIN);
         }
-        int seconds = DateUtil.getGapSeconds(userToken.getUpdateDate());
-        if(seconds>1800){
-            throw new BizException(UserResultCode.LOGIN_EXPIRED.code,UserResultCode.LOGIN_EXPIRED.message);
+
+        if(DateUtil.getCurrentDate().after(userToken.getExpirationTime())){
+            throw new BizException(UserResultCode.LOGIN_EXPIRED);
         }
 
         UserToken userTokenUpdate = new UserToken();
         userTokenUpdate.setId(userToken.getId());
-        Boolean update = userTokenManager.updateById(userToken);
+        userTokenUpdate.setExpirationTime(DateUtil.getDateByAddMill(CommonConstant.TOKEN_EXPIRATION_TIME));
+        Boolean update = userTokenManager.updateById(userTokenUpdate);
         if(!update){
             throw new Exception("update token time fail");
         }

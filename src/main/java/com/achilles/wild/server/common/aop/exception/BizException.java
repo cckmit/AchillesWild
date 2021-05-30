@@ -1,6 +1,7 @@
 package com.achilles.wild.server.common.aop.exception;
 
 import com.achilles.wild.server.model.response.code.BaseResultCode;
+import com.achilles.wild.server.model.response.code.UserResultCode;
 
 public class BizException extends RuntimeException{
 
@@ -9,6 +10,8 @@ public class BizException extends RuntimeException{
     private String message;
 
     private BaseResultCode baseResultCode;
+
+    private UserResultCode userResultCode;
 
 
     public String getCode() {
@@ -31,6 +34,14 @@ public class BizException extends RuntimeException{
 
     public BizException(BaseResultCode baseResultCode) {
         this.baseResultCode = baseResultCode;
+        this.code = baseResultCode.code;
+        this.message = baseResultCode.message;
+    }
+
+    public BizException(UserResultCode userResultCode) {
+        this.userResultCode = userResultCode;
+        this.code = userResultCode.code;
+        this.message = userResultCode.message;
     }
 
     public BizException(String code, String message) {
@@ -41,4 +52,5 @@ public class BizException extends RuntimeException{
     public BaseResultCode getResultCode() {
         return baseResultCode;
     }
+
 }

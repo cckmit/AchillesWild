@@ -2,6 +2,8 @@ package com.achilles.wild.server.entity.user;
 
 import com.achilles.wild.server.entity.BaseEntity;
 
+import java.util.Date;
+
 public class UserToken extends BaseEntity {
 
     private String userUuid;
@@ -9,6 +11,8 @@ public class UserToken extends BaseEntity {
     private String token;
 
     private String terminalId;
+
+    private Date expirationTime;
 
     public String getUserUuid() {
         return userUuid;
@@ -32,5 +36,13 @@ public class UserToken extends BaseEntity {
 
     public void setTerminalId(String terminalId) {
         this.terminalId = terminalId;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Date expirationTime) {
+        this.expirationTime = expirationTime;
     }
 }

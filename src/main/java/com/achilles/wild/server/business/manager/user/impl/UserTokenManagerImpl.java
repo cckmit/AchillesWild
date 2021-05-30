@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +22,9 @@ public class UserTokenManagerImpl implements UserTokenManager {
 
         Assert.notNull(userToken,"token can not be null");
 
+        userToken.setStatus(StatusEnum.NORMAL.toNumbericValue());
+        userToken.setCreateDate(new Date());
+        userToken.setUpdateDate(new Date());
         int insert = tokenRecordDao.insertSelective(userToken);
         if (insert==1){
             return true;
@@ -47,6 +51,7 @@ public class UserTokenManagerImpl implements UserTokenManager {
 
         Assert.notNull(userToken.getId()," TokenRecord id can not be null");
 
+        userToken.setUpdateDate(new Date());
         int update = tokenRecordDao.updateByPrimaryKeySelective(userToken);
         if(update==1){
             return true;
