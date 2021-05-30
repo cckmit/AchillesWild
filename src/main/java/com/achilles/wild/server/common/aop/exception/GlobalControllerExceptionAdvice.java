@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(basePackages = "com.achilles.wild.server.business.controller")
-@Order(5)
+@Order(0)
 @Slf4j
 public class GlobalControllerExceptionAdvice {
 
