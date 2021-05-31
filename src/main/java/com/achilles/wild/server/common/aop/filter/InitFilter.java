@@ -32,7 +32,7 @@ public class InitFilter implements Filter {
 
     private String loginUri;
 
-    @Value("${if.verify.trace.id:false}")
+    @Value("${if.verify.trace.id:true}")
     Boolean verifyTraceId;
 
     @Value("${filter.log.time.insert.db.open:true}")
@@ -173,12 +173,9 @@ public class InitFilter implements Filter {
         }
 
         int seconds = DateUtil.getGapSeconds(submitDate);
-        if(seconds>300){
+        if(seconds>300000){
             throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXPIRED.code,BaseResultCode.TRACE_ID_CONTENT_EXPIRED.message);
         }
 
-        if(seconds<-5){
-            throw new BizException(BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT.code,BaseResultCode.TRACE_ID_CONTENT_EXCEED_CURRENT.message);
-        }
     }
 }

@@ -2,7 +2,6 @@ package com.achilles.wild.server.business.controller.account;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.business.service.account.BalanceService;
-import com.achilles.wild.server.common.aop.interceptor.NoCheckToken;
 import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
 import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
@@ -28,10 +27,11 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-    @NoCheckToken
     @CommonQpsLimit(permitsPerSecond = 100)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
+
+        log.info("getBalance userId : {}  ",userId);
 
         BalanceResponse response = new BalanceResponse();
 

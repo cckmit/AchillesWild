@@ -24,7 +24,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
-    @Value("${if.verify.login:false}")
+    @Value("${if.verify.login:true}")
     private Boolean verifyLogin;
 
     @Autowired
@@ -44,7 +44,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }
 
         String token = request.getHeader(CommonConstant.TOKEN);
-        log.debug("------------------------------------token:"+ token);
+        log.debug("------------------token:" + token);
 
         if(StringUtils.isBlank(token)){
             throw new BizException(UserResultCode.NOT_LOGIN);

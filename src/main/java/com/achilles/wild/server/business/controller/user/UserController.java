@@ -8,6 +8,8 @@ import com.achilles.wild.server.model.request.user.UserRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.code.UserResultCode;
 import com.achilles.wild.server.model.response.user.UserResponse;
+import com.achilles.wild.server.tool.json.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user",produces = {"application/json;charset=UTF-8"})
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -27,12 +30,12 @@ public class UserController {
     @PostMapping("/login")
     public DataResult<UserResponse> login(@RequestBody(required = true) UserRequest request){
 
-        UserResponse response = new UserResponse();
+        log.info("login -----------------  " + JsonUtil.toJsonString(request));
 
         String email = request.getEmail();
         String password = request.getPassword();
         if (StringUtils.isBlank(email) || StringUtils.isBlank(password)){
-            throw new BizException(UserResultCode.EMAIL_PASSWORD_IS_NECESSARY.code,UserResultCode.EMAIL_PASSWORD_IS_NECESSARY.message);
+            throw new BizException(UserResultCode.EMAIL_PASSWORD_IS_NECESSARY);
         }
 
         DataResult<String> dataResult = userBiz.login(email,password);
