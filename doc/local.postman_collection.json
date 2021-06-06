@@ -38,7 +38,13 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"email\": \"AchillesWild@qq.com\",\r\n    \"password\":\"root\"\r\n}",
