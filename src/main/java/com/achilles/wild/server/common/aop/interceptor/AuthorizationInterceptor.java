@@ -41,13 +41,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         String servletPath = request.getServletPath();
         log.debug("--------------------------servletPath : {}",servletPath);
 
-        HandlerMethod method = null;
-        if (handler instanceof HandlerMethod) {
-             method = (HandlerMethod) handler;
-        } else if (handler instanceof ResourceHttpRequestHandler) {
+        // 404
+        if (handler instanceof ResourceHttpRequestHandler) {
+            log.debug("----------404--------handler : " + handler);
             return true;
         }
-
+        HandlerMethod method = (HandlerMethod) handler;
         NoCheckToken noCheckToken = method.getMethodAnnotation(NoCheckToken.class);
         if (noCheckToken !=null && noCheckToken.value()){
             return true;
