@@ -2,7 +2,6 @@ package com.achilles.wild.server.business.controller.account;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.business.service.account.BalanceService;
-import com.achilles.wild.server.common.aop.limit.annotation.CommonQpsLimit;
 import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
@@ -27,7 +26,7 @@ public class BalanceController {
     @Resource
     private BalanceService balanceService;
 
-    @CommonQpsLimit(permitsPerSecond = 100)
+//    @CommonQpsLimit(permitsPerSecond = 100)
     @GetMapping("/get/{userId}")
     public DataResult<BalanceResponse> getBalance(@PathVariable("userId") String userId){
 

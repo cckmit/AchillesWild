@@ -118,7 +118,7 @@
 		</filter>
 	</appender>
 
-	<root level="debug">
+	<root level="info">
 		<!-- log just show in console-->
 		<appender-ref ref="CONSOLE" />
 		<!-- if you need to create files,open them below -->
