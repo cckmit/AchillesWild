@@ -11,15 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
+@Controller
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final static Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
@@ -37,7 +38,16 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        HandlerMethod method = (HandlerMethod) handler;
+        String servletPath = request.getServletPath();
+        log.debug("--------------------------servletPath : {}",servletPath);
+
+        HandlerMethod method = null;
+        if (handler instanceof HandlerMethod) {
+             method = (HandlerMethod) handler;
+        } else if (handler instanceof ResourceHttpRequestHandler) {
+            return true;
+        }
+
         NoCheckToken noCheckToken = method.getMethodAnnotation(NoCheckToken.class);
         if (noCheckToken !=null && noCheckToken.value()){
             return true;
@@ -72,6 +82,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+        int status = response.getStatus();
+        log.debug("-------------------------status : {}",status);
+
+
+//        if(status == 404){
+//            modelAndView.setViewName("/error/404");
+//        }
 
     }
 

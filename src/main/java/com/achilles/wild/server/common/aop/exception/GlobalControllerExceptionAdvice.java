@@ -29,6 +29,30 @@ public class GlobalControllerExceptionAdvice {
 //        return baseResult;
 //    }
 
+    /***
+     * 404处理
+     * @param e
+     * @return
+     */
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(NoHandlerFoundException.class)
+//    public void notFountHandler(HttpServletRequest request, HttpServletResponse response, Model model, NoHandlerFoundException e) throws IOException, JSONException {
+//        JSONObject json = new JSONObject();
+//        json.put("code", 500);
+//        json.put("content", null);
+//        json.put("msg", "未找到路径："+request.getServletPath());
+//        output(json,request,response);
+//    }
+//
+//    public void output(Object json, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        String header = request.getHeader("Origin");
+//        response.setContentType("application/json;charset=UTF-8;");
+//        PrintWriter out = response.getWriter();
+//        out.println(json);
+//        out.flush();
+//        out.close();
+//    }
+
     @ExceptionHandler(value = BizException.class)
     public BaseResult bizExceptionHandler(BizException e) throws Exception {
         log.error(JsonUtil.toJsonString(e));
