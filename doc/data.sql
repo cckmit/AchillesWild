@@ -15,6 +15,10 @@ DELETE from citizen_detail;
 DELETE from log_time_info;
 DELETE from log_exception_info;
 
+SELECT COUNT(*) from log_time_info;
+SELECT * from log_time_info ORDER BY time desc;
+
+
 
 DELETE from user_token;
 

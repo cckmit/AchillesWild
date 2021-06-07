@@ -30,11 +30,11 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 
     private Date lastUpdateTime;
 
-    private final Integer batchSize = 5;
+    private final Integer batchSize = 500;
 
-    private final Integer rate = 1;
+    private final Integer rate = 5;
 
-    private final Integer expiredTime = 2;
+    private final Integer expiredTime = 5;
 
     private LogTimeInfoManager getLogTimeInfoManager() {
         if (logTimeInfoManager != null){
@@ -66,22 +66,21 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
         if (threadState==null){
             doIt();
         }
-
         logTimeInfoList.add(logTimeInfo);
         lastUpdateTime = DateUtil.getCurrentDate();
         if (logTimeInfoList.size() != batchSize){
             return;
         }
         try {
-            synchronized (logTimeInfoList){
+//            synchronized (logTimeInfoList){
                 if (logTimeInfoList.size() != batchSize) {
                     return;
                 }
                 getLogTimeInfoManager().addLogs(logTimeInfoList);
                 logTimeInfoList.clear();
                 lastUpdateTime = DateUtil.getCurrentDate();
-
-            }
+//
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             log.error("----------------------------insert into db error-------------------------");
@@ -115,14 +114,14 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
             }
 
             try {
-                synchronized (logTimeInfoList){
+//                synchronized (logTimeInfoList){
                     if (logTimeInfoList.size() == 0) {
                         return;
                     }
                     getLogTimeInfoManager().addLogs(logTimeInfoList);
                     logTimeInfoList.clear();
                     lastUpdateTime = DateUtil.getCurrentDate();
-                }
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
