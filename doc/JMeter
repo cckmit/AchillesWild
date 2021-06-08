@@ -1,0 +1,10 @@
+"token":"(.+?)"
+
+$1$
+
+${__setProperty(token,${token},)}
+
+
+
+Content-Type    application/json;charset=UTF-8
+token           ${__property(token)}

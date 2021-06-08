@@ -3,6 +3,7 @@ package com.achilles.wild.server.other.queue.disruptor;
 import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.SpringContextUtil;
+import com.achilles.wild.server.tool.bean.BeanUtil;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -49,17 +50,19 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
     private Thread.State threadState;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("-----afterPropertiesSet------");
-    }
-
-    @Override
     public void onEvent(LogTimeInfo logTimeInfo, long sequence, boolean endOfBatch) {
 
-        log.debug("consumer ----- sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
+        log.debug("disruptor consumer ----- sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
+        log.debug("disruptor getObjectSize:"+ BeanUtil.getObjectSize(logTimeInfo));
+
+//        try {
+//            Thread.sleep(15000L);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         if (logTimeInfo == null) {
-            log.error("----------------------------空消息-------------------------sequence:"+sequence);
+            log.error("disruptor consumer null sequence : "+sequence);
             return;
         }
 
@@ -72,24 +75,22 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
             return;
         }
         try {
-//            synchronized (logTimeInfoList){
+            synchronized (logTimeInfoList){
+
                 if (logTimeInfoList.size() != batchSize) {
                     return;
                 }
+
+                log.debug("disruptor consumer event batch insert size : " + logTimeInfoList.size());
+
                 getLogTimeInfoManager().addLogs(logTimeInfoList);
                 logTimeInfoList.clear();
                 lastUpdateTime = DateUtil.getCurrentDate();
-//
-//            }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("----------------------------insert into db error-------------------------");
+            log.error("-----disruptor consumer event batch insert error :"+e.getMessage());
         }
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        log.info("-----destroy------");
     }
 
     private void doIt(){
@@ -100,10 +101,9 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 
         log.debug("-----Disruptor--consumer   task -start-------");
 
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("disruptor_consumer_task_%d").build());
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("disruptor_consumer_task_%d").build());
 
-        service.scheduleAtFixedRate(()->{
+        executor.scheduleAtFixedRate(()->{
 
             threadState = Thread.currentThread().getState();
             if (DateUtil.getGapSeconds(lastUpdateTime) <= expiredTime){
@@ -114,20 +114,34 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
             }
 
             try {
-//                synchronized (logTimeInfoList){
+                synchronized (logTimeInfoList){
+
                     if (logTimeInfoList.size() == 0) {
                         return;
                     }
+
+                    log.debug("disruptor consumer task batch insert size : " + logTimeInfoList.size());
+
                     getLogTimeInfoManager().addLogs(logTimeInfoList);
                     logTimeInfoList.clear();
                     lastUpdateTime = DateUtil.getCurrentDate();
-//                }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("-----Disruptor--consumer   task--- :"+e.getMessage());
+                log.error("-----disruptor consumer task batch insert error :"+e.getMessage());
             }
 
         }, 0, rate, TimeUnit.SECONDS);
     }
 
+
+    @Override
+    public void destroy() throws Exception {
+        log.info("-----destroy------");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("-----afterPropertiesSet------");
+    }
 }
