@@ -52,6 +52,10 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
     @Override
     public void onEvent(LogTimeInfo logTimeInfo, long sequence, boolean endOfBatch) {
 
+//        if (logTimeInfo!=null){
+//            return;
+//        }
+
         log.debug("disruptor consumer ----- sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
         log.debug("disruptor getObjectSize:"+ BeanUtil.getObjectSize(logTimeInfo));
 

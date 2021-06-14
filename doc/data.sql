@@ -37,3 +37,12 @@ update account_inter set balance=10000,version=0 where user_id='Achilles' limit 
 select *from account_transaction_flow_inter order by id desc;
 select count(*) from account_transaction_flow_inter;
 delete from account_transaction_flow_inter where id <100000;
+
+--------------------------------------------------------------------
+show variables like "%max_connections%";
+
+set global max_connections = 10000
+
+set global mysqlx_max_connections = 10000
+
+SELECT  VERSION()
