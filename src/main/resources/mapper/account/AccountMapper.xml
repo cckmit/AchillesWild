@@ -33,14 +33,14 @@
 
   <select id="selectBalanceByCodes" parameterType="java.util.Map"  resultMap="BaseResultMap">
     select
-        accountCode,
+        account_code,
         balance
     from
         account
     <where>
       <if test="accountCodes != null and accountCodes.size()>0">
           AND account_code in
-          <foreach collection="accountCodes" index="index" item="accountCode" open="("  separator="or" close=")">
+          <foreach collection="accountCodes" index="index" item="accountCode" open="("  separator="," close=")">
                #{accountCode}
           </foreach>
       </if>
@@ -54,7 +54,8 @@
   <select id="selectCount" parameterType="com.achilles.wild.server.model.query.account.AccountQuery" resultType="java.lang.Long">
     select
         COUNT(*)
-    from account
+    from
+        account
     <where>
       <if test="userId != null and userId!=''">
         AND user_id = #{userId,jdbcType=VARCHAR}
