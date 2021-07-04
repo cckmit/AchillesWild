@@ -38,7 +38,7 @@ public class BalanceServiceImpl implements BalanceService {
 
 
     @Override
-    public DataResult<String> consumeUserBalance(Account account,BalanceRequest request) {
+    public String consumeUserBalance(Account account,BalanceRequest request) {
 
         Assert.state(account != null,"account can not be null !");
         if(!checkParam(request)){
@@ -57,7 +57,7 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlow.setIdempotent(request.getKey());
         accountTransactionFlow.setAmount(request.getAmount());
         accountTransactionFlow.setTradeDate(request.getTradeDate());
-        accountTransactionFlow.setVersion(account.getVersion()+1);
+        accountTransactionFlow.setVersion(account.getVersion() + 1);
         accountTransactionFlow.setType(AmountFlowEnum.MINUS.toNumbericValue());
 
         boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
@@ -65,7 +65,7 @@ public class BalanceServiceImpl implements BalanceService {
             throw new RuntimeException("consumeUserBalance insert user account reduce flow fail");
         }
 
-        return DataResult.success(accountTransactionFlow.getFlowNo());
+        return accountTransactionFlow.getFlowNo();
     }
 
     @Override

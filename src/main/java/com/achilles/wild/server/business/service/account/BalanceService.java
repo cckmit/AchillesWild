@@ -9,7 +9,7 @@ import com.achilles.wild.server.model.response.DataResult;
  */
 public interface BalanceService {
 
-    DataResult<String> consumeUserBalance(Account account, BalanceRequest request);
+    String consumeUserBalance(Account account, BalanceRequest request);
 
     DataResult<String> addInterBalance(BalanceRequest request);
 

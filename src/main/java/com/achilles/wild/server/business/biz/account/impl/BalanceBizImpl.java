@@ -42,7 +42,7 @@ public class BalanceBizImpl implements BalanceBiz {
     @Autowired
     AccountManager accountManager;
 
-    private static Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.SECONDS).build();
+    private static Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.HOURS).build();
 
 
     @Override
@@ -60,16 +60,14 @@ public class BalanceBizImpl implements BalanceBiz {
         String key = request.getKey();
         String flowNo =  keyCache.getIfPresent(key);
         if(flowNo!=null){
-            Long balance = balanceService.getBalance(request.getUserId());
-            response.setBalance(balance);
+            response.setBalance(balanceService.getBalance(request.getUserId()));
             response.setFlowNo(flowNo);
             return DataResult.success(response);
         }
 
         flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
         if(flowNo!=null){
-            Long balance = balanceService.getBalance(request.getUserId());
-            response.setBalance(balance);
+            response.setBalance(balanceService.getBalance(request.getUserId()));
             response.setFlowNo(flowNo);
             keyCache.put(key,flowNo);
             return DataResult.success(response);
@@ -80,11 +78,13 @@ public class BalanceBizImpl implements BalanceBiz {
             throw new BizException(AccountResultCode.BALANCE_NOT_ENOUGH);
         }
 
-        DataResult<String> dataResult = balanceService.consumeUserBalance(account,request);
-        if(dataResult ==null || !dataResult.isSuccess()){
+        flowNo = balanceService.consumeUserBalance(account,request);
+        if(StringUtils.isEmpty(flowNo)){
             throw new RuntimeException(" consumeUserBalance  fail");
         }
-        response.setFlowNo(dataResult.getData());
+
+        keyCache.put(key,flowNo);
+        response.setFlowNo(flowNo);
         Long balance = accountManager.getUserBalanceById(account.getId());
         response.setBalance(balance);
 
