@@ -8,6 +8,7 @@ import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
+import com.achilles.wild.server.tool.json.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,8 @@ public class BalanceController {
 
     @PostMapping("/reduce")
     public DataResult<BalanceResponse> reduce(@RequestBody BalanceRequest request){
+
+        log.info("getBalance request : {}  ", JsonUtil.toJson(request));
 
         if(!checkParam(request)){
             throw new BizException(BaseResultCode.ILLEGAL_PARAM);
