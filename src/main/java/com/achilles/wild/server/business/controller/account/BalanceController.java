@@ -47,7 +47,7 @@ public class BalanceController {
     @PostMapping("/reduce")
     public DataResult<BalanceResponse> reduce(@RequestBody BalanceRequest request){
 
-        log.info("getBalance request : {}  ", JsonUtil.toJson(request));
+        log.info("reduce request : {}  ", JsonUtil.toJson(request));
 
         if(!checkParam(request)){
             throw new BizException(BaseResultCode.ILLEGAL_PARAM);

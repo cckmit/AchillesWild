@@ -57,7 +57,7 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlow.setIdempotent(request.getKey());
         accountTransactionFlow.setAmount(request.getAmount());
         accountTransactionFlow.setTradeDate(request.getTradeDate());
-        accountTransactionFlow.setVersion(account.getVersion() + 1);
+        accountTransactionFlow.setVersion(account.getVersion());
         accountTransactionFlow.setType(AmountFlowEnum.MINUS.toNumbericValue());
 
         boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
