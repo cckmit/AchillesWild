@@ -28,7 +28,7 @@ public class AccountAtomManagerImpl implements AccountAtomManager {
     @Override
     public Account getPayAccount(String userId,Long amount) {
 
-        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null !");
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null !");
         Assert.state(amount != null && amount > 0,"amount is illegal !");
 
         List<Account> accounts = accountDao.selectBalanceByLimit(userId, AccountTypeEnum.PAY_ACCOUNT.toNumbericValue(),amount,1);

@@ -1,14 +1,16 @@
 package com.achilles.wild.server.business.manager.account.impl;
 
-import javax.annotation.Resource;
-
-import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountTransactionFlowDao;
-import com.achilles.wild.server.entity.account.AccountTransactionFlow;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
+import com.achilles.wild.server.common.constans.AccountConstant;
+import com.achilles.wild.server.entity.account.AccountTransactionFlow;
 import com.achilles.wild.server.tool.date.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 @Service
 public class AccountTransactionFlowManagerImpl implements AccountTransactionFlowManager {
@@ -20,14 +22,14 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
     @Override
     public boolean addFlow(AccountTransactionFlow accountTransactionFlow) {
 
-        if(accountTransactionFlow==null){
-            return false;
-        }
+        Assert.state(accountTransactionFlow != null,"accountTransactionFlow can not be null !");
 
         String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
         accountTransactionFlow.setFlowNo(flowNo);
         Integer tradeDay = DateUtil.getIntDateFormat(DateUtil.FORMAT_YYYYMMDD,accountTransactionFlow.getTradeDate());
         accountTransactionFlow.setTradeDay(tradeDay);
+        accountTransactionFlow.setCreateDate(new Date());
+        accountTransactionFlow.setUpdateDate(new Date());
         int insert = accountTransactionFlowDao.insertSelective(accountTransactionFlow);
         if(insert==0){
             return false;

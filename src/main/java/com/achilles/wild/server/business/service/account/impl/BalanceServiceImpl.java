@@ -136,7 +136,7 @@ public class BalanceServiceImpl implements BalanceService {
     @Override
     public Long getBalance(String userId) {
 
-        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null");
 
         return accountManager.getUserBalance(userId);
     }

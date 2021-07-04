@@ -159,7 +159,7 @@ public class AccountManagerImpl implements AccountManager {
     @Override
     public Long getUserBalance(String userId) {
 
-        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null");
 
         Long balance = accountDao.selectUserBalance(userId,StatusEnum.NORMAL.toNumbericValue());
 
@@ -177,7 +177,7 @@ public class AccountManagerImpl implements AccountManager {
     @Override
     public Account getUserAccount(String userId) {
 
-        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null");
 
         Account account = accountDao.selectAccountByUserId(userId,StatusEnum.NORMAL.toNumbericValue());
 

@@ -49,8 +49,10 @@ public class BalanceBizImpl implements BalanceBiz {
     @Transactional(rollbackForClassName ="Exception")
     public DataResult<BalanceResponse> reduce(BalanceRequest request) {
 
-        if(StringUtils.isNotBlank(request.getTradeDateStr())){
+        if(StringUtils.isNotEmpty(request.getTradeDateStr())){
             request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
+        } else {
+            request.setTradeDate(new Date());
         }
 
         // todo 幂等
