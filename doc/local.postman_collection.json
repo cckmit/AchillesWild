@@ -424,6 +424,70 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "swagger",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"345353\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/swagger/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"swagger",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "async",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/demo/async",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"demo",
+								"async"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -503,7 +567,13 @@
 					"name": "aop limit",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "traceId",
+								"value": "{{traceId}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/flow/limit/aop/13",
 							"host": [
@@ -589,15 +659,21 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"wild\",\r\n    \"key\": \"{{traceId}}\",\r\n    \"amount\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/achilles/balance/reduce",
-							"protocol": "http",
+							"raw": "{{host}}/balance/reduce",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8080",
 							"path": [
-								"achilles",
 								"balance",
 								"reduce"
 							]
@@ -623,12 +699,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/balance/add",
-							"protocol": "http",
+							"raw": "{{host}}/balance/add",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8080",
 							"path": [
 								"balance",
 								"add"
@@ -655,7 +729,8 @@
 					"    });",
 					"};",
 					"var uuid = getUUID().replace(/-/g,\"\");",
-					"pm.environment.set(\"traceId\",data+\"_\"+uuid);",
+					"// pm.environment.set(\"traceId\",data+\"_\"+uuid);",
+					"pm.environment.set(\"traceId\",uuid);",
 					"console.log(pm.environment.get(\"traceId\"));"
 				]
 			}
