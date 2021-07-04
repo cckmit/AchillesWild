@@ -47,7 +47,7 @@ public class BalanceBizImpl implements BalanceBiz {
 
     @Override
     @Transactional(rollbackForClassName ="Exception")
-    public DataResult<BalanceResponse> reduce(BalanceRequest request) {
+    public BalanceResponse reduce(BalanceRequest request) {
 
         if(StringUtils.isNotEmpty(request.getTradeDateStr())){
             request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
@@ -56,21 +56,18 @@ public class BalanceBizImpl implements BalanceBiz {
         }
 
         // todo 幂等
-        BalanceResponse response = new BalanceResponse();
         String key = request.getKey();
         String flowNo =  keyCache.getIfPresent(key);
         if(flowNo!=null){
-            response.setBalance(balanceService.getBalance(request.getUserId()));
-            response.setFlowNo(flowNo);
-            return DataResult.success(response);
+            Long balance = balanceService.getBalance(request.getUserId());
+            return new BalanceResponse(flowNo,balance);
         }
 
         flowNo =  accountTransactionFlowManager.getFlowNoByKey(request.getKey(),request.getUserId());
         if(flowNo!=null){
-            response.setBalance(balanceService.getBalance(request.getUserId()));
-            response.setFlowNo(flowNo);
             keyCache.put(key,flowNo);
-            return DataResult.success(response);
+            Long balance = balanceService.getBalance(request.getUserId());
+            return new BalanceResponse(flowNo,balance);
         }
 
         Account account = accountManager.getUserAccount(request.getUserId());
@@ -84,11 +81,8 @@ public class BalanceBizImpl implements BalanceBiz {
         }
 
         keyCache.put(key,flowNo);
-        response.setFlowNo(flowNo);
         Long balance = accountManager.getUserBalanceById(account.getId());
-        response.setBalance(balance);
-
-        return DataResult.success(response);
+        return new BalanceResponse(flowNo,balance);
     }
 
     @Override

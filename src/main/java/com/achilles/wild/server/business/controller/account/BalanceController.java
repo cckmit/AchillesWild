@@ -50,13 +50,13 @@ public class BalanceController {
             throw new BizException(BaseResultCode.ILLEGAL_PARAM);
         }
 
-        DataResult<BalanceResponse> dataResult = balanceBiz.reduce(request);
+       BalanceResponse response = balanceBiz.reduce(request);
 
-        if(dataResult ==null){
+        if(response ==null){
             return DataResult.baseFail();
         }
 
-        return dataResult;
+        return DataResult.success(response);
     }
 
     private boolean checkParam(BalanceRequest request){

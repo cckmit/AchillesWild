@@ -6,6 +6,14 @@ public class BalanceResponse {
 
     private Long balance;
 
+    public BalanceResponse() {
+    }
+
+    public BalanceResponse(String flowNo, Long balance) {
+        this.flowNo = flowNo;
+        this.balance = balance;
+    }
+
     public String getFlowNo() {
         return flowNo;
     }
