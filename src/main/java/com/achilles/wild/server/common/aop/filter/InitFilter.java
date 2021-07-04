@@ -71,7 +71,7 @@ public class InitFilter implements Filter {
         String traceId = request.getHeader(CommonConstant.TRACE_ID);
         if(verifyTraceId){
             log.debug("---------------traceId  from  client---------------------:" + traceId);
-            checkTraceId(traceId);
+//            checkTraceId(traceId);
         }else{
             traceId = GenerateUniqueUtil.getTraceId(CommonConstant.SYSTEM_CODE);
             log.debug("---------------traceId  generate by  system---------------------:" + traceId);

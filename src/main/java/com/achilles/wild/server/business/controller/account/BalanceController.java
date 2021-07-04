@@ -2,11 +2,13 @@ package com.achilles.wild.server.business.controller.account;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.common.aop.limit.annotation.RequestLimit;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -41,9 +43,12 @@ public class BalanceController {
         return DataResult.success(response);
     }
 
-    @RequestLimit
     @PostMapping("/reduce")
-    public DataResult<BalanceResponse> reduce(@RequestBody(required = true)BalanceRequest request){
+    public DataResult<BalanceResponse> reduce(@RequestBody BalanceRequest request){
+
+        if(!checkParam(request)){
+            throw new BizException(BaseResultCode.ILLEGAL_PARAM);
+        }
 
         DataResult<BalanceResponse> dataResult = balanceBiz.reduce(request);
 
@@ -52,6 +57,16 @@ public class BalanceController {
         }
 
         return dataResult;
+    }
+
+    private boolean checkParam(BalanceRequest request){
+
+        if(request == null || StringUtils.isEmpty(request.getUserId()) || request.getAmount()==null || request.getAmount()<=0
+                || StringUtils.isEmpty(request.getKey())){
+            return false;
+        }
+
+        return true;
     }
 
     @RequestLimit

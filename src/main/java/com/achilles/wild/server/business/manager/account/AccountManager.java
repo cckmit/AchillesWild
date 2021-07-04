@@ -1,10 +1,10 @@
 package com.achilles.wild.server.business.manager.account;
 
-import java.util.List;
-
 import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.model.query.account.AccountQuery;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * account
@@ -33,6 +33,10 @@ public interface AccountManager {
 
     Long getUserBalance(String userId);
 
+    Long getUserBalanceById(Long id);
+
+    Account getUserAccount(String userId);
+
     Account getCollectAccount(String userId);
 
 
@@ -42,6 +46,6 @@ public interface AccountManager {
     long getVersionById(@Param("id") Long id);
 
 
-    Account reduceUserBalance(String userId,Long amount);
+    boolean reduceUserBalance(Account account,Long amount);
 
 }

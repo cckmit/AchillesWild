@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -158,13 +159,29 @@ public class AccountManagerImpl implements AccountManager {
     @Override
     public Long getUserBalance(String userId) {
 
-        if(StringUtils.isEmpty(userId)){
-            return 0L;
-        }
+        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
 
-        Long balance = accountDao.selectUserBalance(userId);
+        Long balance = accountDao.selectUserBalance(userId,StatusEnum.NORMAL.toNumbericValue());
 
-        return balance==null?0L:balance;
+        return balance==null ? 0L : balance;
+    }
+
+    @Override
+    public Long getUserBalanceById(Long id) {
+
+        Long balance = accountDao.selectBalanceById(id,StatusEnum.NORMAL.toNumbericValue());
+
+        return balance==null ? 0L : balance;
+    }
+
+    @Override
+    public Account getUserAccount(String userId) {
+
+        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
+
+        Account account = accountDao.selectAccountByUserId(userId,StatusEnum.NORMAL.toNumbericValue());
+
+        return account;
     }
 
     @Override
@@ -224,32 +241,13 @@ public class AccountManagerImpl implements AccountManager {
     }
 
     @Override
-    public Account reduceUserBalance(String userId, Long amount) {
+    public boolean reduceUserBalance(Account account, Long amount) {
 
-        if(StringUtils.isEmpty(userId)||amount==null||amount<=0){
-            throw new IllegalArgumentException();
-        }
+        Assert.state(account != null,"account can not be null !");
+        Assert.state(amount != null && amount > 0,"amount is illegal !");
 
-        Account account = accountAtomManager.getPayAccount(userId,amount);
-        if(account!=null){
-            boolean updateBalance = accountAtomManager.reduceBalance(account.getId(),amount);
-            if(updateBalance){
-                return account;
-            }
-            throw new RuntimeException("reduceUserBalance reduceBalance fail");
-        }
-
-        account = accountAtomManager.mergeBalance(userId,AccountTypeEnum.PAY_ACCOUNT.toNumbericValue(),amount);
-        if(account==null){
-            throw new RuntimeException("reduceUserBalance get user Account null  after mergeBalance");
-        }
         boolean updateBalance = accountAtomManager.reduceBalance(account.getId(),amount);
-        if(!updateBalance){
-            throw new RuntimeException("reduceUserBalance fail  after mergeBalance");
-        }
 
-        account.setBalance(account.getBalance()-amount);
-
-        return account;
+        return updateBalance;
     }
 }

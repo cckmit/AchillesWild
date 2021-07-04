@@ -5,6 +5,7 @@ import com.achilles.wild.server.model.query.account.AccountQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -22,15 +23,19 @@ public interface AccountDao {
 
     Account selectAccountByCode(@Param("accountCode") String accountCode, @Param("userId") String userId);
 
+    Account selectAccountByUserId(@Param("userId") String userId,@Param("status") Integer status);
+
     List<Account> selectBalanceByCodes(@Param("accountCodes")List<String> accountCodes,@Param("userId") String userId);
 
-    Long selectUserBalance(@Param("userId") String userId);
+    Long selectUserBalance(@Param("userId") String userId,@Param("status") Integer status);
+
+    Long selectBalanceById(@Param("id") Long id,@Param("status") Integer status);
 
     List<Account> selectBalanceByLimit(@Param("userId") String userId,@Param("accountType") Integer accountType,@Param("amount") Long amount,@Param("skipLocked") Integer skipLocked);
 
     List<Account> selectHasBalance(@Param("userId") String userId,@Param("accountType") Integer accountType);
 
-    int reduceUserBalance(@Param("id") Long id,@Param("amount") Long amount);
+    int reduceUserBalance(@Param("id") Long id,@Param("amount") Long amount,@Param("status") Integer status,@Param("updateDate") Date updateDate);
 
     Account selectById(@Param("id") Long id);
 

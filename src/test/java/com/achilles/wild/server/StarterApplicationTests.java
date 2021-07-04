@@ -1,6 +1,7 @@
 package com.achilles.wild.server;
 
 import com.achilles.wild.server.business.dao.account.AccountDao;
+import com.achilles.wild.server.enums.StatusEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ public class StarterApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		Long bal = accountDao.selectUserBalance("wild");
+		Long bal = accountDao.selectUserBalance("wild", StatusEnum.NORMAL.toNumbericValue());
 		java.lang.Class C;
 		System.out.println();
 	}

@@ -3,10 +3,12 @@ package com.achilles.wild.server.business.dao;
 import com.achilles.wild.server.StarterApplicationTests;
 import com.achilles.wild.server.business.dao.account.AccountDao;
 import com.achilles.wild.server.entity.account.Account;
+import com.achilles.wild.server.enums.StatusEnum;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class AccountDaoTest extends StarterApplicationTests {
@@ -32,7 +34,7 @@ public class AccountDaoTest extends StarterApplicationTests {
         //account.setBalance(1L);
         //account.setAccountType(AccountTypeEnum.PAY_ACCOUNT.toNumbericValue());
         for (int i = 0; i <1000 ; i++) {
-            int update  = accountDao.reduceUserBalance(33L,1l);
+            int update  = accountDao.reduceUserBalance(33L,1l, StatusEnum.NORMAL.toNumbericValue(), new Date());
             System.out.println("============================================"+update);
         }
     }

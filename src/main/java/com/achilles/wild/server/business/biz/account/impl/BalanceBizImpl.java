@@ -1,8 +1,11 @@
 package com.achilles.wild.server.business.biz.account.impl;
 
 import com.achilles.wild.server.business.biz.account.BalanceBiz;
+import com.achilles.wild.server.business.manager.account.AccountManager;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.aop.exception.BizException;
+import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
@@ -14,6 +17,7 @@ import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,22 +39,21 @@ public class BalanceBizImpl implements BalanceBiz {
     @Resource
     private AccountTransactionFlowManager accountTransactionFlowManager;
 
+    @Autowired
+    AccountManager accountManager;
+
     private static Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.SECONDS).build();
 
-    private static Cache<String,Long> balanceCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.SECONDS).build();
 
     @Override
     @Transactional(rollbackForClassName ="Exception")
     public DataResult<BalanceResponse> reduce(BalanceRequest request) {
 
-        if(!checkParam(request)){
-            return DataResult.baseFail(BaseResultCode.ILLEGAL_PARAM);
-        }
-
         if(StringUtils.isNotBlank(request.getTradeDateStr())){
             request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
         }
 
+        // todo 幂等
         BalanceResponse response = new BalanceResponse();
         String key = request.getKey();
         String flowNo =  keyCache.getIfPresent(key);
@@ -70,23 +73,17 @@ public class BalanceBizImpl implements BalanceBiz {
             return DataResult.success(response);
         }
 
-        Long balance = balanceService.getBalance(request.getUserId());
-        if(request.getAmount()>balance){
-            return DataResult.baseFail(AccountResultCode.BALANCE_NOT_ENOUGH.code,AccountResultCode.BALANCE_NOT_ENOUGH.message);
+        Account account = accountManager.getUserAccount(request.getUserId());
+        if(account ==null || request.getAmount() > account.getBalance()){
+            throw new BizException(AccountResultCode.BALANCE_NOT_ENOUGH);
         }
 
-        DataResult<String> dataResult = balanceService.consumeUserBalance(request);
+        DataResult<String> dataResult = balanceService.consumeUserBalance(account,request);
         if(dataResult ==null || !dataResult.isSuccess()){
             throw new RuntimeException(" consumeUserBalance  fail");
         }
         response.setFlowNo(dataResult.getData());
-
-        dataResult = balanceService.consumeInterBalance(request);
-        if(dataResult ==null || !dataResult.isSuccess()){
-            throw new RuntimeException(" consumeInterBalance  fail");
-        }
-
-        balance = balanceService.getBalance(request.getUserId());
+        Long balance = accountManager.getUserBalanceById(account.getId());
         response.setBalance(balance);
 
         return DataResult.success(response);

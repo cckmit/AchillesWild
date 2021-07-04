@@ -1,21 +1,21 @@
 package com.achilles.wild.server.business.service.account.impl;
 
-import com.achilles.wild.server.common.cache.AccountLock;
-import com.achilles.wild.server.common.constans.AccountConstant;
-import com.achilles.wild.server.entity.account.*;
-import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.business.manager.account.AccountInterManager;
 import com.achilles.wild.server.business.manager.account.AccountManager;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowInterManager;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
+import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.common.cache.AccountLock;
+import com.achilles.wild.server.common.constans.AccountConstant;
+import com.achilles.wild.server.entity.account.*;
+import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
-import com.achilles.wild.server.model.response.PageResult;
-import com.achilles.wild.server.business.service.account.BalanceService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 
@@ -38,15 +38,16 @@ public class BalanceServiceImpl implements BalanceService {
 
 
     @Override
-    public DataResult<String> consumeUserBalance(BalanceRequest request) {
+    public DataResult<String> consumeUserBalance(Account account,BalanceRequest request) {
 
+        Assert.state(account != null,"account can not be null !");
         if(!checkParam(request)){
             throw new IllegalArgumentException("consumeUserBalance check params ");
         }
 
-        Account account = accountManager.reduceUserBalance(request.getUserId(),request.getAmount());
-        if(account==null){
-            throw new RuntimeException("reduceUserBalance get Account null");
+        boolean reduceAccount = accountManager.reduceUserBalance(account,request.getAmount());
+        if(!reduceAccount){
+            throw new RuntimeException("reduce User Balance fail null");
         }
 
         //insert flow
@@ -132,51 +133,10 @@ public class BalanceServiceImpl implements BalanceService {
         return DataResult.success(accountTransactionFlowInter.getFlowNo());
     }
 
-
-
-    public PageResult<String> addUserBalance(BalanceRequest request) {
-
-        //if(!checkParam(request)){
-        //    throw new IllegalArgumentException("check params ");
-        //}
-        //
-        //Account account = accountManager.getCollectAccount(request.getUserId());
-        //if(account==null){
-        //    AcountLock.unLock(account.getAccountCode());
-        //    throw new RuntimeException("get user Account null");
-        //}
-        //
-        //boolean updateBalance = accountManager.updateBalanceById(account.getId(),request.getAmount());
-        //if(!updateBalance){
-        //    AcountLock.unLock(account.getAccountCode());
-        //    throw new RuntimeException("update balance fail");
-        //}
-        //
-        ////insert flow
-        //AccountTransactionFlowAdd accountTransactionFlow = new AccountTransactionFlowAdd();
-        //accountTransactionFlow.setUserId(request.getUserId());
-        //accountTransactionFlow.setAccountCode(account.getAccountCode());
-        //accountTransactionFlow.setIdempotent(request.getKey());
-        //accountTransactionFlow.setAmount(request.getAmount());
-        //accountTransactionFlow.setFlowNo(accountTransactionFlowAddManager.getFlowNo());
-        //accountTransactionFlow.setTradeDate(request.getTradeDate());
-        //
-        //boolean updateFlow = accountTransactionFlowAddManager.addFlow(accountTransactionFlow);
-        //if(!updateFlow){
-        //    AcountLock.unLock(account.getAccountCode());
-        //    throw new RuntimeException("insert user account flow fail");
-        //}
-        //
-        //AcountLock.unLock(account.getAccountCode());
-        return PageResult.success(null);
-    }
-
     @Override
     public Long getBalance(String userId) {
 
-        if(StringUtils.isEmpty(userId)){
-            return 0L;
-        }
+        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null");
 
         return accountManager.getUserBalance(userId);
     }

@@ -2,6 +2,7 @@ package com.achilles.wild.server.business.manager.account.atom.impl;
 
 import com.achilles.wild.server.business.dao.account.AccountDao;
 import com.achilles.wild.server.entity.account.Account;
+import com.achilles.wild.server.enums.StatusEnum;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
 import com.achilles.wild.server.business.manager.account.atom.AccountAtomManager;
 import org.apache.commons.collections.CollectionUtils;
@@ -9,9 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,9 +28,8 @@ public class AccountAtomManagerImpl implements AccountAtomManager {
     @Override
     public Account getPayAccount(String userId,Long amount) {
 
-        if(StringUtils.isEmpty(userId)||amount==null||amount<1){
-            throw new IllegalArgumentException("userId:"+userId+",amount:"+amount);
-        }
+        Assert.state(StringUtils.isNotBlank(userId),"userId can not be null !");
+        Assert.state(amount != null && amount > 0,"amount is illegal !");
 
         List<Account> accounts = accountDao.selectBalanceByLimit(userId, AccountTypeEnum.PAY_ACCOUNT.toNumbericValue(),amount,1);
         if(CollectionUtils.isEmpty(accounts)){
@@ -92,12 +94,10 @@ public class AccountAtomManagerImpl implements AccountAtomManager {
     @Override
     public boolean reduceBalance(Long id, Long amount) {
 
-        if(id==null||id==0||amount==null||amount<=0){
-            return false;
-        }
+        Assert.state(id != null && id > 0,"id can not be null !");
+        Assert.state(amount != null && amount > 0,"amount is illegal !");
 
-        int  update = accountDao.reduceUserBalance(id,amount);
-
+        int update = accountDao.reduceUserBalance(id,amount, StatusEnum.NORMAL.toNumbericValue(), new Date());
         if(update==0){
             return false;
         }
