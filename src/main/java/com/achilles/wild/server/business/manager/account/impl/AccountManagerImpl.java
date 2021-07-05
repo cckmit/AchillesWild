@@ -231,16 +231,6 @@ public class AccountManagerImpl implements AccountManager {
     }
 
     @Override
-    public long getVersionById(Long id) {
-
-        if(id==null||id==0){
-            throw new IllegalArgumentException("id is null");
-        }
-
-        return accountDao.selectVersionById(id);
-    }
-
-    @Override
     public boolean reduceUserBalance(Account account, Long amount) {
 
         Assert.state(account != null,"account can not be null !");
