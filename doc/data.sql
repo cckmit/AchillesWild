@@ -18,17 +18,20 @@ DELETE from log_exception_info;
 SELECT COUNT(*) from log_time_info;
 SELECT * from log_time_info ORDER BY time desc;
 
-
-
 DELETE from user_token;
 
 ----------------------------------------------------------
 select * from account;
-update account set balance=1000,version=0 where user_id='wild';
+
+update account set balance=10000000,version=0 where user_id='wild';
 
 select *from account_transaction_flow order by id desc limit 1000;
+
 select count(*) from account_transaction_flow;
-delete from account_transaction_flow where id <100000;
+
+delete from account_transaction_flow;
+
+SELECT COUNT(*) from account_transaction_flow;
 
 select * from account_inter;
 
