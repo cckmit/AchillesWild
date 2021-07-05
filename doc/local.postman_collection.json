@@ -731,7 +731,11 @@
 					"var uuid = getUUID().replace(/-/g,\"\");",
 					"// pm.environment.set(\"traceId\",data+\"_\"+uuid);",
 					"pm.environment.set(\"traceId\",uuid);",
-					"console.log(pm.environment.get(\"traceId\"));"
+					"console.log(pm.environment.get(\"traceId\"));",
+					"",
+					"var currentTimeMillis =  Math.round(new Date().getTime());",
+					"pm.environment.set(\"currentTimeMillis\",currentTimeMillis);",
+					"console.log(pm.environment.get(\"currentTimeMillis\"));"
 				]
 			}
 		},
