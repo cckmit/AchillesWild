@@ -692,7 +692,8 @@
                 <stringProp name="Argument.value">{&#xd;
     &quot;userId&quot;: &quot;wild&quot;,&#xd;
     &quot;key&quot;: &quot;${uuid}&quot;,&#xd;
-    &quot;amount&quot;: 1&#xd;
+    &quot;amount&quot;: 1,&#xd;
+    &quot;tradeTime&quot;:&quot;${__time(,)}&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
