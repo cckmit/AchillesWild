@@ -1,10 +1,8 @@
 package com.achilles.wild.server.entity.account;
 
-import java.util.Date;
+import com.achilles.wild.server.entity.BaseEntity;
 
-public class AccountTransactionFlow {
-
-    private Long id;
+public class AccountTransactionFlow extends BaseEntity {
 
     private String flowNo;
 
@@ -14,36 +12,38 @@ public class AccountTransactionFlow {
 
     private String accountCode;
 
+    private Long balance;
+
     private Long amount;
 
     private String userId;
 
-    private Date tradeDate;
-
-    private Integer tradeDay;
+    private Long tradeTime;
 
     private Long version;
-
-    private Integer status;
-
-    private Date createDate;
-
-    private Date updateDate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFlowNo() {
         return flowNo;
     }
 
     public void setFlowNo(String flowNo) {
-        this.flowNo = flowNo == null ? null : flowNo.trim();
+        this.flowNo = flowNo;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getIdempotent() {
+        return idempotent;
+    }
+
+    public void setIdempotent(String idempotent) {
+        this.idempotent = idempotent;
     }
 
     public String getAccountCode() {
@@ -51,7 +51,15 @@ public class AccountTransactionFlow {
     }
 
     public void setAccountCode(String accountCode) {
-        this.accountCode = accountCode == null ? null : accountCode.trim();
+        this.accountCode = accountCode;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 
     public Long getAmount() {
@@ -67,47 +75,15 @@ public class AccountTransactionFlow {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+        this.userId = userId;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Long getTradeTime() {
+        return tradeTime;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public Date getTradeDate() {
-        return tradeDate;
-    }
-
-    public void setTradeDate(Date tradeDate) {
-        this.tradeDate = tradeDate;
-    }
-
-    public Integer getTradeDay() {
-        return tradeDay;
-    }
-
-    public void setTradeDay(Integer tradeDay) {
-        this.tradeDay = tradeDay;
+    public void setTradeTime(Long tradeTime) {
+        this.tradeTime = tradeTime;
     }
 
     public Long getVersion() {
@@ -116,21 +92,5 @@ public class AccountTransactionFlow {
 
     public void setVersion(Long version) {
         this.version = version;
-    }
-
-    public String getIdempotent() {
-        return idempotent;
-    }
-
-    public void setIdempotent(String idempotent) {
-        this.idempotent = idempotent;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 }

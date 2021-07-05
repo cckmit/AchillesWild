@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 @Service
 public class AccountTransactionFlowManagerImpl implements AccountTransactionFlowManager {
@@ -26,10 +25,8 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
 
         String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
         accountTransactionFlow.setFlowNo(flowNo);
-        Integer tradeDay = DateUtil.getIntDateFormat(DateUtil.FORMAT_YYYYMMDD,accountTransactionFlow.getTradeDate());
-        accountTransactionFlow.setTradeDay(tradeDay);
-        accountTransactionFlow.setCreateDate(new Date());
-        accountTransactionFlow.setUpdateDate(new Date());
+        accountTransactionFlow.setCreateTime(System.currentTimeMillis());
+        accountTransactionFlow.setUpdateTime(System.currentTimeMillis());
         int insert = accountTransactionFlowDao.insertSelective(accountTransactionFlow);
         if(insert==0){
             return false;

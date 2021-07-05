@@ -11,7 +11,6 @@ import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
 import com.achilles.wild.server.model.response.code.AccountResultCode;
 import com.achilles.wild.server.model.response.code.BaseResultCode;
-import com.achilles.wild.server.tool.date.DateUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -32,9 +30,6 @@ public class BalanceBizImpl implements BalanceBiz {
 
     @Resource
     private BalanceService balanceService;
-
-    //@Resource
-    //private AccountTransactionFlowAddManager accountTransactionFlowAddManager;
 
     @Resource
     private AccountTransactionFlowManager accountTransactionFlowManager;
@@ -49,10 +44,8 @@ public class BalanceBizImpl implements BalanceBiz {
     @Transactional(rollbackForClassName ="Exception")
     public BalanceResponse reduce(BalanceRequest request) {
 
-        if(StringUtils.isNotEmpty(request.getTradeDateStr())){
-            request.setTradeDate(DateUtil.getDateFormat(DateUtil.FORMAT_YYYY_MM_DD_HHMMSS,request.getTradeDateStr()));
-        } else {
-            request.setTradeDate(new Date());
+        if(request.getTradeTime() == null){
+            request.setTradeTime(System.currentTimeMillis());
         }
 
         // todo 幂等
@@ -93,9 +86,7 @@ public class BalanceBizImpl implements BalanceBiz {
             return DataResult.baseFail(BaseResultCode.ILLEGAL_PARAM);
         }
 
-        if(request.getTradeDate()==null){
-            request.setTradeDate(new Date());
-        }
+
 
         //idempotent
         String flowNo =  keyCache.getIfPresent(request.getKey());

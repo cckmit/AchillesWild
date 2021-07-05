@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 public class BalanceControllerTest extends StarterApplicationTests {
 
@@ -44,7 +43,7 @@ public class BalanceControllerTest extends StarterApplicationTests {
         request.setKey(GenerateUniqueUtil.getUuId());
         //request.setKey("9E6DA17F33474CAEA94482D3801EDEB1");
         request.setAmount(10L);
-        request.setTradeDate(new Date());
+//        request.setTradeDate(new Date());
         return request;
     }
 

@@ -7,14 +7,14 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="idempotent" jdbcType="VARCHAR" property="idempotent" />
     <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="balance" jdbcType="BIGINT" property="balance" />
     <result column="amount" jdbcType="BIGINT" property="amount" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate" />
-    <result column="trade_day" jdbcType="INTEGER" property="tradeDay" />
+    <result column="trade_time" jdbcType="BIGINT" property="tradeTime" />
     <result column="version" jdbcType="BIGINT" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
   </resultMap>
 
   <insert id="insertSelective" parameterType="com.achilles.wild.server.entity.account.AccountTransactionFlow">
@@ -32,20 +32,26 @@
       <if test="accountCode != null">
         account_code,
       </if>
+      <if test="balance != null">
+        balance,
+      </if>
       <if test="amount != null">
         amount,
       </if>
       <if test="userId != null">
         user_id,
       </if>
-      <if test="tradeDate != null">
-        trade_date,
-      </if>
-      <if test="tradeDay != null">
-        trade_day,
+      <if test="tradeTime != null">
+        trade_time,
       </if>
       <if test="version != null">
         version,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -61,43 +67,29 @@
       <if test="accountCode != null">
         #{accountCode,jdbcType=VARCHAR},
       </if>
+      <if test="balance != null">
+        #{balance,jdbcType=BIGINT},
+      </if>
       <if test="amount != null">
         #{amount,jdbcType=BIGINT},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="tradeDate != null">
-        #{tradeDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tradeDay != null">
-        #{tradeDay,jdbcType=INTEGER},
+      <if test="tradeTime != null">
+        #{tradeTime,jdbcType=BIGINT},
       </if>
       <if test="version != null">
         #{version,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
-
-  <select id="selectVersionByAccountCode" parameterType="java.util.Map" resultType="Integer">
-    select
-          IFNULL(MAX(version),0)
-    from
-          account_transaction_flow
-    <where>
-      <if test="accountCode != null and accountCode!=''">
-        AND account_code = #{accountCode,jdbcType=VARCHAR}
-      </if>
-      <if test="userId != null and userId!=''">
-        AND user_id = #{userId,jdbcType=VARCHAR}
-      </if>
-      <if test="tradeDay != null">
-        AND trade_day = #{tradeDay,jdbcType=INTEGER}
-      </if>
-      AND status=1
-    </where>
-    limit 1
-  </select>
 
   <select id="selectFlowNoByKey" parameterType="java.util.Map" resultType="java.lang.String">
     select

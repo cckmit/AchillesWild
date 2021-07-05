@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +38,7 @@ public class BalanceBizServiceTest extends StarterApplicationTests {
             request.setUserId("ACHILLES_1590254077133");
             request.setKey(GenerateUniqueUtil.getUuId());
             request.setAmount(1l);
-            request.setTradeDate(new Date());
+//            request.setTradeDate(new Date());
             DataResult result = balanceBiz.add(request);
             System.out.println(result);
         }
@@ -59,7 +58,7 @@ public class BalanceBizServiceTest extends StarterApplicationTests {
                     request.setUserId("ACHILLES_1590254077133");
                     request.setKey(GenerateUniqueUtil.getUuId());
                     request.setAmount(1L);
-                    request.setTradeDate(new Date());
+//                    request.setTradeDate(new Date());
                     DataResult result = balanceBiz.add(request);
                     LOG.info("匿名内部类创建线程方式1..."+Thread.currentThread().getName());
                 }

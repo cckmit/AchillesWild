@@ -2,21 +2,15 @@ package com.achilles.wild.server.model.request.account;
 
 import com.achilles.wild.server.model.request.BaseRequest;
 
-import java.util.Date;
-
 public class BalanceRequest extends BaseRequest {
 
     private String userId;
 
     private String key;
 
-    //private String accountCode;
-
     private Long amount;
 
-    private Date tradeDate;
-
-    private String tradeDateStr;
+    private Long tradeTime;
 
     public String getUserId() {
         return userId;
@@ -24,30 +18,6 @@ public class BalanceRequest extends BaseRequest {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    //public String getAccountCode() {
-    //    return accountCode;
-    //}
-    //
-    //public void setAccountCode(String accountCode) {
-    //    this.accountCode = accountCode;
-    //}
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public Date getTradeDate() {
-        return tradeDate;
-    }
-
-    public void setTradeDate(Date tradeDate) {
-        this.tradeDate = tradeDate;
     }
 
     public String getKey() {
@@ -58,11 +28,19 @@ public class BalanceRequest extends BaseRequest {
         this.key = key;
     }
 
-    public String getTradeDateStr() {
-        return tradeDateStr;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setTradeDateStr(String tradeDateStr) {
-        this.tradeDateStr = tradeDateStr;
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public Long getTradeTime() {
+        return tradeTime;
+    }
+
+    public void setTradeTime(Long tradeTime) {
+        this.tradeTime = tradeTime;
     }
 }

@@ -55,8 +55,9 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlow.setUserId(request.getUserId());
         accountTransactionFlow.setAccountCode(account.getAccountCode());
         accountTransactionFlow.setIdempotent(request.getKey());
+        accountTransactionFlow.setBalance(account.getBalance());
         accountTransactionFlow.setAmount(request.getAmount());
-        accountTransactionFlow.setTradeDate(request.getTradeDate());
+        accountTransactionFlow.setTradeTime(request.getTradeTime());
         accountTransactionFlow.setVersion(account.getVersion());
         accountTransactionFlow.setType(AmountFlowEnum.MINUS.toNumbericValue());
 
@@ -86,7 +87,7 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlowInter.setIdempotent(request.getKey());
         accountTransactionFlowInter.setAmount(request.getAmount());
         accountTransactionFlowInter.setType(AmountFlowEnum.MINUS.toNumbericValue());
-        accountTransactionFlowInter.setTradeDate(request.getTradeDate());
+//        accountTransactionFlowInter.setTradeDate(request.getTradeDate());
         accountTransactionFlowInter.setVersion(account.getVersion()+1);
 
         boolean updateFlow = accountTransactionFlowInterManager.addFlow(accountTransactionFlowInter);
@@ -121,7 +122,7 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlowInter.setIdempotent(request.getKey());
         accountTransactionFlowInter.setAmount(request.getAmount());
        // accountTransactionFlowInter.setFlowNo(accountTransactionFlowInterAddManager.getFlowNo());
-        accountTransactionFlowInter.setTradeDate(request.getTradeDate());
+//        accountTransactionFlowInter.setTradeDate(request.getTradeDate());
 
 //        boolean updateFlow = accountInterManager.addFlow(accountTransactionFlowInter);
 //        if(!updateFlow){

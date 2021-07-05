@@ -15,6 +15,10 @@ public class BaseEntity implements Serializable {
 
     private Date updateDate;
 
+    private Long createTime;
+
+    private Long updateTime;
+
 
     public Long getId() {
         return id;
@@ -46,5 +50,21 @@ public class BaseEntity implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 }
