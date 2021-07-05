@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class AccountDaoTest extends StarterApplicationTests {
@@ -34,7 +33,7 @@ public class AccountDaoTest extends StarterApplicationTests {
         //account.setBalance(1L);
         //account.setAccountType(AccountTypeEnum.PAY_ACCOUNT.toNumbericValue());
         for (int i = 0; i <1000 ; i++) {
-            int update  = accountDao.reduceUserBalance(33L,1l, StatusEnum.NORMAL.toNumbericValue(), new Date());
+            int update  = accountDao.reduceUserBalance(33L,1l, StatusEnum.NORMAL.toNumbericValue(), System.currentTimeMillis());
             System.out.println("============================================"+update);
         }
     }

@@ -1,10 +1,10 @@
 package com.achilles.wild.server.business.manager.account.atom.impl;
 
 import com.achilles.wild.server.business.dao.account.AccountDao;
+import com.achilles.wild.server.business.manager.account.atom.AccountAtomManager;
 import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.enums.StatusEnum;
 import com.achilles.wild.server.enums.account.AccountTypeEnum;
-import com.achilles.wild.server.business.manager.account.atom.AccountAtomManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -97,7 +96,7 @@ public class AccountAtomManagerImpl implements AccountAtomManager {
         Assert.state(id != null && id > 0,"id can not be null !");
         Assert.state(amount != null && amount > 0,"amount is illegal !");
 
-        int update = accountDao.reduceUserBalance(id,amount, StatusEnum.NORMAL.toNumbericValue(), new Date());
+        int update = accountDao.reduceUserBalance(id,amount, StatusEnum.NORMAL.toNumbericValue(), System.currentTimeMillis());
         if(update==0){
             return false;
         }

@@ -5,7 +5,6 @@ import com.achilles.wild.server.model.query.account.AccountQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -35,7 +34,7 @@ public interface AccountDao {
 
     List<Account> selectHasBalance(@Param("userId") String userId,@Param("accountType") Integer accountType);
 
-    int reduceUserBalance(@Param("id") Long id,@Param("amount") Long amount,@Param("status") Integer status,@Param("updateDate") Date updateDate);
+    int reduceUserBalance(@Param("id") Long id,@Param("amount") Long amount,@Param("status") Integer status,@Param("updateTime") Long updateTime);
 
     Account selectById(@Param("id") Long id);
 
