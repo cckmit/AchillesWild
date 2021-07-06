@@ -6,6 +6,8 @@ import com.achilles.wild.server.common.constans.CommonConstant;
 import com.achilles.wild.server.entity.user.UserToken;
 import com.achilles.wild.server.model.response.code.UserResultCode;
 import com.achilles.wild.server.tool.date.DateUtil;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class AuthorizationInterceptor implements HandlerInterceptor {
@@ -30,6 +33,9 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserTokenManager userTokenManager;
+
+    private final Cache<String,Integer> keyCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS)
+            .initialCapacity(5).maximumSize(1000).build();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -58,15 +64,20 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         if(StringUtils.isBlank(token)){
             throw new BizException(UserResultCode.NOT_LOGIN);
         }
-
+        Integer value = keyCache.getIfPresent(token);
+        if (value != null) {
+            return true;
+        }
         UserToken userToken = userTokenManager.getByToken(token);
-        if(userToken ==null){
+        if(userToken == null){
             throw new BizException(UserResultCode.NOT_LOGIN);
         }
 
         if(DateUtil.getCurrentDate().after(userToken.getExpirationTime())){
             throw new BizException(UserResultCode.LOGIN_EXPIRED);
         }
+
+        keyCache.put(userToken.getToken(),1);
 
         UserToken userTokenUpdate = new UserToken();
         userTokenUpdate.setId(userToken.getId());

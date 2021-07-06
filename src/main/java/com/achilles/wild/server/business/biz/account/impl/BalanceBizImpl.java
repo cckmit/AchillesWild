@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -28,16 +27,16 @@ public class BalanceBizImpl implements BalanceBiz {
 
     private final static Logger log = LoggerFactory.getLogger(BalanceBizImpl.class);
 
-    @Resource
+    @Autowired
     private BalanceService balanceService;
 
-    @Resource
+    @Autowired
     private AccountTransactionFlowManager accountTransactionFlowManager;
 
     @Autowired
     AccountManager accountManager;
 
-    private static Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(1000).maximumSize(20000).expireAfterWrite(1, TimeUnit.HOURS).build();
+    private final Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(10000).expireAfterWrite(1, TimeUnit.HOURS).build();
 
 
     @Override
@@ -85,8 +84,6 @@ public class BalanceBizImpl implements BalanceBiz {
         if(!checkParam(request)){
             return DataResult.baseFail(BaseResultCode.ILLEGAL_PARAM);
         }
-
-
 
         //idempotent
         String flowNo =  keyCache.getIfPresent(request.getKey());
