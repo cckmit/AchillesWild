@@ -5,6 +5,7 @@ import com.achilles.wild.server.business.manager.account.AccountTransactionFlowM
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.entity.account.AccountTransactionFlow;
 import com.achilles.wild.server.tool.date.DateUtil;
+import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -23,7 +24,10 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
 
         Assert.state(accountTransactionFlow != null,"accountTransactionFlow can not be null !");
 
-        String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX+DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)+"_"+Thread.currentThread().getId();
+        String flowNo = AccountConstant.FLOW_USER_REDUCE_PREFIX
+                + DateUtil.getCurrentStr(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS)
+                + "_" + Thread.currentThread().getId()
+                + "_" + GenerateUniqueUtil.getUuId();
         accountTransactionFlow.setFlowNo(flowNo);
         accountTransactionFlow.setCreateTime(System.currentTimeMillis());
         accountTransactionFlow.setUpdateTime(System.currentTimeMillis());
