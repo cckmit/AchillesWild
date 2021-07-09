@@ -17,4 +17,6 @@ public interface BalanceService {
 
     Long getBalance(String userId);
 
+    Long getBalance2(String userId);
+
 }

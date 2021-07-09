@@ -44,6 +44,20 @@ public class BalanceController {
         return DataResult.success(response);
     }
 
+    @GetMapping("/get2/{userId}")
+    public DataResult<BalanceResponse> getBalance2(@PathVariable("userId") String userId){
+
+        log.info("getBalance userId : {}  ",userId);
+
+        BalanceResponse response = new BalanceResponse();
+
+        Long balance = balanceService.getBalance2(userId);
+
+        response.setBalance(balance);
+
+        return DataResult.success(response);
+    }
+
     @PostMapping("/reduce")
     public DataResult<BalanceResponse> reduce(@RequestBody BalanceRequest request){
 

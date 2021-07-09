@@ -2,22 +2,28 @@ package com.achilles.wild.server.business.manager.account.impl;
 
 import com.achilles.wild.server.business.dao.account.AccountTransactionFlowDao;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
+import com.achilles.wild.server.business.manager.account.atom.AccountTransactionFlowAtomManager;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.entity.account.AccountTransactionFlow;
+import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.generate.unique.GenerateUniqueUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AccountTransactionFlowManagerImpl implements AccountTransactionFlowManager {
 
 
-    @Resource
+    @Autowired
     private AccountTransactionFlowDao accountTransactionFlowDao;
+
+    @Autowired
+    AccountTransactionFlowAtomManager accountTransactionFlowAtomManager;
 
     @Override
     public boolean addFlow(AccountTransactionFlow accountTransactionFlow) {
@@ -51,5 +57,23 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
         }
 
         return flowNo;
+    }
+
+    @Override
+    public Long getUserTodayIncome(String userId) {
+
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null !");
+
+        List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowAtomManager.getUserTransactionFlows(userId);
+        Long sum = 0L;
+        for (AccountTransactionFlow transactionFlow:transactionFlowList) {
+            if (transactionFlow.getType() == AmountFlowEnum.MINUS.toNumbericValue()) {
+                sum += transactionFlow.getAmount();
+            } else {
+                sum -= transactionFlow.getAmount();
+            }
+        }
+
+        return sum;
     }
 }

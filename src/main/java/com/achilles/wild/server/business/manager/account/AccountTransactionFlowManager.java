@@ -8,4 +8,6 @@ public interface AccountTransactionFlowManager {
 
 
     String getFlowNoByKey(String key,String userId);
+
+    Long getUserTodayIncome(String userId);
 }

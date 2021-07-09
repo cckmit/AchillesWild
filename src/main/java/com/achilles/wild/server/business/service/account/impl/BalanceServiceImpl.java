@@ -142,6 +142,19 @@ public class BalanceServiceImpl implements BalanceService {
         return accountManager.getUserBalance(userId);
     }
 
+    @Override
+    public Long getBalance2(String userId) {
+
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null");
+
+        Long balance = accountManager.getUserBalance(userId);
+        Long todayIncome = accountTransactionFlowManager.getUserTodayIncome(userId);
+
+        balance += todayIncome;
+
+        return balance;
+    }
+
     private boolean checkParam(BalanceRequest request){
 
         if(request == null || StringUtils.isEmpty(request.getUserId()) || request.getAmount()==null || request.getAmount()<=0

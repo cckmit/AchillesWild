@@ -123,7 +123,7 @@ public class LogDaoAspect {
         logTimeInfo.setCreateDate(DateUtil.getCurrentDate());
         logTimeInfo.setUpdateDate(logTimeInfo.getCreateDate());
 
-        messageModelRingBuffer.publish(sequence);
+//        messageModelRingBuffer.publish(sequence);
 
 
 //        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);

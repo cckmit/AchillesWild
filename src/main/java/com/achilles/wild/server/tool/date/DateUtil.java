@@ -31,9 +31,10 @@ public class DateUtil {
     public static void main(String[] args) {
     	String dateStr = "2020-07-30 17:00:44";
 		Date date = getDateFormat(YYYY_MM_DD_HH_MM_SS_SSS,"20210210213119322");
-		System.out.println(date);
+//		System.out.println(date);
 
-		System.out.println(getGapSeconds(date));
+//		System.out.println(getGapSeconds(date));
+		System.out.println(getTheDayLastTime(0));
 //    	Calendar aCalendar = Calendar.getInstance(Locale.CHINA);
 //    	   int day=aCalendar.getActualMaximum(Calendar.DATE);
 //    	  System.out.println(getDateFormat(FORMAT_YYYY_MM_DD_HHMMSS, date));
@@ -739,6 +740,7 @@ public class DateUtil {
 	
 	/**
 	 * 获取某天开始时间
+	 *
 	 * @param move
 	 * @return
 	 */
@@ -750,13 +752,34 @@ public class DateUtil {
 		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSS);
 		Date date = null;
 		try {
-    	    date = sdf.parse(first+" 00:00:00");
+    	    date = sdf.parse(first + " 00:00:00");
 		} catch (ParseException e) {
 		    e.printStackTrace();
 	    }
 	  return date;
 	}
-	
+
+	/**
+	 * 获取某天开始时间
+	 *
+	 * @param move
+	 * @return
+	 */
+	public static Date getTheDayLastTime(int move) {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, move);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
+		String first = sdf.format(cal.getTime());
+		sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD_HHMMSSSSS);
+		Date date = null;
+		try {
+			date = sdf.parse(first + " 23:59:59.999");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
 	/**
 	 * 毫秒转换为时间
 	 * @param milliseconds
