@@ -42,10 +42,29 @@ select count(*) from account_transaction_flow_inter;
 delete from account_transaction_flow_inter where id <100000;
 
 --------------------------------------------------------------------
+SHOW ENGINE INNODB STATUS;
+
+SHOW VARIABLES LIKE '%timeout%';
+
+#查询是否锁表
+show OPEN TABLES where In_use > 0;
+
+行锁
+show status like 'innodb_row_lock%';
+
+SHOW PROCESSLIST;
+SHOW FULL PROCESSLIST;
+
+
 show variables like "%max_connections%";
 
-set global max_connections = 10000
+set global max_connections = 20000;
 
-set global mysqlx_max_connections = 10000
+SET persist max_connections = 20000;
 
-SELECT  VERSION()
+set global mysqlx_max_connections = 10000;
+
+SELECT  VERSION();
+
+SELECT * FROM information_schema.INNODB_TRX;
+kill 89;
