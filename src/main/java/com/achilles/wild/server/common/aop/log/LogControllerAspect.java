@@ -149,7 +149,7 @@ public class LogControllerAspect {
 //        boolean add = logInfoConcurrentLinkedQueue.offer(logTimeInfo);
 //        log.debug(PREFIX +"#---------controller add to queue success : "+add);
 
-        messageModelRingBuffer.publish(sequence);
+//        messageModelRingBuffer.publish(sequence);
 
         return result;
     }

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class DisruptorConfig {
 
     //2^20 1048576 2^14 16384
-    @Value("${disruptor.ring.buffer.size:8}")//2^13指定 RingBuffer 大小，必须为2的N次方（能将求模运算转为位运算提高效率），否则将影响效率
+    @Value("${disruptor.ring.buffer.size:16384}")//2^13指定 RingBuffer 大小，必须为2的N次方（能将求模运算转为位运算提高效率），否则将影响效率
     private Integer bufferSize;
 
 
