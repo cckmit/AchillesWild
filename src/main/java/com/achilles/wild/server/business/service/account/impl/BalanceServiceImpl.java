@@ -11,6 +11,8 @@ import com.achilles.wild.server.entity.account.*;
 import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class BalanceServiceImpl implements BalanceService {
@@ -36,6 +43,72 @@ public class BalanceServiceImpl implements BalanceService {
     @Resource
     private AccountTransactionFlowInterManager accountTransactionFlowInterManager;
 
+    private Lock lock = new ReentrantLock();
+
+    private final Cache<String,Long> balanceCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).initialCapacity(10).maximumSize(1000).build();
+
+    private final Cache<String,List<Account>> subBalanceCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).initialCapacity(10).maximumSize(1000).build();
+
+
+    public Long getBalance2w(String userId) {
+
+        List<Account> consumeAccounts = subBalanceCache.getIfPresent(userId);
+
+        Long sumBalance = 0L;
+        for (Account account : consumeAccounts) {
+            Long balance = account.getBalance();
+            sumBalance += balance;
+        }
+
+        Long sumBalance2 = balanceCache.getIfPresent(userId);
+        //查余额，查流水
+        if (sumBalance2 == null) {
+        }
+        return 0l;
+    }
+
+    public String consumeUserBalance2(String userId,BalanceRequest request) {
+
+        List<Account> consumeAccounts = new ArrayList<>();
+        for (Account account : consumeAccounts) {
+            Long amount = request.getAmount();
+            if (account.getBalance() < amount) {
+                continue;
+            }
+            lock.tryLock();
+            try {
+                if (account.getBalance() < amount) {
+                    continue;
+                }
+                account.setBalance(account.getBalance() - amount);
+
+                //insert flow
+                AccountTransactionFlow accountTransactionFlow = new AccountTransactionFlow();
+                accountTransactionFlow.setUserId(request.getUserId());
+                accountTransactionFlow.setAccountCode(account.getAccountCode());
+                accountTransactionFlow.setIdempotent(request.getKey());
+                accountTransactionFlow.setBalance(account.getBalance());
+                accountTransactionFlow.setAmount(request.getAmount());
+                accountTransactionFlow.setTradeTime(request.getTradeTime());
+                accountTransactionFlow.setVersion(account.getVersion());
+                accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
+
+                boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
+                if(!insertFlow){
+                    throw new RuntimeException("consumeUserBalance insert user account reduce flow fail");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+
+
+        }
+
+
+        return null;
+    }
 
     @Override
     public String consumeUserBalance(Account account,BalanceRequest request) {
@@ -59,7 +132,7 @@ public class BalanceServiceImpl implements BalanceService {
         accountTransactionFlow.setAmount(request.getAmount());
         accountTransactionFlow.setTradeTime(request.getTradeTime());
         accountTransactionFlow.setVersion(account.getVersion());
-        accountTransactionFlow.setType(AmountFlowEnum.MINUS.toNumbericValue());
+        accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
 
         boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
         if(!insertFlow){

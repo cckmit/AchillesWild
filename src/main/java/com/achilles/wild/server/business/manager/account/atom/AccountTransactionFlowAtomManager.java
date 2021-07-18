@@ -7,4 +7,7 @@ import java.util.List;
 public interface AccountTransactionFlowAtomManager {
 
     List<AccountTransactionFlow> getUserTransactionFlows(String userId);
+
+
+    List<AccountTransactionFlow> getInitTransactionFlows(String userId);
 }

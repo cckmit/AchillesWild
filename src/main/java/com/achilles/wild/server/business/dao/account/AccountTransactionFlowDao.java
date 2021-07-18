@@ -14,5 +14,8 @@ public interface AccountTransactionFlowDao {
     String selectFlowNoByKey(@Param("idempotent") String idempotent, @Param("userId") String userId);
 
 
-    List<AccountTransactionFlow> selectTransactionFlows(@Param("userId") String userId, @Param("tradeTimeStart") Long tradeTimeStart, @Param("tradeTimeEnd") Long tradeTimeEnd, @Param("status") Integer status);
+    List<AccountTransactionFlow> selectTransactionFlows(@Param("userId") String userId, @Param("tradeTimeStart") Long tradeTimeStart,
+                                                        @Param("tradeTimeEnd") Long tradeTimeEnd,
+                                                        @Param("createTimeStart") Long createTimeStart,
+                                                        @Param("status") Integer status);
 }

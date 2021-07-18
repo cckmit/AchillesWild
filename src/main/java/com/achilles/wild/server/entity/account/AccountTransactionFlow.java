@@ -6,7 +6,9 @@ public class AccountTransactionFlow extends BaseEntity {
 
     private String flowNo;
 
-    private Integer type;
+    private Integer transactionType;
+
+    private Integer flowType;
 
     private String idempotent;
 
@@ -30,12 +32,20 @@ public class AccountTransactionFlow extends BaseEntity {
         this.flowNo = flowNo;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getTransactionType() {
+        return transactionType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTransactionType(Integer transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public Integer getFlowType() {
+        return flowType;
+    }
+
+    public void setFlowType(Integer flowType) {
+        this.flowType = flowType;
     }
 
     public String getIdempotent() {

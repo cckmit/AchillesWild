@@ -37,4 +37,6 @@ public class AccountConstant {
     public static final int ACCOUNT_LOCK = 0;
 
     public static final int ACCOUNT_UNLOCK = 1;
+
+    public static final String BALANCE_PREFIX = "BALANCE_";
 }

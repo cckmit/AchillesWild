@@ -6,8 +6,10 @@ public interface AccountTransactionFlowManager {
 
     boolean addFlow(AccountTransactionFlow accountTransactionFlow);
 
-
     String getFlowNoByKey(String key,String userId);
 
     Long getUserTodayIncome(String userId);
+
+
+    Long getInitTransactionFlowAmount(String userId);
 }

@@ -2,6 +2,7 @@ package com.achilles.wild.server.business.manager.account.atom.impl;
 
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.business.dao.account.AccountLockDao;
+import com.achilles.wild.server.entity.account.Account;
 import com.achilles.wild.server.entity.account.AccountLock;
 import com.achilles.wild.server.business.manager.account.atom.AccountLockAtomManager;
 import com.achilles.wild.server.tool.date.DateUtil;
@@ -115,5 +116,15 @@ public class AccountLockAtomManagerImpl implements AccountLockAtomManager {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean lock(Account account) {
+        return false;
+    }
+
+    @Override
+    public boolean unLock(Account account) {
+        return false;
     }
 }

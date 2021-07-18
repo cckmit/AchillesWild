@@ -5,10 +5,9 @@ package com.achilles.wild.server.enums;
  */
 public enum StatusEnum implements DescedEnum, NumbericEnum{
 
-
+    DELETED(0,"DELETED"),
     NORMAL(1,"NORMAL"),
-
-    DELETED(0,"DELETED");
+    FINALE(2,"NORMAL"),;
 
 
     private Integer value;

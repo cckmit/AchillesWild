@@ -26,7 +26,19 @@ public class AccountTransactionFlowAtomManagerImpl implements AccountTransaction
 
         Long tradeTimeStart = DateUtil.getTheDayFirstTime(0).getTime();
         Long tradeTimeEnd = DateUtil.getTheDayLastTime(0).getTime();
-        List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowDao.selectTransactionFlows(userId,tradeTimeStart,tradeTimeEnd, StatusEnum.NORMAL.toNumbericValue());
+        List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowDao.selectTransactionFlows(userId,tradeTimeStart,tradeTimeEnd,null, StatusEnum.NORMAL.toNumbericValue());
+
+        return transactionFlowList;
+    }
+
+    @Override
+    public List<AccountTransactionFlow> getInitTransactionFlows(String userId) {
+
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null !");
+
+        Long createTimeStart = DateUtil.getTheDayFirstTime(-3).getTime();
+
+        List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowDao.selectTransactionFlows(userId,null,null,createTimeStart, StatusEnum.NORMAL.toNumbericValue());
 
         return transactionFlowList;
     }

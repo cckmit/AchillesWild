@@ -67,7 +67,7 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
         List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowAtomManager.getUserTransactionFlows(userId);
         Long sum = 0L;
         for (AccountTransactionFlow transactionFlow:transactionFlowList) {
-            if (transactionFlow.getType() == AmountFlowEnum.MINUS.toNumbericValue()) {
+            if (transactionFlow.getFlowType() == AmountFlowEnum.MINUS.toNumbericValue()) {
                 sum += transactionFlow.getAmount();
             } else {
                 sum -= transactionFlow.getAmount();
@@ -75,5 +75,23 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
         }
 
         return sum;
+    }
+
+    @Override
+    public Long getInitTransactionFlowAmount(String userId) {
+
+        Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null !");
+
+        List<AccountTransactionFlow> transactionFlowList = accountTransactionFlowAtomManager.getInitTransactionFlows(userId);
+        Long sumAmount = 0L;
+        for (AccountTransactionFlow transactionFlow : transactionFlowList) {
+            if (transactionFlow.getFlowType() == AmountFlowEnum.PLUS.toNumbericValue()) {
+                sumAmount+=transactionFlow.getAmount();
+            } else {
+                sumAmount-=transactionFlow.getAmount();
+            }
+        }
+
+        return sumAmount;
     }
 }
