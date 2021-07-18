@@ -117,7 +117,7 @@
 
   <select id="selectTransactionFlows" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
-      low_type,amount
+      flow_type,amount
     from
         account_transaction_flow
     <where>
