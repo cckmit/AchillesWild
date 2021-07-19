@@ -67,7 +67,9 @@ public class BalanceController {
             throw new BizException(BaseResultCode.ILLEGAL_PARAM);
         }
 
-       BalanceResponse response = balanceBiz.reduce(request);
+//       BalanceResponse response = balanceBiz.reduce(request);
+
+        BalanceResponse response = balanceBiz.reduce2(request);
 
         if(response ==null){
             return DataResult.baseFail();

@@ -8,5 +8,7 @@ public interface BalanceBiz {
 
     BalanceResponse reduce(BalanceRequest request);
 
+    BalanceResponse reduce2(BalanceRequest request);
+
     DataResult<String> add(BalanceRequest request);
 }

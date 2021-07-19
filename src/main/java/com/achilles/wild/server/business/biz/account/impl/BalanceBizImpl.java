@@ -4,8 +4,11 @@ import com.achilles.wild.server.business.biz.account.BalanceBiz;
 import com.achilles.wild.server.business.manager.account.AccountManager;
 import com.achilles.wild.server.business.manager.account.AccountTransactionFlowManager;
 import com.achilles.wild.server.business.service.account.BalanceService;
+import com.achilles.wild.server.business.service.account.BalanceService2;
 import com.achilles.wild.server.common.aop.exception.BizException;
 import com.achilles.wild.server.entity.account.Account;
+import com.achilles.wild.server.entity.account.AccountTransactionFlow;
+import com.achilles.wild.server.enums.account.AmountFlowEnum;
 import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.achilles.wild.server.model.response.DataResult;
 import com.achilles.wild.server.model.response.account.BalanceResponse;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class BalanceBizImpl implements BalanceBiz {
@@ -31,13 +36,63 @@ public class BalanceBizImpl implements BalanceBiz {
     private BalanceService balanceService;
 
     @Autowired
+    BalanceService2 balanceService2;
+
+    @Autowired
     private AccountTransactionFlowManager accountTransactionFlowManager;
 
     @Autowired
     AccountManager accountManager;
 
+    private static Lock lock = new ReentrantLock();
+
     private final Cache<String,String> keyCache = CacheBuilder.newBuilder().concurrencyLevel(10000).maximumSize(10000).expireAfterWrite(1, TimeUnit.HOURS).build();
 
+
+    @Transactional(rollbackForClassName ="Exception")
+    public BalanceResponse reduce2(BalanceRequest request) {
+
+        Account account;
+        String flowNo;
+        Long balance;
+        try {
+            lock.tryLock(5,TimeUnit.SECONDS);
+//            lock.tryLock();
+            account = balanceService2.getAccount(request.getUserId());
+            balance = account.getBalance() - request.getAmount();
+
+            if (account.getBalance() < request.getAmount()) {
+                throw new BizException(AccountResultCode.BALANCE_NOT_ENOUGH);
+            }
+
+            //insert flow
+            AccountTransactionFlow accountTransactionFlow = new AccountTransactionFlow();
+            accountTransactionFlow.setUserId(request.getUserId());
+            accountTransactionFlow.setAccountCode(account.getAccountCode());
+            accountTransactionFlow.setIdempotent(request.getKey());
+            accountTransactionFlow.setBalance(account.getBalance());
+            accountTransactionFlow.setAmount(request.getAmount());
+            accountTransactionFlow.setTradeTime(request.getTradeTime());
+            accountTransactionFlow.setVersion(account.getVersion());
+            accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
+            accountTransactionFlow.setTransactionType(0);
+
+            boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
+            if (!insertFlow) {
+                throw new RuntimeException("consumeUserBalance insert user account reduce flow fail");
+            }
+            flowNo = accountTransactionFlow.getFlowNo();
+        } catch (Exception e) {
+            throw new BizException(BaseResultCode.FAIL);
+        } finally {
+            lock.unlock();
+        }
+
+        account.setBalance(balance);
+        balanceService2.setAccount(account);
+
+        return new BalanceResponse(flowNo,balance);
+    }
 
     @Override
     @Transactional(rollbackForClassName ="Exception")

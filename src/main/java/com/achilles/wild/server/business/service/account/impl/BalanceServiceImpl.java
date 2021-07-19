@@ -94,7 +94,7 @@ public class BalanceServiceImpl implements BalanceService {
                 accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
 
                 boolean insertFlow = accountTransactionFlowManager.addFlow(accountTransactionFlow);
-                if(!insertFlow){
+                if (!insertFlow) {
                     throw new RuntimeException("consumeUserBalance insert user account reduce flow fail");
                 }
             } catch (Exception e) {
@@ -102,11 +102,7 @@ public class BalanceServiceImpl implements BalanceService {
             } finally {
                 lock.unlock();
             }
-
-
         }
-
-
         return null;
     }
 
