@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-07-06 00:17:20
+Date: 2021-07-23 00:12:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,6 +36,11 @@ CREATE TABLE `account` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='账户表';
 
 -- ----------------------------
+-- Records of account
+-- ----------------------------
+INSERT INTO `account` VALUES ('1', 'Achilles', '1', '10000000', '0', 'wild', '0', '1', '1625501636845', '1626021361139');
+
+-- ----------------------------
 -- Table structure for account_inter
 -- ----------------------------
 DROP TABLE IF EXISTS `account_inter`;
@@ -56,6 +61,16 @@ CREATE TABLE `account_inter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内部账户';
 
 -- ----------------------------
+-- Records of account_inter
+-- ----------------------------
+INSERT INTO `account_inter` VALUES ('8', 'PROVISION_ACCOUNT', '0', '10000', '0', 'Achilles', '0', '1', '2020-05-30 18:50:08', '2020-06-20 18:29:33');
+INSERT INTO `account_inter` VALUES ('9', 'PAY_ACCOUNT_1', '4', '10000', '0', 'Achilles', '0', '1', '2020-05-30 18:50:36', '2021-07-04 12:19:14');
+INSERT INTO `account_inter` VALUES ('10', 'PAY_ACCOUNT_2', '4', '10000', '0', 'Achilles', '0', '1', '2020-05-30 18:50:41', '2020-07-26 18:54:48');
+INSERT INTO `account_inter` VALUES ('11', 'PAY_ACCOUNT_3', '4', '10000', '0', 'Achilles', '0', '1', '2020-05-30 18:51:00', '2020-07-26 18:54:48');
+INSERT INTO `account_inter` VALUES ('12', 'PAY_ACCOUNT_4', '4', '10000', '0', 'Achilles', '0', '1', '2020-05-30 18:51:08', '2020-07-26 18:54:48');
+INSERT INTO `account_inter` VALUES ('13', 'COLLECTION_ACCOUNT_1', '3', '10000', '0', 'Achilles', '0', '1', '2021-01-24 16:33:44', '2021-01-24 16:33:44');
+
+-- ----------------------------
 -- Table structure for account_lock
 -- ----------------------------
 DROP TABLE IF EXISTS `account_lock`;
@@ -72,6 +87,10 @@ CREATE TABLE `account_lock` (
   KEY `account_lock` (`account_code`,`locked`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2925 DEFAULT CHARSET=utf8 COMMENT='账户锁表';
+
+-- ----------------------------
+-- Records of account_lock
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for account_rule_collect
@@ -91,6 +110,10 @@ CREATE TABLE `account_rule_collect` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='收款规则';
 
 -- ----------------------------
+-- Records of account_rule_collect
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for account_rule_pay
 -- ----------------------------
 DROP TABLE IF EXISTS `account_rule_pay`;
@@ -106,6 +129,10 @@ CREATE TABLE `account_rule_pay` (
   UNIQUE KEY `account_weight` (`user_id`,`account_code`,`weight`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='支付规则';
+
+-- ----------------------------
+-- Records of account_rule_pay
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for account_summary
@@ -126,13 +153,18 @@ CREATE TABLE `account_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='交易汇总表';
 
 -- ----------------------------
+-- Records of account_summary
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for account_transaction_flow
 -- ----------------------------
 DROP TABLE IF EXISTS `account_transaction_flow`;
 CREATE TABLE `account_transaction_flow` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `flow_no` varchar(70) NOT NULL COMMENT '交易流水号',
-  `type` int(11) NOT NULL COMMENT '交易类型:1-加，0-减',
+  `flow_no` varchar(100) NOT NULL COMMENT '交易流水号',
+  `transaction_type` int(11) NOT NULL COMMENT '交易类型:1-充值，2-提现，3-代收，4-代付，5-转账',
+  `flow_type` int(11) NOT NULL COMMENT '流水类型:1-加，0-减',
   `idempotent` varchar(70) NOT NULL COMMENT '幂等值',
   `account_code` varchar(64) NOT NULL COMMENT '账户编码',
   `balance` bigint(20) NOT NULL DEFAULT '0' COMMENT '余额(分，交易前)',
@@ -140,13 +172,17 @@ CREATE TABLE `account_transaction_flow` (
   `user_id` varchar(32) NOT NULL COMMENT '用户id',
   `trade_time` bigint(20) NOT NULL COMMENT '交易时间',
   `version` bigint(20) NOT NULL DEFAULT '1' COMMENT '版本号',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 0-已删除,1-使用中,2-已入账',
   `create_time` bigint(20) NOT NULL COMMENT '创建时间',
   `update_time` bigint(20) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent` (`idempotent`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=105067 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
+) ENGINE=InnoDB AUTO_INCREMENT=24247 DEFAULT CHARSET=utf8 COMMENT='账户交易流水';
+
+-- ----------------------------
+-- Records of account_transaction_flow
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_add
@@ -168,6 +204,10 @@ CREATE TABLE `account_transaction_flow_add` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4001 DEFAULT CHARSET=utf8 COMMENT='账户交易流水-加';
+
+-- ----------------------------
+-- Records of account_transaction_flow_add
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_inter
@@ -194,6 +234,10 @@ CREATE TABLE `account_transaction_flow_inter` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13958 DEFAULT CHARSET=utf8 COMMENT='账户交易流水减(内部)';
 
 -- ----------------------------
+-- Records of account_transaction_flow_inter
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for account_transaction_flow_inter_add
 -- ----------------------------
 DROP TABLE IF EXISTS `account_transaction_flow_inter_add`;
@@ -213,6 +257,10 @@ CREATE TABLE `account_transaction_flow_inter_add` (
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4001 DEFAULT CHARSET=utf8 COMMENT='账户交易流水加(内部)';
+
+-- ----------------------------
+-- Records of account_transaction_flow_inter_add
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for account_transaction_flow_reduce
@@ -237,6 +285,10 @@ CREATE TABLE `account_transaction_flow_reduce` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8012 DEFAULT CHARSET=utf8 COMMENT='账户交易流水-减';
 
 -- ----------------------------
+-- Records of account_transaction_flow_reduce
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for citizen
 -- ----------------------------
 DROP TABLE IF EXISTS `citizen`;
@@ -252,6 +304,10 @@ CREATE TABLE `citizen` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idno` (`name`,`id_no`,`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=114066 DEFAULT CHARSET=utf8 COMMENT='citizen';
+
+-- ----------------------------
+-- Records of citizen
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for citizen_detail
@@ -274,6 +330,10 @@ CREATE TABLE `citizen_detail` (
 ) ENGINE=InnoDB AUTO_INCREMENT=114017 DEFAULT CHARSET=utf8 COMMENT='citizen_detail';
 
 -- ----------------------------
+-- Records of citizen_detail
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for config_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `config_dict`;
@@ -292,6 +352,10 @@ CREATE TABLE `config_dict` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典';
 
 -- ----------------------------
+-- Records of config_dict
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for config_params
 -- ----------------------------
 DROP TABLE IF EXISTS `config_params`;
@@ -306,6 +370,10 @@ CREATE TABLE `config_params` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置表';
+
+-- ----------------------------
+-- Records of config_params
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for log_exception_info
@@ -324,7 +392,11 @@ CREATE TABLE `log_exception_info` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=1457 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+) ENGINE=InnoDB AUTO_INCREMENT=57140 DEFAULT CHARSET=utf8 COMMENT='异常日志';
+
+-- ----------------------------
+-- Records of log_exception_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for log_time_info
@@ -346,7 +418,11 @@ CREATE TABLE `log_time_info` (
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`),
   KEY `url` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=19323485 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+) ENGINE=InnoDB AUTO_INCREMENT=20228261 DEFAULT CHARSET=utf8 COMMENT='调用耗费时间日志';
+
+-- ----------------------------
+-- Records of log_time_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for temp_image
@@ -365,6 +441,10 @@ CREATE TABLE `temp_image` (
   KEY `uuid` (`uuid`),
   KEY `biz_uuid` (`biz_uuid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='临时图片表';
+
+-- ----------------------------
+-- Records of temp_image
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -388,6 +468,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', '97a87026d8a4475a9679bb03e305cbaf', 'AchillesWild', '63a9f0ea7bb98050796b649e85481845', 'AchillesWild@qq.com', null, '0', null, '0', '0', '1', '2021-02-12 18:28:46', '2021-05-30 11:10:05');
+
+-- ----------------------------
 -- Table structure for user_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `user_detail`;
@@ -401,6 +486,10 @@ CREATE TABLE `user_detail` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户详细表';
+
+-- ----------------------------
+-- Records of user_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_token
@@ -417,4 +506,8 @@ CREATE TABLE `user_token` (
   `expiration_time` datetime NOT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`),
   KEY `token` (`token`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+
+-- ----------------------------
+-- Records of user_token
+-- ----------------------------
