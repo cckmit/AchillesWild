@@ -68,3 +68,6 @@ SELECT  VERSION();
 
 SELECT * FROM information_schema.INNODB_TRX;
 kill 89;
+-------------------password-----------------------------
+mysql -u root -p
+set password for root@localhost = password('root');

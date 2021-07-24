@@ -53,8 +53,8 @@ CREATE TABLE `account_inter` (
   `user_id` varchar(32) NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT '0' COMMENT '版本号，账户余额改变时每次加1(不包括冻结约与可用余额的相互调整)',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_status` (`account_code`,`status`),
   KEY `type_status` (`account_type`,`status`)
@@ -79,14 +79,14 @@ CREATE TABLE `account_lock` (
   `account_code` varchar(64) NOT NULL COMMENT '账户编码',
   `user_id` varchar(32) NOT NULL COMMENT '用户id',
   `locked` int(11) NOT NULL DEFAULT '0' COMMENT '状态: 1-正常,0-锁定中',
-  `unlock_time` datetime(3) DEFAULT NULL COMMENT '先存预计解锁时间，再改为实际解锁时间',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '先存预计解锁时间，再改为实际解锁时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `unlock_time` datetime DEFAULT NULL COMMENT '先存预计解锁时间，再改为实际解锁时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_code` (`account_code`),
   KEY `account_lock` (`account_code`,`locked`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2925 DEFAULT CHARSET=utf8 COMMENT='账户锁表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户锁表';
 
 -- ----------------------------
 -- Records of account_lock
@@ -102,8 +102,8 @@ CREATE TABLE `account_rule_collect` (
   `weight` int(11) NOT NULL COMMENT '支付顺序',
   `user_id` varchar(32) NOT NULL COMMENT '用户id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_weight` (`user_id`,`account_code`,`weight`),
   KEY `user_id` (`user_id`)
@@ -123,8 +123,8 @@ CREATE TABLE `account_rule_pay` (
   `weight` int(11) NOT NULL COMMENT '支付顺序',
   `user_id` varchar(32) NOT NULL COMMENT '用户id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_weight` (`user_id`,`account_code`,`weight`),
   KEY `user_id` (`user_id`)
@@ -146,8 +146,8 @@ CREATE TABLE `account_summary` (
   `user_id` varchar(32) NOT NULL COMMENT '用户id',
   `day` int(11) NOT NULL COMMENT '交易日期',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_code` (`account_code`,`day`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='交易汇总表';
@@ -198,8 +198,8 @@ CREATE TABLE `account_transaction_flow_add` (
   `trade_date` datetime NOT NULL COMMENT '交易日期',
   `trade_day` int(11) NOT NULL COMMENT '交易日20201223',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`)
@@ -225,8 +225,8 @@ CREATE TABLE `account_transaction_flow_inter` (
   `trade_day` int(11) NOT NULL COMMENT '交易日20201223',
   `version` bigint(20) NOT NULL DEFAULT '1' COMMENT '版本号',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`),
@@ -251,8 +251,8 @@ CREATE TABLE `account_transaction_flow_inter_add` (
   `trade_date` datetime NOT NULL COMMENT '交易日期',
   `trade_day` int(11) NOT NULL COMMENT '交易日20201223',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`)
@@ -277,8 +277,8 @@ CREATE TABLE `account_transaction_flow_reduce` (
   `trade_day` int(11) NOT NULL COMMENT '交易日20201223',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '版本号',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `flow_no` (`flow_no`,`status`),
   UNIQUE KEY `idempotent_status` (`idempotent`,`status`)
@@ -299,8 +299,8 @@ CREATE TABLE `citizen` (
   `id_no` varchar(18) NOT NULL COMMENT '身份证',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '删除状态:0使用中，1已删除',
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idno` (`name`,`id_no`,`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=114066 DEFAULT CHARSET=utf8 COMMENT='citizen';
@@ -323,8 +323,8 @@ CREATE TABLE `citizen_detail` (
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '删除状态:0使用中，1已删除',
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=114017 DEFAULT CHARSET=utf8 COMMENT='citizen_detail';
@@ -345,8 +345,8 @@ CREATE TABLE `config_dict` (
   `order` int(11) NOT NULL DEFAULT '0' COMMENT '同一group下的顺序',
   `description` varchar(64) NOT NULL COMMENT '描述',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `group` (`group`,`key`,`val`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典';
@@ -365,8 +365,8 @@ CREATE TABLE `config_params` (
   `val` varchar(32) NOT NULL COMMENT '参数值',
   `description` varchar(64) NOT NULL COMMENT '描述',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置表';
@@ -388,8 +388,8 @@ CREATE TABLE `log_exception_info` (
   `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
   `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `class_method` (`clz`,`method`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57140 DEFAULT CHARSET=utf8 COMMENT='异常日志';
@@ -462,8 +462,8 @@ CREATE TABLE `user` (
   `login_times` int(11) NOT NULL DEFAULT '0' COMMENT '登陆次数',
   `proved` int(11) NOT NULL DEFAULT '0' COMMENT '是否实名: 0-否,1-是',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
@@ -482,8 +482,8 @@ CREATE TABLE `user_detail` (
   `id_no` varchar(18) NOT NULL COMMENT '身份证',
   `real_name` varchar(50) NOT NULL COMMENT '姓名',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_date` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户详细表';
 
@@ -506,7 +506,7 @@ CREATE TABLE `user_token` (
   `expiration_time` datetime NOT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`),
   KEY `token` (`token`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token记录表';
 
 -- ----------------------------
 -- Records of user_token
