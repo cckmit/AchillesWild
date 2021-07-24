@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Local
-Source Server Version : 80018
+Source Server         : localhost
+Source Server Version : 50519
 Source Host           : localhost:3306
 Source Database       : info
 
 Target Server Type    : MYSQL
-Target Server Version : 80018
+Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2021-07-23 00:12:59
+Date: 2021-07-25 00:16:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -86,7 +86,7 @@ CREATE TABLE `account_lock` (
   UNIQUE KEY `account_code` (`account_code`),
   KEY `account_lock` (`account_code`,`locked`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户锁表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户锁表';
 
 -- ----------------------------
 -- Records of account_lock
@@ -382,7 +382,7 @@ DROP TABLE IF EXISTS `log_exception_info`;
 CREATE TABLE `log_exception_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL DEFAULT '0' COMMENT '异常类型，0:非自定义异常，1:自定义异常',
-  `message` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '异常信息',
+  `message` varchar(5000) NOT NULL COMMENT '异常信息',
   `clz` varchar(96) NOT NULL COMMENT '类路径',
   `method` varchar(32) NOT NULL COMMENT '方法名',
   `params` varchar(300) DEFAULT NULL COMMENT '入参，json',
@@ -409,7 +409,7 @@ CREATE TABLE `log_time_info` (
   `layer` int(11) NOT NULL COMMENT '应用哪一层',
   `clz` varchar(96) NOT NULL DEFAULT '0' COMMENT '类路径',
   `method` varchar(32) NOT NULL DEFAULT '0' COMMENT '方法名',
-  `params` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '入参，json',
+  `params` varchar(1000) DEFAULT NULL COMMENT '入参，json',
   `time` int(11) NOT NULL DEFAULT '0' COMMENT '调用耗费时间（毫秒）',
   `trace_id` varchar(64) DEFAULT NULL COMMENT 'trace_id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态: 1-使用中,0-已删除',
@@ -506,7 +506,7 @@ CREATE TABLE `user_token` (
   `expiration_time` datetime NOT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`),
   KEY `token` (`token`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='token记录表';
 
 -- ----------------------------
 -- Records of user_token
