@@ -42,6 +42,31 @@ select count(*) from account_transaction_flow_inter;
 delete from account_transaction_flow_inter where id <100000;
 
 --------------------------------------------------------------------
+
+#打开/关闭记录sql日志
+SET GLOBAL general_log = 'on';
+SET GLOBAL general_log = 'off';
+#日志写到表里
+SET GLOBAL log_output = 'table';
+#查询日志
+SELECT
+	event_time,
+	thread_id,
+	server_id,
+	command_type,
+	CONVERT (argument USING utf8) AS argument,
+	user_host
+FROM
+	mysql.general_log
+ORDER BY
+	event_time DESC;
+
+#用户权限
+SHOW GRANTS;
+
+#服务器信息
+SHOW STATUS;
+
 SHOW ENGINE INNODB STATUS;
 
 SHOW VARIABLES LIKE '%timeout%';
