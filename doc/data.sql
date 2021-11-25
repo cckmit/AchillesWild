@@ -76,9 +76,23 @@ show OPEN TABLES where In_use > 0;
 
 行锁
 show status like 'innodb_row_lock%';
+#死锁信息
+SHOW ENGINE INNODB STATUS;
+SELECT*FROM information_schema.innodb_locks;
+SELECT*from information_schema.INNODB_lock_waits;
+SELECT*from information_schema.INNODB_trx;
+
 
 SHOW PROCESSLIST;
+SELECT
+	*
+FROM
+	information_schema.`PROCESSLIST`
+WHERE
+	info LIKE '%sele%';
 SHOW FULL PROCESSLIST;
+
+SELECT @@autocommit
 
 
 show variables like "%max_connections%";
@@ -93,3 +107,39 @@ SELECT  VERSION();
 
 SELECT * FROM information_schema.INNODB_TRX;
 kill 89;
+
+#服务器启动以来的冲突
+SELECT
+	*
+FROM
+	`performance_schema`.mutex_instances
+WHERE
+	LOCKED_BY_THREAD_ID IS NOT NULL;
+
+#谁在等待冲突（THREAD_ID内部,mysqld分配给线程的实际编号，，而不是产生死锁的连接线程的编号）
+SELECT
+	THREAD_ID,
+	EVENT_ID,
+	EVENT_NAME,
+	SOURCE,
+	TIMER_START,
+	OBJECT_INSTANCE_BEGIN,
+	OPERATION
+FROM
+	`performance_schema`.events_waits_current
+WHERE
+	THREAD_ID IN (
+		SELECT
+			THREAD_ID
+		FROM
+			`performance_schema`.mutex_instances
+		WHERE
+			LOCKED_BY_THREAD_ID IS NOT NULL
+	);
+
+#连接线程编号
+SELECT
+	*
+FROM
+	`performance_schema`.threads
+
