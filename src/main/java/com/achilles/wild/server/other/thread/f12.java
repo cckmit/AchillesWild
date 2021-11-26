@@ -3,13 +3,13 @@ package com.achilles.wild.server.other.thread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RunnableThread implements Runnable{
+public class f12 implements Runnable{
 
-    private final static Logger LOG = LoggerFactory.getLogger(RunnableThread.class);
+    private final static Logger LOG = LoggerFactory.getLogger(f12.class);
 
     private String name;
 
-    public RunnableThread(String name){
+    public f12(String name){
         this.name=name;
     }
 
