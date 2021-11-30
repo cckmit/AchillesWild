@@ -57,7 +57,6 @@ public class BalanceBizImpl implements BalanceBiz {
         Long balance;
         try {
             lock.tryLock(5,TimeUnit.SECONDS);
-//            lock.tryLock();
             account = balanceService2.getAccount(request.getUserId());
             balance = account.getBalance() - request.getAmount();
 
@@ -73,7 +72,7 @@ public class BalanceBizImpl implements BalanceBiz {
             accountTransactionFlow.setBalance(account.getBalance());
             accountTransactionFlow.setAmount(request.getAmount());
             accountTransactionFlow.setTradeTime(request.getTradeTime());
-            accountTransactionFlow.setVersion(account.getVersion());
+            accountTransactionFlow.setVersion(account.getVersion() + 1);
             accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
             accountTransactionFlow.setTransactionType(0);
 
@@ -89,7 +88,6 @@ public class BalanceBizImpl implements BalanceBiz {
         }
 
         account.setBalance(balance);
-        balanceService2.setAccount(account);
 
         return new BalanceResponse(flowNo,balance);
     }
@@ -129,6 +127,7 @@ public class BalanceBizImpl implements BalanceBiz {
 
         keyCache.put(key,flowNo);
         Long balance = accountManager.getUserBalanceById(account.getId());
+
         return new BalanceResponse(flowNo,balance);
     }
 

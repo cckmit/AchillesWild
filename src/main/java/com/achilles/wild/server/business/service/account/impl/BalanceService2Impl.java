@@ -5,7 +5,6 @@ import com.achilles.wild.server.business.manager.account.AccountTransactionFlowM
 import com.achilles.wild.server.business.service.account.BalanceService2;
 import com.achilles.wild.server.common.constans.AccountConstant;
 import com.achilles.wild.server.entity.account.Account;
-import com.achilles.wild.server.model.request.account.BalanceRequest;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.apache.commons.lang3.StringUtils;
@@ -31,13 +30,8 @@ public class BalanceService2Impl implements BalanceService2 {
 
     private final Cache<String,Long> balanceCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).initialCapacity(10).maximumSize(1000).build();
 
-    private final Cache<String,Account> accountCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).initialCapacity(10).maximumSize(1000).build();
+//    private final Cache<String,Account> accountCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).initialCapacity(10).maximumSize(1000).build();
 
-    @Override
-    public String consumeUserBalance2(String userId,BalanceRequest request) {
-
-        return null;
-    }
 
     @Override
     public Long getBalance(String userId) {
@@ -67,11 +61,11 @@ public class BalanceService2Impl implements BalanceService2 {
         Assert.state(StringUtils.isNotEmpty(userId),"userId can not be null !");
 
         String key = AccountConstant.ACCOUNT_PREFIX + userId;
-        Account account = accountCache.getIfPresent(key);
-        if (account != null) {
-            return account;
-        }
-        account = accountManager.getUserAccount(userId);
+//        Account account = accountCache.getIfPresent(key);
+//        if (account != null) {
+//            return account;
+//        }
+        Account account = accountManager.getUserAccount(userId);
         if (account == null) {
            return null;
         }
@@ -82,18 +76,8 @@ public class BalanceService2Impl implements BalanceService2 {
         Long sumBalance = account.getBalance() + flowBalance;
         account.setBalance(sumBalance);
 
-        accountCache.put(key,account);
+//        accountCache.put(key,account);
 
         return account;
-    }
-
-    @Override
-    public void setAccount(Account account) {
-
-        Assert.state(account != null,"account can not be null !");
-
-        String key = AccountConstant.ACCOUNT_PREFIX + account.getUserId();
-
-        accountCache.put(key,account);
     }
 }

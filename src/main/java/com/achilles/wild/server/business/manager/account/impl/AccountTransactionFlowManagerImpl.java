@@ -86,9 +86,9 @@ public class AccountTransactionFlowManagerImpl implements AccountTransactionFlow
         Long sumAmount = 0L;
         for (AccountTransactionFlow transactionFlow : transactionFlowList) {
             if (transactionFlow.getFlowType() == AmountFlowEnum.PLUS.toNumbericValue()) {
-                sumAmount+=transactionFlow.getAmount();
+                sumAmount += transactionFlow.getAmount();
             } else {
-                sumAmount-=transactionFlow.getAmount();
+                sumAmount -= transactionFlow.getAmount();
             }
         }
 
