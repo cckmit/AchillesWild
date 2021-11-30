@@ -72,7 +72,7 @@ public class BalanceBizImpl implements BalanceBiz {
             accountTransactionFlow.setBalance(account.getBalance());
             accountTransactionFlow.setAmount(request.getAmount());
             accountTransactionFlow.setTradeTime(request.getTradeTime());
-            accountTransactionFlow.setVersion(account.getVersion() + 1);
+            accountTransactionFlow.setVersion(account.getVersion());
             accountTransactionFlow.setFlowType(AmountFlowEnum.MINUS.toNumbericValue());
             accountTransactionFlow.setTransactionType(0);
 
