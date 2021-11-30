@@ -143,3 +143,6 @@ SELECT
 FROM
 	`performance_schema`.threads
 
+#同时可打开文件限制
+SELECT @@open_files_limit;
+
