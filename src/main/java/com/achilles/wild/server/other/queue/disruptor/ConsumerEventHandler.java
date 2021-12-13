@@ -3,7 +3,6 @@ package com.achilles.wild.server.other.queue.disruptor;
 import com.achilles.wild.server.business.manager.common.LogTimeInfoManager;
 import com.achilles.wild.server.entity.common.LogTimeInfo;
 import com.achilles.wild.server.tool.SpringContextUtil;
-import com.achilles.wild.server.tool.bean.BeanUtil;
 import com.achilles.wild.server.tool.date.DateUtil;
 import com.achilles.wild.server.tool.json.JsonUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -57,7 +56,7 @@ public class ConsumerEventHandler implements EventHandler<LogTimeInfo>, Initiali
 //        }
 
         log.debug("disruptor consumer ----- sequence:"+sequence+",endOfBatch:"+endOfBatch+",event:"+ JsonUtil.toJsonString(logTimeInfo));
-        log.debug("disruptor getObjectSize:"+ BeanUtil.getObjectSize(logTimeInfo));
+        //log.debug("disruptor getObjectSize:"+ BeanUtil.getObjectSize(logTimeInfo));
 
 //        try {
 //            Thread.sleep(15000L);
