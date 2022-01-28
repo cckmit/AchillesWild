@@ -20,7 +20,7 @@ public class AspectUtil {
     public static Map<String,Object> getParamsMap(JoinPoint joinPoint){
 
         String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
-        if(paramNames.length==0){
+        if(paramNames == null || paramNames.length==0){
             return new HashMap<>();
         }
 
